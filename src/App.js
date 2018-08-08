@@ -1,8 +1,7 @@
-import React, { Component } from "react"
-import logo from "./logo.svg"
-import "./App.css"
+import React, {Component} from 'react'
+import logo from './logo.svg'
 import Auth from './components/Auth'
-import fire from "./fire"
+import fire from './fire'
 
 class App extends Component {
   render() {
@@ -14,7 +13,7 @@ class App extends Component {
       <div className="App">
         <Auth />
       </div>
-    );
+    )
   }
 }
 

@@ -1,19 +1,19 @@
-import firebase from "firebase";
-require("firebase/firestore");
+import firebase from 'firebase'
+require('firebase/firestore')
 
 var config = {
-  apiKey: "AIzaSyA0BTlfc4ebyjzr9eqYdCm2PG6Vmw3D5mU",
-  authDomain: "fig-neutron.firebaseapp.com",
-  databaseURL: "https://fig-neutron.firebaseio.com",
-  projectId: "fig-neutron",
-  storageBucket: "fig-neutron.appspot.com",
-  messagingSenderId: "703032848802"
-};
+  apiKey: 'AIzaSyA0BTlfc4ebyjzr9eqYdCm2PG6Vmw3D5mU',
+  authDomain: 'fig-neutron.firebaseapp.com',
+  databaseURL: 'https://fig-neutron.firebaseio.com',
+  projectId: 'fig-neutron',
+  storageBucket: 'fig-neutron.appspot.com',
+  messagingSenderId: '703032848802'
+}
 
-firebase.initializeApp(config);
-let fire = firebase.firestore();
+firebase.initializeApp(config)
+let db = firebase.firestore()
 
-const settings = { timestampsInSnapshots: true };
-fire.settings(settings);
+const settings = {timestampsInSnapshots: true}
+db.settings(settings)
 
-export default fire;
+export default db
