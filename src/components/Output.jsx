@@ -25,7 +25,7 @@ class Output extends Component {
         </button>
         <p id="terminal1">
           >_
-          {this.state.output1}
+          {this.state.output}
         </p>
       </div>
     )

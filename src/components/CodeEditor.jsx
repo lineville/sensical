@@ -14,7 +14,8 @@ class CodeEditor extends Component {
       code2: '',
       roomId: ''
     }
-    this.onChange = this.onChange.bind(this)
+    this.onChange1 = this.onChange1.bind(this)
+    this.onChange2 = this.onChange2.bind(this)
   }
 
   async componentDidMount() {
@@ -25,15 +26,23 @@ class CodeEditor extends Component {
     this.setState({roomId: room.id})
   }
 
-  onChange(value) {
+  onChange1(value) {
     this.setState({
-      code1: value[0],
-      code2: value[1]
+      code1: value
     })
-    db.collection('firecodes')
+    db.collection('fireCodes')
       .doc(this.state.roomId)
       .set({
-        code1: this.state.code1,
+        code1: this.state.code1
+      })
+  }
+  onChange2(value) {
+    this.setState({
+      code2: value
+    })
+    db.collection('fireCodes')
+      .doc(this.state.roomId)
+      .set({
         code2: this.state.code2
       })
   }
@@ -45,7 +54,7 @@ class CodeEditor extends Component {
           <AceEditor
             mode="javascript"
             theme="monokai"
-            onChange={this.onChange}
+            onChange={this.onChange1}
             value={this.state.code1}
             name="code-editor"
             editorProps={{$blockScrolling: true}}
@@ -56,7 +65,7 @@ class CodeEditor extends Component {
           <AceEditor
             mode="javascript"
             theme="monokai"
-            onChange={this.onChange}
+            onChange={this.onChange2}
             value={this.state.code2}
             name="code-editor"
             editorProps={{$blockScrolling: true}}
