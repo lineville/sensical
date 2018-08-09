@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import logo from './logo.svg'
 import Auth from './components/Auth'
 import db from './firestore'
-import CodeEditor from './components/CodeEditor'
+import Classroom from './components/Classroom'
 
 class App extends Component {
   render() {
@@ -13,6 +13,7 @@ class App extends Component {
     return (
       <div className="App">
         <Auth />
+        <Classroom />
       </div>
     )
   }
