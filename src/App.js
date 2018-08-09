@@ -3,6 +3,7 @@ import logo from './logo.svg'
 import Auth from './components/Auth'
 import db from './firestore'
 import CodeEditor from './components/CodeEditor'
+import Canvas from './components/whiteboard/Canvas'
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
     return (
       <div className="App">
         <Auth />
+        <Canvas />
       </div>
     )
   }
