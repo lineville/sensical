@@ -4,17 +4,17 @@ import Auth from './components/Auth'
 import db from './firestore'
 import CodeEditor from './components/CodeEditor'
 import Canvas from './components/whiteboard/Canvas'
+import Classroom from './components/Classroom';
 
 class App extends Component {
   render() {
-    // fire.collection("fireUsers").add({ user: "zach" });
-    // fire.collection("fireUsers").add({ user: "jessica" });
-    // fire.collection("fireUsers").add({ user: "synuhe" });
+    db.collection("fireUsers").add({ user: "testUser" });
 
     return (
       <div className="App">
         <Auth />
-        <Canvas />
+        <Classroom />
+        {/* <Canvas /> */}
       </div>
     )
   }

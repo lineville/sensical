@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
+import Canvas from './whiteboard/Canvas';
 
-export default class extends Component {
+export default class Classroom extends Component {
   render () {
     return (
-      <div>
+      <div id="classroom">
+        <Canvas />
       </div>
     )
   }

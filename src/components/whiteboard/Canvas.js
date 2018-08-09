@@ -4,12 +4,33 @@ import db from '../../firestore'
 import {EventEmitter} from 'events'
 
 class Canvas extends Component {
+
+
   render() {
+    const drawToDb = (start, end, strokeColor) => {
+      console.log("DRAW TO DB CALLED")
+      // db.collection('whiteboards')
+      //   .push({
+      //     start,
+      //     end,
+      //     strokeColor
+      //   }).catch((error) => {
+      //     console.error('Error drawing new stroke to Firestore Database: ', error)
+      //   })
+      db.collection('whiteboards')
+        .add({
+          start,
+          end,
+          strokeColor
+        }).catch((error) => {
+          console.error('Error drawing new stroke to Firestore Database: ', error)
+        })
+
+    }
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
-    console.log('WHITEBOARD RANNNNNN')
 
-    const events = new EventEmitter()
+    // const events = new EventEmitter()
 
     function draw(start, end, strokeColor = 'black', shouldBroadcast = true) {
       // Draw the line between the start and end positions
@@ -20,6 +41,8 @@ class Canvas extends Component {
       ctx.lineTo(...end)
       ctx.closePath()
       ctx.stroke()
+
+      drawToDb(start, end, strokeColor);
     }
 
     let color
@@ -38,7 +61,7 @@ class Canvas extends Component {
     const colors = ['black', 'purple', 'red', 'green', 'orange', 'yellow', 'brown']
 
     function setup() {
-      document.body.appendChild(canvas)
+      document.getElementById('classroom').appendChild(canvas)
 
       setupColorPicker()
       setupCanvas()
