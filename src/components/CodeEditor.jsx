@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import AceEditor from 'react-ace'
+import db from '../firestore'
 
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
@@ -19,7 +20,7 @@ class CodeEditor extends Component {
     this.setState({
       code: value
     })
-    console.log(this.state.code)
+    db.collection('fireCodes').add({code: this.state.code})
   }
 
   render() {
@@ -32,13 +33,6 @@ class CodeEditor extends Component {
           name="code-editor"
           editorProps={{$blockScrolling: true}}
           value={this.state.code}
-          setOptions={{
-            enableBasicAutocompletion: true,
-            enableLiveAutocompletion: true,
-            enableSnippets: true,
-            showLineNumbers: true,
-            tabSize: 2
-          }}
         />
       </div>
     )
