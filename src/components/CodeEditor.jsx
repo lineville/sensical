@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {split as SplitEditor} from 'react-ace'
+import AceEditor from 'react-ace'
 import db from '../firestore'
 import Output from './Output'
 
@@ -30,7 +30,7 @@ class CodeEditor extends Component {
       code1: value[0],
       code2: value[1]
     })
-    db.collection('fireCodes')
+    db.collection('firecodes')
       .doc(this.state.roomId)
       .set({
         code1: this.state.code1,
@@ -40,21 +40,28 @@ class CodeEditor extends Component {
 
   render() {
     return (
-      <div className="editor-terminal">
-        <div className="code-editor">
-          <SplitEditor
+      <div className="columns">
+        <div className="column">
+          <AceEditor
             mode="javascript"
             theme="monokai"
-            splits={2}
-            orientation="beside"
             onChange={this.onChange}
-            value={[this.state.code1, this.state.code2]}
+            value={this.state.code1}
             name="code-editor"
             editorProps={{$blockScrolling: true}}
           />
+          <Output input={this.state.code1} />
         </div>
-        <div className="terminal">
-          <Output input1={this.state.code1} input2={this.state.code2} />
+        <div className="column">
+          <AceEditor
+            mode="javascript"
+            theme="monokai"
+            onChange={this.onChange}
+            value={this.state.code2}
+            name="code-editor"
+            editorProps={{$blockScrolling: true}}
+          />
+          <Output input={this.state.code2} />
         </div>
       </div>
     )

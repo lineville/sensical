@@ -4,46 +4,28 @@ class Output extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      output1: '',
-      output2: ''
+      output: ''
     }
-    this.run1 = this.run1.bind(this)
-    this.run2 = this.run2.bind(this)
+    this.run = this.run.bind(this)
   }
 
-  run1() {
-    const {input1} = this.props
-    console.log(input1)
+  run() {
+    const {input} = this.props
+    console.log(input)
     this.setState({
-      output1: eval(input1)
+      output: eval(input)
     })
-    console.log(this.state.output1)
-  }
-  run2() {
-    const {input2} = this.props
-    console.log(input2)
-    this.setState({
-      output2: eval(input2)
-    })
-    console.log(this.state.output2)
   }
 
   render() {
     return (
       <div>
-        <button type="submit" className="button is-primary" onClick={this.run1}>
+        <button type="submit" className="button is-primary" onClick={this.run}>
           Run
         </button>
         <p id="terminal1">
           >_
           {this.state.output1}
-        </p>
-        <button type="submit" className="button is-primary" onClick={this.run2}>
-          Run
-        </button>
-        <p id="terminal2">
-          >_
-          {this.state.output2}
         </p>
       </div>
     )
