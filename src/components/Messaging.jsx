@@ -6,8 +6,11 @@ export default class Messaging extends Component {
   constructor() {
     super()
     this.state = {
-      messages: []
+      messages: [],
+      newMessage: ''
     }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   async componentDidMount() {
@@ -15,15 +18,28 @@ export default class Messaging extends Component {
     await db.collection('chats').get().then(function(querySnapshot) {
       querySnapshot.forEach(doc => {
         messages.push({id: doc.id, ...doc.data()})
-          // return {
-          //   id: doc.id,
-          //   user: doc.data().user,
-          //   text: doc.data().text
-          // }
       })
     })
     this.setState({messages: messages})
     console.log(this.state)
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+    console.log(this.state)
+  }
+
+  async handleSubmit(event) {
+    event.preventDefault()
+    await db.collection('chats').doc().set({
+      user: 'testing',
+      text: this.state.newMessage
+    })
+    this.setState({
+      newMessage: ''
+    })
   }
 
   render() {
@@ -32,8 +48,8 @@ export default class Messaging extends Component {
         {this.state.messages.map(message => (
           <Message key={message.id} message={message} />
         ))}
-        <form>
-          <input type='text' name='message' />
+        <form onSubmit={this.handleSubmit}>
+          <input type='text' name='newMessage' value={this.state.newMessage} onChange={this.handleChange} />
           <button type='submit'>Send</button>
         </form>
       </div>
