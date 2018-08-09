@@ -83,39 +83,60 @@ class Auth extends Component {
 
   render() {
     return (
-      <div className="auth-form">
+      <div className="column auth-form App">
         <input
-          type="username"
+          className="input"
+          type="text"
           name="username"
           placeholder="username"
           onChange={this.handleChange}
         />
         <input
-          type="email"
+          className="input"
+          type="text"
           name="email"
           placeholder="email"
           onChange={this.handleChange}
         />
         <input
+          className="input"
           type="password"
           name="password"
           placeholder="password"
           onChange={this.handleChange}
         />
-        <button type="submit" id="signup" onClick={this.handleSignup}>
-          Signup
-        </button>
-        <button type="submit" id="login" onClick={this.handleLogin}>
-          Login
-        </button>
-        <button
-          type="submit"
-          id="logout"
-          className=""
-          onClick={this.handleLogout}
-        >
-          Logout
-        </button>
+        <div className="field is-grouped is-grouped-right">
+          <p className="control">
+            <button
+              type="submit"
+              id="signup"
+              onClick={this.handleSignup}
+              className="button is-primary"
+            >
+              Signup
+            </button>
+          </p>
+          <p className="control">
+            <button
+              type="submit"
+              id="login"
+              onClick={this.handleLogin}
+              className="button is-primary"
+            >
+              Login
+            </button>
+          </p>
+          <p className="control">
+            <button
+              type="submit"
+              id="logout"
+              onClick={this.handleLogout}
+              className="button is-primary"
+            >
+              Logout
+            </button>
+          </p>
+        </div>
       </div>
     )
   }

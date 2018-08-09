@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import Messaging from './Messaging';
-// import CodeEditor from './CodeEditor';
+import CodeEditor from './CodeEditor';
 
 export default class Classroom extends Component {
   render () {
     return (
-      <div>
+      <div className='columns'>
         <Messaging />
-        {/* <CodeEditor /> */}
+        <CodeEditor />
       </div>
     )
   }

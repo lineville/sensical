@@ -1,8 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-const Message = (props) => (
+const Message = props => (
   <div>
     <span>{props.message.user}</span>
+    :&nbsp;
     <span>{props.message.text}</span>
   </div>
 )

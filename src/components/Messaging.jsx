@@ -14,14 +14,17 @@ export default class Messaging extends Component {
   }
 
   async componentDidMount() {
-    let messages = []
-    await db.collection('chats').get().then(function(querySnapshot) {
-      querySnapshot.forEach(doc => {
-        messages.push({id: doc.id, ...doc.data()})
+    await db
+      .collection('chats')
+      .doc('8SEsFPVQTgJIv6pPTkbk')
+      .collection('messages')
+      .onSnapshot(querySnapshot => {
+        let messages = []
+        querySnapshot.forEach(doc => {
+          messages.push({id: doc.id, ...doc.data()})
+        })
+        this.setState({messages: messages})
       })
-    })
-    this.setState({messages: messages})
-    console.log(this.state)
   }
 
   handleChange(event) {
@@ -33,10 +36,14 @@ export default class Messaging extends Component {
 
   async handleSubmit(event) {
     event.preventDefault()
-    await db.collection('chats').doc().set({
-      user: 'testing',
-      text: this.state.newMessage
-    })
+    await db
+      .collection('chats')
+      .doc('8SEsFPVQTgJIv6pPTkbk')
+      .collection('messages')
+      .add({
+        user: 'testing',
+        text: this.state.newMessage
+      })
     this.setState({
       newMessage: ''
     })
@@ -44,13 +51,24 @@ export default class Messaging extends Component {
 
   render() {
     return (
-      <div id='messages'>
-        {this.state.messages.map(message => (
-          <Message key={message.id} message={message} />
-        ))}
-        <form onSubmit={this.handleSubmit}>
-          <input type='text' name='newMessage' value={this.state.newMessage} onChange={this.handleChange} />
-          <button type='submit'>Send</button>
+      <div id="messages" className="column modal-card is=flex">
+        <p className="modal-card-title">Class Chat</p>
+        <div className="modal-card-body">
+          {this.state.messages.map(message => (
+            <Message key={message.id} message={message} />
+          ))}
+        </div>
+        <form onSubmit={this.handleSubmit} className="columns modal-card-foot">
+          <input
+            className="input"
+            type="text"
+            name="newMessage"
+            value={this.state.newMessage}
+            onChange={this.handleChange}
+          />
+          <button className="button is-outlined is-primary" type="submit">
+            Send
+          </button>
         </form>
       </div>
     )
