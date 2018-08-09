@@ -4,13 +4,13 @@ import CodeEditor from './components/CodeEditor'
 import ClassRoom from './components/Classroom'
 import {Router, Switch, Route} from 'react-router-dom'
 import history from './history'
+import Classroom from './components/Classroom'
 
 const App = () => (
   <Router history={history}>
     <Switch>
-      <Route exact path="/" component={Auth} />
-      <Route path="/classRoom" component={ClassRoom} />
-      <Route path="/codeEditor" component={CodeEditor} />
+      <Route exact path="/" component={Classroom} />
+      <Route exact path="/auth" component={Auth} />
     </Switch>
   </Router>
 )
