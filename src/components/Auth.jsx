@@ -83,7 +83,7 @@ class Auth extends Component {
 
   render() {
     return (
-      <div className="auth-form">
+      <div className="auth-form App">
         <input
           type="username"
           name="username"
