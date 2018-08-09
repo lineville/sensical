@@ -1,52 +1,50 @@
 import React, {Component} from 'react'
-import Terminal from 'terminal-in-react'
-import NodeEvalPlugin from 'terminal-in-react-node-eval-plugin'
-import pseudoFileSystemPlugin from 'terminal-in-react-pseudo-file-system-plugin'
-const FileSystemPlugin = pseudoFileSystemPlugin()
 
 class Output extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      output: ''
+      output1: '',
+      output2: ''
     }
-    this.run = this.run.bind(this)
+    this.run1 = this.run1.bind(this)
+    this.run2 = this.run2.bind(this)
   }
 
-  run() {
-    const {input} = this.props
-    console.log(eval(input))
+  run1() {
+    const {input1} = this.props
+    console.log(input1)
+    this.setState({
+      output1: eval(input1)
+    })
+    console.log(this.state.output1)
+  }
+  run2() {
+    const {input2} = this.props
+    console.log(input2)
+    this.setState({
+      output2: eval(input2)
+    })
+    console.log(this.state.output2)
   }
 
   render() {
     return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh'
-        }}
-      >
-        <Terminal
-          color="green"
-          backgroundColor="black"
-          barColor="black"
-          watchConsoleLogging={true}
-          style={{fontWeight: 'bold', fontSize: '1em'}}
-          msg="Output"
-          commands={{run: this.run}}
-          startState="maximised"
-          plugins={[
-            FileSystemPlugin,
-            {
-              class: NodeEvalPlugin,
-              config: {
-                filesystem: FileSystemPlugin.displayName
-              }
-            }
-          ]}
-        />
+      <div>
+        <button type="submit" className="button is-primary" onClick={this.run1}>
+          Run
+        </button>
+        <p id="terminal1">
+          >_
+          {this.state.output1}
+        </p>
+        <button type="submit" className="button is-primary" onClick={this.run2}>
+          Run
+        </button>
+        <p id="terminal2">
+          >_
+          {this.state.output2}
+        </p>
       </div>
     )
   }

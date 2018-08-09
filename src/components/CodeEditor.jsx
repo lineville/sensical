@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import AceEditor from 'react-ace'
+import {split as SplitEditor} from 'react-ace'
 import db from '../firestore'
 import Output from './Output'
 
@@ -10,36 +10,51 @@ class CodeEditor extends Component {
   constructor() {
     super()
     this.state = {
-      code: ''
+      code1: '',
+      code2: '',
+      roomId: ''
     }
     this.onChange = this.onChange.bind(this)
   }
 
-  componentDidMount() {}
+  async componentDidMount() {
+    const room = await db.collection('fireCodes').add({
+      code1: this.state.code1,
+      code2: this.state.code2
+    })
+    this.setState({roomId: room.id})
+  }
 
   onChange(value) {
     this.setState({
-      code: value
+      code1: value[0],
+      code2: value[1]
     })
-    db.collection('fireCodes').add({code: this.state.code})
+    db.collection('fireCodes')
+      .doc(this.state.roomId)
+      .set({
+        code1: this.state.code1,
+        code2: this.state.code2
+      })
   }
 
   render() {
     return (
       <div className="editor-terminal">
         <div className="code-editor">
-          <AceEditor
+          <SplitEditor
             mode="javascript"
             theme="monokai"
+            splits={2}
+            orientation="beside"
             onChange={this.onChange}
+            value={[this.state.code1, this.state.code2]}
             name="code-editor"
             editorProps={{$blockScrolling: true}}
-            value={this.state.code}
           />
         </div>
-        <button className="button is-primary is-inverted">Inverted</button>
         <div className="terminal">
-          <Output input={this.state.code} />
+          <Output input1={this.state.code1} input2={this.state.code2} />
         </div>
       </div>
     )
