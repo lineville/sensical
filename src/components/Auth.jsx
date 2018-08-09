@@ -85,37 +85,43 @@ class Auth extends Component {
     return (
       <div className="auth-form">
         <input
-          type="username"
+          className="input"
+          type="text"
           name="username"
           placeholder="username"
           onChange={this.handleChange}
         />
         <input
-          type="email"
+          className="input"
+          type="text"
           name="email"
           placeholder="email"
           onChange={this.handleChange}
         />
         <input
+          className="input"
           type="password"
           name="password"
           placeholder="password"
           onChange={this.handleChange}
         />
-        <button type="submit" id="signup" onClick={this.handleSignup}>
+        <div className="field is-grouped is-grouped-right">
+        <p className="control">
+        <button type="submit" id="signup" onClick={this.handleSignup} className="button is-primary">
           Signup
         </button>
-        <button type="submit" id="login" onClick={this.handleLogin}>
+        </p>
+        <p className="control">
+        <button type="submit" id="login" onClick={this.handleLogin} className="button is-primary">
           Login
         </button>
-        <button
-          type="submit"
-          id="logout"
-          className=""
-          onClick={this.handleLogout}
-        >
+        </p>
+        <p className="control">
+        <button type="submit" id="logout" onClick={this.handleLogout} className="button is-primary">
           Logout
         </button>
+        </p>
+        </div>
       </div>
     )
   }
