@@ -4,33 +4,46 @@ import db from '../../firestore'
 import {EventEmitter} from 'events'
 
 class Canvas extends Component {
+  constructor() {
+    super()
 
+    this.state = {
+      strokes: null
+    }
+  }
+
+  componentDidMount() {
+    let strokesArray = []
+    db.collection('whiteboards')
+      .doc('8yPyB0WTtw5EvqjbrUcB')
+      .collection('strokes')
+      .onSnapshot(strokes => {
+        strokes.forEach(stroke => {
+          strokesArray.push(stroke.data())
+        })
+        this.setState({strokes: strokesArray})
+      })
+  }
 
   render() {
     const drawToDb = (start, end, strokeColor) => {
-      console.log("DRAW TO DB CALLED")
-      // db.collection('whiteboards')
-      //   .push({
-      //     start,
-      //     end,
-      //     strokeColor
-      //   }).catch((error) => {
-      //     console.error('Error drawing new stroke to Firestore Database: ', error)
-      //   })
       db.collection('whiteboards')
+        .doc('8yPyB0WTtw5EvqjbrUcB')
+        .collection('strokes')
         .add({
           start,
           end,
           strokeColor
-        }).catch((error) => {
-          console.error('Error drawing new stroke to Firestore Database: ', error)
         })
-
+        .catch(error => {
+          console.error(
+            'Error drawing new stroke to Firestore Database: ',
+            error
+          )
+        })
     }
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
-
-    // const events = new EventEmitter()
 
     function draw(start, end, strokeColor = 'black', shouldBroadcast = true) {
       // Draw the line between the start and end positions
@@ -42,7 +55,22 @@ class Canvas extends Component {
       ctx.closePath()
       ctx.stroke()
 
-      drawToDb(start, end, strokeColor);
+      drawToDb(start, end, strokeColor, shouldBroadcast)
+      console.log(
+        'DRAW CALLED',
+        'start: ',
+        start,
+        'end: ',
+        end,
+        'strokeColor: ',
+        strokeColor
+      )
+    }
+
+    if (this.state.strokes) {
+      this.state.strokes.forEach(stroke => {
+        draw(stroke.start, stroke.end, stroke.strokeColor, false)
+      })
     }
 
     let color
@@ -58,10 +86,19 @@ class Canvas extends Component {
     }
 
     // Color picker settings
-    const colors = ['black', 'purple', 'red', 'green', 'orange', 'yellow', 'brown']
+    const colors = [
+      'black',
+      'purple',
+      'red',
+      'green',
+      'orange',
+      'yellow',
+      'brown'
+    ]
 
     function setup() {
-      document.getElementById('classroom').appendChild(canvas)
+      let classroom = document.getElementById('whiteboard-canvas')
+      classroom.appendChild(canvas)
 
       setupColorPicker()
       setupCanvas()
@@ -88,7 +125,8 @@ class Canvas extends Component {
         target.classList.add('selected')
       })
 
-      document.body.appendChild(picker)
+      let classroom = document.getElementById('whiteboard-canvas')
+      classroom.appendChild(picker)
 
       // Select the first color
       picker.firstChild.click()
@@ -155,9 +193,11 @@ class Canvas extends Component {
     document.addEventListener('DOMContentLoaded', setup)
 
     return (
-      <div id="canvas">
-        <h1>Canvas</h1>
-
+      <div id="whiteboard">
+        <h1>WHITE BOARD</h1>
+        <div id="whiteboard-canvas">
+          <h1>Canvas</h1>
+        </div>
       </div>
     )
   }
