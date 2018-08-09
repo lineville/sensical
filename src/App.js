@@ -1,21 +1,16 @@
-import React, {Component} from 'react'
-import logo from './logo.svg'
+import React from 'react'
 import Auth from './components/Auth'
-import db from './firestore'
 import CodeEditor from './components/CodeEditor'
+import {Router, Switch, Route} from 'react-router-dom'
+import history from './history'
 
-class App extends Component {
-  render() {
-    // fire.collection("fireUsers").add({ user: "zach" });
-    // fire.collection("fireUsers").add({ user: "jessica" });
-    // fire.collection("fireUsers").add({ user: "synuhe" });
-
-    return (
-      <div className="App">
-        <Auth />
-      </div>
-    )
-  }
-}
+const App = () => (
+  <Router history={history}>
+    <Switch>
+      <Route exact path="/" component={Auth} />
+      <Route path="/codeEditor" component={CodeEditor} />
+    </Switch>
+  </Router>
+)
 
 export default App

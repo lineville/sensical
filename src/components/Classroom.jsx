@@ -1,9 +1,11 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
+import CodeEditor from './CodeEditor'
 
-export default class extends Component {
-  render () {
+export default class ClassRoom extends Component {
+  render() {
     return (
       <div>
+        <CodeEditor />
       </div>
     )
   }
