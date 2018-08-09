@@ -55,7 +55,7 @@ class Canvas extends Component {
       ctx.closePath()
       ctx.stroke()
 
-      drawToDb(start, end, strokeColor, shouldBroadcast)
+      // drawToDb(start, end, strokeColor, shouldBroadcast)
       console.log(
         'DRAW CALLED',
         'start: ',
