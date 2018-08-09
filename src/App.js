@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import logo from './logo.svg'
 import Auth from './components/Auth'
 import fire from './fire'
+import CodeEditor from './components/CodeEditor'
 
 class App extends Component {
   render() {
