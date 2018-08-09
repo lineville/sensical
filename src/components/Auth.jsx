@@ -1,7 +1,7 @@
 import firebase from 'firebase'
 import React, {Component} from 'react'
 import '../App.css'
-import db from '../fire'
+import db from '../firestore'
 
 class Auth extends Component {
   constructor() {
@@ -83,7 +83,7 @@ class Auth extends Component {
 
   render() {
     return (
-      <div className="auth-form">
+      <div className="auth-form App">
         <input
           className="input"
           type="text"
