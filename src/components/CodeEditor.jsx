@@ -26,12 +26,10 @@ class CodeEditor extends Component {
     this.setState({docId: doc.id})
     doc.onSnapshot(code => {
       const key = Object.keys(code.data())[0]
-      console.log('key:', key, 'val', code.data()[key])
       this.setState({
         [key]: code.data()[key]
       })
     })
-    console.log(this.state)
   }
 
   onChange1(value) {

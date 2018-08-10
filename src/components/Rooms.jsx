@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import db from '../firestore'
-import {Link, withHistory} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 class Rooms extends Component {
   constructor() {
@@ -29,7 +29,6 @@ class Rooms extends Component {
       <div>
         <ul>
           {this.state.rooms.map(room => {
-            console.log(room)
             return (
               <Link
                 key={this.state.rooms.indexOf(room)}

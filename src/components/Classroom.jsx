@@ -8,21 +8,33 @@ import db from '../firestore'
 class Classroom extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      roomId: '',
+      whiteboardId: '',
+      fireCodesId: '',
+      chatsId: ''
+    }
   }
 
   async componentDidMount() {
-    console.log(this.props.match.params.classRoomId)
-    // const classRoomId = db
-    //   .collection('rooms')
-    //   .doc(this.match.params.classRoomId)
+    const classRoom = await db
+      .collection('rooms')
+      .doc(this.props.match.params.classRoomId)
+      .get()
+    this.setState({
+      roomId: classRoom.id,
+      whiteboardId: classRoom.data().whiteboardId,
+      fireCodesId: classRoom.data().fireCodesId,
+      chatsId: classRoom.data().chatsId
+    })
   }
 
   render() {
     return (
       <div className="columns">
-        <Messaging />
-        <CodeEditor />
-        <Canvas />
+        <Messaging chatsId={this.state.chatsId} />
+        <CodeEditor fireCodesId={this.state.fireCodesId} />
+        <Canvas whiteboardId={this.state.whiteboardId} />
       </div>
     )
   }
