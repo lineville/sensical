@@ -41,8 +41,9 @@ export default class Messaging extends Component {
       .doc('8SEsFPVQTgJIv6pPTkbk')
       .collection('messages')
       .add({
-        user: 'testing',
-        text: this.state.newMessage
+        user: 'figneutron',
+        text: this.state.newMessage,
+        timestamp: new Date()
       })
     this.setState({
       newMessage: ''
