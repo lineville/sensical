@@ -1,0 +1,490 @@
+body {
+  font-family: sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+label {
+  display: block;
+}
+
+nav a {
+  display: inline-block;
+  margin: 1em;
+}
+
+form div {
+  margin: 1em;
+  display: inline-block;
+}
+
+Container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.itemsInCart {
+  max-width: 70;
+}
+
+.btn-primary.raised {
+  box-shadow: 0 3px 0 0 #007299;
+}
+.btn-primary.raised:active,
+.btn-primary.raised.active {
+  background: #33a6cc;
+  box-shadow: none;
+  margin-bottom: -3px;
+  margin-top: 3px;
+}
+
+.btn {
+  padding: 14px 15px;
+  border: 0 none;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus {
+  outline: 0 none;
+}
+
+.btn-primary {
+  background: #0099cc;
+  color: #ffffff;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  background: #33a6cc;
+}
+.btn-primary:active,
+.btn-primary.active {
+  background: #007299;
+  box-shadow: none;
+}
+
+.form {
+  background: rgba(26, 145, 89, 0.9);
+  padding: 40px;
+  max-width: 390px;
+  margin: 40px auto;
+  border-radius: 4px;
+  box-shadow: 0 5px 10px 5px rgba(26, 145, 89, 0.3);
+}
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.input-box {
+  width: 280px;
+  height: 45px;
+}
+.input-text {
+  font-size: 20px;
+  color: white;
+}
+.btn-login {
+  width: 280px;
+  height: 45px;
+  color: white;
+  background-color: rgba(14, 82, 50, 0.9);
+  font-size: 17px;
+}
+
+.btn-info {
+  width: 280px;
+  height: 45px;
+  margin-left: 13px;
+  font-size: 14px;
+}
+.form-title {
+  font-size: 24px;
+  color: white;
+  padding: 13px;
+  text-align: center;
+}
+
+/* SingleUser */
+.user-info {
+  background: rgba(200, 230, 207, 0.9);
+  padding: 25px;
+  max-width: 730px;
+  margin: 40px auto;
+  border-radius: 4px;
+  box-shadow: 0 5px 10px 5px rgba(26, 145, 89, 0.3);
+}
+
+.user-info2 {
+  background: rgba(200, 230, 207, 0.9);
+  padding: 25px;
+  max-width: 430px;
+  margin: 40px auto;
+  border-radius: 4px;
+  box-shadow: 0 5px 10px 5px rgba(26, 145, 89, 0.3);
+}
+
+.user-info-title {
+  text-align: center;
+}
+
+.user-info-text div {
+  margin: 30px;
+  font-size: 16px;
+  font-family: Comic Sans MS;
+  text-align: center;
+}
+.user-info-text h1 {
+  padding: 10px;
+}
+
+.btn-edit {
+  width: 70px;
+  height: 34px;
+  border-radius: 10px;
+}
+
+.user-data-text {
+  padding-bottom: 13px;
+  color: rgb(122, 115, 115);
+}
+
+/* user-edit */
+.user-data-input {
+  width: 320px;
+  height: 40px;
+}
+
+.checkValidation {
+  color: red;
+  font-size: 12px;
+}
+
+.btn-edit-submit {
+  width: 170px;
+  height: 40px;
+  border-radius: 10px;
+  margin: 20px;
+  text-align: center;
+}
+
+/* Slideshow */
+html,
+body,
+div,
+span,
+i,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+body {
+  line-height: 1;
+}
+ul {
+  list-style: none;
+}
+.slidelist .image1 {
+  background-image: url(https://stefanik.house.gov/sites/stefanik.house.gov/files/styles/congress_featured_image/public/featured_image/issues/Education-OpportunitySmall.jpg?itok=BgzAqDM6);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+}
+.slidelist .image2 {
+  background-image: url(https://o.aolcdn.com/images/dims3/GLOB/legacy_thumbnail/630x315/format/jpg/quality/85/http%3A%2F%2Fo.aolcdn.com%2Fhss%2Fstorage%2Fadam%2Fd9713f0ed571f56d064a7cab6d11136d%2F143176813.jpeg);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+}
+
+.slidelist .image3 {
+  background-image: url(https://cdn.maximumyield.com/images/uploads/soil-flora-food-plant-produce-turnip-vegetable-sprout-radish-fungus.jpg?height=580&width=940&mode=crop);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+}
+.slidelist .image4 {
+  background-image: url(https://edtechmagazine.com/k12/sites/edtechmagazine.com.k12/files/styles/cdw_hero/public/articles/EdTech/201709/%20AndreyPopov_virtual%20teachers.jpg?itok=kGHWSKCi);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+}
+.slidelist .image5 {
+  background-image: url(http://hattatklinik.com/wp-content/uploads/2018/03/Teknoloji-%C4%B0ngilizcesi6.jpg);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+}
+
+.slide {
+  display: none;
+  width: 100%;
+  height: 500px;
+  position: absolute;
+}
+
+.open {
+  display: block;
+}
+
+.bottomButton {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  top: 540px;
+}
+.bottomButton li {
+  display: inline-block;
+  margin: 0 5px;
+}
+.bottomButton li i {
+  color: #fff;
+  font-size: 15px;
+}
+.select {
+  background-color: #fff;
+  border-radius: 100%;
+  opacity: 0.8;
+}
+
+/* Payment */
+.payment-title {
+  padding: 45px;
+  text-align: center;
+  background-color: rgb(208, 226, 209);
+}
+
+.payment-sub-title {
+  margin: 10px;
+  padding-top: 20px;
+  padding-left: 8%;
+}
+
+.review-order {
+  margin: 40px;
+  padding-left: 3%;
+  font-family: Raleway-Medium;
+}
+
+.stripe-wrapper {
+  padding-top: 20px;
+  padding-left: 8%;
+}
+
+.pay-btn {
+  width: 200px;
+}
+
+/* SingleProduct */
+.single-product-wrapper {
+  display: flex;
+  margin: 80px;
+  margin-left: 15%;
+}
+
+.btn-write-review {
+  width: 160px;
+  height: 35px;
+  background-color: rgb(93, 202, 93);
+  font-size: 19px;
+  font-weight: bold;
+  font-style: italic;
+  font-family: fantasy;
+  border-radius: 4px;
+  box-shadow: 0 3px 6px 3px rgba(26, 145, 89, 0.3);
+  margin: 0px auto;
+  margin-left: 30%;
+  margin-top: 9%;
+}
+
+.review-section {
+  width: 500px;
+  background-color: rgb(240, 240, 240);
+  border-radius: 3px;
+}
+
+/* review-form */
+.login-alarm-msg {
+  padding: 40px;
+  max-width: 420px;
+  margin: 40px auto;
+  border-radius: 4px;
+  box-shadow: 0 5px 10px 5px rgba(89, 107, 99, 0.3);
+  font-size: 25px;
+}
+.login-alarm-wrapper {
+  margin-top: 10%;
+}
+
+.review-form {
+  padding: 20px;
+  max-width: 580px;
+  margin: 140px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px 2px rgba(26, 145, 89, 0.3);
+}
+.review-form-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.review-input-box {
+  width: 280px;
+  height: 45px;
+}
+.review-content-box {
+  width: 480px;
+  height: 145px;
+}
+.review-input-text {
+  font-size: 20px;
+  margin-left: 5%;
+}
+.btn-review {
+  width: 280px;
+  height: 45px;
+  color: white;
+  background-color: rgba(74, 151, 72, 0.9);
+  font-size: 17px;
+}
+.review-form-title {
+  font-size: 30px;
+  font-family: fantasy;
+}
+
+/* Review */
+.review-title {
+  font-size: 30px;
+  font-family: fantasy;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.review-content-wrapper {
+  margin: 30px;
+  font-size: 17px;
+}
+.review-content-wrapper div {
+  margin: 5px;
+}
+
+.review-name {
+  font-family: cursive;
+}
+
+.review-content {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 15px;
+  padding-left: 5%;
+}
+
+.review-sum {
+  display: flex;
+  flex-direction: row;
+}
+
+.review-sum div {
+  margin-left: 5%;
+}
+
+.rating-and-name {
+  display: flex;
+  flex-direction: row;
+}
+
+/* cart.js */
+.btn-payment {
+  width: 150px;
+  height: 40px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  background-color: rgb(226, 226, 29);
+  box-shadow: 0 2px 4px 2px rgba(173, 100, 17, 0.1);
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+/* Home */
+.brand-name {
+  font-size: 64px;
+  font-family: Comic Sans MS;
+  color: rgb(41, 40, 40);
+  text-align: center;
+  margin-top: 555px;
+}
+
+.cartContainer {
+  width: 450px;
+  margin: 60px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.payment-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+  margin-bottom: 30px;
+}
+
+.payment-total {
+  margin-left: 60px;
+  margin-top: 15px;
+  color: red;
+}
+.brand-name {
+  margin: 30px;
+  padding: 30px;
+  border: 1px solid #ccc;
+  font-size: x-large;
+  line-height: 1.5em;
+  text-align: justify;
+  letter-spacing: 4px;
+  text-align: center;
+}
+
+.admin-event-section {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  margin: 0 auto;
+}
+
+.admin-event-btn {
+  width: 200px;
+  height: 50px;
+  margin: 30px;
+  background-color: rgb(85, 85, 85);
+  box-shadow: 0 2px 4px 2px rgba(173, 100, 17, 0.1);
+  border-radius: 10px;
+}
+
+.admin-title {
+  margin: 70px;
+}
+
+.amdin-order-btn {
+  margin-left: 10px;
+}

@@ -59,6 +59,7 @@ class Auth extends Component {
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
       console.log('logged in', user)
+      this.props.history.push('/Profile')
     } catch (error) {
       var errorCode = error.code
       var errorMessage = error.message
@@ -106,21 +107,36 @@ class Auth extends Component {
           onChange={this.handleChange}
         />
         <div className="field is-grouped is-grouped-right">
-        <p className="control">
-        <button type="submit" id="signup" onClick={this.handleSignup} className="button is-primary">
-          Signup
-        </button>
-        </p>
-        <p className="control">
-        <button type="submit" id="login" onClick={this.handleLogin} className="button is-primary">
-          Login
-        </button>
-        </p>
-        <p className="control">
-        <button type="submit" id="logout" onClick={this.handleLogout} className="button is-primary">
-          Logout
-        </button>
-        </p>
+          <p className="control">
+            <button
+              type="submit"
+              id="signup"
+              onClick={this.handleSignup}
+              className="button is-primary"
+            >
+              Signup
+            </button>
+          </p>
+          <p className="control">
+            <button
+              type="submit"
+              id="login"
+              onClick={this.handleLogin}
+              className="button is-primary"
+            >
+              Login
+            </button>
+          </p>
+          <p className="control">
+            <button
+              type="submit"
+              id="logout"
+              onClick={this.handleLogout}
+              className="button is-primary"
+            >
+              Logout
+            </button>
+          </p>
         </div>
       </div>
     )
