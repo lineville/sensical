@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
-import firebase from 'firebase'
-import db from '../../firestore'
-import {EventEmitter} from 'events'
+import db from '../firestore'
 
 class Canvas extends Component {
   constructor() {
+    console.log('CONSTRUCTOR RAN')
     super()
 
     this.state = {
@@ -152,25 +151,25 @@ class Canvas extends Component {
     return [e.pageX - this.canvas.offsetLeft, e.pageY - this.canvas.offsetTop]
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     let strokesArray = []
-    // db.collection('whiteboards')
-    //   .doc('8yPyB0WTtw5EvqjbrUcB')
-    //   .collection('strokes')
-    //   // .limit(10)
-    //   .onSnapshot(strokes => {
-    //     strokes.forEach(stroke => {
-    //       strokesArray.push(stroke.data())
-    //     })
-    //     this.setState({strokes: strokesArray})
-    //   })
-    strokesArray = await db
-      .collection('whiteboards')
+    db.collection('whiteboards')
       .doc('8yPyB0WTtw5EvqjbrUcB')
       .collection('strokes')
       // .limit(10)
-      .get()
-    console.log(strokesArray)
+      .onSnapshot(strokes => {
+        strokes.forEach(stroke => {
+          strokesArray.push(stroke.data())
+        })
+        this.setState({strokes: strokesArray})
+      })
+    // strokesArray = await db
+    //   .collection('whiteboards')
+    //   .doc('8yPyB0WTtw5EvqjbrUcB')
+    //   .collection('strokes')
+    //   // .limit(10)
+    //   .get()
+    // console.log(strokesArray)
 
     // this.setState({strokes: strokesArray})
 

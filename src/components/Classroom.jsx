@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import CodeEditor from './CodeEditor'
-import Canvas from './whiteboard/Canvas'
+import Canvas from './Canvas'
 import Messaging from './Messaging'
 import {withRouter} from 'react-router-dom'
 import db from '../firestore'
