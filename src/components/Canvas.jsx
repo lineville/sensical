@@ -3,7 +3,7 @@ import db from '../firestore'
 
 class Canvas extends Component {
   constructor() {
-    console.log('CONSTRUCTOR RAN')
+    // console.log('CONSTRUCTOR RAN')
     super()
 
     this.state = {

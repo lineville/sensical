@@ -25,24 +25,12 @@ export default class Profile extends Component {
     })
     const room = await db.collection('rooms').add({
       whiteboardId: whiteboards.id,
-      fireCodes: fireCodes.id,
-      chats: chats.id
+      fireCodesId: fireCodes.id,
+      chatsId: chats.id
     })
     this.setState({
       roomId: room.id
     })
-    console.log(this.state.roomId)
-
-    console.log(
-      'boardId',
-      whiteboards.id,
-      'codeId',
-      fireCodes.id,
-      'chatsId',
-      chats.id,
-      'room',
-      room.id
-    )
   }
 
   joinRoom() {}
