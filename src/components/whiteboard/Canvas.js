@@ -45,15 +45,6 @@ class Canvas extends Component {
   }
 
   draw = (start, end, strokeColor = 'black', shouldBroadcast = true) => {
-    // Draw the line between the start and end positions
-    // that is colored with the given color.
-    this.ctx.beginPath()
-    this.ctx.strokeStyle = strokeColor
-    this.ctx.moveTo(...start)
-    this.ctx.lineTo(...end)
-    this.ctx.closePath()
-    this.ctx.stroke()
-
     this.drawToDb(start, end, strokeColor, shouldBroadcast)
     console.log(
       'DRAW CALLED',
@@ -175,6 +166,7 @@ class Canvas extends Component {
     db.collection('whiteboards')
       .doc('8yPyB0WTtw5EvqjbrUcB')
       .collection('strokes')
+      // .limit(10)
       .onSnapshot(strokes => {
         strokes.forEach(stroke => {
           strokesArray.push(stroke.data())
@@ -188,7 +180,12 @@ class Canvas extends Component {
   render() {
     if (this.state.strokes) {
       this.state.strokes.forEach(stroke => {
-        this.draw(stroke.start, stroke.end, stroke.strokeColor, false)
+        this.ctx.beginPath()
+        this.ctx.strokeStyle = stroke.strokeColor
+        this.ctx.moveTo(...stroke.start)
+        this.ctx.lineTo(...stroke.end)
+        this.ctx.closePath()
+        this.ctx.stroke()
       })
     }
 
