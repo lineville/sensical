@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import Messaging from './Messaging'
 import CodeEditor from './CodeEditor'
+import Canvas from './Canvas'
+import Messaging from './Messaging'
 import {withRouter} from 'react-router-dom'
 import db from '../firestore'
 
@@ -21,6 +22,7 @@ class Classroom extends Component {
       <div className="columns">
         <Messaging />
         <CodeEditor />
+        <Canvas />
       </div>
     )
   }
