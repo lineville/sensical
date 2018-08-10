@@ -46,15 +46,6 @@ class Canvas extends Component {
 
   draw = (start, end, strokeColor = 'black', shouldBroadcast = true) => {
     this.drawToDb(start, end, strokeColor, shouldBroadcast)
-    console.log(
-      'DRAW CALLED',
-      'start: ',
-      start,
-      'end: ',
-      end,
-      'strokeColor: ',
-      strokeColor
-    )
   }
 
   setup = () => {

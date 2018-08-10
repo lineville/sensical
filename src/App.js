@@ -5,8 +5,6 @@ import ClassRoom from './components/Classroom'
 import {Router, Switch, Route} from 'react-router-dom'
 import history from './history'
 import Canvas from './components/whiteboard/Canvas'
-import Classroom from './components/Classroom'
-import HomePage from './components/HomePage'
 import Profile from './components/Profile'
 
 const App = () => (
