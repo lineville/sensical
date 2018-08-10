@@ -84,7 +84,7 @@ class Auth extends Component {
 
   render() {
     return (
-      <div className="auth-form App">
+      <div className="column auth-form App">
         <input
           className="input"
           type="text"

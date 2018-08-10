@@ -12,18 +12,26 @@ class CodeEditor extends Component {
     this.state = {
       code1: '',
       code2: '',
-      roomId: ''
+      docId: ''
     }
     this.onChange1 = this.onChange1.bind(this)
     this.onChange2 = this.onChange2.bind(this)
   }
 
   async componentDidMount() {
-    const room = await db.collection('fireCodes').add({
+    const doc = await db.collection('fireCodes').add({
       code1: this.state.code1,
       code2: this.state.code2
     })
-    this.setState({roomId: room.id})
+    this.setState({docId: doc.id})
+    doc.onSnapshot(code => {
+      const key = Object.keys(code.data())[0]
+      console.log('key:', key, 'val', code.data()[key])
+      this.setState({
+        [key]: code.data()[key]
+      })
+    })
+    console.log(this.state)
   }
 
   onChange1(value) {
@@ -31,9 +39,10 @@ class CodeEditor extends Component {
       code1: value
     })
     db.collection('fireCodes')
-      .doc(this.state.roomId)
+      .doc(this.state.docId)
       .set({
-        code1: this.state.code1
+        code1: value,
+        code2: this.state.code2
       })
   }
   onChange2(value) {
@@ -41,9 +50,10 @@ class CodeEditor extends Component {
       code2: value
     })
     db.collection('fireCodes')
-      .doc(this.state.roomId)
+      .doc(this.state.docId)
       .set({
-        code2: this.state.code2
+        code1: this.state.code1,
+        code2: value
       })
   }
 
