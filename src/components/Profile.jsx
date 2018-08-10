@@ -6,8 +6,7 @@ export default class Profile extends Component {
   constructor() {
     super()
     this.state = {
-      roomId: '',
-      rooms: []
+      roomId: ''
     }
     this.createRoom = this.createRoom.bind(this)
     this.joinRoom = this.joinRoom.bind(this)
@@ -32,12 +31,8 @@ export default class Profile extends Component {
     this.setState({
       roomId: room.id
     })
-    await db.collection('rooms').onSnapshot(rooms => {
-      const newRoom = rooms.docChanges()[0]
-      this.setState({
-        rooms: [...this.state.rooms, newRoom]
-      })
-    })
+    console.log(this.state.roomId)
+
     console.log(
       'boardId',
       whiteboards.id,
@@ -56,21 +51,21 @@ export default class Profile extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <div>
         <img
           src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12234109/Dachshund-On-White-03.jpg"
           alt="user"
           align="left"
         />
         <h1>Available Rooms</h1>
-        <Rooms rooms={this.state.rooms} />
 
         <button style={{float: 'left', bottom: 0}}>Change Password</button>
         <button className="float-right" onClick={this.createRoom}>
           Create Room
         </button>
-        <button className="float-right">Join Room</button>
-      </React.Fragment>
+        <Rooms />
+        {/* <button className="float-right">Join Room</button> */}
+      </div>
     )
   }
 }

@@ -1,10 +1,19 @@
 import React, {Component} from 'react'
 import Messaging from './Messaging'
 import CodeEditor from './CodeEditor'
+import {withRouter} from 'react-router-dom'
+import db from '../firestore'
 
 class Classroom extends Component {
   constructor(props) {
     super(props)
+  }
+
+  async componentDidMount() {
+    console.log(this.props.match.params.classRoomId)
+    // const classRoomId = db
+    //   .collection('rooms')
+    //   .doc(this.match.params.classRoomId)
   }
 
   render() {
@@ -17,4 +26,4 @@ class Classroom extends Component {
   }
 }
 
-export default Classroom
+export default withRouter(Classroom)
