@@ -4,18 +4,14 @@
   "private": true,
   "dependencies": {
     "brace": "^0.11.1",
-    "bulma": "^0.7.1",
-    "bulma-extensions": "^2.2.1",
     "firebase": "^5.3.1",
     "install": "^0.12.1",
     "npm": "^6.3.0",
     "react": "^16.4.2",
     "react-ace": "^6.1.4",
     "react-dom": "^16.4.2",
-    "react-responsive-carousel": "^3.1.41",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
-    "semantic-ui": "^2.3.3",
     "terminal-in-react": "^4.3.0",
     "terminal-in-react-node-eval-plugin": "^2.0.0",
     "terminal-in-react-pseudo-file-system-plugin": "^3.0.0"
