@@ -11,11 +11,11 @@ const App = () => (
   <Router history={history}>
     <Switch>
       <Route exact path="/" component={Auth} />
-      <Route path="/classRoom" component={ClassRoom} />
-      <Route path="/codeEditor" component={CodeEditor} />
-      <Route path="/whiteboard" component={Canvas} />
       <Route exact path="/auth" component={Auth} />
       <Route exact path="/profile" component={Profile} />
+      <Route path="/classRooms/:classRoomId" component={ClassRoom} />
+      <Route path="/codeEditor/:codeEditorId" component={CodeEditor} />
+      <Route path="/whiteboards/:whiteboardId" component={Canvas} />
     </Switch>
   </Router>
 )

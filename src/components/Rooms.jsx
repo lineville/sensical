@@ -1,19 +1,48 @@
 import React, {Component} from 'react'
+import db from '../firestore'
+import {Link, withHistory} from 'react-router-dom'
 
-export default class Rooms extends Component {
+class Rooms extends Component {
   constructor() {
     super()
+    this.state = {
+      rooms: []
+    }
+  }
+
+  async componentDidMount() {
+    await db.collection('rooms').onSnapshot(rooms => {
+      let allRooms = []
+      rooms.docs.forEach(room => {
+        const data = room.data()
+        data.id = room.id
+        allRooms.push(data)
+      })
+      this.setState({
+        rooms: allRooms
+      })
+    })
   }
 
   render() {
     return (
-      <React.Fragment>
+      <div>
         <ul>
-          <li>Room 1</li>
-          <li>Room 2</li>
-          <li>Room 3</li>
+          {this.state.rooms.map(room => {
+            console.log(room)
+            return (
+              <Link
+                key={this.state.rooms.indexOf(room)}
+                to={`/classRooms/${room.id}`}
+              >
+                <li>{room.id}</li>
+              </Link>
+            )
+          })}
         </ul>
-      </React.Fragment>
+      </div>
     )
   }
 }
+
+export default Rooms
