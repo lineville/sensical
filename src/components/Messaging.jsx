@@ -18,6 +18,7 @@ export default class Messaging extends Component {
       .collection('chats')
       .doc('8SEsFPVQTgJIv6pPTkbk')
       .collection('messages')
+      .orderBy('timestamp')
       .onSnapshot(querySnapshot => {
         let messages = []
         querySnapshot.forEach(doc => {
@@ -42,7 +43,7 @@ export default class Messaging extends Component {
       .add({
         user: 'figneutron',
         text: this.state.newMessage,
-        timestamp: new Date().toLocaleString()
+        timestamp: new Date().toUTCString()
       })
     this.setState({
       newMessage: ''
