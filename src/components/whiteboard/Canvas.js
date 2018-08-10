@@ -152,18 +152,27 @@ class Canvas extends Component {
     return [e.pageX - this.canvas.offsetLeft, e.pageY - this.canvas.offsetTop]
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     let strokesArray = []
-    db.collection('whiteboards')
+    // db.collection('whiteboards')
+    //   .doc('8yPyB0WTtw5EvqjbrUcB')
+    //   .collection('strokes')
+    //   // .limit(10)
+    //   .onSnapshot(strokes => {
+    //     strokes.forEach(stroke => {
+    //       strokesArray.push(stroke.data())
+    //     })
+    //     this.setState({strokes: strokesArray})
+    //   })
+    strokesArray = await db
+      .collection('whiteboards')
       .doc('8yPyB0WTtw5EvqjbrUcB')
       .collection('strokes')
       // .limit(10)
-      .onSnapshot(strokes => {
-        strokes.forEach(stroke => {
-          strokesArray.push(stroke.data())
-        })
-        this.setState({strokes: strokesArray})
-      })
+      .get()
+    console.log(strokesArray)
+
+    // this.setState({strokes: strokesArray})
 
     document.addEventListener('DOMContentLoaded', this.setup)
   }
