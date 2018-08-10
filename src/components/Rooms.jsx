@@ -1,19 +1,15 @@
-import React, {Component} from 'react'
+import React from 'react'
 
-export default class Rooms extends Component {
-  constructor() {
-    super()
-  }
+const Rooms = props => (
+  <div>
+    <ul>
+      {props.rooms.map(room => (
+        <a key={room.id} href={`/classRooms/:${room.id}`}>
+          <li>{room.data()}</li>
+        </a>
+      ))}
+    </ul>
+  </div>
+)
 
-  render() {
-    return (
-      <React.Fragment>
-        <ul>
-          <li>Room 1</li>
-          <li>Room 2</li>
-          <li>Room 3</li>
-        </ul>
-      </React.Fragment>
-    )
-  }
-}
+export default Rooms
