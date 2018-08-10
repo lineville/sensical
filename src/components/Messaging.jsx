@@ -18,6 +18,7 @@ export default class Messaging extends Component {
       .collection('chats')
       .doc('8SEsFPVQTgJIv6pPTkbk')
       .collection('messages')
+      .orderBy('timestamp')
       .onSnapshot(querySnapshot => {
         let messages = []
         querySnapshot.forEach(doc => {
@@ -31,7 +32,6 @@ export default class Messaging extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
-    console.log(this.state)
   }
 
   async handleSubmit(event) {
@@ -41,8 +41,9 @@ export default class Messaging extends Component {
       .doc('8SEsFPVQTgJIv6pPTkbk')
       .collection('messages')
       .add({
-        user: 'testing',
-        text: this.state.newMessage
+        user: 'figneutron',
+        text: this.state.newMessage,
+        timestamp: new Date().toUTCString()
       })
     this.setState({
       newMessage: ''
