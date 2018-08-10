@@ -5,6 +5,7 @@ import {Router, Switch, Route} from 'react-router-dom'
 import history from './history'
 import HomePage from './components/HomePage'
 import Profile from './components/Profile'
+import Classroom from './components/Classroom'
 
 const App = () => (
   <Router history={history}>
@@ -12,7 +13,7 @@ const App = () => (
       <Route exact path="/" component={HomePage} />
       <Route exact path="/auth" component={Auth} />
       <Route exact path="/profile" component={Profile} />
-      <Route path="/classRoom" component={ClassRoom} />
+      <Route path="/classroom" component={Classroom} />
       <Route path="/codeEditor" component={CodeEditor} />
     </Switch>
   </Router>

@@ -31,7 +31,6 @@ export default class Messaging extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
-    console.log(this.state)
   }
 
   async handleSubmit(event) {
@@ -43,7 +42,7 @@ export default class Messaging extends Component {
       .add({
         user: 'figneutron',
         text: this.state.newMessage,
-        timestamp: new Date()
+        timestamp: new Date().toLocaleString()
       })
     this.setState({
       newMessage: ''
