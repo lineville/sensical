@@ -59,6 +59,7 @@ class Auth extends Component {
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
       console.log('logged in', user)
+      this.props.history.push('/Profile')
     } catch (error) {
       var errorCode = error.code
       var errorMessage = error.message
