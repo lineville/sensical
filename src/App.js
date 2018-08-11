@@ -8,14 +8,13 @@ import Profile from './components/Profile'
 import Classroom from './components/Classroom'
 import HomePage from './components/HomePage'
 
-
 const App = () => (
   <Router history={history}>
     <Switch>
       <Route exact path="/" component={HomePage} />
       <Route exact path="/auth" component={Auth} />
       <Route exact path="/profile" component={Profile} />
-      <Route path="/classRooms/:classRoomId" component={ClassRoom} />
+      <Route path="/classRooms/:classRoomId" component={Classroom} />
       <Route path="/codeEditor/:codeEditorId" component={CodeEditor} />
       <Route path="/whiteboards/:whiteboardId" component={Canvas} />
     </Switch>
