@@ -5,18 +5,27 @@ export default class HomePage extends Component {
   constructor() {
     super()
     this.loginPush = this.loginPush.bind(this)
+    this.signupPush = this.signupPush.bind(this)
   }
 
   loginPush() {
-    this.props.history.push('/Auth')
+    this.props.history.push('/login')
+  }
+
+  signupPush() {
+    this.props.history.push('/signup')
   }
 
   render() {
     return (
-      <React.Fragment>
+      <div>
+        <button className="float-right" onClick={this.signupPush}>
+          Signup
+        </button>
         <button className="float-right" onClick={this.loginPush}>
           Login
         </button>
+
         <script type="text/javascript">
           $(document).ready(function()
           {window.setInterval(function() {
@@ -77,7 +86,7 @@ export default class HomePage extends Component {
             </ul>
           </div>
         </div>
-      </React.Fragment>
+      </div>
     )
   }
 }

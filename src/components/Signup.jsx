@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import '../App.css'
 import db from '../firestore'
 
-class Auth extends Component {
+class Signup extends Component {
   constructor() {
     super()
     this.state = {
@@ -13,7 +13,6 @@ class Auth extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSignup = this.handleSignup.bind(this)
-    this.handleLogin = this.handleLogin.bind(this)
   }
 
   handleChange(event) {
@@ -41,25 +40,6 @@ class Auth extends Component {
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
       console.log('signed up', user)
       db.collection('fireUsers').add(user)
-    } catch (error) {
-      var errorCode = error.code
-      var errorMessage = error.message
-      if (errorCode === 'auth/weak-password') {
-        alert('The password is too weak.')
-      } else {
-        alert(errorMessage)
-      }
-      console.log(error)
-    }
-  }
-
-  async handleLogin(event) {
-    try {
-      const user = await firebase
-        .auth()
-        .signInWithEmailAndPassword(this.state.email, this.state.password)
-      console.log('logged in', user)
-      this.props.history.push('/Profile')
     } catch (error) {
       var errorCode = error.code
       var errorMessage = error.message
@@ -120,16 +100,6 @@ class Auth extends Component {
           <p className="control">
             <button
               type="submit"
-              id="login"
-              onClick={this.handleLogin}
-              className="button is-primary"
-            >
-              Login
-            </button>
-          </p>
-          <p className="control">
-            <button
-              type="submit"
               id="logout"
               onClick={this.handleLogout}
               className="button is-primary"
@@ -143,4 +113,4 @@ class Auth extends Component {
   }
 }
 
-export default Auth
+export default Signup

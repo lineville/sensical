@@ -13,6 +13,7 @@ class Output extends Component {
     const {input} = this.props
     console.log(input)
     this.setState({
+      // eslint-disable-next-line
       output: eval(input)
     })
   }
@@ -33,13 +34,3 @@ class Output extends Component {
 }
 
 export default Output
-
-{
-  /* <span>
-  <p>Output</p>
-  <button type="submit" onClick={this.run}>
-    Run
-  </button>
-</span>
-<p className="terminal-output">>_ {this.state.output}</p> */
-}
