@@ -1,6 +1,5 @@
 import firebase from 'firebase'
 import React, {Component} from 'react'
-import '../App.css'
 import db from '../firestore'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
