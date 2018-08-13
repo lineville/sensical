@@ -5,7 +5,7 @@ import {Router, Switch, Route} from 'react-router-dom'
 import history from './history'
 import Canvas from './components/Canvas'
 import Profile from './components/Profile'
-import ClassRoom from './components/Classroom'
+import Classroom from './components/classroom'
 import HomePage from './components/HomePage'
 import Login from './components/Login'
 
@@ -16,7 +16,7 @@ const App = () => (
       <Route exact path="/login" component={Login} />
       <Route exact path="/signup" component={Signup} />
       <Route exact path="/profile" component={Profile} />
-      <Route path="/classRooms/:classRoomId" component={ClassRoom} />
+      <Route path="/classroom/:classroomId" component={Classroom} />
       <Route path="/codeEditor/:codeEditorId" component={CodeEditor} />
       <Route path="/whiteboards/:whiteboardId" component={Canvas} />
     </Switch>

@@ -17,26 +17,39 @@ class Classroom extends Component {
   }
 
   async componentDidMount() {
-    const classRoom = await db
+    const classroom = await db
       .collection('rooms')
-      .doc(this.props.match.params.classRoomId)
+      .doc(this.props.match.params.classroomId)
       .get()
     this.setState({
-      roomId: classRoom.id,
-      whiteboardId: classRoom.data().whiteboardId,
-      fireCodesId: classRoom.data().fireCodesId,
-      chatsId: classRoom.data().chatsId
+      roomId: classroom.id,
+      whiteboardId: classroom.data().whiteboardId,
+      fireCodesId: classroom.data().fireCodesId,
+      chatsId: classroom.data().chatsId
     })
   }
 
   render() {
-    return (
-      <div className="columns">
-        <Messaging chatsId={this.state.chatsId} />
-        <CodeEditor fireCodesId={this.state.fireCodesId} />
-        <Canvas whiteboardId={this.state.whiteboardId} />
-      </div>
-    )
+    if (
+      this.state.fireCodesId.length &&
+      this.state.chatsId.length &&
+      this.state.whiteboardId.length
+    ) {
+      return (
+        <div className="columns">
+          <Messaging chatsId={this.state.chatsId} roomId={this.state.roomId} />
+          <CodeEditor
+            fireCodesId={this.state.fireCodesId}
+            roomId={this.state.roomId}
+          />
+          {/* <Canvas
+            whiteboardId={this.state.whiteboardId}
+            roomId={this.state.roomId}
+          /> */}
+        </div>
+      )
+    }
+    return <div />
   }
 }
 
