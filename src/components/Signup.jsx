@@ -1,6 +1,5 @@
 import firebase from 'firebase'
 import React, {Component} from 'react'
-import '../App.css'
 import db from '../firestore'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
@@ -73,6 +72,7 @@ class Signup extends Component {
   constructor() {
     super()
     this.state = {
+      username: '',
       email: '',
       password: ''
     }
@@ -88,9 +88,18 @@ class Signup extends Component {
 
   async handleSignup() {
     try {
-      await firebase
+      const user = await firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
+
+      await db
+        .collection('users')
+        .doc(user.user.uid)
+        .set({
+          email: this.state.email,
+          username: this.state.username
+        })
+      //user authenticated id stored at user.uid
       this.props.history.push('/profile')
     } catch (error) {
       let errorCode = error.code
@@ -116,6 +125,18 @@ class Signup extends Component {
     return (
       <div className={classes.container}>
         <FormControl className={classes.margin}>
+          <TextField
+            id="username-input"
+            name="username"
+            placeholder="Username"
+            label="Username"
+            className={classes.textField}
+            type="username"
+            margin="normal"
+            onChange={this.handleChange}
+          />
+        </FormControl>
+        <FormControl>
           <TextField
             id="email-input"
             name="email"
