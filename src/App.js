@@ -8,10 +8,12 @@ import Profile from './components/Profile'
 import Classroom from './components/Classroom'
 import HomePage from './components/HomePage'
 import Login from './components/Login'
+import Nav from './components/Nav'
 
 const App = () => (
   <Router history={history}>
     <Switch>
+      <Route path="/" component={Nav} />
       <Route exact path="/" component={HomePage} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/signup" component={Signup} />
