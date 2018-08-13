@@ -19,7 +19,7 @@ const App = () => (
       <Route exact path="/whiteboard" component={Canvas} />
       <Route path="/classroom/:classroomId" component={Classroom} />
       <Route path="/codeEditor/:codeEditorId" component={CodeEditor} />
-      {/* <Route path="/whiteboards/:whiteboardId" component={Canvas} /> */}
+      <Route path="/whiteboards/:whiteboardId" component={Canvas} />
     </Switch>
   </Router>
 )

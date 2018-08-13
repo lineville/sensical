@@ -3,7 +3,6 @@ import db from '../firestore'
 
 class Canvas extends Component {
   constructor() {
-    // console.log('CONSTRUCTOR RAN')
     super()
 
     this.state = {
@@ -31,7 +30,7 @@ class Canvas extends Component {
 
   drawToDb = (start, end, strokeColor) => {
     db.collection('whiteboards')
-      .doc(`xxnYauh3F1GfaYXI8Jwa`)
+      .doc(`${this.props.whiteboardId}`)
       .collection('strokes')
       .add({
         start,
@@ -41,15 +40,14 @@ class Canvas extends Component {
       .catch(error => {
         console.error('Error drawing new stroke to Firestore Database: ', error)
       })
-    console.log('DREW TO DB')
   }
 
   draw = (start, end, strokeColor = 'black', shouldBroadcast = true) => {
     this.drawToDb(start, end, strokeColor, shouldBroadcast)
-    console.log('START: ', start)
   }
 
   setup = () => {
+    console.log('SETUP CANVAS RAN')
     let classroom = document.getElementById('whiteboard-canvas')
     classroom.appendChild(this.canvas)
 
@@ -157,8 +155,7 @@ class Canvas extends Component {
     console.log('WHITEBOARD ID: ', this.props.whiteboardId)
     let strokesArray = []
     db.collection('whiteboards')
-      // .doc(`${this.props.whiteboardId}`)
-      .doc('xxnYauh3F1GfaYXI8Jwa')
+      .doc(`${this.props.whiteboardId}`)
       .collection('strokes')
       // .limit(10)
       .onSnapshot(strokes => {
@@ -167,8 +164,8 @@ class Canvas extends Component {
         })
         this.setState({strokes: strokesArray})
       })
-
-    document.addEventListener('DOMContentLoaded', this.setup)
+    this.setup()
+    // document.addEventListener('DOMContentLoaded', this.setup)
   }
 
   render() {
@@ -186,9 +183,8 @@ class Canvas extends Component {
     return (
       <div id="whiteboard">
         <h1>WHITE BOARD</h1>
-        <div id="whiteboard-canvas">
-          <h1>Canvas</h1>
-        </div>
+        <h1>Canvas</h1>
+        <div id="whiteboard-canvas" />
       </div>
     )
   }

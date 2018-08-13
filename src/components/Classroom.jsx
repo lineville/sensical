@@ -42,10 +42,10 @@ class Classroom extends Component {
             fireCodesId={this.state.fireCodesId}
             roomId={this.state.roomId}
           />
-          {/* <Canvas
+          <Canvas
             whiteboardId={this.state.whiteboardId}
             roomId={this.state.roomId}
-          /> */}
+          />
         </div>
       )
     }
