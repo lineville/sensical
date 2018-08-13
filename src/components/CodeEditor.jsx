@@ -74,8 +74,8 @@ class CodeEditor extends Component {
 
   render() {
     return (
-      <div className="columns">
-        <div className="column">
+      <div>
+        <div className="">
           <AceEditor
             mode="javascript"
             theme="monokai"
@@ -86,7 +86,7 @@ class CodeEditor extends Component {
           />
           <Output input={this.state.code1} />
         </div>
-        <div className="column">
+        <div className="">
           <AceEditor
             mode="javascript"
             theme="monokai"

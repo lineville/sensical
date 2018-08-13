@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import db from '../firestore'
-import {Link} from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 
 class Rooms extends Component {
