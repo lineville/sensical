@@ -16,7 +16,7 @@ export default class Messaging extends Component {
   async componentDidMount() {
     await db
       .collection('chats')
-      .doc('8SEsFPVQTgJIv6pPTkbk')
+      .doc(this.props.chatsId)
       .collection('messages')
       .orderBy('timestamp')
       .onSnapshot(querySnapshot => {
@@ -38,7 +38,7 @@ export default class Messaging extends Component {
     event.preventDefault()
     await db
       .collection('chats')
-      .doc('8SEsFPVQTgJIv6pPTkbk')
+      .doc(this.props.chatsId)
       .collection('messages')
       .add({
         user: 'figneutron',

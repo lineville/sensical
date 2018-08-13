@@ -30,9 +30,7 @@ export default class Profile extends Component {
       code1: '',
       code2: ''
     })
-    const chats = await db.collection('chats').add({
-      messages: []
-    })
+    const chats = await db.collection('chats').add({})
     const room = await db.collection('rooms').add({
       whiteboardId: whiteboards.id,
       fireCodesId: fireCodes.id,
