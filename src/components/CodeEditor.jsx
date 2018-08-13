@@ -7,23 +7,22 @@ import 'brace/mode/javascript'
 import 'brace/theme/monokai'
 
 class CodeEditor extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       code1: '',
       code2: '',
-      docId: ''
+      docId: '',
+      roomId: ''
     }
     this.onChange1 = this.onChange1.bind(this)
     this.onChange2 = this.onChange2.bind(this)
   }
 
   async componentDidMount() {
-    const doc = await db.collection('fireCodes').add({
-      code1: this.state.code1,
-      code2: this.state.code2
-    })
-    this.setState({docId: doc.id})
+    const {fireCodesId, roomId} = this.props
+    const doc = await db.collection('fireCodes').doc(fireCodesId)
+    this.setState({docId: doc.id, roomId: roomId})
     doc.onSnapshot(code => {
       const key = Object.keys(code.data())[0]
       this.setState({

@@ -32,9 +32,15 @@ class Classroom extends Component {
   render() {
     return (
       <div className="columns">
-        <Messaging chatsId={this.state.chatsId} />
-        <CodeEditor fireCodesId={this.state.fireCodesId} />
-        <Canvas whiteboardId={this.state.whiteboardId} />
+        <Messaging chatsId={this.state.chatsId} roomId={this.state.roomId} />
+        <CodeEditor
+          fireCodesId={this.state.fireCodesId}
+          roomId={this.state.roomId}
+        />
+        <Canvas
+          whiteboardId={this.state.whiteboardId}
+          roomId={this.state.roomId}
+        />
       </div>
     )
   }
