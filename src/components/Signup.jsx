@@ -4,28 +4,31 @@ import '../App.css'
 import db from '../firestore'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
+import TextField from '@material-ui/core/TextField'
 import FormControl from '@material-ui/core/FormControl'
 import purple from '@material-ui/core/colors/purple'
 import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
   container: {
-    display: 'flex',
     flexWrap: 'wrap',
-    textAlign: 'center'
+    textAlign: 'center',
+    position: 'relative',
+    display: 'block',
+    width: '100%'
   },
   margin: {
     margin: theme.spacing.unit
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200
   },
   cssLabel: {
     '&$cssFocused': {
       color: purple[500]
     }
-  },
-  button: {
-    margin: theme.spacing.unit
   },
   cssFocused: {},
   cssUnderline: {
@@ -63,9 +66,6 @@ const styles = theme => ({
       borderColor: '#80bdff',
       boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
     }
-  },
-  bootstrapFormLabel: {
-    fontSize: 18
   }
 })
 
@@ -86,22 +86,18 @@ class Signup extends Component {
     })
   }
 
-  async handleSignup(event) {
+  async handleSignup() {
     try {
-      const user = await firebase
+      await firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      console.log('signed up', user)
-      db.collection('fireUsers').add(user)
+      this.props.history.push('/profile')
     } catch (error) {
-      var errorCode = error.code
-      var errorMessage = error.message
+      let errorCode = error.code
       if (errorCode === 'auth/weak-password') {
         alert('The password is too weak.')
-      } else {
-        alert(errorMessage)
       }
-      console.log(error)
+      console.error(error)
     }
   }
 
@@ -120,51 +116,30 @@ class Signup extends Component {
     return (
       <div className={classes.container}>
         <FormControl className={classes.margin}>
-          <InputLabel
-            FormLabelClasses={{
-              root: classes.cssLabel,
-              focused: classes.cssFocused
-            }}
-            htmlFor="email"
-          >
-            Email
-          </InputLabel>
-          <Input
+          <TextField
+            id="email-input"
             name="email"
-            placeholder="email"
+            placeholder="Email"
+            label="Email"
+            className={classes.textField}
+            type="email"
+            margin="normal"
             onChange={this.handleChange}
-            classes={{
-              underline: classes.cssUnderline
-            }}
-            id="email"
           />
         </FormControl>
         <FormControl className={classes.margin}>
-          <InputLabel
-            FormLabelClasses={{
-              root: classes.cssLabel,
-              focused: classes.cssFocused
-            }}
-            htmlFor="password"
-          >
-            Password
-          </InputLabel>
-          <Input
+          <TextField
+            id="password-input"
+            label="Password"
             name="password"
-            placeholder="password"
+            className={classes.textField}
             onChange={this.handleChange}
-            classes={{
-              underline: classes.cssUnderline
-            }}
-            id="password"
+            type="password"
+            autoComplete="current-password"
+            margin="normal"
           />
         </FormControl>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          onClick={this.handleLogin}
-        >
+        <Button variant="contained" color="primary" onClick={this.handleSignup}>
           Signup
         </Button>
       </div>
