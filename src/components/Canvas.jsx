@@ -26,7 +26,16 @@ class Canvas extends Component {
   }
 
   // Color picker settings
-  colors = ['black', 'purple', 'red', 'green', 'orange', 'yellow', 'brown']
+  colors = [
+    '#000000',
+    '#ff1000',
+    '#380566',
+    '#1d00ff',
+    '#a31149',
+    '#30a300',
+    '#40d6c9',
+    '#fffc51'
+  ]
 
   drawToDb = (start, end, strokeColor) => {
     db.collection('whiteboards')
@@ -182,8 +191,6 @@ class Canvas extends Component {
 
     return (
       <div id="whiteboard">
-        <h1>WHITE BOARD</h1>
-        <h1>Canvas</h1>
         <div id="whiteboard-canvas" />
       </div>
     )
