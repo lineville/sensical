@@ -41,10 +41,12 @@ class Canvas extends Component {
       .catch(error => {
         console.error('Error drawing new stroke to Firestore Database: ', error)
       })
+    console.log('DREW TO DB')
   }
 
   draw = (start, end, strokeColor = 'black', shouldBroadcast = true) => {
     this.drawToDb(start, end, strokeColor, shouldBroadcast)
+    console.log('START: ', start)
   }
 
   setup = () => {
@@ -154,7 +156,7 @@ class Canvas extends Component {
   componentDidMount() {
     let strokesArray = []
     db.collection('whiteboards')
-      .doc('8yPyB0WTtw5EvqjbrUcB')
+      .doc('pwm193xaex5syGBrg57p')
       .collection('strokes')
       // .limit(10)
       .onSnapshot(strokes => {
@@ -177,7 +179,7 @@ class Canvas extends Component {
   }
 
   render() {
-    if (this.state.strokes) {
+    if (this.state.strokes !== null) {
       this.state.strokes.forEach(stroke => {
         this.ctx.beginPath()
         this.ctx.strokeStyle = stroke.strokeColor
