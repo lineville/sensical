@@ -5,7 +5,7 @@ import {Router, Switch, Route} from 'react-router-dom'
 import history from './history'
 import Canvas from './components/Canvas'
 import Profile from './components/Profile'
-import Classroom from './components/classroom'
+import Classroom from './components/Classroom'
 import HomePage from './components/HomePage'
 import Login from './components/Login'
 
