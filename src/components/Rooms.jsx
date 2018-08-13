@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import db from '../firestore'
-import {Link} from 'react-router-dom'
+import firebase from 'firebase'
 import Button from '@material-ui/core/Button'
 
 class Rooms extends Component {
@@ -26,7 +26,17 @@ class Rooms extends Component {
     })
   }
 
-  joinRoom(id) {
+  async joinRoom(id) {
+    const currentUser = await firebase.auth().currentUser
+    console.log(currentUser.uid)
+
+    await db
+      .collection('users')
+      .doc(currentUser.uid)
+      .update({
+        [id]: true
+      })
+
     this.props.history.push(`/classroom/${id}`)
   }
 
@@ -36,20 +46,18 @@ class Rooms extends Component {
         <ul>
           {this.state.rooms.map(room => {
             return (
-              <React.Fragment key={this.state.rooms.indexOf(room)}>
+              <div key={this.state.rooms.indexOf(room)}>
                 <li>{room.id}</li>
                 <Button
                   variant="outlined"
                   color="primary"
                   onClick={() => {
-                    {
-                      this.joinRoom(room.id)
-                    }
+                    this.joinRoom(room.id)
                   }}
                 >
                   Join Room
                 </Button>
-              </React.Fragment>
+              </div>
             )
           })}
         </ul>
