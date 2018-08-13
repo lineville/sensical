@@ -24,7 +24,12 @@ class CodeEditor extends Component {
       .collection('fireCodes')
       .doc(fireCodesId)
       .get()
-    await this.setState({docId: doc.id, roomId: roomId})
+    await this.setState({
+      docId: doc.id,
+      roomId: roomId,
+      code1: doc.data().code1,
+      code2: doc.data().code2
+    })
   }
 
   async componentWillUnmount() {
