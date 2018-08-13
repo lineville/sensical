@@ -30,6 +30,14 @@ class CodeEditor extends Component {
       code1: doc.data().code1,
       code2: doc.data().code2
     })
+    db.collection('fireCodes')
+      .doc(fireCodesId)
+      .onSnapshot(code => {
+        this.setState({
+          code1: code.data().code1,
+          code2: code.data().code2
+        })
+      })
   }
 
   async componentWillUnmount() {
