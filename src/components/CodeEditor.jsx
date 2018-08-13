@@ -2,33 +2,37 @@ import React, {Component} from 'react'
 import AceEditor from 'react-ace'
 import db from '../firestore'
 import Output from './Output'
-
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
 
 class CodeEditor extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       code1: '',
       code2: '',
-      docId: ''
+      docId: '',
+      roomId: ''
     }
     this.onChange1 = this.onChange1.bind(this)
     this.onChange2 = this.onChange2.bind(this)
   }
 
   async componentDidMount() {
-    const doc = await db.collection('fireCodes').add({
-      code1: this.state.code1,
-      code2: this.state.code2
-    })
-    this.setState({docId: doc.id})
-    doc.onSnapshot(code => {
-      const key = Object.keys(code.data())[0]
-      this.setState({
-        [key]: code.data()[key]
-      })
+    const {fireCodesId, roomId} = this.props
+    const doc = await db
+      .collection('fireCodes')
+      .doc(fireCodesId)
+      .get()
+    await this.setState({docId: doc.id, roomId: roomId})
+  }
+
+  async componentWillUnmount() {
+    this.setState({
+      code1: '',
+      code2: '',
+      docId: '',
+      roomId: ''
     })
   }
 

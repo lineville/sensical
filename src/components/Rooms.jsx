@@ -32,7 +32,7 @@ class Rooms extends Component {
             return (
               <Link
                 key={this.state.rooms.indexOf(room)}
-                to={`/classRooms/${room.id}`}
+                to={`/classroom/${room.id}`}
               >
                 <li>{room.id}</li>
               </Link>
