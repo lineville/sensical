@@ -1,13 +1,15 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import {Link} from 'react-router-dom'
+import Button from '@material-ui/core/Button'
 
 class Rooms extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       rooms: []
     }
+    this.joinRoom = this.joinRoom.bind(this)
   }
 
   async componentDidMount() {
@@ -24,18 +26,30 @@ class Rooms extends Component {
     })
   }
 
+  joinRoom(id) {
+    this.props.history.push(`/classroom/${id}`)
+  }
+
   render() {
     return (
       <div>
         <ul>
           {this.state.rooms.map(room => {
             return (
-              <Link
-                key={this.state.rooms.indexOf(room)}
-                to={`/classroom/${room.id}`}
-              >
+              <React.Fragment key={this.state.rooms.indexOf(room)}>
                 <li>{room.id}</li>
-              </Link>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => {
+                    {
+                      this.joinRoom(room.id)
+                    }
+                  }}
+                >
+                  Join Room
+                </Button>
+              </React.Fragment>
             )
           })}
         </ul>

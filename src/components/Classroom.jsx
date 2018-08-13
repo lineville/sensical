@@ -68,10 +68,6 @@ class Classroom extends Component {
               />
             </Grid>
           </Grid>
-          {/* <Canvas
-            whiteboardId={this.state.whiteboardId}
-            roomId={this.state.roomId}
-          /> */}
         </div>
       )
     }
