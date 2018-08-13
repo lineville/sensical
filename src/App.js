@@ -16,9 +16,10 @@ const App = () => (
       <Route exact path="/login" component={Login} />
       <Route exact path="/signup" component={Signup} />
       <Route exact path="/profile" component={Profile} />
+      <Route exact path="/whiteboard" component={Canvas} />
       <Route path="/classRooms/:classRoomId" component={ClassRoom} />
       <Route path="/codeEditor/:codeEditorId" component={CodeEditor} />
-      <Route path="/whiteboards/:whiteboardId" component={Canvas} />
+      {/* <Route path="/whiteboards/:whiteboardId" component={Canvas} /> */}
     </Switch>
   </Router>
 )

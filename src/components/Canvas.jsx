@@ -31,7 +31,7 @@ class Canvas extends Component {
 
   drawToDb = (start, end, strokeColor) => {
     db.collection('whiteboards')
-      .doc('8yPyB0WTtw5EvqjbrUcB')
+      .doc(`${this.props.id}`)
       .collection('strokes')
       .add({
         start,
