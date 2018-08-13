@@ -13,9 +13,19 @@ export default class Profile extends Component {
   }
 
   async createRoom() {
-    const whiteboards = await db.collection('whiteboards').add({
-      strokes: []
-    })
+    const whiteboards = await db.collection('whiteboards').add({})
+    // const whiteboards = await db
+    //   .collection('whiteboards')
+    //   .add({})
+    //   .then(whiteboard => {
+    //     db.collection('whiteboards')
+    //       .doc(whiteboard.id)
+    //       .collection('strokes')
+    //       .add()
+    // console.log('WHITEBOARD CREATED: ', whiteboard)
+    // whiteboard.collection('strokes')
+    // })
+    // .collection('strokes')
     const fireCodes = await db.collection('fireCodes').add({
       code1: '',
       code2: ''
