@@ -49,7 +49,7 @@ export default class Profile extends Component {
         <button className="float-right" onClick={this.createRoom}>
           Create Room
         </button>
-        <Rooms />
+        <Rooms history={this.props.history} />
         {/* <button className="float-right">Join Room</button> */}
       </div>
     )
