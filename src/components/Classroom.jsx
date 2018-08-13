@@ -30,19 +30,26 @@ class Classroom extends Component {
   }
 
   render() {
-    return (
-      <div className="columns">
-        <Messaging chatsId={this.state.chatsId} roomId={this.state.roomId} />
-        <CodeEditor
-          fireCodesId={this.state.fireCodesId}
-          roomId={this.state.roomId}
-        />
-        <Canvas
-          whiteboardId={this.state.whiteboardId}
-          roomId={this.state.roomId}
-        />
-      </div>
-    )
+    if (
+      this.state.fireCodesId.length &&
+      this.state.chatsId.length &&
+      this.state.whiteboardId.length
+    ) {
+      return (
+        <div className="columns">
+          <Messaging chatsId={this.state.chatsId} roomId={this.state.roomId} />
+          <CodeEditor
+            fireCodesId={this.state.fireCodesId}
+            roomId={this.state.roomId}
+          />
+          {/* <Canvas
+            whiteboardId={this.state.whiteboardId}
+            roomId={this.state.roomId}
+          /> */}
+        </div>
+      )
+    }
+    return <div />
   }
 }
 
