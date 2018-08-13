@@ -41,6 +41,11 @@ canvas {
   transform: translate(0, 0);
 }
 
+.output {
+  color: greenyellow;
+  background-color: black;
+  height: 100%;
+
 a {
   text-decoration: none;
 }
