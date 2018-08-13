@@ -18,10 +18,15 @@ class HomePage extends Component {
   constructor(props) {
     super(props)
     this.loginPush = this.loginPush.bind(this)
+    this.signupPush = this.signupPush.bind(this)
   }
 
   loginPush() {
-    this.props.history.push('/Auth')
+    this.props.history.push('/login')
+  }
+
+  signupPush() {
+    this.props.history.push('/signup')
   }
 
   render() {
@@ -35,6 +40,15 @@ class HomePage extends Component {
             className={classes.button}
           >
             SignUp
+          </Button>
+        </Link>
+        <Link to="/login">
+          <Button
+            variant="contained"
+            color="default"
+            className={classes.button}
+          >
+            Login
           </Button>
         </Link>
         <script type="text/javascript">
