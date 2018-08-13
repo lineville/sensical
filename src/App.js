@@ -5,9 +5,8 @@ import {Router, Switch, Route} from 'react-router-dom'
 import history from './history'
 import Canvas from './components/Canvas'
 import Profile from './components/Profile'
-import Classroom from './components/Classroom'
+import ClassRoom from './components/Classroom'
 import HomePage from './components/HomePage'
-
 
 const App = () => (
   <Router history={history}>

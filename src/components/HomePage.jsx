@@ -1,9 +1,22 @@
 import React, {Component} from 'react'
+import Button from '@material-ui/core/Button'
+import PropTypes from 'prop-types'
+import {withStyles} from '@material-ui/core/styles'
+import {Link} from 'react-router-dom'
 const $ = window.$
 
-export default class HomePage extends Component {
-  constructor() {
-    super()
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit
+  },
+  input: {
+    display: 'none'
+  }
+})
+
+class HomePage extends Component {
+  constructor(props) {
+    super(props)
     this.loginPush = this.loginPush.bind(this)
   }
 
@@ -12,11 +25,18 @@ export default class HomePage extends Component {
   }
 
   render() {
+    const {classes} = this.props
     return (
-      <React.Fragment>
-        <button className="float-right" onClick={this.loginPush}>
-          Login
-        </button>
+      <div>
+        <Link to="/signup">
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            SignUp
+          </Button>
+        </Link>
         <script type="text/javascript">
           $(document).ready(function()
           {window.setInterval(function() {
@@ -77,7 +97,13 @@ export default class HomePage extends Component {
             </ul>
           </div>
         </div>
-      </React.Fragment>
+      </div>
     )
   }
 }
+
+HomePage.propTypes = {
+  classes: PropTypes.object.isRequired
+}
+
+export default withStyles(styles)(HomePage)
