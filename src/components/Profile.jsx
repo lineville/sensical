@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Rooms from './Rooms'
 import db from '../firestore'
+import firebase from 'firebase'
 
 import classNames from 'classnames'
 import Avatar from '@material-ui/core/Avatar'
@@ -43,11 +44,9 @@ class Profile extends Component {
       roomId: '',
       rooms: []
     }
-    this.createRoom = this.createRoom.bind(this)
-    this.joinRoom = this.joinRoom.bind(this)
   }
 
-  async createRoom() {
+  createRoom = async () => {
     const whiteboards = await db.collection('whiteboards').add({})
     const fireCodes = await db.collection('fireCodes').add({
       code1: '',
@@ -64,6 +63,20 @@ class Profile extends Component {
     })
   }
 
+  joinRoom = async id => {
+    const currentUser = await firebase.auth().currentUser
+    console.log(currentUser.uid)
+
+    await db
+      .collection('users')
+      .doc(currentUser.uid)
+      .update({
+        [id]: true
+      })
+
+    this.props.history.push(`/classroom/${id}`)
+  }
+
   async componentDidMount() {
     await db.collection('rooms').onSnapshot(rooms => {
       let allRooms = []
@@ -77,14 +90,6 @@ class Profile extends Component {
       })
     })
   }
-
-  joinRoom(id) {
-    this.props.history.push(`/classroom/${id}`)
-  }
-
-  joinRoom() {}
-
-  changePassword() {}
 
   render() {
     const {classes, filter, className, style, small} = this.props
@@ -105,7 +110,6 @@ class Profile extends Component {
             backgroundImage: 'url(' + image + ')'
           }}
         >
-          {/* <div className={classes.row}> */}
           <Avatar
             alt="Pinto Bean"
             src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12234109/Dachshund-On-White-03.jpg"
@@ -117,7 +121,6 @@ class Profile extends Component {
             Change Password
           </Button>
         </div>
-        {/* </div> */}
         <h1>Available Rooms</h1>
         <Button onClick={this.createRoom} size="small" color="default">
           Create Room
