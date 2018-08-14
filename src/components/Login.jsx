@@ -1,30 +1,32 @@
 import firebase from 'firebase'
 import React, {Component} from 'react'
-import '../App.css'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
 import FormControl from '@material-ui/core/FormControl'
 import purple from '@material-ui/core/colors/purple'
 import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
 
 const styles = theme => ({
   container: {
-    display: 'flex',
     flexWrap: 'wrap',
-    textAlign: 'center'
+    textAlign: 'center',
+    position: 'relative',
+    display: 'block',
+    width: '100%'
   },
   margin: {
     margin: theme.spacing.unit
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200
   },
   cssLabel: {
     '&$cssFocused': {
       color: purple[500]
     }
-  },
-  button: {
-    margin: theme.spacing.unit
   },
   cssFocused: {},
   cssUnderline: {
@@ -62,9 +64,6 @@ const styles = theme => ({
       borderColor: '#80bdff',
       boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
     }
-  },
-  bootstrapFormLabel: {
-    fontSize: 18
   }
 })
 
@@ -85,31 +84,26 @@ class Login extends Component {
     })
   }
 
-  async handleLogin(event) {
+  async handleLogin() {
     try {
-      const user = await firebase
+      await firebase
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
-      console.log('logged in', user)
-      this.props.history.push('/Profile')
+      this.props.history.push('/profile')
     } catch (error) {
-      var errorCode = error.code
-      var errorMessage = error.message
+      let errorCode = error.code
       if (errorCode === 'auth/weak-password') {
         alert('The password is too weak.')
-      } else {
-        alert(errorMessage)
       }
-      console.log(error)
+      console.error(error)
     }
   }
 
   async handleLogout() {
     try {
       await firebase.auth().signOut()
-      console.log('logged out')
+      this.props.history.push('/')
     } catch (error) {
-      console.log('could not log out')
       console.error(error)
     }
   }
@@ -119,51 +113,30 @@ class Login extends Component {
     return (
       <div className={classes.container}>
         <FormControl className={classes.margin}>
-          <InputLabel
-            FormLabelClasses={{
-              root: classes.cssLabel,
-              focused: classes.cssFocused
-            }}
-            htmlFor="email"
-          >
-            Email
-          </InputLabel>
-          <Input
+          <TextField
+            id="email-input"
             name="email"
-            placeholder="email"
+            placeholder="Email"
+            label="Email"
+            className={classes.textField}
+            type="email"
+            margin="normal"
             onChange={this.handleChange}
-            classes={{
-              underline: classes.cssUnderline
-            }}
-            id="email"
           />
         </FormControl>
         <FormControl className={classes.margin}>
-          <InputLabel
-            FormLabelClasses={{
-              root: classes.cssLabel,
-              focused: classes.cssFocused
-            }}
-            htmlFor="password"
-          >
-            Password
-          </InputLabel>
-          <Input
+          <TextField
+            id="password-input"
+            label="Password"
             name="password"
-            placeholder="password"
+            className={classes.textField}
             onChange={this.handleChange}
-            classes={{
-              underline: classes.cssUnderline
-            }}
-            id="password"
+            type="password"
+            autoComplete="current-password"
+            margin="normal"
           />
         </FormControl>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          onClick={this.handleLogin}
-        >
+        <Button variant="contained" color="primary" onClick={this.handleLogin}>
           Login
         </Button>
       </div>

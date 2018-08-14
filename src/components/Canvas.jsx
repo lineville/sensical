@@ -3,9 +3,7 @@ import db from '../firestore'
 
 class Canvas extends Component {
   constructor() {
-    // console.log('CONSTRUCTOR RAN')
     super()
-
     this.state = {
       strokes: null
     }
@@ -27,11 +25,20 @@ class Canvas extends Component {
   }
 
   // Color picker settings
-  colors = ['black', 'purple', 'red', 'green', 'orange', 'yellow', 'brown']
+  colors = [
+    '#000000',
+    '#ff1000',
+    '#380566',
+    '#1d00ff',
+    '#a31149',
+    '#30a300',
+    '#40d6c9',
+    '#fffc51'
+  ]
 
   drawToDb = (start, end, strokeColor) => {
     db.collection('whiteboards')
-      .doc('8yPyB0WTtw5EvqjbrUcB')
+      .doc(`${this.props.whiteboardId}`)
       .collection('strokes')
       .add({
         start,
@@ -154,7 +161,7 @@ class Canvas extends Component {
   componentDidMount() {
     let strokesArray = []
     db.collection('whiteboards')
-      .doc('8yPyB0WTtw5EvqjbrUcB')
+      .doc(`${this.props.whiteboardId}`)
       .collection('strokes')
       // .limit(10)
       .onSnapshot(strokes => {
@@ -163,17 +170,7 @@ class Canvas extends Component {
         })
         this.setState({strokes: strokesArray})
       })
-    // strokesArray = await db
-    //   .collection('whiteboards')
-    //   .doc('8yPyB0WTtw5EvqjbrUcB')
-    //   .collection('strokes')
-    //   // .limit(10)
-    //   .get()
-    // console.log(strokesArray)
-
-    // this.setState({strokes: strokesArray})
-
-    document.addEventListener('DOMContentLoaded', this.setup)
+    this.setup()
   }
 
   render() {
@@ -190,12 +187,10 @@ class Canvas extends Component {
 
     return (
       <div id="whiteboard">
-        <h1>WHITE BOARD</h1>
-        <div id="whiteboard-canvas">
-          <h1>Canvas</h1>
-        </div>
+        <div id="whiteboard-canvas" />
       </div>
     )
   }
 }
+
 export default Canvas

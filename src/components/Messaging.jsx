@@ -2,7 +2,28 @@ import React, {Component} from 'react'
 import db from '../firestore'
 import Message from './Message'
 
-export default class Messaging extends Component {
+import PropTypes from 'prop-types'
+import {withStyles} from '@material-ui/core/styles'
+import classNames from 'classnames'
+import Button from '@material-ui/core/Button'
+import Icon from '@material-ui/core/Icon'
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
+  },
+  iconSmall: {
+    fontSize: 20
+  }
+})
+
+export class Messaging extends Component {
   constructor() {
     super()
     this.state = {
@@ -41,7 +62,7 @@ export default class Messaging extends Component {
       .doc(this.props.chatsId)
       .collection('messages')
       .add({
-        user: 'figneutron',
+        user: 'figneutron', //hardcoded for now
         text: this.state.newMessage,
         timestamp: new Date().toUTCString()
       })
@@ -51,6 +72,7 @@ export default class Messaging extends Component {
   }
 
   render() {
+    const {classes} = this.props
     return (
       <div id="messages" className="column modal-card is=flex">
         <p className="modal-card-title">Class Chat</p>
@@ -67,11 +89,27 @@ export default class Messaging extends Component {
             value={this.state.newMessage}
             onChange={this.handleChange}
           />
-          <button className="button is-outlined is-primary" type="submit">
+
+          <Button
+            type="submit"
+            size="small"
+            variant="outlined"
+            color="primary"
+            className={classes.button}
+          >
             Send
-          </button>
+            <Icon className={classNames(classes.rightIcon, classes.iconSmall)}>
+              send
+            </Icon>
+          </Button>
         </form>
       </div>
     )
   }
 }
+
+Messaging.propTypes = {
+  classes: PropTypes.object.isRequired
+}
+
+export default withStyles(styles)(Messaging)

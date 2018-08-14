@@ -8,7 +8,10 @@
 
 ### Install
 
-`git clone https://github.com/Capstone1806/fig`
-`cd fig`
-`npm install`
-`npm start`
+- `git clone https://github.com/Capstone1806/fig`
+
+- `cd fig`
+
+- `npm install`
+
+- `npm start`

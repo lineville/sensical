@@ -3,44 +3,259 @@ body {
   padding: 0;
   /* background-image: linear-gradient(120deg, #011521 0%, #3a0d27 100%); */
   height: 100vh;
-  font-family: sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 200;
 }
 
 canvas {
-  position: absolute;
+  position: static;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
 
+#whiteboard-canvas {
+  width: 100%;
+  height: 30%;
+}
+
 .color-selector {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: none;
   display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
+  justify-content: space-between;
+  bottom: 0px;
 }
 
 .marker {
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
+  margin: 0;
   box-sizing: border-box;
-  border-radius: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  transition: box-shadow 113ms, transform 113ms;
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
-  transform: translate(-3px, -3px);
-}
-
-.marker:first-of-type {
-  margin-top: 0;
+  transition: box-shadow 113ms, transform 100ms;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  transform: translate(-1px, -1px);
 }
 
 .marker.selected {
   box-shadow: none;
   transform: translate(0, 0);
+}
+
+.output {
+  color: greenyellow;
+  background-color: black;
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+label {
+  display: block;
+}
+
+nav a {
+  display: inline-block;
+  margin: 1em;
+}
+
+form div {
+  margin: 1em;
+  display: inline-block;
+}
+
+.btn-primary.raised {
+  box-shadow: 0 3px 0 0 #007299;
+}
+
+.btn-primary.raised:active,
+.btn-primary.raised.active {
+  background: #33a6cc;
+  box-shadow: none;
+  margin-bottom: -3px;
+  margin-top: 3px;
+}
+
+.btn {
+  padding: 14px 15px;
+  border: 0 none;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus {
+  outline: 0 none;
+}
+
+.btn-primary {
+  background: #0099cc;
+  color: #ffffff;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  background: #33a6cc;
+}
+.btn-primary:active,
+.btn-primary.active {
+  background: #007299;
+  box-shadow: none;
+}
+
+.form {
+  background: rgba(26, 145, 89, 0.9);
+  padding: 40px;
+  max-width: 390px;
+  margin: 40px auto;
+  border-radius: 4px;
+  box-shadow: 0 5px 10px 5px rgba(26, 145, 89, 0.3);
+}
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.input-box {
+  width: 280px;
+  height: 45px;
+}
+.input-text {
+  font-size: 20px;
+  color: white;
+}
+.btn-login {
+  width: 280px;
+  height: 45px;
+  color: white;
+  background-color: rgba(14, 82, 50, 0.9);
+  font-size: 17px;
+}
+
+.btn-info {
+  width: 280px;
+  height: 45px;
+  margin-left: 13px;
+  font-size: 14px;
+}
+.form-title {
+  font-size: 24px;
+  color: white;
+  padding: 13px;
+  text-align: center;
+}
+
+/* Slideshow */
+html,
+body,
+div,
+span,
+i,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+body {
+  line-height: 1;
+}
+ul {
+  list-style: none;
+}
+.slidelist .image1 {
+  background-image: url(https://stefanik.house.gov/sites/stefanik.house.gov/files/styles/congress_featured_image/public/featured_image/issues/Education-OpportunitySmall.jpg?itok=BgzAqDM6);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+}
+.slidelist .image2 {
+  background-image: url(https://o.aolcdn.com/images/dims3/GLOB/legacy_thumbnail/630x315/format/jpg/quality/85/http%3A%2F%2Fo.aolcdn.com%2Fhss%2Fstorage%2Fadam%2Fd9713f0ed571f56d064a7cab6d11136d%2F143176813.jpeg);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+}
+
+.slidelist .image3 {
+  background-image: url(https://cdn.maximumyield.com/images/uploads/soil-flora-food-plant-produce-turnip-vegetable-sprout-radish-fungus.jpg?height=580&width=940&mode=crop);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+}
+.slidelist .image4 {
+  background-image: url(https://edtechmagazine.com/k12/sites/edtechmagazine.com.k12/files/styles/cdw_hero/public/articles/EdTech/201709/%20AndreyPopov_virtual%20teachers.jpg?itok=kGHWSKCi);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+}
+.slidelist .image5 {
+  background-image: url(http://hattatklinik.com/wp-content/uploads/2018/03/Teknoloji-%C4%B0ngilizcesi6.jpg);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+}
+
+.slide {
+  display: none;
+  width: 100%;
+  height: 500px;
+  position: absolute;
+}
+
+.open {
+  display: block;
+}
+
+.bottomButton {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  top: 540px;
+}
+.bottomButton li {
+  display: inline-block;
+  margin: 0 5px;
+}
+.bottomButton li i {
+  color: #fff;
+  font-size: 15px;
+}
+.select {
+  background-color: #fff;
+  border-radius: 100%;
+  opacity: 0.8;
+}
+
+/* Home */
+.brand-name {
+  font-size: 64px;
+  font-family: Comic Sans MS;
+  color: rgb(41, 40, 40);
+  text-align: center;
+  margin-top: 555px;
+}
+
+.brand-name {
+  margin: 30px;
+  padding: 30px;
+  border: 1px solid #ccc;
+  font-size: x-large;
+  line-height: 1.5em;
+  text-align: justify;
+  letter-spacing: 4px;
+  text-align: center;
 }
