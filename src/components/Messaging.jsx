@@ -7,7 +7,6 @@ import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import classNames from 'classnames'
 import Button from '@material-ui/core/Button'
-import Icon from '@material-ui/core/Icon'
 
 const styles = theme => ({
   button: {
@@ -30,7 +29,7 @@ export class Messaging extends Component {
     this.state = {
       messages: [],
       newMessage: '',
-      user: firebase.auth().currentUser
+      user: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -49,7 +48,12 @@ export class Messaging extends Component {
         })
         this.setState({messages: messages})
       })
-    console.log(this.state)
+    const authUser = await firebase.auth().currentUser
+    const user = await db
+      .collection('users')
+      .doc(authUser.uid)
+      .get()
+    this.setState({user: user.data().username})
   }
 
   handleChange(event) {
@@ -60,12 +64,14 @@ export class Messaging extends Component {
 
   async handleSubmit(event) {
     event.preventDefault()
+    console.log(this.state)
+
     await db
       .collection('chats')
       .doc(this.props.chatsId)
       .collection('messages')
       .add({
-        user: this.state.user.email,
+        user: this.state.user,
         text: this.state.newMessage,
         timestamp: new Date().toUTCString()
       })
