@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import CodeEditor from './CodeEditor'
 import Canvas from './Canvas'
 import Messaging from './Messaging'
-import NavMenu from './NavMenu'
 import db from '../firestore'
 import firebase from 'firebase'
 
@@ -74,7 +73,6 @@ class Classroom extends Component {
     ) {
       return (
         <div className={classes.root}>
-          <NavMenu />
           <Grid container direction="row" align-items="flex-start">
             <Grid item>
               <Card className={classes.card}>
