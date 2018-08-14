@@ -30,24 +30,24 @@ const styles = theme => ({
 
 const Rooms = props => {
   const {classes} = props
-  const joinRoom = async id => {
-    const currentUser = await firebase.auth().currentUser
-    let user = await db
-      .collection('users')
-      .doc(currentUser.uid)
-      .get()
-    let roomsArray = user.data().rooms
-    if (roomsArray.indexOf(props.id) === -1) {
-      await db
-        .collection('users')
-        .doc(currentUser.uid)
-        .update({
-          rooms: roomsArray.concat(props.id)
-        })
+  // const joinRoom = async id => {
+  //   const currentUser = await firebase.auth().currentUser
+  //   let user = await db
+  //     .collection('users')
+  //     .doc(currentUser.uid)
+  //     .get()
+  //   let roomsArray = user.data().rooms
+  //   if (roomsArray.indexOf(props.id) === -1) {
+  //     await db
+  //       .collection('users')
+  //       .doc(currentUser.uid)
+  //       .update({
+  //         rooms: roomsArray.concat(props.id)
+  //       })
 
-      props.history.push(`/classroom/${id}`)
-    }
-  }
+  //     props.history.push(`/classroom/${id}`)
+  //   }
+  // }
 
   const leaveRoom = async id => {
     const currentUser = await firebase.auth().currentUser
@@ -81,7 +81,7 @@ const Rooms = props => {
           <Typography component="p">Practice your coding here.</Typography>
         </CardContent>
         <CardActions>
-          <Button
+          {/* <Button
             variant="contained"
             color="default"
             className={classes.button}
@@ -90,7 +90,7 @@ const Rooms = props => {
             }}
           >
             Join
-          </Button>
+          </Button> */}
           <Button
             variant="contained"
             color="primary"

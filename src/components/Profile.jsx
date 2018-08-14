@@ -48,7 +48,6 @@ class Profile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      roomId: '',
       rooms: [],
       subject: '',
       user: {}
@@ -72,11 +71,28 @@ class Profile extends Component {
     const room = await db.collection('rooms').add({
       whiteboardId: whiteboards.id,
       fireCodesId: fireCodes.id,
-      chatsId: chats.id
-      // subject: this.state.subject
+      chatsId: chats.id,
+      subject: this.state.subject
     })
+
+    const currentUser = await firebase.auth().currentUser
+    let user = await db
+      .collection('users')
+      .doc(currentUser.uid)
+      .get()
+    let roomsArray = user.data().rooms
+    if (roomsArray.indexOf(room.id) === -1) {
+      await db
+        .collection('users')
+        .doc(currentUser.uid)
+        .update({
+          rooms: roomsArray.concat(room.id)
+        })
+
+      // props.history.push(`/classroom/${id}`)
+    }
+
     this.setState({
-      roomId: room.id,
       subject: ''
     })
   }
@@ -88,6 +104,11 @@ class Profile extends Component {
       .doc(authorizedUser.uid)
       .get()
 
+    let roomsArray = user.data().rooms
+    this.setState({
+      rooms: roomsArray
+    })
+
     await db
       .collection('users')
       .doc(authorizedUser.uid)
@@ -97,7 +118,6 @@ class Profile extends Component {
         })
       })
 
-    console.log('STATE: ', this.state)
     this.setState({
       user: user.data()
     })
@@ -136,6 +156,7 @@ class Profile extends Component {
         <h1>Available Rooms</h1>
         <div className={classes.cardRow}>
           {this.state.rooms.map(room => {
+            console.log('ROOM: ', room)
             return (
               <Rooms
                 key={room.id}
