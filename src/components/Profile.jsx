@@ -147,22 +147,22 @@ class Profile extends Component {
               />
             )
           })}
-          <FormControl className={classes.margin}>
-            <TextField
-              id="subject"
-              name="subject"
-              placeholder="Subject"
-              label="Subject"
-              className={classes.textField}
-              type="subject"
-              margin="normal"
-              onChange={this.handleChange}
-            />
-          </FormControl>
-          <Button onClick={this.createRoom} size="small" color="default">
-            Create Room
-          </Button>
         </div>
+        <FormControl className={classes.margin}>
+          <TextField
+            id="subject"
+            name="subject"
+            placeholder="Subject"
+            label="Subject"
+            className={classes.textField}
+            type="subject"
+            margin="normal"
+            onChange={this.handleChange}
+          />
+        </FormControl>
+        <Button onClick={this.createRoom} size="small" color="default">
+          Create Room
+        </Button>
       </React.Fragment>
     )
   }
