@@ -127,18 +127,25 @@ class NavMenu extends Component {
               fig
             </Typography>
             {/* <img src="fig.svg" alt="fig" /> */}
-            <Button color="inherit" onClick={this.loginPush}>
-              Login
-            </Button>
-            <Button color="inherit" onClick={this.signupPush}>
-              Signup
-            </Button>
-            <Button color="inherit" onClick={this.handleLogout}>
-              Logout
-            </Button>
-            <IconButton className={classes.menuButton} color="inherit">
-              <AccountCircle onClick={this.profilePush} />
-            </IconButton>
+            {firebase.auth().currentUser ? (
+              <div>
+                <Button color="inherit" onClick={this.handleLogout}>
+                  Logout
+                </Button>
+                <IconButton className={classes.menuButton} color="inherit">
+                  <AccountCircle onClick={this.profilePush} />
+                </IconButton>
+              </div>
+            ) : (
+              <div>
+                <Button color="inherit" onClick={this.loginPush}>
+                  Login
+                </Button>
+                <Button color="inherit" onClick={this.signupPush}>
+                  Signup
+                </Button>
+              </div>
+            )}
           </Toolbar>
         </AppBar>
       </div>
