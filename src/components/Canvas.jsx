@@ -38,7 +38,7 @@ class Canvas extends Component {
 
   drawToDb = (start, end, strokeColor) => {
     db.collection('whiteboards')
-      .doc(`${this.props.whiteboardId}`)
+      .doc(this.props.whiteboardId)
       .collection('strokes')
       .add({
         start,
@@ -161,7 +161,7 @@ class Canvas extends Component {
   componentDidMount() {
     let strokesArray = []
     db.collection('whiteboards')
-      .doc(`${this.props.whiteboardId}`)
+      .doc(this.props.whiteboardId)
       .collection('strokes')
       // .limit(10)
       .onSnapshot(strokes => {
