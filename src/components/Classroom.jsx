@@ -49,13 +49,6 @@ class Classroom extends Component {
       fireCodesId: '',
       chatsId: ''
     }
-    this.verifyUser = this.verifyUser.bind(this)
-  }
-
-  async verifyUser(roomId) {
-    const user = await firebase.auth().currentUser
-    console.log(user)
-    return user !== null
   }
 
   async componentDidMount() {
@@ -69,7 +62,6 @@ class Classroom extends Component {
       fireCodesId: classroom.data().fireCodesId,
       chatsId: classroom.data().chatsId
     })
-    await this.verifyUser(classroom.id)
   }
 
   render() {
@@ -77,7 +69,8 @@ class Classroom extends Component {
     if (
       this.state.fireCodesId.length &&
       this.state.chatsId.length &&
-      this.state.whiteboardId.length
+      this.state.whiteboardId.length &&
+      firebase.auth().currentUser
     ) {
       return (
         <div className={classes.root}>
