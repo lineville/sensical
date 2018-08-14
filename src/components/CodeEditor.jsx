@@ -74,6 +74,7 @@ class CodeEditor extends Component {
             value={this.state.code1}
             name="code-editor"
             tabSize={2}
+            enableBasicAutocompletion={true}
             editorProps={{$blockScrolling: true}}
           />
           <Output input={this.state.code1} />
@@ -86,6 +87,7 @@ class CodeEditor extends Component {
             value={this.state.code2}
             name="code-editor"
             tabSize={2}
+            enableBasicAutocompletion={true}
             editorProps={{$blockScrolling: true}}
           />
           <Output input={this.state.code2} />
