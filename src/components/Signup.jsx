@@ -90,8 +90,15 @@ class Signup extends Component {
     try {
       const user = await firebase
         .auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password)
-
+        .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() =>
+          firebase
+            .auth()
+            .createUserWithEmailAndPassword(
+              this.state.email,
+              this.state.password
+            )
+        )
       await db
         .collection('users')
         .doc(user.user.uid)

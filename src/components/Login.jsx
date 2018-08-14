@@ -84,11 +84,17 @@ class Login extends Component {
     })
   }
 
-  async handleLogin() {
+  handleLogin() {
     try {
-      await firebase
+      firebase
         .auth()
-        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+          return firebase
+            .auth()
+            .signInWithEmailAndPassword(this.state.email, this.state.password)
+        })
+
       this.props.history.push('/profile')
     } catch (error) {
       let errorCode = error.code

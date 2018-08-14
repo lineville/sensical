@@ -13,7 +13,6 @@ import MenuIcon from '@material-ui/icons/Menu'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
-import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 
@@ -85,19 +84,19 @@ class NavMenu extends Component {
       <div className={classes.fullList}>
         <List>
           <ListItem button>
-            <ListItemText primary="Inbox" />
+            <ListItemText primary="WhiteBoard" />
           </ListItem>
           <ListItem button>
-            <ListItemText primary="Drafts" />
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <ListItem button>
-            <ListItemText primary="Inbox" />
+            <ListItemText primary="Code Editor" />
           </ListItem>
           <ListItem button>
-            <ListItemText primary="Drafts" />
+            <ListItemText primary="Video" />
+          </ListItem>
+          <ListItem button>
+            <ListItemText primary="Notes" />
+          </ListItem>
+          <ListItem button>
+            <ListItemText primary="Chat" />
           </ListItem>
         </List>
       </div>
