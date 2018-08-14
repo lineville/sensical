@@ -50,6 +50,7 @@ class Profile extends Component {
     this.state = {
       roomId: '',
       rooms: [],
+      subject: '',
       user: {}
     }
     this.handleChange = this.handleChange.bind(this)
@@ -139,7 +140,7 @@ class Profile extends Component {
               <Rooms
                 key={room.id}
                 id={room.id}
-                subject={this.state.subject}
+                subject={room.subject}
                 joinRoom={this.joinRoom}
                 history={this.props.history}
               />
