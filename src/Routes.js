@@ -1,6 +1,6 @@
 import React from 'react'
 import CodeEditor from './components/CodeEditor'
-import {Router, Switch, Route} from 'react-router-dom'
+import {Switch, Route} from 'react-router-dom'
 import Canvas from './components/Canvas'
 import Profile from './components/Profile'
 import Classroom from './components/Classroom'
