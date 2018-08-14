@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import Message from './Message'
+import firebase from 'firebase'
 
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
@@ -28,7 +29,8 @@ export class Messaging extends Component {
     super()
     this.state = {
       messages: [],
-      newMessage: ''
+      newMessage: '',
+      user: firebase.auth().currentUser
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -47,6 +49,7 @@ export class Messaging extends Component {
         })
         this.setState({messages: messages})
       })
+    console.log(this.state)
   }
 
   handleChange(event) {
@@ -62,7 +65,7 @@ export class Messaging extends Component {
       .doc(this.props.chatsId)
       .collection('messages')
       .add({
-        user: 'figneutron', //hardcoded for now
+        user: this.state.user.email,
         text: this.state.newMessage,
         timestamp: new Date().toUTCString()
       })
