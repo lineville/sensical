@@ -102,6 +102,7 @@ class Login extends Component {
   async handleLogout() {
     try {
       await firebase.auth().signOut()
+      this.props.history.push('/')
     } catch (error) {
       console.error(error)
     }

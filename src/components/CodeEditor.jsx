@@ -40,7 +40,7 @@ class CodeEditor extends Component {
       })
   }
 
-  async componentWillUnmount() {
+  componentWillUnmount() {
     this.setState({
       code1: '',
       code2: '',
@@ -82,6 +82,7 @@ class CodeEditor extends Component {
             onChange={this.onChange1}
             value={this.state.code1}
             name="code-editor"
+            tabs="2"
             editorProps={{$blockScrolling: true}}
           />
           <Output input={this.state.code1} />
@@ -93,6 +94,7 @@ class CodeEditor extends Component {
             onChange={this.onChange2}
             value={this.state.code2}
             name="code-editor"
+            tabs="2"
             editorProps={{$blockScrolling: true}}
           />
           <Output input={this.state.code2} />

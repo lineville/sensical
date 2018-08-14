@@ -4,7 +4,6 @@ import db from '../firestore'
 class Canvas extends Component {
   constructor() {
     super()
-
     this.state = {
       strokes: null
     }
@@ -172,7 +171,6 @@ class Canvas extends Component {
         this.setState({strokes: strokesArray})
       })
     this.setup()
-    // document.addEventListener('DOMContentLoaded', this.setup)
   }
 
   render() {
@@ -194,4 +192,5 @@ class Canvas extends Component {
     )
   }
 }
+
 export default Canvas
