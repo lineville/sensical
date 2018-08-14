@@ -11,7 +11,6 @@ import {withAuth} from 'fireview'
 
 const Routes = props => {
   const isLoggedIn = props._user
-  console.log(isLoggedIn)
   return (
     <div>
       <Switch>
