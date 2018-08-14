@@ -37,20 +37,33 @@ const Rooms = props => {
       .doc(currentUser.uid)
       .get()
     let roomsArray = user.data().rooms
+    if (roomsArray.indexOf(props.id) === -1) {
+      await db
+        .collection('users')
+        .doc(currentUser.uid)
+        .update({
+          rooms: roomsArray.concat(props.id)
+        })
+
+      props.history.push(`/classroom/${id}`)
+    }
+  }
+
+  const leaveRoom = async id => {
+    const currentUser = await firebase.auth().currentUser
+    let user = await db
+      .collection('users')
+      .doc(currentUser.uid)
+      .get()
+    let roomsArray = user.data().rooms
+    let indexRoomToLeave = roomsArray.indexOf(props.id)
+    roomsArray.splice(indexRoomToLeave, 1)
     await db
       .collection('users')
       .doc(currentUser.uid)
-      //   // .update({
-      //   //   [id]: true
-      //   // })
-      //   // .set({
-      //   //   rooms: [1]
-      //   // })
       .update({
-        rooms: roomsArray.concat(props.room.id)
+        rooms: roomsArray
       })
-
-    props.history.push(`/classroom/${id}`)
   }
 
   return (
@@ -90,6 +103,7 @@ const Rooms = props => {
             variant="contained"
             color="secondary"
             className={classes.button}
+            onClick={leaveRoom}
           >
             Leave
             <DeleteIcon className={classes.rightIcon} />
