@@ -101,9 +101,6 @@ export class Messaging extends Component {
             className={classes.button}
           >
             Send
-            <Icon className={classNames(classes.rightIcon, classes.iconSmall)}>
-              send
-            </Icon>
           </Button>
         </form>
       </div>
