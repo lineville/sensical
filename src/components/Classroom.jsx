@@ -8,6 +8,8 @@ import db from '../firestore'
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Sidebar from './Sidebar'
+import Button from '@material-ui/core/Button'
+import InviteForm from './InviteForm'
 
 const styles = theme => ({
   root: {
@@ -68,6 +70,7 @@ class Classroom extends Component {
               />
             </Grid>
           </Grid>
+          <InviteForm roomId={this.state.roomId} />
         </div>
       )
     }

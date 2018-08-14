@@ -1,12 +1,13 @@
 import firebase from 'firebase'
 import React, {Component} from 'react'
-import db from '../firestore'
+import '../App.css'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
 import FormControl from '@material-ui/core/FormControl'
 import purple from '@material-ui/core/colors/purple'
 import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import db from '../firestore'
 
 const styles = theme => ({
   container: {
@@ -68,16 +69,14 @@ const styles = theme => ({
   }
 })
 
-class Signup extends Component {
-  constructor() {
-    super()
+class InviteForm extends Component {
+  constructor(props) {
+    super(props)
     this.state = {
-      username: '',
-      email: '',
-      password: ''
+      email: ''
     }
     this.handleChange = this.handleChange.bind(this)
-    this.handleSignup = this.handleSignup.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   handleChange(event) {
@@ -86,38 +85,25 @@ class Signup extends Component {
     })
   }
 
-  async handleSignup() {
-    try {
-      const user = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+  async onSubmit() {
+    const roomId = this.props.roomId
 
-      await db
-        .collection('users')
-        .doc(user.user.uid)
-        .set({
-          email: this.state.email,
-          username: this.state.username
-        })
-      //user authenticated id stored at user.uid
-      this.props.history.push('/profile')
-    } catch (error) {
-      let errorCode = error.code
-      if (errorCode === 'auth/weak-password') {
-        alert('The password is too weak.')
-      }
-      console.error(error)
-    }
-  }
+    const currentUser = await db
+      .collection(`users`)
+      .where('email', '==', `${this.state.email}`)
+      .get()
 
-  async handleLogout() {
-    try {
-      await firebase.auth().signOut()
-      console.log('logged out')
-    } catch (error) {
-      console.log('could not log out')
-      console.error(error)
-    }
+    const invitee = currentUser.docs[0].id
+
+    await db
+      .collection('users')
+      .doc(invitee)
+      .update({
+        [roomId]: true
+      })
+
+    this.setState({email: ''})
+    alert('User has been invited')
   }
 
   render() {
@@ -126,49 +112,27 @@ class Signup extends Component {
       <div className={classes.container}>
         <FormControl className={classes.margin}>
           <TextField
-            id="username-input"
-            name="username"
-            placeholder="Username"
-            label="Username"
-            className={classes.textField}
-            type="username"
-            margin="normal"
-            onChange={this.handleChange}
-          />
-        </FormControl>
-        <FormControl>
-          <TextField
             id="email-input"
             name="email"
             placeholder="Email"
             label="Email"
+            value={this.state.email || ''}
             className={classes.textField}
             type="email"
             margin="normal"
             onChange={this.handleChange}
           />
         </FormControl>
-        <FormControl className={classes.margin}>
-          <TextField
-            id="password-input"
-            label="Password"
-            name="password"
-            className={classes.textField}
-            onChange={this.handleChange}
-            type="password"
-            autoComplete="current-password"
-            margin="normal"
-          />
-        </FormControl>
-        <Button variant="contained" color="primary" onClick={this.handleSignup}>
-          Signup
+        <Button variant="contained" color="primary" onClick={this.onSubmit}>
+          Submit
         </Button>
       </div>
     )
   }
 }
-Signup.propTypes = {
+
+InviteForm.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Signup)
+export default withStyles(styles)(InviteForm)
