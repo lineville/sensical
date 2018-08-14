@@ -56,7 +56,7 @@ const Rooms = props => {
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">
             {/* <Link to={`/classroom/${props.id}`}>{props.id}</Link> */}
-            {props.id}
+            {props.subject}
           </Typography>
           <Typography component="p">Practice your coding here.</Typography>
         </CardContent>
