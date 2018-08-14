@@ -73,7 +73,7 @@ class CodeEditor extends Component {
             onChange={this.onChange1}
             value={this.state.code1}
             name="code-editor"
-            tabs="2"
+            tabSize={2}
             editorProps={{$blockScrolling: true}}
           />
           <Output input={this.state.code1} />
@@ -85,7 +85,7 @@ class CodeEditor extends Component {
             onChange={this.onChange2}
             value={this.state.code2}
             name="code-editor"
-            tabs="2"
+            tabSize={2}
             editorProps={{$blockScrolling: true}}
           />
           <Output input={this.state.code2} />
