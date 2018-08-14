@@ -1,6 +1,5 @@
 import firebase from 'firebase'
 import React, {Component} from 'react'
-import '../App.css'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import FormControl from '@material-ui/core/FormControl'
@@ -103,9 +102,8 @@ class Login extends Component {
   async handleLogout() {
     try {
       await firebase.auth().signOut()
-      console.log('logged out')
+      this.props.history.push('/')
     } catch (error) {
-      console.log('could not log out')
       console.error(error)
     }
   }
@@ -138,7 +136,12 @@ class Login extends Component {
             margin="normal"
           />
         </FormControl>
-        <Button variant="contained" color="primary" onClick={this.handleLogin}>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={this.handleLogin}
+        >
           Login
         </Button>
       </div>

@@ -48,8 +48,8 @@ class Output extends Component {
         >
           Run
         </Button>
-        <p id="terminal1">
-          >_
+        <p className="output">
+          Output: --->
           {this.state.output}
         </p>
       </div>

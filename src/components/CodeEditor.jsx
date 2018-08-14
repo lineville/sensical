@@ -40,7 +40,7 @@ class CodeEditor extends Component {
       })
   }
 
-  async componentWillUnmount() {
+  componentWillUnmount() {
     this.setState({
       code1: '',
       code2: '',
@@ -74,25 +74,27 @@ class CodeEditor extends Component {
 
   render() {
     return (
-      <div className="columns">
-        <div className="column">
+      <div>
+        <div className="">
           <AceEditor
             mode="javascript"
             theme="monokai"
             onChange={this.onChange1}
             value={this.state.code1}
             name="code-editor"
+            tabs="2"
             editorProps={{$blockScrolling: true}}
           />
           <Output input={this.state.code1} />
         </div>
-        <div className="column">
+        <div className="">
           <AceEditor
             mode="javascript"
             theme="monokai"
             onChange={this.onChange2}
             value={this.state.code2}
             name="code-editor"
+            tabs="2"
             editorProps={{$blockScrolling: true}}
           />
           <Output input={this.state.code2} />

@@ -4,7 +4,6 @@ import db from '../firestore'
 class Canvas extends Component {
   constructor() {
     super()
-
     this.state = {
       strokes: null
     }
@@ -26,7 +25,16 @@ class Canvas extends Component {
   }
 
   // Color picker settings
-  colors = ['black', 'purple', 'red', 'green', 'orange', 'yellow', 'brown']
+  colors = [
+    '#000000',
+    '#ff1000',
+    '#380566',
+    '#1d00ff',
+    '#a31149',
+    '#30a300',
+    '#40d6c9',
+    '#fffc51'
+  ]
 
   drawToDb = (start, end, strokeColor) => {
     db.collection('whiteboards')
@@ -47,7 +55,6 @@ class Canvas extends Component {
   }
 
   setup = () => {
-    console.log('SETUP CANVAS RAN')
     let classroom = document.getElementById('whiteboard-canvas')
     classroom.appendChild(this.canvas)
 
@@ -152,7 +159,6 @@ class Canvas extends Component {
   }
 
   componentDidMount() {
-    console.log('WHITEBOARD ID: ', this.props.whiteboardId)
     let strokesArray = []
     db.collection('whiteboards')
       .doc(`${this.props.whiteboardId}`)
@@ -165,7 +171,6 @@ class Canvas extends Component {
         this.setState({strokes: strokesArray})
       })
     this.setup()
-    // document.addEventListener('DOMContentLoaded', this.setup)
   }
 
   render() {
@@ -182,11 +187,10 @@ class Canvas extends Component {
 
     return (
       <div id="whiteboard">
-        <h1>WHITE BOARD</h1>
-        <h1>Canvas</h1>
         <div id="whiteboard-canvas" />
       </div>
     )
   }
 }
+
 export default Canvas
