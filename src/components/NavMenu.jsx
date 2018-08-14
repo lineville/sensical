@@ -48,6 +48,7 @@ class NavMenu extends Component {
     this.loginPush = this.loginPush.bind(this)
     this.signupPush = this.signupPush.bind(this)
     this.profilePush = this.profilePush.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
   }
 
   async handleLogout() {
@@ -133,7 +134,7 @@ class NavMenu extends Component {
             <Button color="inherit" onClick={this.signupPush}>
               Signup
             </Button>
-            <Button color="inherit" onClick={this.logout}>
+            <Button color="inherit" onClick={this.handleLogout}>
               Logout
             </Button>
             <IconButton className={classes.menuButton} color="inherit">

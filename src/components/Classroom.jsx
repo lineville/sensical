@@ -4,6 +4,7 @@ import Canvas from './Canvas'
 import Messaging from './Messaging'
 import NavMenu from './NavMenu'
 import db from '../firestore'
+import firebase from 'firebase'
 
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
@@ -48,6 +49,13 @@ class Classroom extends Component {
       fireCodesId: '',
       chatsId: ''
     }
+    this.verifyUser = this.verifyUser.bind(this)
+  }
+
+  async verifyUser(roomId) {
+    const user = await firebase.auth().currentUser
+    console.log(user)
+    return user !== null
   }
 
   async componentDidMount() {
@@ -61,6 +69,7 @@ class Classroom extends Component {
       fireCodesId: classroom.data().fireCodesId,
       chatsId: classroom.data().chatsId
     })
+    await this.verifyUser(classroom.id)
   }
 
   render() {
