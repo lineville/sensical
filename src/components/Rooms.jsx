@@ -52,21 +52,20 @@ const Rooms = props => {
         />
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">
-            {props.id}
+            {props.subject}
           </Typography>
           <Typography component="p">Practice your coding here.</Typography>
         </CardContent>
         <CardActions>
           <Button
             variant="contained"
-            color="secondary"
+            color="default"
             className={classes.button}
             onClick={() => {
               joinRoom(props.id)
             }}
           >
             Join
-            <DeleteIcon className={classes.rightIcon} />
           </Button>
           <Button
             variant="contained"

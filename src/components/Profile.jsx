@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Rooms from './Rooms'
 import db from '../firestore'
+import firebase from 'firebase'
 
 import classNames from 'classnames'
 import Avatar from '@material-ui/core/Avatar'
@@ -48,7 +49,9 @@ class Profile extends Component {
     super(props)
     this.state = {
       roomId: '',
-      rooms: []
+      rooms: [],
+      subject: '',
+      user: {}
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -73,7 +76,8 @@ class Profile extends Component {
       subject: this.state.subject
     })
     this.setState({
-      roomId: room.id
+      roomId: room.id,
+      subject: ''
     })
   }
 
@@ -89,6 +93,15 @@ class Profile extends Component {
         rooms: allRooms
       })
     })
+    const authorizedUser = await firebase.auth().currentUser
+    const user = await db
+      .collection('users')
+      .doc(authorizedUser.uid)
+      .get()
+    this.setState({
+      user: user.data()
+    })
+    console.log(this.state.user)
   }
 
   render() {
@@ -115,8 +128,8 @@ class Profile extends Component {
             src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12234109/Dachshund-On-White-03.jpg"
             className={classNames(classes.avatar, classes.bigAvatar)}
           />
-          <h1>Email address:</h1>
-          <h2>hardcoded@email.com</h2>
+          <h1>Welcome {this.state.user.username}!</h1>
+          <h2>Email: {this.state.user.email}</h2>
           <Button size="small" color="primary">
             Change Password
           </Button>
@@ -128,28 +141,28 @@ class Profile extends Component {
               <Rooms
                 key={room.id}
                 id={room.id}
-                subject={this.state.subject}
+                subject={room.subject}
                 joinRoom={this.joinRoom}
                 history={this.props.history}
               />
             )
           })}
-          <FormControl className={classes.margin}>
-            <TextField
-              id="subject"
-              name="subject"
-              placeholder="Subject"
-              label="Subject"
-              className={classes.textField}
-              type="subject"
-              margin="normal"
-              onChange={this.handleChange}
-            />
-          </FormControl>
-          <Button onClick={this.createRoom} size="small" color="default">
-            Create Room
-          </Button>
         </div>
+        <FormControl className={classes.margin}>
+          <TextField
+            id="subject"
+            name="subject"
+            placeholder="Subject"
+            label="Subject"
+            className={classes.textField}
+            type="subject"
+            margin="normal"
+            onChange={this.handleChange}
+          />
+        </FormControl>
+        <Button onClick={this.createRoom} size="small" color="default">
+          Create Room
+        </Button>
       </React.Fragment>
     )
   }
