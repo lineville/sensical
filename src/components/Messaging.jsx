@@ -62,7 +62,7 @@ export class Messaging extends Component {
       .doc(this.props.chatsId)
       .collection('messages')
       .add({
-        user: 'figneutron',
+        user: 'figneutron', //hardcoded for now
         text: this.state.newMessage,
         timestamp: new Date().toUTCString()
       })

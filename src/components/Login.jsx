@@ -102,9 +102,8 @@ class Login extends Component {
   async handleLogout() {
     try {
       await firebase.auth().signOut()
-      console.log('logged out')
+      this.props.history.push('/')
     } catch (error) {
-      console.log('could not log out')
       console.error(error)
     }
   }

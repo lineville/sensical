@@ -3,7 +3,6 @@ import CodeEditor from './CodeEditor'
 import Canvas from './Canvas'
 import Messaging from './Messaging'
 import NavMenu from './NavMenu'
-import {withRouter} from 'react-router-dom'
 import db from '../firestore'
 
 import PropTypes from 'prop-types'
@@ -129,4 +128,4 @@ Classroom.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(withRouter(Classroom))
+export default withStyles(styles)(Classroom)

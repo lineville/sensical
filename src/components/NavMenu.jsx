@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
+import firebase from 'firebase'
 
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
@@ -47,7 +48,15 @@ class NavMenu extends Component {
     this.loginPush = this.loginPush.bind(this)
     this.signupPush = this.signupPush.bind(this)
     this.profilePush = this.profilePush.bind(this)
-    console.log(this.props)
+  }
+
+  async handleLogout() {
+    try {
+      await firebase.auth().signOut()
+      this.props.history.push('/')
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   loginPush() {
@@ -123,6 +132,9 @@ class NavMenu extends Component {
             </Button>
             <Button color="inherit" onClick={this.signupPush}>
               Signup
+            </Button>
+            <Button color="inherit" onClick={this.logout}>
+              Logout
             </Button>
             <IconButton className={classes.menuButton} color="inherit">
               <AccountCircle onClick={this.profilePush} />
