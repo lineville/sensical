@@ -5,13 +5,14 @@ import firebase from 'firebase'
 
 import classNames from 'classnames'
 import Avatar from '@material-ui/core/Avatar'
-import {withStyles} from '../../node_modules/@material-ui/core'
+import {withStyles, TextField} from '../../node_modules/@material-ui/core'
+import FormControl from '@material-ui/core/FormControl'
 import Button from '@material-ui/core/Button'
 import CardMedia from '@material-ui/core/CardMedia'
 import Card from '@material-ui/core/Card'
 import parallaxStyle from '../styles/parallaxStyle'
 
-const styles = {
+const styles = theme => ({
   row: {
     display: 'flex',
     justifyContent: 'center'
@@ -30,12 +31,20 @@ const styles = {
   card: {
     maxWidth: 345
   },
+  margin: {
+    margin: theme.spacing.unit
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200
+  },
   media: {
     height: 0,
     paddingTop: '56.25%' // 16:9
   },
   ...parallaxStyle
-}
+})
 
 class Profile extends Component {
   constructor(props) {
@@ -44,6 +53,13 @@ class Profile extends Component {
       roomId: '',
       rooms: []
     }
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
   }
 
   createRoom = async () => {
@@ -56,7 +72,8 @@ class Profile extends Component {
     const room = await db.collection('rooms').add({
       whiteboardId: whiteboards.id,
       fireCodesId: fireCodes.id,
-      chatsId: chats.id
+      chatsId: chats.id,
+      subject: this.state.subject
     })
     this.setState({
       roomId: room.id
@@ -122,21 +139,34 @@ class Profile extends Component {
           </Button>
         </div>
         <h1>Available Rooms</h1>
-        <Button onClick={this.createRoom} size="small" color="default">
-          Create Room
-        </Button>
         <div className={classes.cardRow}>
           {this.state.rooms.map(room => {
             return (
               <Rooms
                 key={this.state.rooms.indexOf(room)}
                 id={room.id}
+                subject={this.state.subject}
                 joinRoom={this.joinRoom}
                 history={this.props.history}
               />
             )
           })}
           {/* <Rooms history={this.props.history} /> */}
+          <FormControl className={classes.margin}>
+            <TextField
+              id="subject"
+              name="subject"
+              placeholder="Subject"
+              label="Subject"
+              className={classes.textField}
+              type="subject"
+              margin="normal"
+              onChange={this.handleChange}
+            />
+          </FormControl>
+          <Button onClick={this.createRoom} size="small" color="default">
+            Create Room
+          </Button>
         </div>
       </React.Fragment>
     )
