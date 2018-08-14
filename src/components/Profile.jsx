@@ -76,7 +76,8 @@ class Profile extends Component {
       subject: this.state.subject
     })
     this.setState({
-      roomId: room.id
+      roomId: room.id,
+      subject: ''
     })
   }
 
