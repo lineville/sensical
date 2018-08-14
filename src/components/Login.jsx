@@ -136,7 +136,12 @@ class Login extends Component {
             margin="normal"
           />
         </FormControl>
-        <Button variant="contained" color="primary" onClick={this.handleLogin}>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={this.handleLogin}
+        >
           Login
         </Button>
       </div>

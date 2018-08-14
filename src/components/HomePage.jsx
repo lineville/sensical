@@ -1,33 +1,9 @@
 import React from 'react'
-import Button from '@material-ui/core/Button'
-import PropTypes from 'prop-types'
-import {withStyles} from '@material-ui/core/styles'
-import {Link} from 'react-router-dom'
 const $ = window.$
 
-const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit
-  },
-  input: {
-    display: 'none'
-  }
-})
-
-const HomePage = props => {
-  const {classes} = props
+const HomePage = () => {
   return (
     <div>
-      <Link to="/signup">
-        <Button variant="contained" color="primary" className={classes.button}>
-          SignUp
-        </Button>
-      </Link>
-      <Link to="/login">
-        <Button variant="contained" color="default" className={classes.button}>
-          Login
-        </Button>
-      </Link>
       <div className="brand-name">Fig - "Let Knowledge Grow."</div>
       <div className="slidelist">
         <div className="slide open" style={{left: '-100%'}}>
@@ -92,8 +68,4 @@ $(document).ready(function() {
   }, 7000)
 })
 
-HomePage.propTypes = {
-  classes: PropTypes.object.isRequired
-}
-
-export default withStyles(styles)(HomePage)
+export default HomePage

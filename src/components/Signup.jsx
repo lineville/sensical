@@ -159,7 +159,12 @@ class Signup extends Component {
             margin="normal"
           />
         </FormControl>
-        <Button variant="contained" color="primary" onClick={this.handleSignup}>
+        <Button
+          variant="contained"
+          type="submit"
+          color="primary"
+          onClick={this.handleSignup}
+        >
           Signup
         </Button>
       </div>

@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import CodeEditor from './CodeEditor'
 import Canvas from './Canvas'
 import Messaging from './Messaging'
-import NavMenu from './NavMenu'
 import db from '../firestore'
+import firebase from 'firebase'
 
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
@@ -68,11 +68,11 @@ class Classroom extends Component {
     if (
       this.state.fireCodesId.length &&
       this.state.chatsId.length &&
-      this.state.whiteboardId.length
+      this.state.whiteboardId.length &&
+      firebase.auth().currentUser
     ) {
       return (
         <div className={classes.root}>
-          <NavMenu />
           <Grid container direction="row" align-items="flex-start">
             <Grid item>
               <Card className={classes.card}>
