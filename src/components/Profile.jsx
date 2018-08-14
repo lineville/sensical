@@ -124,7 +124,7 @@ class Profile extends Component {
         >
           <Avatar
             alt="Pinto Bean"
-            src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12234109/Dachshund-On-White-03.jpg"
+            src="http://blogs.staffs.ac.uk/student-blogs/files/2016/08/iStock_28423686_MEDIUM.jpg"
             className={classNames(classes.avatar, classes.bigAvatar)}
           />
           <h1>Welcome {this.state.user.username}!</h1>

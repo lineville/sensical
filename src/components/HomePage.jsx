@@ -1,10 +1,10 @@
 import React from 'react'
-const $ = window.$
+import $ from 'jquery'
 
 const HomePage = () => {
   return (
     <div>
-      <div className="brand-name">Fig - "Let Knowledge Grow."</div>
+      <div className="brand-name">Fig - Let Knowledge Grow.</div>
       <div className="slidelist">
         <div className="slide open" style={{left: '-100%'}}>
           <span className="image1" />
