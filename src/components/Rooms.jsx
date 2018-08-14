@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
+import db from '../firestore'
+import firebase from 'firebase'
 
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -30,6 +32,19 @@ const styles = theme => ({
 
 const Rooms = props => {
   const {classes} = props
+  const joinRoom = async id => {
+    const currentUser = await firebase.auth().currentUser
+    console.log('USER ID: ', currentUser.uid)
+
+    await db
+      .collection('users')
+      .doc(currentUser.uid)
+      .update({
+        [id]: true
+      })
+
+    props.history.push(`/classroom/${id}`)
+  }
   return (
     <React.Fragment>
       <Card className={classes.card}>
@@ -40,11 +55,23 @@ const Rooms = props => {
         />
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">
-            <Link to={`/classroom/${props.id}`}>{props.id}</Link>
+            {/* <Link to={`/classroom/${props.id}`}>{props.id}</Link> */}
+            {props.id}
           </Typography>
           <Typography component="p">Practice your coding here.</Typography>
         </CardContent>
         <CardActions>
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+            onClick={() => {
+              joinRoom(props.id)
+            }}
+          >
+            Join
+            <DeleteIcon className={classes.rightIcon} />
+          </Button>
           <Button
             variant="contained"
             color="primary"

@@ -63,19 +63,19 @@ class Profile extends Component {
     })
   }
 
-  joinRoom = async id => {
-    const currentUser = await firebase.auth().currentUser
-    console.log(currentUser.uid)
+  // joinRoom = async id => {
+  //   const currentUser = await firebase.auth().currentUser
+  //   console.log(currentUser.uid)
 
-    await db
-      .collection('users')
-      .doc(currentUser.uid)
-      .update({
-        [id]: true
-      })
+  //   await db
+  //     .collection('users')
+  //     .doc(currentUser.uid)
+  //     .update({
+  //       [id]: true
+  //     })
 
-    this.props.history.push(`/classroom/${id}`)
-  }
+  //   this.props.history.push(`/classroom/${id}`)
+  // }
 
   async componentDidMount() {
     await db.collection('rooms').onSnapshot(rooms => {
@@ -127,9 +127,16 @@ class Profile extends Component {
         </Button>
         <div className={classes.cardRow}>
           {this.state.rooms.map(room => {
-            return <Rooms key={this.state.rooms.indexOf(room)} id={room.id} />
+            return (
+              <Rooms
+                key={this.state.rooms.indexOf(room)}
+                id={room.id}
+                joinRoom={this.joinRoom}
+                history={this.props.history}
+              />
+            )
           })}
-          <Rooms history={this.props.history} />
+          {/* <Rooms history={this.props.history} /> */}
         </div>
       </React.Fragment>
     )
