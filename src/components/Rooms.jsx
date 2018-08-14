@@ -32,16 +32,27 @@ const Rooms = props => {
   const {classes} = props
   const joinRoom = async id => {
     const currentUser = await firebase.auth().currentUser
-
+    let user = await db
+      .collection('users')
+      .doc(currentUser.uid)
+      .get()
+    let roomsArray = user.data().rooms
     await db
       .collection('users')
       .doc(currentUser.uid)
+      //   // .update({
+      //   //   [id]: true
+      //   // })
+      //   // .set({
+      //   //   rooms: [1]
+      //   // })
       .update({
-        [id]: true
+        rooms: roomsArray.concat(props.room.id)
       })
 
     props.history.push(`/classroom/${id}`)
   }
+
   return (
     <React.Fragment>
       <Card className={classes.card}>
@@ -73,7 +84,7 @@ const Rooms = props => {
             color="primary"
             className={classes.button}
           >
-            Send
+            Invite
             <ShareIcon className={classes.rightIcon} />
           </Button>
           <Button
@@ -81,7 +92,7 @@ const Rooms = props => {
             color="secondary"
             className={classes.button}
           >
-            Delete
+            Leave
             <DeleteIcon className={classes.rightIcon} />
           </Button>
         </CardActions>

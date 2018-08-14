@@ -69,8 +69,8 @@ class Profile extends Component {
     const room = await db.collection('rooms').add({
       whiteboardId: whiteboards.id,
       fireCodesId: fireCodes.id,
-      chatsId: chats.id,
-      subject: this.state.subject
+      chatsId: chats.id
+      // subject: this.state.subject
     })
     this.setState({
       roomId: room.id

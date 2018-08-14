@@ -97,7 +97,8 @@ class Signup extends Component {
         .doc(user.user.uid)
         .set({
           email: this.state.email,
-          username: this.state.username
+          username: this.state.username,
+          rooms: []
         })
       //user authenticated id stored at user.uid
       this.props.history.push('/profile')
