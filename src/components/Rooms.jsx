@@ -72,7 +72,7 @@ const Rooms = props => {
         <CardMedia
           className={classes.media}
           image="http://cdn.shopify.com/s/files/1/1091/8014/products/whiteyboard_chalkboard_grande.jpeg?v=1528698765"
-          title={props.id}
+          title={props.subject}
         />
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">

@@ -82,22 +82,22 @@ class Profile extends Component {
   }
 
   async componentDidMount() {
-    await db.collection('rooms').onSnapshot(rooms => {
-      let allRooms = []
-      rooms.docs.forEach(room => {
-        const data = room.data()
-        data.id = room.id
-        allRooms.push(data)
-      })
-      this.setState({
-        rooms: allRooms
-      })
-    })
     const authorizedUser = await firebase.auth().currentUser
     const user = await db
       .collection('users')
       .doc(authorizedUser.uid)
       .get()
+
+    await db
+      .collection('users')
+      .doc(authorizedUser.uid)
+      .onSnapshot(user => {
+        this.setState({
+          rooms: user.data().rooms
+        })
+      })
+
+    console.log('STATE: ', this.state)
     this.setState({
       user: user.data()
     })
