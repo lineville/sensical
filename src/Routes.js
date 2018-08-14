@@ -7,10 +7,10 @@ import Classroom from './components/Classroom'
 import HomePage from './components/HomePage'
 import Signup from './components/Signup'
 import Login from './components/Login'
-import firebase from 'firebase'
+import {withAuth} from 'fireview'
 
-const Routes = () => {
-  const isLoggedIn = firebase.auth().currentUser
+const Routes = props => {
+  const isLoggedIn = props._user
   return (
     <div>
       <Switch>
@@ -35,4 +35,4 @@ const Routes = () => {
   )
 }
 
-export default Routes
+export default withAuth(Routes)

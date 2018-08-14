@@ -101,7 +101,6 @@ class Profile extends Component {
     this.setState({
       user: user.data()
     })
-    console.log(this.state.user)
   }
 
   render() {

@@ -40,15 +40,6 @@ class CodeEditor extends Component {
       })
   }
 
-  componentWillUnmount() {
-    this.setState({
-      code1: '',
-      code2: '',
-      docId: '',
-      roomId: ''
-    })
-  }
-
   onChange1(value) {
     this.setState({
       code1: value

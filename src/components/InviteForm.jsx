@@ -1,4 +1,3 @@
-import firebase from 'firebase'
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
@@ -6,6 +5,7 @@ import FormControl from '@material-ui/core/FormControl'
 import purple from '@material-ui/core/colors/purple'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
+import db from '../firestore'
 
 const styles = theme => ({
   container: {
@@ -67,15 +67,14 @@ const styles = theme => ({
   }
 })
 
-class Login extends Component {
+class InviteForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: ''
+      email: ''
     }
     this.handleChange = this.handleChange.bind(this)
-    this.handleLogin = this.handleLogin.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   handleChange(event) {
@@ -84,34 +83,25 @@ class Login extends Component {
     })
   }
 
-  handleLogin() {
-    try {
-      firebase
-        .auth()
-        .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-        .then(() => {
-          return firebase
-            .auth()
-            .signInWithEmailAndPassword(this.state.email, this.state.password)
-        })
+  async onSubmit() {
+    const roomId = this.props.roomId
 
-      this.props.history.push('/profile')
-    } catch (error) {
-      let errorCode = error.code
-      if (errorCode === 'auth/weak-password') {
-        alert('The password is too weak.')
-      }
-      console.error(error)
-    }
-  }
+    const currentUser = await db
+      .collection(`users`)
+      .where('email', '==', `${this.state.email}`)
+      .get()
 
-  async handleLogout() {
-    try {
-      await firebase.auth().signOut()
-      this.props.history.push('/')
-    } catch (error) {
-      console.error(error)
-    }
+    const invitee = currentUser.docs[0].id
+
+    await db
+      .collection('users')
+      .doc(invitee)
+      .update({
+        [roomId]: true
+      })
+
+    this.setState({email: ''})
+    alert('User has been invited')
   }
 
   render() {
@@ -124,39 +114,23 @@ class Login extends Component {
             name="email"
             placeholder="Email"
             label="Email"
+            value={this.state.email || ''}
             className={classes.textField}
             type="email"
             margin="normal"
             onChange={this.handleChange}
           />
         </FormControl>
-        <FormControl className={classes.margin}>
-          <TextField
-            id="password-input"
-            label="Password"
-            name="password"
-            className={classes.textField}
-            onChange={this.handleChange}
-            type="password"
-            autoComplete="current-password"
-            margin="normal"
-          />
-        </FormControl>
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          onClick={this.handleLogin}
-        >
-          Login
+        <Button variant="contained" color="primary" onClick={this.onSubmit}>
+          Submit
         </Button>
       </div>
     )
   }
 }
 
-Login.propTypes = {
+InviteForm.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Login)
+export default withStyles(styles)(InviteForm)
