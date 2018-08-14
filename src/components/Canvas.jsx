@@ -56,7 +56,6 @@ class Canvas extends Component {
   }
 
   setup = () => {
-    console.log('SETUP CANVAS RAN')
     let classroom = document.getElementById('whiteboard-canvas')
     classroom.appendChild(this.canvas)
 
@@ -161,7 +160,6 @@ class Canvas extends Component {
   }
 
   componentDidMount() {
-    console.log('WHITEBOARD ID: ', this.props.whiteboardId)
     let strokesArray = []
     db.collection('whiteboards')
       .doc(`${this.props.whiteboardId}`)

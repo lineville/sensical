@@ -47,7 +47,6 @@ class NavMenu extends Component {
     this.loginPush = this.loginPush.bind(this)
     this.signupPush = this.signupPush.bind(this)
     this.profilePush = this.profilePush.bind(this)
-    console.log(this.props)
   }
 
   loginPush() {

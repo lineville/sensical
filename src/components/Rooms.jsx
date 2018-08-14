@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
+import React from 'react'
+// import {Link} from 'react-router-dom'
 import db from '../firestore'
 import firebase from 'firebase'
 
@@ -10,7 +10,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import Icon from '@material-ui/core/Icon'
+// import Icon from '@material-ui/core/Icon'
 import DeleteIcon from '@material-ui/icons/Delete'
 import ShareIcon from '@material-ui/icons/Share'
 
@@ -34,7 +34,6 @@ const Rooms = props => {
   const {classes} = props
   const joinRoom = async id => {
     const currentUser = await firebase.auth().currentUser
-    console.log('USER ID: ', currentUser.uid)
 
     await db
       .collection('users')

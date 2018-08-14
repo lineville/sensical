@@ -1,14 +1,14 @@
 import React, {Component} from 'react'
 import Rooms from './Rooms'
 import db from '../firestore'
-import firebase from 'firebase'
+// import firebase from 'firebase'
 
 import classNames from 'classnames'
 import Avatar from '@material-ui/core/Avatar'
 import {withStyles} from '../../node_modules/@material-ui/core'
 import Button from '@material-ui/core/Button'
-import CardMedia from '@material-ui/core/CardMedia'
-import Card from '@material-ui/core/Card'
+// import CardMedia from '@material-ui/core/CardMedia'
+// import Card from '@material-ui/core/Card'
 import parallaxStyle from '../styles/parallaxStyle'
 
 const styles = {
@@ -63,20 +63,6 @@ class Profile extends Component {
     })
   }
 
-  // joinRoom = async id => {
-  //   const currentUser = await firebase.auth().currentUser
-  //   console.log(currentUser.uid)
-
-  //   await db
-  //     .collection('users')
-  //     .doc(currentUser.uid)
-  //     .update({
-  //       [id]: true
-  //     })
-
-  //   this.props.history.push(`/classroom/${id}`)
-  // }
-
   async componentDidMount() {
     await db.collection('rooms').onSnapshot(rooms => {
       let allRooms = []
@@ -129,7 +115,7 @@ class Profile extends Component {
           {this.state.rooms.map(room => {
             return (
               <Rooms
-                key={this.state.rooms.indexOf(room)}
+                key={room.id}
                 id={room.id}
                 joinRoom={this.joinRoom}
                 history={this.props.history}

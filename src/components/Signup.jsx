@@ -113,9 +113,7 @@ class Signup extends Component {
   async handleLogout() {
     try {
       await firebase.auth().signOut()
-      console.log('logged out')
     } catch (error) {
-      console.log('could not log out')
       console.error(error)
     }
   }
