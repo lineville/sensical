@@ -117,8 +117,18 @@ class Classroom extends Component {
                 <Button>Remove</Button>
               </Card>
             </Grid>
+            <Grid item>
+              <Card className={classes.card}>
+                <CardContent>
+                  <Typography className={classes.title} color="textSecondary">
+                    Invite a Friend!
+                  </Typography>
+                  <InviteForm roomId={this.state.roomId} />
+                </CardContent>
+                <Button>Remove</Button>
+              </Card>
+            </Grid>
           </Grid>
-          <InviteForm roomId={this.state.roomId} />
         </div>
       )
     }

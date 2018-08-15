@@ -5,6 +5,8 @@ import FormControl from '@material-ui/core/FormControl'
 import purple from '@material-ui/core/colors/purple'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
+import Snackbar from '@material-ui/core/Snackbar'
+import Notification from './Notification'
 import db from '../firestore'
 
 const styles = theme => ({
@@ -71,16 +73,25 @@ class InviteForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: ''
+      email: '',
+      open: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     })
+  }
+
+  handleClose(event, reason) {
+    if (reason === 'clickaway') {
+      return
+    }
+    this.setState({open: false})
   }
 
   async onSubmit() {
@@ -99,8 +110,6 @@ class InviteForm extends Component {
       .doc(inviteeId)
       .get()
 
-    console.log('inviteeId:', inviteeId)
-
     let roomsArray = invitedUser.data().rooms
     if (!roomsArray.includes(roomId)) {
       await db
@@ -111,8 +120,7 @@ class InviteForm extends Component {
         })
     }
 
-    this.setState({email: ''})
-    alert(`${invitee.data().username} has been invited`)
+    this.setState({email: '', open: true})
   }
 
   render() {
@@ -131,9 +139,26 @@ class InviteForm extends Component {
             onChange={this.handleChange}
           />
         </FormControl>
-        <Button variant="contained" color="primary" onClick={this.onSubmit}>
-          Invite
-        </Button>
+        <div>
+          <Button className={classes.margin} onClick={this.onSubmit}>
+            Invite
+          </Button>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left'
+            }}
+            open={this.state.open}
+            autoHideDuration={6000}
+            onClose={this.handleClose}
+          >
+            <Notification
+              onClose={this.handleClose}
+              variant="success"
+              message="This is a success message!"
+            />
+          </Snackbar>
+        </div>
       </div>
     )
   }
