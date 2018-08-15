@@ -1,7 +1,28 @@
 import React, {Component} from 'react'
-import {Test} from '../firestore'
+import firebase from 'firebase'
 
-var database = Test
+var config = {
+  apiKey: 'AIzaSyDW_69O9I0nxLViciU5UX0JkefHQxChDC8',
+  authDomain: 'figvideo-8a619.firebaseapp.com',
+  databaseURL: 'https://figvideo-8a619.firebaseio.com',
+  projectId: 'figvideo-8a619',
+  storageBucket: 'figvideo-8a619.appspot.com',
+  messagingSenderId: '654093138545'
+}
+
+try {
+  firebase.initializeApp({
+    databaseURL: 'https://figvideo-8a619.firebaseio.com'
+  })
+} catch (err) {
+  // we skip the "already exists" message which is
+  // not an actual error when we're hot-reloading
+  if (!/already exists/.test(err.message)) {
+    console.error('Firebase initialization error', err.stack)
+  }
+}
+
+var database = firebase.database().ref()
 var yourVideo = document.getElementById('yourVideo')
 var friendsVideo = document.getElementById('friendsVideo')
 var yourId = Math.floor(Math.random() * 1000000000)
@@ -55,7 +76,7 @@ function showMyFace() {
     .then(stream => pc.addStream(stream))
 }
 
-function showFriendsFace() {
+const showFriendsFace = () => {
   pc.createOffer()
     .then(offer => pc.setLocalDescription(offer))
     .then(() => sendMessage(yourId, JSON.stringify({sdp: pc.localDescription})))
@@ -73,9 +94,9 @@ export default class VideoChat extends Component {
   }
 
   stopVideo() {
-    navigator.mediaDevices.getUserMedia({audio: false, video: false})
-    // .then(stream => (yourVideo.srcObject = stream))
-    // .then(stream => pc.addStream(stream))
+    yourVideo.srcObject.getTracks().forEach(track => {
+      track.stop()
+    })
   }
 
   render() {
@@ -94,6 +115,13 @@ export default class VideoChat extends Component {
           }}
         >
           End Video
+        </button>
+        <button
+          onClick={() => {
+            showFriendsFace()
+          }}
+        >
+          call
         </button>
       </div>
     )

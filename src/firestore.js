@@ -13,10 +13,7 @@ var config = {
 firebase.initializeApp(config)
 let db = firebase.firestore()
 
-const Test = firebase.database().ref()
-
 const settings = {timestampsInSnapshots: true}
 db.settings(settings)
 
-export {Test}
 export default db
