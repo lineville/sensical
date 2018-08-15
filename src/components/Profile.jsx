@@ -115,7 +115,7 @@ class Profile extends Component {
       user: user.data()
     })
 
-    const allrooms = this.state.roomIds.map(async roomId => {
+    const allRooms = this.state.roomIds.map(async roomId => {
       let data = await db
         .collection('rooms')
         .doc(roomId)
@@ -125,7 +125,7 @@ class Profile extends Component {
         ...data.data()
       }
     })
-    const rooms = await Promise.all(allrooms)
+    const rooms = await Promise.all(allRooms)
     this.setState({rooms})
   }
 
