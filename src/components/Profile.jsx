@@ -50,7 +50,8 @@ class Profile extends Component {
     this.state = {
       rooms: [],
       subject: '',
-      user: {}
+      user: {},
+      roomIds: []
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -88,8 +89,6 @@ class Profile extends Component {
         .update({
           rooms: roomsArray.concat(room.id)
         })
-
-      // props.history.push(`/classroom/${id}`)
     }
 
     this.setState({
@@ -104,26 +103,25 @@ class Profile extends Component {
       .doc(authorizedUser.uid)
       .get()
 
-    let roomsArray = user.data().rooms
+    let roomIdsArray = user.data().rooms
     this.setState({
-      rooms: roomsArray
-    })
-
-    await db
-      .collection('users')
-      .doc(authorizedUser.uid)
-      .onSnapshot(user => {
-        this.setState({
-          rooms: user.data().rooms
-        })
-      })
-
-    this.setState({
+      roomIds: roomIdsArray,
       user: user.data()
     })
+
+    const allrooms = this.state.roomIds.map(async roomId => {
+      let data = await db
+        .collection('rooms')
+        .doc(roomId)
+        .get()
+      return data.data()
+    })
+    const rooms = await Promise.all(allrooms)
+    this.setState({rooms})
   }
 
   render() {
+    console.log('THE STATE: ', this.state)
     const {classes, filter, className, style, small} = this.props
     const image =
       'https://png.pngtree.com/element_origin_min_pic/17/01/07/217500f76b8ca08917fab435cb299f8c.jpg'
@@ -156,11 +154,10 @@ class Profile extends Component {
         <h1>Available Rooms</h1>
         <div className={classes.cardRow}>
           {this.state.rooms.map(room => {
-            console.log('ROOM: ', room)
             return (
               <Rooms
-                key={room.id}
-                id={room.id}
+                key={room}
+                // id={room.id}
                 subject={room.subject}
                 joinRoom={this.joinRoom}
                 history={this.props.history}
