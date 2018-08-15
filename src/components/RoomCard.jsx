@@ -28,7 +28,7 @@ const styles = theme => ({
   }
 })
 
-const Rooms = props => {
+const RoomCard = props => {
   const {classes} = props
   // const joinRoom = async id => {
   //   const currentUser = await firebase.auth().currentUser
@@ -113,4 +113,4 @@ const Rooms = props => {
   )
 }
 
-export default withStyles(styles)(Rooms)
+export default withStyles(styles)(RoomCard)
