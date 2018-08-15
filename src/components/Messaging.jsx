@@ -64,8 +64,6 @@ export class Messaging extends Component {
 
   async handleSubmit(event) {
     event.preventDefault()
-    console.log(this.state)
-
     await db
       .collection('chats')
       .doc(this.props.chatsId)
@@ -83,16 +81,14 @@ export class Messaging extends Component {
   render() {
     const {classes} = this.props
     return (
-      <div id="messages" className="column modal-card is=flex">
-        <p className="modal-card-title">Class Chat</p>
-        <div className="modal-card-body">
+      <div id="messages">
+        <div>
           {this.state.messages.map(message => (
             <Message key={message.id} message={message} />
           ))}
         </div>
         <form onSubmit={this.handleSubmit} className="columns modal-card-foot">
           <input
-            className="input"
             type="text"
             name="newMessage"
             value={this.state.newMessage}
