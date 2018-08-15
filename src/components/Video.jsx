@@ -65,14 +65,17 @@ export default class VideoChat extends Component {
   constructor() {
     super()
     this.startVideo = this.startVideo.bind(this)
-  }
-
-  componentDidMount() {
-    showMyFace()
+    this.stopVideo = this.stopVideo.bind(this)
   }
 
   startVideo() {
-    return showFriendsFace()
+    return showMyFace()
+  }
+
+  stopVideo() {
+    navigator.mediaDevices.getUserMedia({audio: false, video: false})
+    // .then(stream => (yourVideo.srcObject = stream))
+    // .then(stream => pc.addStream(stream))
   }
 
   render() {
@@ -80,10 +83,17 @@ export default class VideoChat extends Component {
       <div>
         <button
           onClick={() => {
-            this.startVideo
+            this.startVideo()
           }}
         >
           Play Video
+        </button>
+        <button
+          onClick={() => {
+            this.stopVideo()
+          }}
+        >
+          End Video
         </button>
       </div>
     )
