@@ -30,25 +30,50 @@ const styles = theme => ({
 
 const Rooms = props => {
   const {classes} = props
-  const joinRoom = async id => {
-    const currentUser = await firebase.auth().currentUser
+  // const joinRoom = async id => {
+  //   const currentUser = await firebase.auth().currentUser
+  //   let user = await db
+  //     .collection('users')
+  //     .doc(currentUser.uid)
+  //     .get()
+  //   let roomsArray = user.data().rooms
+  //   if (roomsArray.indexOf(props.id) === -1) {
+  //     await db
+  //       .collection('users')
+  //       .doc(currentUser.uid)
+  //       .update({
+  //         rooms: roomsArray.concat(props.id)
+  //       })
 
+  //     props.history.push(`/classroom/${id}`)
+  //   }
+  // }
+
+  const leaveRoom = async id => {
+    const currentUser = await firebase.auth().currentUser
+    let user = await db
+      .collection('users')
+      .doc(currentUser.uid)
+      .get()
+    let roomsArray = user.data().rooms
+    let indexRoomToLeave = roomsArray.indexOf(props.id)
+    roomsArray.splice(indexRoomToLeave, 1)
     await db
       .collection('users')
       .doc(currentUser.uid)
       .update({
-        [id]: true
+        rooms: roomsArray
       })
-
-    props.history.push(`/classroom/${id}`)
+    props.history.push('/profile')
   }
+
   return (
     <React.Fragment>
       <Card className={classes.card}>
         <CardMedia
           className={classes.media}
           image="http://cdn.shopify.com/s/files/1/1091/8014/products/whiteyboard_chalkboard_grande.jpeg?v=1528698765"
-          title={props.id}
+          title={props.subject}
         />
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">
@@ -57,7 +82,7 @@ const Rooms = props => {
           <Typography component="p">Practice your coding here.</Typography>
         </CardContent>
         <CardActions>
-          <Button
+          {/* <Button
             variant="contained"
             color="default"
             className={classes.button}
@@ -66,21 +91,22 @@ const Rooms = props => {
             }}
           >
             Join
-          </Button>
+          </Button> */}
           <Button
             variant="contained"
             color="primary"
             className={classes.button}
           >
-            Send
+            Invite
             <ShareIcon className={classes.rightIcon} />
           </Button>
           <Button
             variant="contained"
             color="secondary"
             className={classes.button}
+            onClick={leaveRoom}
           >
-            Delete
+            Leave
             <DeleteIcon className={classes.rightIcon} />
           </Button>
         </CardActions>

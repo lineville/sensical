@@ -48,10 +48,10 @@ class Profile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      roomId: '',
       rooms: [],
       subject: '',
-      user: {}
+      user: {},
+      roomIds: []
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -75,35 +75,62 @@ class Profile extends Component {
       chatsId: chats.id,
       subject: this.state.subject
     })
+
+    const currentUser = await firebase.auth().currentUser
+    let user = await db
+      .collection('users')
+      .doc(currentUser.uid)
+      .get()
+    let roomsArray = user.data().rooms
+    if (!roomsArray.includes(room.id)) {
+      await db
+        .collection('users')
+        .doc(currentUser.uid)
+        .update({
+          rooms: roomsArray.concat(room.id)
+        })
+    }
+
     this.setState({
-      roomId: room.id,
       subject: ''
     })
   }
 
   async componentDidMount() {
-    await db.collection('rooms').onSnapshot(rooms => {
-      let allRooms = []
-      rooms.docs.forEach(room => {
-        const data = room.data()
-        data.id = room.id
-        allRooms.push(data)
-      })
-      this.setState({
-        rooms: allRooms
-      })
-    })
     const authorizedUser = await firebase.auth().currentUser
     const user = await db
       .collection('users')
       .doc(authorizedUser.uid)
       .get()
+
+    db.collection('users')
+      .doc(authorizedUser.uid)
+      .onSnapshot(userData => {
+        this.setState({roomIds: userData.data().rooms})
+      })
+
+    let roomIdsArray = user.data().rooms || []
     this.setState({
+      roomIds: roomIdsArray,
       user: user.data()
     })
+
+    const allrooms = this.state.roomIds.map(async roomId => {
+      let data = await db
+        .collection('rooms')
+        .doc(roomId)
+        .get()
+      return {
+        id: roomId,
+        ...data.data()
+      }
+    })
+    const rooms = await Promise.all(allrooms)
+    this.setState({rooms})
   }
 
   render() {
+    console.log('THE STATE: ', this.state)
     const {classes, filter, className, style, small} = this.props
     const image =
       'https://png.pngtree.com/element_origin_min_pic/17/01/07/217500f76b8ca08917fab435cb299f8c.jpg'
