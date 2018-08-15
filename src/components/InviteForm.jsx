@@ -5,6 +5,8 @@ import FormControl from '@material-ui/core/FormControl'
 import purple from '@material-ui/core/colors/purple'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
+import Snackbar from '@material-ui/core/Snackbar'
+import Notification from './Notification'
 import db from '../firestore'
 
 const styles = theme => ({
@@ -71,10 +73,12 @@ class InviteForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: ''
+      email: '',
+      open: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   handleChange(event) {
@@ -83,25 +87,40 @@ class InviteForm extends Component {
     })
   }
 
+  handleClose(event, reason) {
+    if (reason === 'clickaway') {
+      return
+    }
+    this.setState({open: false})
+  }
+
   async onSubmit() {
     const roomId = this.props.roomId
 
-    const currentUser = await db
+    const invitee = await db
       .collection(`users`)
       .where('email', '==', `${this.state.email}`)
       .get()
 
-    const invitee = currentUser.docs[0].id
+    const inviteeId = invitee.docs[0].id
 
-    await db
+    console.log('invitee:', invitee)
+    const invitedUser = await db
       .collection('users')
-      .doc(invitee)
-      .update({
-        [roomId]: true
-      })
+      .doc(inviteeId)
+      .get()
 
-    this.setState({email: ''})
-    alert('User has been invited')
+    let roomsArray = invitedUser.data().rooms
+    if (!roomsArray.includes(roomId)) {
+      await db
+        .collection('users')
+        .doc(inviteeId)
+        .update({
+          rooms: roomsArray.concat(roomId)
+        })
+    }
+
+    this.setState({email: '', open: true})
   }
 
   render() {
@@ -112,18 +131,34 @@ class InviteForm extends Component {
           <TextField
             id="email-input"
             name="email"
-            placeholder="Email"
             label="Email"
-            value={this.state.email || ''}
+            value={this.state.email}
             className={classes.textField}
             type="email"
             margin="normal"
             onChange={this.handleChange}
           />
         </FormControl>
-        <Button variant="contained" color="primary" onClick={this.onSubmit}>
-          Submit
-        </Button>
+        <div>
+          <Button className={classes.margin} onClick={this.onSubmit}>
+            Invite
+          </Button>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left'
+            }}
+            open={this.state.open}
+            autoHideDuration={6000}
+            onClose={this.handleClose}
+          >
+            <Notification
+              onClose={this.handleClose}
+              variant="success"
+              message="This is a success message!"
+            />
+          </Snackbar>
+        </div>
       </div>
     )
   }

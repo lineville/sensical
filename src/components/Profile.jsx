@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Rooms from './Rooms'
+import RoomCard from './RoomCard'
 import db from '../firestore'
 import firebase from 'firebase'
 
@@ -164,7 +164,7 @@ class Profile extends Component {
         <div className={classes.cardRow}>
           {this.state.rooms.map(room => {
             return (
-              <Rooms
+              <RoomCard
                 key={room.id}
                 id={room.id}
                 subject={room.subject}
