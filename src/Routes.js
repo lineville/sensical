@@ -19,7 +19,6 @@ const Routes = props => {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
-        <Route exact path="/video" component={VideoChat} />
         {/* Routes that only logged in users can access */}
         {isLoggedIn && (
           <Switch>
@@ -27,6 +26,7 @@ const Routes = props => {
             <Route exact path="/whiteboard" component={Canvas} />
             <Route path="/classroom/:classroomId" component={Classroom} />
             <Route path="/codeEditor/:codeEditorId" component={CodeEditor} />
+            <Route exact path="/video" component={VideoChat} />
             <Route path="/whiteboards/:whiteboardId" component={Canvas} />
           </Switch>
         )}
