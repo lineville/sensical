@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
+import Messaging from './Messaging'
 import CodeEditor from './CodeEditor'
 import Canvas from './Canvas'
-import ModuleCard from './ModuleCard'
 import db from '../firestore'
 import firebase from 'firebase'
 
@@ -89,12 +89,10 @@ class Classroom extends Component {
         <div className={classes.root}>
           <Grid container direction="row" align-items="flex-start">
             <Grid item>
-              <ModuleCard
+              <Messaging
                 chatsId={this.state.chatsId}
                 roomId={this.state.roomId}
-              >
-                <Button>Remove</Button>
-              </ModuleCard>
+              />
             </Grid>
             <Grid item>
               <Card className={classes.card}>
