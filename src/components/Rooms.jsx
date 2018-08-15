@@ -82,16 +82,14 @@ const Rooms = props => {
           <Typography component="p">Practice your coding here.</Typography>
         </CardContent>
         <CardActions>
-          {/* <Button
+          <Button
             variant="contained"
             color="default"
             className={classes.button}
-            onClick={() => {
-              joinRoom(props.id)
-            }}
+            onClick={() => props.history.push(`/classroom/${props.id}`)}
           >
             Join
-          </Button> */}
+          </Button>
           <Button
             variant="contained"
             color="primary"

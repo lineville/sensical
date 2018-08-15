@@ -86,22 +86,33 @@ class InviteForm extends Component {
   async onSubmit() {
     const roomId = this.props.roomId
 
-    const currentUser = await db
+    const invitee = await db
       .collection(`users`)
       .where('email', '==', `${this.state.email}`)
       .get()
 
-    const invitee = currentUser.docs[0].id
+    const inviteeId = invitee.docs[0].id
 
-    await db
+    console.log('invitee:', invitee)
+    const invitedUser = await db
       .collection('users')
-      .doc(invitee)
-      .update({
-        [roomId]: true
-      })
+      .doc(inviteeId)
+      .get()
+
+    console.log('inviteeId:', inviteeId)
+
+    let roomsArray = invitedUser.data().rooms
+    if (!roomsArray.includes(roomId)) {
+      await db
+        .collection('users')
+        .doc(inviteeId)
+        .update({
+          rooms: roomsArray.concat(roomId)
+        })
+    }
 
     this.setState({email: ''})
-    alert('User has been invited')
+    alert(`${invitee.data().username} has been invited`)
   }
 
   render() {
@@ -112,9 +123,8 @@ class InviteForm extends Component {
           <TextField
             id="email-input"
             name="email"
-            placeholder="Email"
             label="Email"
-            value={this.state.email || ''}
+            value={this.state.email}
             className={classes.textField}
             type="email"
             margin="normal"
@@ -122,7 +132,7 @@ class InviteForm extends Component {
           />
         </FormControl>
         <Button variant="contained" color="primary" onClick={this.onSubmit}>
-          Submit
+          Invite
         </Button>
       </div>
     )
