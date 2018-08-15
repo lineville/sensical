@@ -13,13 +13,35 @@ import Typography from '@material-ui/core/Typography'
 
 const messagingSource = {
   beginDrag(props) {
-    return {}
+    // console.log(left, top)
+    return {props}
+  },
+  endDrag(props, monitor, component) {
+    if (!monitor.didDrop()) {
+      // console.log(getStyles(props))
+    }
+  }
+}
+
+function getStyles(props) {
+  const {left, top, isDragging} = props
+  const transform = `translate3d(${left}px, ${top}px, 0)`
+
+  return {
+    position: 'absolute',
+    transform,
+    WebkitTransform: transform,
+    // IE fallback: hide the real node using CSS when dragging
+    // because IE will ignore our custom "empty image" drag preview.
+    opacity: isDragging ? 0 : 1,
+    height: isDragging ? 0 : ''
   }
 }
 
 function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragSource(),
     isDragging: monitor.isDragging()
   }
 }
@@ -104,7 +126,7 @@ export class Messaging extends Component {
         <Card
           className={classes.card}
           style={{
-            opacity: isDragging ? 0.5 : 1,
+            opacity: isDragging ? 0.3 : 1,
             cursor: 'move'
           }}
         >

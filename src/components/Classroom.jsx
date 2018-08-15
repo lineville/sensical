@@ -17,7 +17,24 @@ import Typography from '@material-ui/core/Typography'
 import InviteForm from './InviteForm'
 
 const moduleTarget = {
-  drop(props) {}
+  canDrop(props, monitor) {
+    let sourceSubject = monitor.getItem()
+    let {subject: targetSubject} = props
+    console.log(sourceSubject, targetSubject)
+
+    return sourceSubject
+  },
+  drop(props, monitor) {
+    let {subject: targetSubject} = props
+    let sourceSubject = monitor.getItem()
+    console.log(sourceSubject, targetSubject)
+    return sourceSubject
+  }
+  // drop(props, monitor) {
+  //   let target = monitor.getItem()
+  //   let {subj: targetSubject} = props
+  //   console.log(target, props)
+  // }
 }
 
 function collect(connect, monitor) {
@@ -129,12 +146,12 @@ class Classroom extends Component {
               style={{
                 position: 'absolute',
                 top: 0,
-                left: 0,
+                right: 0,
                 height: '100%',
-                width: '100%',
+                width: '50%',
                 zIndex: 1,
-                opacity: 0.5,
-                backgroundColor: 'yellow'
+                opacity: 0.3,
+                backgroundColor: '#414654'
               }}
             />
           )}
