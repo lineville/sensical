@@ -82,7 +82,7 @@ class Profile extends Component {
       .doc(currentUser.uid)
       .get()
     let roomsArray = user.data().rooms
-    if (roomsArray.indexOf(room.id) === -1) {
+    if (!roomsArray.includes(room.id)) {
       await db
         .collection('users')
         .doc(currentUser.uid)
