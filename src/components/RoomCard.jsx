@@ -49,7 +49,7 @@ const RoomCard = props => {
   //   }
   // }
 
-  const leaveRoom = async id => {
+  const leaveRoom = async () => {
     const currentUser = await firebase.auth().currentUser
     let user = await db
       .collection('users')
