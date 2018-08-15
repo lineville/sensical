@@ -97,56 +97,66 @@ class Profile extends Component {
   }
 
   async componentDidMount() {
+    //fetch the current user
     const authorizedUser = await firebase.auth().currentUser
     const user = await db
       .collection('users')
       .doc(authorizedUser.uid)
       .get()
 
+    //set the roomIds and user data on state
+
     db.collection('users')
       .doc(authorizedUser.uid)
-      .onSnapshot(userData => {
-        this.setState({roomIds: userData.data().rooms})
+      .onSnapshot(async userData => {
+        //get all of the room objects from the roomIds
+
+        let roomsArray = []
+        await userData.data().rooms.forEach(async roomId => {
+          let data = await db
+            .collection('rooms')
+            .doc(roomId)
+            .get()
+          roomsArray.push({
+            id: roomId,
+            ...data.data()
+          })
+        })
+        //resolve all of the promises and set to state
+        // const rooms = await Promise.all(roomsArray)
+        await this.setState({roomIds: userData.data().rooms, rooms: roomsArray})
+        console.log(this.state)
+        let roomIdsArray = user.data().rooms
+        this.setState({
+          roomIds: roomIdsArray,
+          user: user.data()
+        })
       })
-
-    let roomIdsArray = user.data().rooms || []
-    this.setState({
-      roomIds: roomIdsArray,
-      user: user.data()
-    })
-
-    const allRooms = this.state.roomIds.map(async roomId => {
-      let data = await db
-        .collection('rooms')
-        .doc(roomId)
-        .get()
-      return {
-        id: roomId,
-        ...data.data()
-      }
-    })
-    const rooms = await Promise.all(allRooms)
-    this.setState({rooms})
+    //listen for changes on the user and update the rooms on state
+    // db.collection('users')
+    //   .doc(authorizedUser.uid)
+    //   .onSnapshot(userData => {
+    //     this.setState({roomIds: userData.data().rooms})
+    //     console.log(this.state.rooms)
+    //   })
   }
 
   render() {
-    console.log('THE STATE: ', this.state)
     const {classes, filter, className, style, small} = this.props
-    const image =
-      'https://png.pngtree.com/element_origin_min_pic/17/01/07/217500f76b8ca08917fab435cb299f8c.jpg'
     const parallaxClasses = classNames({
       [classes.parallax]: true,
       [classes.filter]: filter,
       [classes.small]: small,
       [className]: className !== undefined
     })
+    console.log(this.state.rooms)
     return (
       <React.Fragment>
         <div
           className={parallaxClasses}
           style={{
-            ...style,
-            backgroundImage: 'url(' + image + ')'
+            ...style
+            // backgroundImage: 'url(' + image + ')'
           }}
         >
           <Avatar
