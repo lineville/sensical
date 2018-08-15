@@ -64,6 +64,7 @@ const Rooms = props => {
       .update({
         rooms: roomsArray
       })
+    props.history.push('/profile')
   }
 
   return (

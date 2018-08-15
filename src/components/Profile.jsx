@@ -103,7 +103,13 @@ class Profile extends Component {
       .doc(authorizedUser.uid)
       .get()
 
-    let roomIdsArray = user.data().rooms
+    db.collection('users')
+      .doc(authorizedUser.uid)
+      .onSnapshot(userData => {
+        this.setState({roomIds: userData.data().rooms})
+      })
+
+    let roomIdsArray = user.data().rooms || []
     this.setState({
       roomIds: roomIdsArray,
       user: user.data()
@@ -114,7 +120,10 @@ class Profile extends Component {
         .collection('rooms')
         .doc(roomId)
         .get()
-      return data.data()
+      return {
+        id: roomId,
+        ...data.data()
+      }
     })
     const rooms = await Promise.all(allrooms)
     this.setState({rooms})
@@ -156,8 +165,8 @@ class Profile extends Component {
           {this.state.rooms.map(room => {
             return (
               <Rooms
-                key={room}
-                // id={room.id}
+                key={room.id}
+                id={room.id}
                 subject={room.subject}
                 joinRoom={this.joinRoom}
                 history={this.props.history}
