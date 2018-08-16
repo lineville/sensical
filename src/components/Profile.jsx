@@ -53,7 +53,7 @@ class Profile extends Component {
       .collection('users')
       .doc(authorizedUser.uid)
       .onSnapshot(doc => {
-        this.setState({user: doc.data()})
+        this.setState({user: {...doc.data(), id: authorizedUser.uid}})
       })
   }
 
@@ -85,7 +85,7 @@ class Profile extends Component {
             Change Password
           </Button>
         </div>
-        <RoomContainer rooms={this.state.user.rooms} />
+        <RoomContainer rooms={this.state.user.rooms} user={this.state.user} />
       </React.Fragment>
     )
   }
