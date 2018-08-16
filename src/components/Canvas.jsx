@@ -63,7 +63,7 @@ class Canvas extends Component {
   }
 
   setup = () => {
-    let classroom = document.getElementById('whiteboard-canvas')
+    const classroom = document.getElementById('whiteboard-canvas')
     classroom.appendChild(this.canvas)
 
     this.setupColorPicker()
@@ -141,19 +141,20 @@ class Canvas extends Component {
     // Set the size of the canvas and attach a listener
     // to handle resizing.
     this.resize()
-    window.addEventListener('resize', this.resize)
+    const classroom = document.getElementById('whiteboard-canvas')
+    classroom.addEventListener('resize', this.resize)
 
-    window.addEventListener('mousedown', e => {
+    classroom.addEventListener('mousedown', e => {
       this.currentMousePosition = this.pos(e)
     })
 
-    window.addEventListener('mouseup', e => {
+    classroom.addEventListener('mouseup', e => {
       if (e.target === this.canvas) {
         this.strokeToDb(this.state.curStroke)
       }
     })
 
-    window.addEventListener('mousemove', e => {
+    classroom.addEventListener('mousemove', e => {
       if (!e.buttons) return
       this.lastMousePosition = this.currentMousePosition
       this.currentMousePosition = this.pos(e)
