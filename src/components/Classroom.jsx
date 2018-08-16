@@ -20,27 +20,21 @@ const moduleTarget = {
   canDrop(props, monitor) {
     let sourceSubject = monitor.getItem()
     let {subject: targetSubject} = props
-    console.log(sourceSubject, targetSubject)
-
     return sourceSubject
   },
-  drop(props, monitor) {
+  drop(props, monitor, component) {
     let {subject: targetSubject} = props
     let sourceSubject = monitor.getItem()
-    console.log(sourceSubject, targetSubject)
-    return sourceSubject
+    let offset = monitor.getDifferenceFromInitialOffset()
+    return offset
   }
-  // drop(props, monitor) {
-  //   let target = monitor.getItem()
-  //   let {subj: targetSubject} = props
-  //   console.log(target, props)
-  // }
 }
 
 function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver()
+    isOver: monitor.isOver(),
+    clientOffset: monitor.getClientOffset()
   }
 }
 
@@ -109,49 +103,10 @@ class Classroom extends Component {
               <Messaging
                 chatsId={this.state.chatsId}
                 roomId={this.state.roomId}
+                style={this.props.style}
               />
             </Grid>
-            <Grid item>
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary">
-                    Code Editor
-                  </Typography>
-                  {/* <CodeEditor
-                    fireCodesId={this.state.fireCodesId}
-                    roomId={this.state.roomId}
-                  /> */}
-                </CardContent>
-                <Button>Remove</Button>
-              </Card>
-            </Grid>
-            <Grid item>
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary">
-                    Canvas
-                  </Typography>
-                  {/* <Canvas
-                    whiteboardId={this.state.whiteboardId}
-                    roomId={this.state.roomId}
-                  /> */}
-                </CardContent>
-                <Button>Remove</Button>
-              </Card>
-            </Grid>
-            <Grid item>
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary">
-                    Invite a Friend!
-                  </Typography>
-                  <InviteForm roomId={this.state.roomId} />
-                </CardContent>
-                <Button>Remove</Button>
-              </Card>
-            </Grid>
           </Grid>
-          <InviteForm roomId={this.state.roomId} />
           {isOver && (
             <div
               style={{
@@ -159,7 +114,7 @@ class Classroom extends Component {
                 top: 0,
                 right: 0,
                 height: '100%',
-                width: '50%',
+                width: '100%',
                 zIndex: 1,
                 opacity: 0.3,
                 backgroundColor: '#414654'
@@ -168,6 +123,73 @@ class Classroom extends Component {
           )}
         </div>
       )
+
+      // return connectDropTarget(
+      //   <div className={classes.root}>
+      //     <Grid container direction="row" align-items="flex-start">
+      //       <Grid item>
+      //         <Messaging
+      //           chatsId={this.state.chatsId}
+      //           roomId={this.state.roomId}
+      //         />
+      //       </Grid>
+      //       <Grid item>
+      //         <Card className={classes.card}>
+      //           <CardContent>
+      //             <Typography className={classes.title} color="textSecondary">
+      //               Code Editor
+      //             </Typography>
+      //             {/* <CodeEditor
+      //               fireCodesId={this.state.fireCodesId}
+      //               roomId={this.state.roomId}
+      //             /> */}
+      //           </CardContent>
+      //           <Button>Remove</Button>
+      //         </Card>
+      //       </Grid>
+      //       <Grid item>
+      //         <Card className={classes.card}>
+      //           <CardContent>
+      //             <Typography className={classes.title} color="textSecondary">
+      //               Canvas
+      //             </Typography>
+      //             {/* <Canvas
+      //               whiteboardId={this.state.whiteboardId}
+      //               roomId={this.state.roomId}
+      //             /> */}
+      //           </CardContent>
+      //           <Button>Remove</Button>
+      //         </Card>
+      //       </Grid>
+      //       <Grid item>
+      //         <Card className={classes.card}>
+      //           <CardContent>
+      //             <Typography className={classes.title} color="textSecondary">
+      //               Invite a Friend!
+      //             </Typography>
+      //             <InviteForm roomId={this.state.roomId} />
+      //           </CardContent>
+      //           <Button>Remove</Button>
+      //         </Card>
+      //       </Grid>
+      //     </Grid>
+      //     <InviteForm roomId={this.state.roomId} />
+      //     {isOver && (
+      //       <div
+      //         style={{
+      //           position: 'absolute',
+      //           top: 0,
+      //           right: 0,
+      //           height: '100%',
+      //           width: '100%',
+      //           zIndex: 1,
+      //           opacity: 0.3,
+      //           backgroundColor: '#414654'
+      //         }}
+      //       />
+      //     )}
+      //   </div>
+      // )
     }
     return <div />
   }

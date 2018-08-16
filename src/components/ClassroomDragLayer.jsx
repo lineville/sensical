@@ -5,8 +5,6 @@ import PropTypes from 'prop-types'
 import {DragLayer} from 'react-dnd'
 
 const layerStyles = {
-  position: 'fixed',
-  pointerEvents: 'none',
   zIndex: 100,
   left: 0,
   top: 0,
@@ -15,43 +13,43 @@ const layerStyles = {
 }
 
 function getItemStyles(props) {
-  console.log(props)
   const {currentOffset} = props
   if (!currentOffset) {
     return {
-      display: 'none'
+      transform: 'translate(0px, 0px)',
+      WebkitTransform: 'translate(0px, 0px)'
     }
   }
 
   const {x, y} = currentOffset
   const transform = `translate(${x}px, ${y}px)`
-  console.log(transform)
+  // console.log(transform)
   return {
     transform: transform,
     WebkitTransform: transform
   }
 }
 
-export class ClassroomDragLayer extends Component {
-  // renderItem(type, item) {
-  //   console.log(type, item)
-  //   // switch (type) {
-  //   //   case 'MODULE':
-  //   //     return <p title={item.title} />
-  //   // }
-  // }
+function collect(monitor) {
+  return {
+    item: monitor.getItem(),
+    itemType: monitor.getItemType(),
+    currentOffset: monitor.getSourceClientOffset(),
+    isDragging: monitor.isDragging()
+  }
+}
 
+export class ClassroomDragLayer extends Component {
   render() {
     const {item, itemType, isDragging} = this.props
-    if (!isDragging) {
-      return <Classroom classroom={this.props.classroom} />
-    }
-
     return (
       <div style={layerStyles}>
-        <div style={getItemStyles(this.props)}>
-          {/* {this.renderItem(itemType, item)} */}
-          <Classroom classroom={this.props.classroom} />
+        <div>
+          {/* <div style={getItemStyles(this.props)}> */}
+          <Classroom
+            classroom={this.props.classroom}
+            style={getItemStyles(this.props)}
+          />
         </div>
       </div>
     )
@@ -66,15 +64,6 @@ ClassroomDragLayer.propTypes = {
     y: PropTypes.number.isRequired
   }),
   isDragging: PropTypes.bool.isRequired
-}
-
-function collect(monitor) {
-  return {
-    item: monitor.getItem(),
-    itemType: monitor.getItemType(),
-    currentOffset: monitor.getSourceClientOffset(),
-    isDragging: monitor.isDragging()
-  }
 }
 
 export default DragLayer(collect)(ClassroomDragLayer)

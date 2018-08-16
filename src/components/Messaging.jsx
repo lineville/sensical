@@ -13,36 +13,56 @@ import Typography from '@material-ui/core/Typography'
 
 const messagingSource = {
   beginDrag(props) {
-    return props
+    return getStyles(props)
   },
   endDrag(props, monitor, component) {
+    console.log(props)
     if (!monitor.didDrop()) {
-      // console.log(getStyles(props))
+      console.log('NOT DROPPED!!!!')
+      return props
+    } else {
+      console.log('DROPPED', component)
+      // component.move(monitor.getDropResult())
+      getStyles(props)
     }
-    console.log(monitor.getDropResult())
   }
 }
 
 function getStyles(props) {
-  const {left, top, isDragging} = props
-  const transform = `translate3d(${left}px, ${top}px, 0)`
-
-  return {
-    position: 'absolute',
-    transform,
-    WebkitTransform: transform,
-    // IE fallback: hide the real node using CSS when dragging
-    // because IE will ignore our custom "empty image" drag preview.
-    opacity: isDragging ? 0 : 1,
-    height: isDragging ? 0 : ''
+  const {currentOffset} = props
+  if (!currentOffset) {
+    return {
+      display: 'none'
+    }
   }
+
+  const {x, y} = currentOffset
+  const transform = `translate(${x}px, ${y}px)`
+  console.log(transform)
+  return {
+    transform: transform,
+    WebkitTransform: transform
+  }
+  // const {left, top, isDragging} = props
+  // const transform = `translate3d(${left}px, ${top}px, 0)`
+
+  // return {
+  //   position: 'absolute',
+  //   transform,
+  //   WebkitTransform: transform,
+  //   // IE fallback: hide the real node using CSS when dragging
+  //   // because IE will ignore our custom "empty image" drag preview.
+  //   opacity: isDragging ? 0 : 1,
+  //   height: isDragging ? 0 : ''
+  // }
 }
 
 function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragSource(),
-    isDragging: monitor.isDragging()
+    isDragging: monitor.isDragging(),
+    currentOffset: monitor.getSourceClientOffset()
   }
 }
 
@@ -70,10 +90,16 @@ export class Messaging extends Component {
     this.state = {
       messages: [],
       newMessage: '',
-      user: ''
+      user: '',
+      top: 0,
+      left: 0
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  move(offset) {
+    this.setState({top: offset.y, left: offset.x})
   }
 
   async componentDidMount() {
@@ -120,14 +146,26 @@ export class Messaging extends Component {
   }
 
   render() {
-    const {classes, connectDragSource, isDragging} = this.props
+    const {classes, connectDragSource, isDragging, currentOffset} = this.props
+    let translate = `translate(0px, 0px)`
+    if (isDragging && currentOffset) {
+      console.log(currentOffset.x, currentOffset.y)
+      translate = `translate(${currentOffset.x}px, ${currentOffset.y}px)`
+    }
+    // const transform = this.props.currentOffset
+    //   ? `translate(${this.props.currentOffset.x}px, ${
+    //       this.props.currentOffset.y
+    //     }px)`
+    //   : 'translate(0px, 0px)'
+    // console.log('transform', transform)
     return connectDragSource(
       <div>
         <Card
           className={classes.card}
           style={{
             opacity: isDragging ? 0.3 : 1,
-            cursor: 'move'
+            cursor: 'move',
+            transform: translate
           }}
         >
           <CardContent>
@@ -140,10 +178,7 @@ export class Messaging extends Component {
                   <Message key={message.id} message={message} />
                 ))}
               </div>
-              <form
-                onSubmit={this.handleSubmit}
-                className="columns modal-card-foot"
-              >
+              <form onSubmit={this.handleSubmit}>
                 <input
                   type="text"
                   name="newMessage"
@@ -173,7 +208,11 @@ export class Messaging extends Component {
 Messaging.propTypes = {
   classes: PropTypes.object.isRequired,
   connectDragSource: PropTypes.func.isRequired,
-  isDragging: PropTypes.bool.isRequired
+  isDragging: PropTypes.bool.isRequired,
+  currentOffset: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired
+  })
 }
 
 export default DragSource('MODULE', messagingSource, collect)(
