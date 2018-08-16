@@ -50,44 +50,26 @@ export class RoomCard extends Component {
   }
 
   leaveRoom = async () => {
-    const userId = firebase.auth().currentUser.uid
-    let roomsArray = this.props.user.rooms
-    let indexRoomToLeave = roomsArray.indexOf(this.state.roomId)
-    roomsArray.splice(indexRoomToLeave, 1)
-    await db
-      .collection('users')
-      .doc(this.props.user.id)
-      .update({
-        rooms: roomsArray
-      })
-    const room = await db
-      .collection('rooms')
-      .doc(this.state.roomId)
-      .get()
-
-    let indexUserToLeave = room.data().userIds.indexOf(userId)
-    const user = await db
-      .collection('users')
-      .doc(userId)
-      .get()
-    let indexEditorToDelete = room
-      .data()
-      .codeEditorIds.indexOf(user.data().codeEditorId)
-
+    const {user} = this.props
+    const codeEditorId = user.codeEditorId
+    //removes code editor from room
+    //removes userId from room
     await db
       .collection('rooms')
       .doc(this.state.roomId)
       .update({
-        userIds: room.data().userIds.splice(indexUserToLeave, 1),
-        codeEditorIds: room.data().codeEditorIds.splice(indexEditorToDelete, 1)
+        codeEditorIds: firebase.firestore.FieldValue.arrayRemove(codeEditorId),
+        userIds: firebase.firestore.FieldValue.arrayRemove(user.id)
       })
+    //removes codeEditor from user
+    //remove roomId from user
     await db
       .collection('users')
-      .doc(userId)
+      .doc(user.id)
       .update({
-        codeEditorId: ''
+        codeEditorId: '',
+        rooms: firebase.firestore.FieldValue.arrayRemove(this.state.roomId)
       })
-    this.props.history.push('/profile')
   }
 
   render() {
