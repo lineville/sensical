@@ -64,8 +64,6 @@ export class Messaging extends Component {
 
   async handleSubmit(event) {
     event.preventDefault()
-    console.log(this.state)
-
     await db
       .collection('chats')
       .doc(this.props.chatsId)
