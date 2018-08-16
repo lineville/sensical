@@ -68,7 +68,21 @@ class RoomStatusBar extends Component {
               color="inherit"
               className={classes.flex}
             >
+              Room Name:
+            </Typography>
+            <Typography
+              variant="title"
+              color="inherit"
+              className={classes.flex}
+            >
               {this.state.currentRoom}
+            </Typography>
+            <Typography
+              variant="title"
+              color="inherit"
+              className={classes.flex}
+            >
+              Room Members:
             </Typography>
 
             {this.state.roomMemberIds.map(memberId => {
