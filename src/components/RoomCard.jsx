@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import db from '../firestore'
+import firebase from 'firebase'
 import {withRouter} from 'react-router-dom'
 
 import {withStyles} from '@material-ui/core/styles'
@@ -44,7 +45,12 @@ export class RoomCard extends Component {
       .then(room => this.setState({room: room.data()}))
   }
 
+  joinRoom = () => {
+    this.props.history.push(`/classroom/${this.state.roomId}`)
+  }
+
   leaveRoom = async () => {
+    const userId = firebase.auth().currentUser.uid
     let roomsArray = this.props.user.rooms
     let indexRoomToLeave = roomsArray.indexOf(this.state.roomId)
     roomsArray.splice(indexRoomToLeave, 1)
@@ -53,6 +59,33 @@ export class RoomCard extends Component {
       .doc(this.props.user.id)
       .update({
         rooms: roomsArray
+      })
+    const room = await db
+      .collection('rooms')
+      .doc(this.state.roomId)
+      .get()
+
+    let indexUserToLeave = room.data().userIds.indexOf(userId)
+    const user = await db
+      .collection('users')
+      .doc(userId)
+      .get()
+    let indexEditorToDelete = room
+      .data()
+      .codeEditorIds.indexOf(user.data().codeEditorId)
+
+    await db
+      .collection('rooms')
+      .doc(this.state.roomId)
+      .update({
+        userIds: room.data().userIds.splice(indexUserToLeave, 1),
+        codeEditorIds: room.data().codeEditorIds.splice(indexEditorToDelete, 1)
+      })
+    await db
+      .collection('users')
+      .doc(userId)
+      .update({
+        codeEditorId: ''
       })
     this.props.history.push('/profile')
   }
@@ -78,9 +111,7 @@ export class RoomCard extends Component {
               variant="contained"
               color="default"
               className={classes.button}
-              onClick={() =>
-                this.props.history.push(`/classroom/${this.state.roomId}`)
-              }
+              onClick={this.joinRoom}
             >
               Join
             </Button>

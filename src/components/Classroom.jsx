@@ -22,11 +22,12 @@ const moduleTarget = {
     let {subject: targetSubject} = props
     return sourceSubject
   },
-  drop(props, monitor, component) {
+  drop(props, monitor) {
     let {subject: targetSubject} = props
     let sourceSubject = monitor.getItem()
     let offset = monitor.getDifferenceFromInitialOffset()
-    return offset
+    console.log(offset)
+    return sourceSubject
   }
 }
 

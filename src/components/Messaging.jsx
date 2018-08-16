@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import db from '../firestore'
 import Message from './Message'
 import firebase from 'firebase'
-import {DragSource, ConnectDragSource, ConnectDragPreview} from 'react-dnd'
+import {DragSource} from 'react-dnd'
 
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
@@ -16,14 +16,14 @@ const messagingSource = {
     return getStyles(props)
   },
   endDrag(props, monitor, component) {
-    console.log(props)
+    console.log(props, component, monitor.getDropResult())
     if (!monitor.didDrop()) {
       console.log('NOT DROPPED!!!!')
       return props
     } else {
       console.log('DROPPED', component)
-      // component.move(monitor.getDropResult())
-      getStyles(props)
+      component.move(monitor.getDropResult())
+      // getStyles(props)
     }
   }
 }
@@ -90,17 +90,15 @@ export class Messaging extends Component {
     this.state = {
       messages: [],
       newMessage: '',
-      user: '',
-      top: 0,
-      left: 0
+      user: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  move(offset) {
-    this.setState({top: offset.y, left: offset.x})
-  }
+  // move(offset) {
+  //   this.setState({top: offset.y, left: offset.x})
+  // }
 
   async componentDidMount() {
     await db
