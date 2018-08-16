@@ -83,12 +83,6 @@ class Classroom extends Component {
   }
   render() {
     const {classes} = this.props
-    console.log(
-      'editor ids',
-      this.state.codeEditorIds,
-      'userIDs',
-      this.state.userIds
-    )
     if (this.shouldRender()) {
       return (
         <div className={classes.root}>
