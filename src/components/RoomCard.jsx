@@ -49,45 +49,73 @@ export class RoomCard extends Component {
     this.props.history.push(`/classroom/${this.state.roomId}`)
   }
 
+  // leaveRoom = async () => {
+  //   //all of the users rooms
+  //   let roomsArray = this.props.user.rooms
+  //   let indexRoomToLeave = roomsArray.indexOf(this.state.roomId)
+  //   roomsArray.splice(indexRoomToLeave, 1) //removes room from user
+  //   //updates users rooms in firestore
+  //   await db
+  //     .collection('users')
+  //     .doc(this.props.user.id)
+  //     .update({
+  //       rooms: roomsArray
+  //     })
+  //   // get the room in firestore
+  //   const room = await db
+  //     .collection('rooms')
+  //     .doc(this.state.roomId)
+  //     .get()
+
+  //   // index of user to remove from room in firestore
+  //   let indexUserToLeave = room.data().userIds.indexOf(this.props.user.id)
+  //   // fetch user from firestore
+  //   const user = await db
+  //     .collection('users')
+  //     .doc(this.props.user.id)
+  //     .get()
+  //   console.log('user in fb', user, 'user from props', this.props.user)
+  //   //fetch
+  //   let codeEditorIds = room.data().codeEditorIds
+  //   let indexEditorToDelete = codeEditorIds.indexOf(user.data().codeEditorId)
+
+  //   console.log('user', indexUserToLeave, 'editor', codeEditorIds)
+  //   await db
+  //     .collection('rooms')
+  //     .doc(this.state.roomId)
+  //     .update({
+  //       userIds: room.data().userIds.splice(indexUserToLeave, 1),
+  //       codeEditorIds: room.data().codeEditorIds.splice(indexEditorToDelete, 1)
+  //     })
+  //   await db
+  //     .collection('users')
+  //     .doc(this.props.user.id)
+  //     .update({
+  //       codeEditorId: ''
+  //     })
+  //   this.props.history.push('/profile')
+  // }
   leaveRoom = async () => {
-    const userId = firebase.auth().currentUser.uid
-    let roomsArray = this.props.user.rooms
-    let indexRoomToLeave = roomsArray.indexOf(this.state.roomId)
-    roomsArray.splice(indexRoomToLeave, 1)
-    await db
-      .collection('users')
-      .doc(this.props.user.id)
-      .update({
-        rooms: roomsArray
-      })
-    const room = await db
-      .collection('rooms')
-      .doc(this.state.roomId)
-      .get()
-
-    let indexUserToLeave = room.data().userIds.indexOf(userId)
-    const user = await db
-      .collection('users')
-      .doc(userId)
-      .get()
-    let indexEditorToDelete = room
-      .data()
-      .codeEditorIds.indexOf(user.data().codeEditorId)
-
+    const {user} = this.props
+    const codeEditorId = user.codeEditorId
+    //removes code editor from room
+    //removes userId from room
     await db
       .collection('rooms')
       .doc(this.state.roomId)
       .update({
-        userIds: room.data().userIds.splice(indexUserToLeave, 1),
-        codeEditorIds: room.data().codeEditorIds.splice(indexEditorToDelete, 1)
+        codeEditorIds: firebase.firestore.FieldValue.arrayRemove(codeEditorId),
+        userIds: firebase.firestore.FieldValue.arrayRemove(user.id)
       })
+    //removes codeEditor from user
+    //remove roomId from user
     await db
       .collection('users')
-      .doc(userId)
+      .doc(user.id)
       .update({
-        codeEditorId: ''
+        codeEditorId: '',
+        rooms: firebase.firestore.FieldValue.arrayRemove(this.state.roomId)
       })
-    this.props.history.push('/profile')
   }
 
   render() {
