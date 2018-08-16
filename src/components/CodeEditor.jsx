@@ -9,55 +9,39 @@ class CodeEditor extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      code1: '',
-      code2: '',
-      docId: ''
+      code: '',
+      codeEditorId: ''
     }
-    this.onChange1 = this.onChange1.bind(this)
-    this.onChange2 = this.onChange2.bind(this)
+    this.onChange = this.onChange.bind(this)
   }
 
   async componentDidMount() {
-    const {fireCodesId} = this.props
+    const {codeEditorId} = this.props
     const doc = await db
-      .collection('fireCodes')
-      .doc(fireCodesId)
+      .collection('codeEditors')
+      .doc(codeEditorId)
       .get()
     await this.setState({
-      docId: doc.id,
-      code1: doc.data().code1,
-      code2: doc.data().code2
+      codeEditorId: doc.id,
+      code: doc.data().code
     })
-    db.collection('fireCodes')
-      .doc(fireCodesId)
+    db.collection('codeEditors')
+      .doc(codeEditorId)
       .onSnapshot(code => {
         this.setState({
-          code1: code.data().code1,
-          code2: code.data().code2
+          code: code.data().code
         })
       })
   }
 
-  onChange1(value) {
+  onChange(value) {
     this.setState({
-      code1: value
+      code: value
     })
-    db.collection('fireCodes')
-      .doc(this.state.docId)
+    db.collection('codeEditors')
+      .doc(this.state.codeEditorId)
       .set({
-        code1: value,
-        code2: this.state.code2
-      })
-  }
-  onChange2(value) {
-    this.setState({
-      code2: value
-    })
-    db.collection('fireCodes')
-      .doc(this.state.docId)
-      .set({
-        code1: this.state.code1,
-        code2: value
+        code: value
       })
   }
 
@@ -68,16 +52,16 @@ class CodeEditor extends Component {
           <AceEditor
             mode="javascript"
             theme="monokai"
-            onChange={this.onChange1}
-            value={this.state.code1}
+            onChange={this.onChange}
+            value={this.state.code}
             name="code-editor"
             tabSize={2}
             enableBasicAutocompletion={true}
             editorProps={{$blockScrolling: true}}
           />
-          <Output input={this.state.code1} />
+          <Output input={this.state.code} />
         </div>
-        <div className="">
+        {/* <div className="">
           <AceEditor
             mode="javascript"
             theme="monokai"
@@ -89,7 +73,7 @@ class CodeEditor extends Component {
             editorProps={{$blockScrolling: true}}
           />
           <Output input={this.state.code2} />
-        </div>
+        </div> */}
       </div>
     )
   }

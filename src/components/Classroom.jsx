@@ -46,7 +46,7 @@ class Classroom extends Component {
     this.state = {
       roomId: '',
       whiteboardId: '',
-      fireCodesId: '',
+      codeEditorId: '',
       chatsId: ''
     }
   }
@@ -59,7 +59,7 @@ class Classroom extends Component {
     this.setState({
       roomId: classroom.id,
       whiteboardId: classroom.data().whiteboardId,
-      fireCodesId: classroom.data().fireCodesId,
+      codeEditorId: classroom.data().codeEditorId,
       chatsId: classroom.data().chatsId
     })
   }
@@ -67,7 +67,7 @@ class Classroom extends Component {
   render() {
     const {classes} = this.props
     if (
-      this.state.fireCodesId.length &&
+      this.state.codeEditorId.length &&
       this.state.chatsId.length &&
       this.state.whiteboardId.length &&
       firebase.auth().currentUser
@@ -96,7 +96,7 @@ class Classroom extends Component {
                     Code Editor
                   </Typography>
                   <CodeEditor
-                    fireCodesId={this.state.fireCodesId}
+                    codeEditorId={this.state.codeEditorId}
                     roomId={this.state.roomId}
                   />
                 </CardContent>

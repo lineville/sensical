@@ -29,14 +29,13 @@ export class CreateRoom extends Component {
 
   createRoom = async () => {
     const whiteboards = await db.collection('whiteboards').add({})
-    const fireCodes = await db.collection('fireCodes').add({
-      code1: '',
-      code2: ''
+    const codeEditor = await db.collection('codeEditors').add({
+      code: ''
     })
     const chats = await db.collection('chats').add({})
     const room = await db.collection('rooms').add({
       whiteboardId: whiteboards.id,
-      fireCodesId: fireCodes.id,
+      codeEditorId: codeEditor.id,
       chatsId: chats.id,
       subject: this.state.subject
     })
