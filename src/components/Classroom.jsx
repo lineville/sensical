@@ -13,6 +13,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import InviteForm from './InviteForm'
+import RoomStatusBar from './RoomStatusBar'
 
 const styles = theme => ({
   root: {
@@ -86,6 +87,10 @@ class Classroom extends Component {
     if (this.shouldRender()) {
       return (
         <div className={classes.root}>
+          <RoomStatusBar
+            roomId={this.state.roomId}
+            userIds={this.state.userIds}
+          />
           <Grid container direction="row" align-items="flex-start">
             <Grid item>
               <Card className={classes.card}>
