@@ -41,13 +41,10 @@ const styles = theme => ({
 })
 
 class Classroom extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
-      roomId: '',
-      whiteboardId: '',
-      fireCodesId: '',
-      chatsId: ''
+      room: {}
     }
   }
 
@@ -56,20 +53,15 @@ class Classroom extends Component {
       .collection('rooms')
       .doc(this.props.match.params.classroomId)
       .get()
-    this.setState({
-      roomId: classroom.id,
-      whiteboardId: classroom.data().whiteboardId,
-      fireCodesId: classroom.data().fireCodesId,
-      chatsId: classroom.data().chatsId
-    })
+    this.setState({room: classroom.data()})
   }
 
   render() {
     const {classes} = this.props
     if (
-      this.state.fireCodesId.length &&
-      this.state.chatsId.length &&
-      this.state.whiteboardId.length &&
+      this.state.room.fireCodesId &&
+      this.state.room.chatsId &&
+      this.state.room.whiteboardId &&
       firebase.auth().currentUser
     ) {
       return (
@@ -82,8 +74,8 @@ class Classroom extends Component {
                     Chat
                   </Typography>
                   <Messaging
-                    chatsId={this.state.chatsId}
-                    roomId={this.state.roomId}
+                    chatsId={this.state.room.chatsId}
+                    roomId={this.state.room.roomId}
                   />
                 </CardContent>
                 <Button>Remove</Button>
@@ -96,8 +88,8 @@ class Classroom extends Component {
                     Code Editor
                   </Typography>
                   <CodeEditor
-                    fireCodesId={this.state.fireCodesId}
-                    roomId={this.state.roomId}
+                    fireCodesId={this.state.room.fireCodesId}
+                    roomId={this.state.room.roomId}
                   />
                 </CardContent>
                 <Button>Remove</Button>
@@ -110,8 +102,8 @@ class Classroom extends Component {
                     Canvas
                   </Typography>
                   <Canvas
-                    whiteboardId={this.state.whiteboardId}
-                    roomId={this.state.roomId}
+                    whiteboardId={this.state.room.whiteboardId}
+                    roomId={this.state.room.roomId}
                   />
                 </CardContent>
                 <Button>Remove</Button>
@@ -123,7 +115,7 @@ class Classroom extends Component {
                   <Typography className={classes.title} color="textSecondary">
                     Invite a Friend!
                   </Typography>
-                  <InviteForm roomId={this.state.roomId} />
+                  <InviteForm roomId={this.state.room.roomId} />
                 </CardContent>
                 <Button>Remove</Button>
               </Card>
