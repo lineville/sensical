@@ -42,7 +42,7 @@ export class RoomCard extends Component {
     db.collection('rooms')
       .doc(this.state.roomId)
       .get()
-      .then(stuff => this.setState({room: stuff.data()}))
+      .then(room => this.setState({room: room.data()}))
   }
 
   leaveRoom = async () => {
