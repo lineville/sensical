@@ -179,7 +179,6 @@ class Canvas extends Component {
 
   render() {
     if (this.state.strokes) {
-      console.log('BEFORE FOR EACH ', this.state.strokes)
       this.state.strokes.forEach(stroke => {
         this.ctx.beginPath()
         this.ctx.strokeStyle = stroke.strokeColor
