@@ -1,46 +1,3 @@
-// import React, {Component} from 'react'
-// import PropTypes from 'prop-types'
-// import {withStyles} from '@material-ui/core/styles'
-// import Button from '@material-ui/core/Button'
-
-// const styles = theme => ({
-//   button: {
-//     margin: theme.spacing.unit
-//   },
-//   input: {
-//     display: 'none'
-//   }
-// })
-
-// class Output extends Component {
-
-//   render() {
-//     const {classes} = this.props
-//     return (
-//       <div>
-//         <Button
-//           variant="contained"
-//           color="primary"
-//           className={classes.button}
-//           onClick={this.run}
-//         >
-//           Run
-//         </Button>
-//         <p className="output">
-//           Output: --->
-//           {this.state.output}
-//         </p>
-//       </div>
-//     )
-//   }
-// }
-
-// Output.propTypes = {
-//   classes: PropTypes.object.isRequired
-// }
-
-// export default withStyles(styles)(Output)
-
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
@@ -49,6 +6,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import sanitize, {limitEval} from '../sanitize'
 
 const styles = theme => ({
   root: {
@@ -71,17 +29,36 @@ class Output extends Component {
 
   run() {
     const {input} = this.props
-    try {
-      this.setState({
-        // eslint-disable-next-line
-        output: eval(input)
-      })
-    } catch (error) {
-      this.setState({
-        // eslint-disable-next-line
-        output: error.message
-      })
-    }
+    // const sanitizedInput = limitEval(input)
+    limitEval(
+      input,
+      function(success, output) {
+        if (success) {
+          this.setState({
+            // eslint-disable-next-line
+            output: eval(output)
+          })
+        } else {
+          this.setState({
+            // eslint-disable-next-line
+            output: error.message
+          })
+        }
+      },
+      3000
+    )
+    console.log(this.state.output)
+    // try {
+    //   this.setState({
+    //     // eslint-disable-next-line
+    //     output: eval(sanitizedInput)
+    //   })
+    // } catch (error) {
+    //   this.setState({
+    //     // eslint-disable-next-line
+    //     output: error.message
+    //   })
+    // }
   }
 
   render() {
