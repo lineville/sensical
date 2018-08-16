@@ -10,7 +10,8 @@ class CodeEditor extends Component {
     super(props)
     this.state = {
       code: '',
-      codeEditorId: ''
+      codeEditorId: '',
+      userId: ''
     }
     this.onChange = this.onChange.bind(this)
   }

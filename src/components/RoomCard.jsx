@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import db from '../firestore'
+import firebase from 'firebase'
 import {withRouter} from 'react-router-dom'
 
 import {withStyles} from '@material-ui/core/styles'
@@ -51,12 +52,28 @@ export class RoomCard extends Component {
   leaveRoom = async () => {
     let roomsArray = this.props.user.rooms
     let indexRoomToLeave = roomsArray.indexOf(this.state.roomId)
+
     roomsArray.splice(indexRoomToLeave, 1)
     await db
       .collection('users')
       .doc(this.props.user.id)
       .update({
         rooms: roomsArray
+      })
+    const room = await db
+      .collection('rooms')
+      .doc(this.state.roomId)
+      .get()
+
+    let indexUserToLeave = room
+      .data()
+      .userIds.indexOf(firebase.auth().currentUser.uid)
+
+    await db
+      .collection('rooms')
+      .doc(this.state.roomId)
+      .update({
+        userIds: room.data().userIds.splice(indexUserToLeave, 1)
       })
     this.props.history.push('/profile')
   }

@@ -31,7 +31,8 @@ export class CreateRoom extends Component {
     const currentUser = await firebase.auth().currentUser
 
     const codeEditor = await db.collection('codeEditors').add({
-      code: ''
+      code: '',
+      userId: currentUser.uid
     })
     const whiteboards = await db.collection('whiteboards').add({strokes: []})
     const chats = await db.collection('chats').add({})
