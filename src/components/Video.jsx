@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import firebase from 'firebase'
 
+// eslint-disable-next-line
 var config = {
   apiKey: 'AIzaSyDW_69O9I0nxLViciU5UX0JkefHQxChDC8',
   authDomain: 'figvideo-8a619.firebaseapp.com',
@@ -43,7 +44,9 @@ pc.onicecandidate = event =>
   event.candidate
     ? sendMessage(yourId, JSON.stringify({ice: event.candidate}))
     : console.log('Sent All Ice')
-pc.onaddstream = event => (friendsVideo.srcObject = event.stream)
+pc.onaddstream = function(event) {
+  friendsVideo.srcObject = event.stream
+}
 
 function sendMessage(senderId, data) {
   var msg = database.push({sender: senderId, message: data})
@@ -53,16 +56,16 @@ function sendMessage(senderId, data) {
 function readMessage(data) {
   var msg = JSON.parse(data.val().message)
   var sender = data.val().sender
-  if (sender != yourId) {
-    if (msg.ice != undefined) pc.addIceCandidate(new RTCIceCandidate(msg.ice))
-    else if (msg.sdp.type == 'offer')
+  if (sender !== yourId) {
+    if (msg.ice !== undefined) pc.addIceCandidate(new RTCIceCandidate(msg.ice))
+    else if (msg.sdp.type === 'offer')
       pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
         .then(() => pc.createAnswer())
         .then(answer => pc.setLocalDescription(answer))
         .then(() =>
           sendMessage(yourId, JSON.stringify({sdp: pc.localDescription}))
         )
-    else if (msg.sdp.type == 'answer')
+    else if (msg.sdp.type === 'answer')
       pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
   }
 }
@@ -72,7 +75,9 @@ database.on('child_added', readMessage)
 function showMyFace() {
   navigator.mediaDevices
     .getUserMedia({audio: true, video: true})
-    .then(stream => (yourVideo.srcObject = stream))
+    .then(function(stream) {
+      yourVideo.srcObject = stream
+    })
     .then(stream => pc.addStream(stream))
 }
 
