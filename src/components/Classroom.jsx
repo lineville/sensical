@@ -45,9 +45,10 @@ class Classroom extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      userIds: [],
       roomId: '',
       whiteboardId: '',
-      fireCodesId: '',
+      codeEditorIds: [],
       chatsId: ''
     }
   }
@@ -60,19 +61,30 @@ class Classroom extends Component {
     this.setState({
       roomId: classroom.id,
       whiteboardId: classroom.data().whiteboardId,
-      fireCodesId: classroom.data().fireCodesId,
-      chatsId: classroom.data().chatsId
+      codeEditorIds: [
+        ...this.state.codeEditorIds,
+        ...classroom.data().codeEditorIds
+      ],
+      chatsId: classroom.data().chatsId,
+      userIds: classroom.data().userIds
     })
   }
 
-  render() {
-    const {classes} = this.props
-    if (
-      this.state.fireCodesId.length &&
+  shouldRender = () => {
+    const hasCodeEditorIds = true
+    this.state.codeEditorIds.forEach(editorId => {
+      if (!editorId.length) return false
+    })
+    return (
+      hasCodeEditorIds &&
       this.state.chatsId.length &&
       this.state.whiteboardId.length &&
       firebase.auth().currentUser
-    ) {
+    )
+  }
+  render() {
+    const {classes} = this.props
+    if (this.shouldRender()) {
       return (
         <div className={classes.root}>
           <RoomStatusBar roomId={this.state.roomId} />
@@ -97,10 +109,13 @@ class Classroom extends Component {
                   <Typography className={classes.title} color="textSecondary">
                     Code Editor
                   </Typography>
-                  <CodeEditor
-                    fireCodesId={this.state.fireCodesId}
-                    roomId={this.state.roomId}
-                  />
+                  {this.state.codeEditorIds.map(id => (
+                    <CodeEditor
+                      codeEditorId={id}
+                      key={id}
+                      roomId={this.state.roomId}
+                    />
+                  ))}
                 </CardContent>
                 <Button>Remove</Button>
               </Card>
