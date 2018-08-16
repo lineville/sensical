@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import firebase from 'firebase'
 import {withAuth} from 'fireview'
+import db from '../firestore'
 
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
@@ -80,7 +81,6 @@ class NavMenu extends Component {
 
   render() {
     const {classes} = this.props
-
     const sideList = (
       <div className={classes.fullList}>
         <List>
@@ -127,6 +127,11 @@ class NavMenu extends Component {
             >
               fig
             </Typography>
+            <Typography
+              variant="title"
+              color="inherit"
+              className={classes.flex}
+            />
             {/* <img src="fig.svg" alt="fig" /> */}
             {this.props._user ? (
               <div>
