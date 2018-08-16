@@ -13,16 +13,16 @@ import Typography from '@material-ui/core/Typography'
 
 const messagingSource = {
   beginDrag(props) {
+    console.log(props)
     return getStyles(props)
   },
   endDrag(props, monitor, component) {
-    console.log(props, component, monitor.getDropResult())
     if (!monitor.didDrop()) {
       console.log('NOT DROPPED!!!!')
       return props
     } else {
       console.log('DROPPED', component)
-      component.move(monitor.getDropResult())
+      return monitor.getDropResult()
       // getStyles(props)
     }
   }
@@ -38,7 +38,6 @@ function getStyles(props) {
 
   const {x, y} = currentOffset
   const transform = `translate(${x}px, ${y}px)`
-  console.log(transform)
   return {
     transform: transform,
     WebkitTransform: transform

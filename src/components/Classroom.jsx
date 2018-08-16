@@ -15,6 +15,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import InviteForm from './InviteForm'
+import RoomStatusBar from './RoomStatusBar'
 
 const moduleTarget = {
   canDrop(props, monitor) {
@@ -35,7 +36,7 @@ function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
-    clientOffset: monitor.getClientOffset()
+    clientOffset: monitor.getDifferenceFromInitialOffset()
   }
 }
 
@@ -69,9 +70,10 @@ class Classroom extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      userIds: [],
       roomId: '',
       whiteboardId: '',
-      fireCodesId: '',
+      codeEditorIds: [],
       chatsId: ''
     }
   }
@@ -84,21 +86,36 @@ class Classroom extends Component {
     this.setState({
       roomId: classroom.id,
       whiteboardId: classroom.data().whiteboardId,
-      fireCodesId: classroom.data().fireCodesId,
-      chatsId: classroom.data().chatsId
+      codeEditorIds: [
+        ...this.state.codeEditorIds,
+        ...classroom.data().codeEditorIds
+      ],
+      chatsId: classroom.data().chatsId,
+      userIds: classroom.data().userIds
     })
   }
 
-  render() {
-    const {classes, connectDropTarget, isOver} = this.props
-    if (
-      this.state.fireCodesId.length &&
+  shouldRender = () => {
+    const hasCodeEditorIds = true
+    this.state.codeEditorIds.forEach(editorId => {
+      if (!editorId.length) return false
+    })
+    return (
+      hasCodeEditorIds &&
       this.state.chatsId.length &&
       this.state.whiteboardId.length &&
       firebase.auth().currentUser
-    ) {
+    )
+  }
+  render() {
+    const {classes, isOver, connectDropTarget} = this.props
+    if (this.shouldRender()) {
       return connectDropTarget(
         <div className={classes.root}>
+          <RoomStatusBar
+            roomId={this.state.roomId}
+            userIds={this.state.userIds}
+          />
           <Grid container direction="row" align-items="flex-start">
             <Grid item>
               <Messaging
@@ -106,6 +123,48 @@ class Classroom extends Component {
                 roomId={this.state.roomId}
                 style={this.props.style}
               />
+            </Grid>
+            <Grid item>
+              <Card className={classes.card}>
+                <CardContent>
+                  <Typography className={classes.title} color="textSecondary">
+                    Code Editor
+                  </Typography>
+                  {this.state.codeEditorIds.map(id => (
+                    <CodeEditor
+                      codeEditorId={id}
+                      key={id}
+                      roomId={this.state.roomId}
+                    />
+                  ))}
+                </CardContent>
+                <Button>Remove</Button>
+              </Card>
+            </Grid>
+            <Grid item>
+              <Card className={classes.card}>
+                <CardContent>
+                  <Typography className={classes.title} color="textSecondary">
+                    Canvas
+                  </Typography>
+                  <Canvas
+                    whiteboardId={this.state.whiteboardId}
+                    roomId={this.state.roomId}
+                  />
+                </CardContent>
+                <Button>Remove</Button>
+              </Card>
+            </Grid>
+            <Grid item>
+              <Card className={classes.card}>
+                <CardContent>
+                  <Typography className={classes.title} color="textSecondary">
+                    Invite a Friend!
+                  </Typography>
+                  <InviteForm roomId={this.state.roomId} />
+                </CardContent>
+                <Button>Remove</Button>
+              </Card>
             </Grid>
           </Grid>
           {isOver && (

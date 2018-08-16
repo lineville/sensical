@@ -14,20 +14,21 @@ const layerStyles = {
 
 function getItemStyles(props) {
   const {currentOffset} = props
-  if (!currentOffset) {
-    return {
-      transform: 'translate(0px, 0px)',
-      WebkitTransform: 'translate(0px, 0px)'
-    }
-  }
+  return currentOffset
+  // if (!currentOffset) {
+  //   return {
+  //     transform: 'translate(0px, 0px)',
+  //     WebkitTransform: 'translate(0px, 0px)'
+  //   }
+  // }
 
-  const {x, y} = currentOffset
-  const transform = `translate(${x}px, ${y}px)`
+  // const {x, y} = currentOffset
+  // const transform = `translate(${x}px, ${y}px)`
   // console.log(transform)
-  return {
-    transform: transform,
-    WebkitTransform: transform
-  }
+  // return {
+  //   transform: transform,
+  //   WebkitTransform: transform
+  // }
 }
 
 function collect(monitor) {
@@ -41,7 +42,7 @@ function collect(monitor) {
 
 export class ClassroomDragLayer extends Component {
   render() {
-    const {item, itemType, isDragging} = this.props
+    const {item, itemType, isDragging, currentOffset} = this.props
     return (
       <div style={layerStyles}>
         <div>
@@ -49,6 +50,7 @@ export class ClassroomDragLayer extends Component {
           <Classroom
             classroom={this.props.classroom}
             style={getItemStyles(this.props)}
+            currentOffset={currentOffset}
           />
         </div>
       </div>

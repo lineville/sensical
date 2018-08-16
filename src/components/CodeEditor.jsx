@@ -12,7 +12,8 @@ class CodeEditor extends Component {
     this.state = {
       code: '',
       codeEditorId: '',
-      userId: ''
+      user: '',
+      canType: false
     }
     this.onChange = this.onChange.bind(this)
   }
@@ -23,16 +24,21 @@ class CodeEditor extends Component {
       .collection('codeEditors')
       .doc(codeEditorId)
       .get()
+    const user = await db
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .get()
     await this.setState({
       codeEditorId: doc.id,
       code: doc.data().code,
-      userId: doc.data().userId
+      user: user.data()
     })
     db.collection('codeEditors')
       .doc(codeEditorId)
       .onSnapshot(code => {
         this.setState({
-          code: code.data().code
+          code: code.data().code,
+          canType: this.canType()
         })
       })
   }
@@ -48,6 +54,11 @@ class CodeEditor extends Component {
       })
   }
 
+  canType = () => {
+    console.log(this.props.codeEditorId, this.state.user.codeEditorId)
+    return this.props.codeEditorId === this.state.user.codeEditorId
+  }
+
   render() {
     return (
       <div>
@@ -59,7 +70,7 @@ class CodeEditor extends Component {
             value={this.state.code}
             name="code-editor"
             tabSize={2}
-            readOnly={this.state.userId === firebase.auth().currentUser.uid}
+            readOnly={!this.state.canType}
             editorProps={{$blockScrolling: true}}
           />
           <Output input={this.state.code} />
