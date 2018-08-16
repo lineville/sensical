@@ -173,7 +173,7 @@ class InviteForm extends Component {
             <Notification
               onClose={this.handleClose}
               variant="success"
-              message="This is a success message!"
+              message="Invite Sent!"
             />
           </Snackbar>
         </div>
