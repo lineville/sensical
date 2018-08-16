@@ -10,3 +10,12 @@ export const scanForIllegalTokens = code => {
     return 'Error: Sorry... you are not permitted to use alert, eval, process or fs'
   }
 }
+
+export const guardInfiniteLoop = code => {
+  if (!code.includes('while')) return true
+  const whileBlocks = code.split('while').slice(1)
+  // whileBlocks.forEach(block => {})
+}
+
+const codeSnippet =
+  'let i = 0 \n let x = 0 \n while (x < 10) { x++ } while (x < 10) { i++ }'
