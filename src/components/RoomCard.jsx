@@ -38,12 +38,11 @@ export class RoomCard extends Component {
     }
   }
 
-  async componentDidMount() {
-    const room = await db
-      .collection('rooms')
+  componentDidMount() {
+    db.collection('rooms')
       .doc(this.state.roomId)
       .get()
-    this.setState({room: room.data()})
+      .then(stuff => this.setState({room: stuff.data()}))
   }
 
   leaveRoom = async () => {
