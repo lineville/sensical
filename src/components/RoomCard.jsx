@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
+import {withRouter} from 'react-router-dom'
 
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -28,35 +29,31 @@ const styles = theme => ({
   }
 })
 
-const RoomCard = props => {
-  const {classes} = props
-  // const joinRoom = async id => {
-  //   const currentUser = await firebase.auth().currentUser
-  //   let user = await db
-  //     .collection('users')
-  //     .doc(currentUser.uid)
-  //     .get()
-  //   let roomsArray = user.data().rooms
-  //   if (roomsArray.indexOf(props.id) === -1) {
-  //     await db
-  //       .collection('users')
-  //       .doc(currentUser.uid)
-  //       .update({
-  //         rooms: roomsArray.concat(props.id)
-  //       })
+export class RoomCard extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      roomId: props.room,
+      room: {}
+    }
+  }
 
-  //     props.history.push(`/classroom/${id}`)
-  //   }
-  // }
+  async componentDidMount() {
+    const room = await db
+      .collection('rooms')
+      .doc(this.state.roomId)
+      .get()
+    this.setState({room: room.data()})
+  }
 
-  const leaveRoom = async id => {
+  leaveRoom = async () => {
     const currentUser = await firebase.auth().currentUser
     let user = await db
       .collection('users')
       .doc(currentUser.uid)
       .get()
     let roomsArray = user.data().rooms
-    let indexRoomToLeave = roomsArray.indexOf(props.id)
+    let indexRoomToLeave = roomsArray.indexOf(this.props.id)
     roomsArray.splice(indexRoomToLeave, 1)
     await db
       .collection('users')
@@ -64,53 +61,58 @@ const RoomCard = props => {
       .update({
         rooms: roomsArray
       })
-    props.history.push('/profile')
+    this.props.history.push('/profile')
   }
 
-  return (
-    <React.Fragment>
-      <Card className={classes.card}>
-        <CardMedia
-          className={classes.media}
-          image="http://cdn.shopify.com/s/files/1/1091/8014/products/whiteyboard_chalkboard_grande.jpeg?v=1528698765"
-          title={props.subject}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="headline" component="h2">
-            {props.subject}
-          </Typography>
-          <Typography component="p">Practice your coding here.</Typography>
-        </CardContent>
-        <CardActions>
-          <Button
-            variant="contained"
-            color="default"
-            className={classes.button}
-            onClick={() => props.history.push(`/classroom/${props.id}`)}
-          >
-            Join
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-          >
-            Invite
-            <ShareIcon className={classes.rightIcon} />
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.button}
-            onClick={leaveRoom}
-          >
-            Leave
-            <DeleteIcon className={classes.rightIcon} />
-          </Button>
-        </CardActions>
-      </Card>
-    </React.Fragment>
-  )
+  render() {
+    const {classes} = this.props
+    return (
+      <React.Fragment>
+        <Card className={classes.card}>
+          <CardMedia
+            className={classes.media}
+            image="http://cdn.shopify.com/s/files/1/1091/8014/products/whiteyboard_chalkboard_grande.jpeg?v=1528698765"
+            title={this.state.room.subject}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="headline" component="h2">
+              {this.state.room.subject}
+            </Typography>
+            <Typography component="p">Practice your coding here.</Typography>
+          </CardContent>
+          <CardActions>
+            <Button
+              variant="contained"
+              color="default"
+              className={classes.button}
+              onClick={() =>
+                this.props.history.push(`/classroom/${this.state.roomId}`)
+              }
+            >
+              Join
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
+              Invite
+              <ShareIcon className={classes.rightIcon} />
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              onClick={this.leaveRoom}
+            >
+              Leave
+              <DeleteIcon className={classes.rightIcon} />
+            </Button>
+          </CardActions>
+        </Card>
+      </React.Fragment>
+    )
+  }
 }
 
-export default withStyles(styles)(RoomCard)
+export default withStyles(styles)(withRouter(RoomCard))
