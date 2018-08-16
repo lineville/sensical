@@ -158,18 +158,22 @@ class Canvas extends Component {
     return [e.pageX - this.canvas.offsetLeft, e.pageY - this.canvas.offsetTop]
   }
 
-  componentDidMount() {
-    let strokesArray = []
-    db.collection('whiteboards')
+  async componentDidMount() {
+    let strokes = []
+
+    await db
+      .collection('whiteboards')
       .doc(this.props.whiteboardId)
       .collection('strokes')
-      // .limit(10)
-      .onSnapshot(strokes => {
-        strokes.forEach(stroke => {
-          strokesArray.push(stroke.data())
+      .onSnapshot(stroke => {
+        stroke.docChanges().forEach(change => {
+          if (change.type === 'added') {
+            strokes.push(change.doc.data())
+          }
         })
-        this.setState({strokes: strokesArray})
+        this.setState({strokes})
       })
+
     this.setup()
   }
 
@@ -184,7 +188,6 @@ class Canvas extends Component {
         this.ctx.stroke()
       })
     }
-
     return (
       <div id="whiteboard">
         <div id="whiteboard-canvas" />
