@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
 
+import Button from '@material-ui/core/Button'
+
 class Canvas extends Component {
   constructor() {
     super()
@@ -60,6 +62,26 @@ class Canvas extends Component {
     this.ctx.lineTo(...end)
     this.ctx.closePath()
     this.ctx.stroke()
+  }
+
+  clearCanvas = () => {
+    console.log('CLEAR CANVAS RAN')
+    db.collection('whiteboards')
+      .doc(this.props.whiteboardId)
+      .update({
+        strokes: []
+      })
+      .then(() => {
+        this.setState({
+          curStroke: [],
+          strokes: null
+        })
+        this.forceUpdate()
+        console.log('STATE: ', this.state)
+      })
+      .catch(error => {
+        console.error('Error drawing new stroke to Firestore Database: ', error)
+      })
   }
 
   setup = () => {
@@ -199,6 +221,8 @@ class Canvas extends Component {
     return (
       <div id="whiteboard">
         <div id="whiteboard-canvas" />
+        <Button onClick={this.clearCanvas}>Clear</Button>
+        <Button onClick={this.undoLastStroke}>Undo</Button>
       </div>
     )
   }
