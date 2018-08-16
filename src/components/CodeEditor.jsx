@@ -11,22 +11,20 @@ class CodeEditor extends Component {
     this.state = {
       code1: '',
       code2: '',
-      docId: '',
-      roomId: ''
+      docId: ''
     }
     this.onChange1 = this.onChange1.bind(this)
     this.onChange2 = this.onChange2.bind(this)
   }
 
   async componentDidMount() {
-    const {fireCodesId, roomId} = this.props
+    const {fireCodesId} = this.props
     const doc = await db
       .collection('fireCodes')
       .doc(fireCodesId)
       .get()
     await this.setState({
       docId: doc.id,
-      roomId: roomId,
       code1: doc.data().code1,
       code2: doc.data().code2
     })
