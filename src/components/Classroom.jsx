@@ -44,9 +44,10 @@ class Classroom extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      userIds: [],
       roomId: '',
       whiteboardId: '',
-      codeEditorId: '',
+      codeEditorIds: [],
       chatsId: ''
     }
   }
@@ -59,19 +60,36 @@ class Classroom extends Component {
     this.setState({
       roomId: classroom.id,
       whiteboardId: classroom.data().whiteboardId,
-      codeEditorId: classroom.data().codeEditorId,
-      chatsId: classroom.data().chatsId
+      codeEditorIds: [
+        ...this.state.codeEditorIds,
+        ...classroom.data().codeEditorIds
+      ],
+      chatsId: classroom.data().chatsId,
+      userIds: classroom.data().userIds
     })
   }
 
-  render() {
-    const {classes} = this.props
-    if (
-      this.state.codeEditorId.length &&
+  shouldRender = () => {
+    const hasCodeEditorIds = true
+    this.state.codeEditorIds.forEach(editorId => {
+      if (!editorId.length) return false
+    })
+    return (
+      hasCodeEditorIds &&
       this.state.chatsId.length &&
       this.state.whiteboardId.length &&
       firebase.auth().currentUser
-    ) {
+    )
+  }
+  render() {
+    const {classes} = this.props
+    console.log(
+      'editor ids',
+      this.state.codeEditorIds,
+      'userIDs',
+      this.state.userIds
+    )
+    if (this.shouldRender()) {
       return (
         <div className={classes.root}>
           <Grid container direction="row" align-items="flex-start">
@@ -95,10 +113,13 @@ class Classroom extends Component {
                   <Typography className={classes.title} color="textSecondary">
                     Code Editor
                   </Typography>
-                  <CodeEditor
-                    codeEditorId={this.state.codeEditorId}
-                    roomId={this.state.roomId}
-                  />
+                  {this.state.codeEditorIds.map(id => (
+                    <CodeEditor
+                      codeEditorId={id}
+                      key={id}
+                      roomId={this.state.roomId}
+                    />
+                  ))}
                 </CardContent>
                 <Button>Remove</Button>
               </Card>

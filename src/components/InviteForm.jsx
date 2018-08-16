@@ -111,12 +111,26 @@ class InviteForm extends Component {
       .get()
 
     let roomsArray = invitedUser.data().rooms
-    if (!roomsArray.includes(roomId)) {
+
+    const room = await db
+      .collection('rooms')
+      .doc(roomId)
+      .get()
+
+    let userIds = room.data().userIds
+    if (!roomsArray.includes(roomId) || !) {
       await db
         .collection('users')
         .doc(inviteeId)
         .update({
           rooms: roomsArray.concat(roomId)
+        })
+      await db
+        .collection('rooms')
+        .doc(roomId)
+        .update({
+          userIds: userIds.concat(inviteeId),
+          // codeEditorIds: TODO
         })
     }
 

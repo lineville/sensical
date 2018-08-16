@@ -56,24 +56,10 @@ class CodeEditor extends Component {
             value={this.state.code}
             name="code-editor"
             tabSize={2}
-            enableBasicAutocompletion={true}
             editorProps={{$blockScrolling: true}}
           />
           <Output input={this.state.code} />
         </div>
-        {/* <div className="">
-          <AceEditor
-            mode="javascript"
-            theme="monokai"
-            onChange={this.onChange2}
-            value={this.state.code2}
-            name="code-editor"
-            tabSize={2}
-            enableBasicAutocompletion={true}
-            editorProps={{$blockScrolling: true}}
-          />
-          <Output input={this.state.code2} />
-        </div> */}
       </div>
     )
   }

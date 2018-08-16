@@ -28,6 +28,8 @@ export class CreateRoom extends Component {
   }
 
   createRoom = async () => {
+    const currentUser = await firebase.auth().currentUser
+
     const whiteboards = await db.collection('whiteboards').add({})
     const codeEditor = await db.collection('codeEditors').add({
       code: ''
@@ -35,12 +37,12 @@ export class CreateRoom extends Component {
     const chats = await db.collection('chats').add({})
     const room = await db.collection('rooms').add({
       whiteboardId: whiteboards.id,
-      codeEditorId: codeEditor.id,
+      codeEditorIds: [codeEditor.id],
       chatsId: chats.id,
-      subject: this.state.subject
+      subject: this.state.subject,
+      userIds: [currentUser.uid]
     })
 
-    const currentUser = await firebase.auth().currentUser
     let user = await db
       .collection('users')
       .doc(currentUser.uid)

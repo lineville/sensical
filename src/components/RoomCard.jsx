@@ -44,6 +44,10 @@ export class RoomCard extends Component {
       .then(room => this.setState({room: room.data()}))
   }
 
+  joinRoom = () => {
+    this.props.history.push(`/classroom/${this.state.roomId}`)
+  }
+
   leaveRoom = async () => {
     let roomsArray = this.props.user.rooms
     let indexRoomToLeave = roomsArray.indexOf(this.state.roomId)
@@ -78,9 +82,7 @@ export class RoomCard extends Component {
               variant="contained"
               color="default"
               className={classes.button}
-              onClick={() =>
-                this.props.history.push(`/classroom/${this.state.roomId}`)
-              }
+              onClick={this.joinRoom}
             >
               Join
             </Button>
