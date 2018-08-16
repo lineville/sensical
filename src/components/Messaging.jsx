@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import db from '../firestore'
 import Message from './Message'
 import firebase from 'firebase'
-import {DragSource} from 'react-dnd'
+import {DragSource, ConnectDragSource, ConnectDragPreview} from 'react-dnd'
 
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
@@ -13,13 +13,13 @@ import Typography from '@material-ui/core/Typography'
 
 const messagingSource = {
   beginDrag(props) {
-    // console.log(left, top)
-    return {props}
+    return props
   },
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
       // console.log(getStyles(props))
     }
+    console.log(monitor.getDropResult())
   }
 }
 

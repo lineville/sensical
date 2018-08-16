@@ -1,14 +1,13 @@
 import React, {Component} from 'react'
-import Rooms from './Rooms'
 import db from '../firestore'
 import firebase from 'firebase'
 
 import classNames from 'classnames'
 import Avatar from '@material-ui/core/Avatar'
-import {withStyles, TextField} from '../../node_modules/@material-ui/core'
-import FormControl from '@material-ui/core/FormControl'
+import {withStyles} from '../../node_modules/@material-ui/core'
 import Button from '@material-ui/core/Button'
 import parallaxStyle from '../styles/parallaxStyle'
+import RoomContainer from './RoomContainer'
 
 const styles = theme => ({
   row: {
@@ -21,10 +20,6 @@ const styles = theme => ({
   bigAvatar: {
     width: 260,
     height: 260
-  },
-  cardRow: {
-    display: 'flex',
-    flexWrap: 'wrap'
   },
   card: {
     maxWidth: 345
@@ -48,65 +43,22 @@ class Profile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      roomId: '',
-      rooms: [],
-      subject: '',
       user: {}
     }
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
-  createRoom = async () => {
-    const whiteboards = await db.collection('whiteboards').add({})
-    const fireCodes = await db.collection('fireCodes').add({
-      code1: '',
-      code2: ''
-    })
-    const chats = await db.collection('chats').add({})
-    const room = await db.collection('rooms').add({
-      whiteboardId: whiteboards.id,
-      fireCodesId: fireCodes.id,
-      chatsId: chats.id,
-      subject: this.state.subject
-    })
-    this.setState({
-      roomId: room.id,
-      subject: ''
-    })
   }
 
   async componentDidMount() {
-    await db.collection('rooms').onSnapshot(rooms => {
-      let allRooms = []
-      rooms.docs.forEach(room => {
-        const data = room.data()
-        data.id = room.id
-        allRooms.push(data)
-      })
-      this.setState({
-        rooms: allRooms
-      })
-    })
     const authorizedUser = await firebase.auth().currentUser
-    const user = await db
+    await db
       .collection('users')
       .doc(authorizedUser.uid)
-      .get()
-    this.setState({
-      user: user.data()
-    })
+      .onSnapshot(doc => {
+        this.setState({user: {...doc.data(), id: authorizedUser.uid}})
+      })
   }
 
   render() {
     const {classes, filter, className, style, small} = this.props
-    const image =
-      'https://png.pngtree.com/element_origin_min_pic/17/01/07/217500f76b8ca08917fab435cb299f8c.jpg'
     const parallaxClasses = classNames({
       [classes.parallax]: true,
       [classes.filter]: filter,
@@ -118,50 +70,22 @@ class Profile extends Component {
         <div
           className={parallaxClasses}
           style={{
-            ...style,
-            backgroundImage: 'url(' + image + ')'
+            ...style
+            // backgroundImage: 'url(' + image + ')'
           }}
         >
           <Avatar
             alt="Pinto Bean"
-            src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12234109/Dachshund-On-White-03.jpg"
+            src="http://blogs.staffs.ac.uk/student-blogs/files/2016/08/iStock_28423686_MEDIUM.jpg"
             className={classNames(classes.avatar, classes.bigAvatar)}
           />
-          <h1>Welcome {this.state.user.username}!</h1>
-          <h2>Email: {this.state.user.email}</h2>
+          <p>Welcome {this.state.user.username}!</p>
+          <p>Email: {this.state.user.email}</p>
           <Button size="small" color="primary">
             Change Password
           </Button>
         </div>
-        <h1>Available Rooms</h1>
-        <div className={classes.cardRow}>
-          {this.state.rooms.map(room => {
-            return (
-              <Rooms
-                key={room.id}
-                id={room.id}
-                subject={room.subject}
-                joinRoom={this.joinRoom}
-                history={this.props.history}
-              />
-            )
-          })}
-        </div>
-        <FormControl className={classes.margin}>
-          <TextField
-            id="subject"
-            name="subject"
-            placeholder="Subject"
-            label="Subject"
-            className={classes.textField}
-            type="subject"
-            margin="normal"
-            onChange={this.handleChange}
-          />
-        </FormControl>
-        <Button onClick={this.createRoom} size="small" color="default">
-          Create Room
-        </Button>
+        <RoomContainer rooms={this.state.user.rooms} user={this.state.user} />
       </React.Fragment>
     )
   }

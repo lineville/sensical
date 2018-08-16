@@ -117,10 +117,10 @@ class Classroom extends Component {
                   <Typography className={classes.title} color="textSecondary">
                     Code Editor
                   </Typography>
-                  <CodeEditor
+                  {/* <CodeEditor
                     fireCodesId={this.state.fireCodesId}
                     roomId={this.state.roomId}
-                  />
+                  /> */}
                 </CardContent>
                 <Button>Remove</Button>
               </Card>
@@ -131,10 +131,21 @@ class Classroom extends Component {
                   <Typography className={classes.title} color="textSecondary">
                     Canvas
                   </Typography>
-                  <Canvas
+                  {/* <Canvas
                     whiteboardId={this.state.whiteboardId}
                     roomId={this.state.roomId}
-                  />
+                  /> */}
+                </CardContent>
+                <Button>Remove</Button>
+              </Card>
+            </Grid>
+            <Grid item>
+              <Card className={classes.card}>
+                <CardContent>
+                  <Typography className={classes.title} color="textSecondary">
+                    Invite a Friend!
+                  </Typography>
+                  <InviteForm roomId={this.state.roomId} />
                 </CardContent>
                 <Button>Remove</Button>
               </Card>

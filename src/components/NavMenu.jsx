@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import firebase from 'firebase'
+import {withAuth} from 'fireview'
 
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
@@ -127,7 +128,7 @@ class NavMenu extends Component {
               fig
             </Typography>
             {/* <img src="fig.svg" alt="fig" /> */}
-            {firebase.auth().currentUser ? (
+            {this.props._user ? (
               <div>
                 <Button color="inherit" onClick={this.handleLogout}>
                   Logout
@@ -157,4 +158,4 @@ NavMenu.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(withRouter(NavMenu))
+export default withStyles(styles)(withRouter(withAuth(NavMenu)))
