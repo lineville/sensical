@@ -87,7 +87,10 @@ class Classroom extends Component {
     if (this.shouldRender()) {
       return (
         <div className={classes.root}>
-          <RoomStatusBar roomId={this.state.roomId} />
+          <RoomStatusBar
+            roomId={this.state.roomId}
+            userIds={this.state.userIds}
+          />
           <Grid container direction="row" align-items="flex-start">
             <Grid item>
               <Card className={classes.card}>

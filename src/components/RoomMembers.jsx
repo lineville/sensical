@@ -1,8 +1,5 @@
 import React, {Component} from 'react'
-import firebase from 'firebase'
 import db from '../firestore'
-import {render} from 'react-testing-library'
-import RoomMembers from './RoomMembers'
 
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
@@ -40,57 +37,40 @@ const styles = theme => ({
   }
 })
 
-class RoomStatusBar extends Component {
+class RoomMembers extends Component {
   constructor() {
     super()
     this.state = {
-      currentRoom: '',
-      roomMemberIds: []
+      username: ''
     }
   }
 
   async componentDidMount() {
-    if (this.props.roomId) {
-      const room = await db
-        .collection('rooms')
-        .doc(this.props.roomId)
+    if (this.props.id) {
+      const user = await db
+        .collection('users')
+        .doc(this.props.id)
         .get()
-      const subject = room.data().subject
-      const members = room.data().userIds
-      this.setState({
-        currentRoom: subject,
-        roomMemberIds: members
-      })
+      const username = user.data().username
+      this.setState({username})
     }
   }
 
   render() {
     const {classes} = this.props
-    console.log('ROOM MEMBERS: ', this.state.roomMemberIds)
+    console.log('USERNAME: ', this.state.username)
     return (
       <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography
-              variant="title"
-              color="inherit"
-              className={classes.flex}
-            >
-              {this.state.currentRoom}
-            </Typography>
-
-            {this.state.roomMemberIds.map(memberId => {
-              return <RoomMembers id={memberId} key={memberId} />
-            })}
-          </Toolbar>
-        </AppBar>
+        <Typography variant="title" color="inherit" className={classes.flex}>
+          {this.state.username}
+        </Typography>
       </div>
     )
   }
 }
 
-RoomStatusBar.propTypes = {
+RoomMembers.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(RoomStatusBar)
+export default withStyles(styles)(RoomMembers)
