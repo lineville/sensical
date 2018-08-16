@@ -54,7 +54,8 @@ export class CreateRoom extends Component {
         .collection('users')
         .doc(currentUser.uid)
         .update({
-          rooms: roomsArray.concat(room.id)
+          rooms: roomsArray.concat(room.id),
+          codeEditorId: codeEditor.id
         })
     }
     this.setState({

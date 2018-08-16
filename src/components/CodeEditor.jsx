@@ -4,6 +4,7 @@ import db from '../firestore'
 import Output from './Output'
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
+import firebase from 'firebase'
 
 class CodeEditor extends Component {
   constructor(props) {
@@ -24,7 +25,8 @@ class CodeEditor extends Component {
       .get()
     await this.setState({
       codeEditorId: doc.id,
-      code: doc.data().code
+      code: doc.data().code,
+      userId: doc.data().userId
     })
     db.collection('codeEditors')
       .doc(codeEditorId)
@@ -57,6 +59,7 @@ class CodeEditor extends Component {
             value={this.state.code}
             name="code-editor"
             tabSize={2}
+            readOnly={this.state.userId === firebase.auth().currentUser.uid}
             editorProps={{$blockScrolling: true}}
           />
           <Output input={this.state.code} />

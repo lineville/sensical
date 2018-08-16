@@ -50,9 +50,9 @@ export class RoomCard extends Component {
   }
 
   leaveRoom = async () => {
+    const userId = firebase.auth().currentUser.uid
     let roomsArray = this.props.user.rooms
     let indexRoomToLeave = roomsArray.indexOf(this.state.roomId)
-
     roomsArray.splice(indexRoomToLeave, 1)
     await db
       .collection('users')
@@ -65,15 +65,27 @@ export class RoomCard extends Component {
       .doc(this.state.roomId)
       .get()
 
-    let indexUserToLeave = room
+    let indexUserToLeave = room.data().userIds.indexOf(userId)
+    const user = await db
+      .collection('users')
+      .doc(userId)
+      .get()
+    let indexEditorToDelete = room
       .data()
-      .userIds.indexOf(firebase.auth().currentUser.uid)
+      .codeEditorIds.indexOf(user.data().codeEditorId)
 
     await db
       .collection('rooms')
       .doc(this.state.roomId)
       .update({
-        userIds: room.data().userIds.splice(indexUserToLeave, 1)
+        userIds: room.data().userIds.splice(indexUserToLeave, 1),
+        codeEditorIds: room.data().codeEditorIds.splice(indexEditorToDelete, 1)
+      })
+    await db
+      .collection('users')
+      .doc(userId)
+      .update({
+        codeEditorId: ''
       })
     this.props.history.push('/profile')
   }
