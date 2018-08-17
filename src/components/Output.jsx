@@ -27,25 +27,42 @@ class Output extends Component {
     this.run = this.run.bind(this)
   }
 
+  componentDidMount() {
+    window.onerror = (message, source, lineno, colno, error) => {
+      console.log('on error listener called')
+      this.setState({
+        output: message
+      })
+    }
+  }
+
+  // componentWillUnmount() {
+  //   window.removeEventListener('error')
+  // }
+
   run() {
     const {input} = this.props
+    let oldLog = console.log
+    let oldError = console.error
     this.setState({output: ''})
+
     limitEval(
       input,
       (success, returnValue) => {
         if (success) {
-          console.log(returnValue)
           this.setState({
             output: returnValue
           })
         } else {
+          //some kind of error either timeout or anything else
+
           try {
+            //eslint-disable-next-line
+            // eval(input)
             this.setState({
               output:
-                'The code takes too long to run...  Is there is an infinite loop?'
+                'The code takes too long to run... Is there is an infinite loop?'
             })
-            //eslint-disable-next-line
-            eval(input)
           } catch (error) {
             this.setState({
               output: error.message
@@ -55,6 +72,8 @@ class Output extends Component {
       },
       3000
     )
+    console.log = oldLog
+    console.error = oldError
   }
 
   render() {
