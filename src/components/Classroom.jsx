@@ -5,6 +5,7 @@ import Messaging from './Messaging'
 import CodeEditorCard from './CodeEditorCard'
 import Canvas from './Canvas'
 import VideoCard from './VideoCard'
+import Notepad from './Notepad'
 
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -44,7 +45,8 @@ class Classroom extends Component {
       chat: true,
       codeEditors: true,
       canvas: true,
-      video: true
+      video: true,
+      notepad: true
     }
     this.handleDrop = this.handleDrop.bind(this)
   }
@@ -68,6 +70,10 @@ class Classroom extends Component {
 
   handleDrop(item) {
     this.setState({[item]: false})
+  }
+
+  addModule(item) {
+    this.setState({[item]: true})
   }
 
   shouldRender = () => {
@@ -107,20 +113,28 @@ class Classroom extends Component {
                 </Grid>
               ) : null}
               <Grid item>
-                {this.state.codeEditors ? (
-                  <CodeEditorCard
-                    codeEditors={this.state.codeEditorIds}
-                    roomId={this.state.roomId}
-                    handleDrop={() => this.handleDrop('codeEditors')}
-                  />
-                ) : null}
-              </Grid>
-              <Grid item>
                 {this.state.canvas ? (
                   <Canvas
                     whiteboardId={this.state.whiteboardId}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('canvas')}
+                  />
+                ) : null}
+              </Grid>
+              <Grid item>
+                {this.state.notepad ? (
+                  <Notepad
+                    roomId={this.state.roomId}
+                    handleDrop={() => this.handleDrop('notepad')}
+                  />
+                ) : null}
+              </Grid>
+              <Grid item>
+                {this.state.codeEditors ? (
+                  <CodeEditorCard
+                    codeEditors={this.state.codeEditorIds}
+                    roomId={this.state.roomId}
+                    handleDrop={() => this.handleDrop('codeEditors')}
                   />
                 ) : null}
               </Grid>
@@ -140,6 +154,7 @@ class Classroom extends Component {
           <RoomStatusBar
             roomId={this.state.roomId}
             userIds={this.state.userIds}
+            addModule={module => this.addModule(module)}
           />
         </div>
       )

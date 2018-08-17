@@ -75,7 +75,6 @@ class CodeEditorCard extends Component {
               ))}
             </div>
           </CardContent>
-          <Button>Remove</Button>
         </Card>
       </div>
     )

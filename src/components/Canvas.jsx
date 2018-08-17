@@ -293,7 +293,6 @@ class Canvas extends Component {
               {/* <Button onClick={this.undoLastStroke}>Undo</Button> */}
             </div>
           </CardContent>
-          <Button>Remove</Button>
         </Card>
       </div>
     )

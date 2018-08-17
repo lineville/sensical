@@ -149,6 +149,7 @@ export default class VideoComponent extends Component {
     var previewContainer = this.refs.localMedia
     if (!previewContainer.querySelector('video')) {
       this.attachParticipantTracks(room.localParticipant, previewContainer)
+      previewContainer.children[1].setAttribute('width', '100%')
     }
 
     // Attach the Tracks of the Room's Participants.
