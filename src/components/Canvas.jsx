@@ -114,7 +114,7 @@ class Canvas extends Component {
           curStroke: [],
           strokes: null
         })
-        // this.setup()
+        this.setup()
         console.log('STATE: ', this.state)
       })
       .catch(error => {
@@ -137,9 +137,6 @@ class Canvas extends Component {
 
     const newCanvas = document.createElement('canvas')
     classroom.appendChild(newCanvas)
-
-    this.setupColorPicker()
-    this.setupCanvas()
   }
 
   setup = () => {
@@ -151,7 +148,6 @@ class Canvas extends Component {
   }
 
   setupColorPicker = () => {
-    // const picker = document.createElement('div')
     this.picker.classList.add('color-selector')
     this.colors
       .map(color => {
