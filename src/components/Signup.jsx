@@ -93,7 +93,9 @@ class Signup extends Component {
         .set({
           email: this.state.email,
           username: this.state.username,
-          rooms: []
+          rooms: [],
+          profilePicURL:
+            'https://upload.wikimedia.org/wikipedia/commons/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg'
         })
       //user authenticated id stored at user.uid
       this.props.history.push('/profile')

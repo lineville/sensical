@@ -8,6 +8,14 @@ import {withStyles} from '../../node_modules/@material-ui/core'
 import Button from '@material-ui/core/Button'
 import parallaxStyle from '../styles/parallaxStyle'
 import RoomContainer from './RoomContainer'
+import Snackbar from '@material-ui/core/Snackbar'
+import Notification from './Notification'
+import TextField from '@material-ui/core/TextField'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 const styles = theme => ({
   row: {
@@ -42,8 +50,18 @@ class Profile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: {}
+      user: {},
+      open: false,
+      popUpMessageType: '',
+      popUpMessage: '',
+      emailFormOpen: false,
+      passwordFormOpen: true,
+      newEmail: '',
+      newPassword: ''
     }
+    this.changeEmail = this.changeEmail.bind(this)
+    this.changePassword = this.changePassword.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   async componentDidMount() {
@@ -53,6 +71,72 @@ class Profile extends Component {
       .doc(authorizedUser.uid)
       .onSnapshot(doc => {
         this.setState({user: {...doc.data(), id: authorizedUser.uid}})
+      })
+  }
+
+  handleClose(event, reason) {
+    if (reason === 'clickaway') {
+      return
+    }
+    this.setState({
+      open: false,
+      emailFormOpen: false,
+      passwordFormOpen: false
+    })
+  }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  async changeEmail() {
+    const user = await firebase.auth().currentUser
+    user
+      .updateEmail(this.state.newEmail)
+      .then(() => {
+        this.setState({
+          popUpMessage: 'Email successfully updated',
+          popUpMessageType: 'success'
+        })
+      })
+      .then(() => {
+        this.setState({open: true})
+      })
+      .then(() => {
+        db.collection('users')
+          .doc(user.uid)
+          .update({
+            email: user.email
+          })
+      })
+      .catch(error => {
+        this.setState({
+          popUpMessage: error.message,
+          popUpMessageType: 'warning',
+          open: true
+        })
+        console.log(error, this.state)
+      })
+  }
+
+  async changePassword() {
+    var auth = firebase.auth()
+    var emailAddress = await auth.currentUser.email
+    auth
+      .sendPasswordResetEmail(emailAddress)
+      .then(() => {
+        this.setState({
+          popUpMessage: 'Check your email for password reset!',
+          popUpMessageType: 'success'
+        })
+      })
+      .then(() => {
+        this.setState({open: true})
+      })
+      .catch(function(error) {
+        console.log(error)
       })
   }
 
@@ -74,16 +158,72 @@ class Profile extends Component {
           }}
         >
           <Avatar
-            alt="Pinto Bean"
-            src="http://blogs.staffs.ac.uk/student-blogs/files/2016/08/iStock_28423686_MEDIUM.jpg"
+            alt="default prof pic"
+            src={this.state.user.profilePicURL}
             className={classNames(classes.avatar, classes.bigAvatar)}
           />
           <div>
             <p>Welcome {this.state.user.username}!</p>
             <p>Email: {this.state.user.email}</p>
-            <Button size="small" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => this.setState({emailFormOpen: true})}
+            >
+              Change Email
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={this.changePassword}
+            >
               Change Password
             </Button>
+            <Snackbar
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left'
+              }}
+              open={this.state.open}
+              autoHideDuration={6000}
+              onClose={this.handleClose}
+            >
+              <Notification
+                onClose={this.handleClose}
+                variant={this.state.popUpMessageType}
+                message={this.state.popUpMessage}
+              />
+            </Snackbar>
+
+            <Dialog
+              open={this.state.emailFormOpen}
+              onClose={this.handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Change Email</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  name="newEmail"
+                  label="Email Address"
+                  type="email"
+                  fullWidth
+                  onChange={this.handleChange}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose} color="secondary">
+                  Cancel
+                </Button>
+                <Button onClick={this.changeEmail} color="primary">
+                  Confirm
+                </Button>
+              </DialogActions>
+            </Dialog>
           </div>
         </div>
         <RoomContainer rooms={this.state.user.rooms} user={this.state.user} />
