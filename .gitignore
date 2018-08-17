@@ -26,3 +26,5 @@ build
 #secrets
 secrets.js
 
+#firestore
+firestore.js
