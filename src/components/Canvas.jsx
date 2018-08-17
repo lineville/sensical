@@ -2,7 +2,47 @@ import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
 
+<<<<<<< HEAD
 import Button from '@material-ui/core/Button'
+=======
+import {DragSource} from 'react-dnd'
+
+import PropTypes from 'prop-types'
+import {withStyles} from '@material-ui/core/styles'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+
+const canvasSource = {
+  beginDrag(props) {
+    return props
+  },
+  endDrag(props, monitor, component) {
+    if (!monitor.didDrop()) {
+      return
+    }
+    return props.handleDrop()
+  }
+}
+
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
+    isDragging: monitor.isDragging()
+  }
+}
+
+const styles = theme => ({
+  card: {
+    minWidth: 275
+  },
+  button: {
+    margin: theme.spacing.unit
+  }
+})
+>>>>>>> master
 
 class Canvas extends Component {
   constructor() {
@@ -231,14 +271,46 @@ class Canvas extends Component {
         this.ctx.stroke()
       })
     }
+<<<<<<< HEAD
     return (
       <div id="whiteboard">
         <div id="whiteboard-canvas" />
         <Button onClick={this.clearCanvas}>Clear</Button>
         <Button onClick={this.undoLastStroke}>Undo</Button>
+=======
+    const {classes, connectDragSource, isDragging, item} = this.props
+    return connectDragSource(
+      <div>
+        <Card
+          className={classes.card}
+          style={{
+            opacity: isDragging ? 0.3 : 1,
+            cursor: 'move'
+          }}
+        >
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary">
+              Canvas
+            </Typography>
+
+            <div id="whiteboard">
+              <div id="whiteboard-canvas" />
+            </div>
+          </CardContent>
+          <Button>Remove</Button>
+        </Card>
+>>>>>>> master
       </div>
     )
   }
 }
 
-export default Canvas
+Canvas.propTypes = {
+  classes: PropTypes.object.isRequired,
+  connectDragSource: PropTypes.func.isRequired,
+  isDragging: PropTypes.bool.isRequired
+}
+
+export default DragSource('MODULE', canvasSource, collect)(
+  withStyles(styles)(Canvas)
+)
