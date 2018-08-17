@@ -11,8 +11,7 @@ import RoomContainer from './RoomContainer'
 
 const styles = theme => ({
   row: {
-    display: 'flex',
-    justifyContent: 'center'
+    display: 'flex'
   },
   avatar: {
     margin: 50
@@ -79,11 +78,13 @@ class Profile extends Component {
             src="http://blogs.staffs.ac.uk/student-blogs/files/2016/08/iStock_28423686_MEDIUM.jpg"
             className={classNames(classes.avatar, classes.bigAvatar)}
           />
-          <p>Welcome {this.state.user.username}!</p>
-          <p>Email: {this.state.user.email}</p>
-          <Button size="small" color="primary">
-            Change Password
-          </Button>
+          <div>
+            <p>Welcome {this.state.user.username}!</p>
+            <p>Email: {this.state.user.email}</p>
+            <Button size="small" color="primary">
+              Change Password
+            </Button>
+          </div>
         </div>
         <RoomContainer rooms={this.state.user.rooms} user={this.state.user} />
       </React.Fragment>

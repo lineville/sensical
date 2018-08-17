@@ -15,13 +15,6 @@ const styles = theme => ({
   flex: {
     flexGrow: 1
   },
-  menuButton: {
-    marginLeft: 0,
-    marginRight: 0
-  },
-  icon: {
-    margin: theme.spacing.unit * 2
-  },
   list: {
     width: 250
   },
@@ -58,7 +51,6 @@ class RoomStatusBar extends Component {
 
   render() {
     const {classes} = this.props
-    console.log('ROOM MEMBERS: ', this.state.roomMemberIds)
     return (
       <div className={classes.root}>
         <AppBar position="static">

@@ -48,7 +48,6 @@ class RoomMembers extends Component {
 
   render() {
     const {classes} = this.props
-    console.log('USERNAME: ', this.state.username)
     return (
       <div className={classes.root}>
         <Typography variant="title" color="inherit" className={classes.flex}>
