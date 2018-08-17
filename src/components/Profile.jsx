@@ -10,6 +10,12 @@ import parallaxStyle from '../styles/parallaxStyle'
 import RoomContainer from './RoomContainer'
 import Snackbar from '@material-ui/core/Snackbar'
 import Notification from './Notification'
+import TextField from '@material-ui/core/TextField'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 const styles = theme => ({
   row: {
@@ -45,9 +51,14 @@ class Profile extends Component {
     super(props)
     this.state = {
       user: {},
-      open: false
+      open: false,
+      popUpMessageType: '',
+      popUpMessage: '',
+      emailFormOpen: false,
+      passwordFormOpen: true,
+      newEmail: '',
+      newPassword: ''
     }
-    this.changeUsername = this.changePassword.bind(this)
     this.changeEmail = this.changeEmail.bind(this)
     this.changePassword = this.changePassword.bind(this)
     this.handleClose = this.handleClose.bind(this)
@@ -68,25 +79,59 @@ class Profile extends Component {
       return
     }
     this.setState({
-      open: false
+      open: false,
+      emailFormOpen: false,
+      passwordFormOpen: false
     })
   }
 
-  changeUsername = async () => {}
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+    console.log(this.state)
+  }
 
-  changeEmail = async () => {}
+  async changeEmail() {
+    const user = await firebase.auth().currentUser
+    console.log(this.state.newEmail)
+    user
+      .updateEmail(this.state.newEmail)
+      .then(() => {
+        this.setState({
+          popUpMessage: 'Email successfully updated',
+          popUpMessageType: 'success'
+        })
+      })
+      .then(() => {
+        this.setState({open: true})
+      })
+      .then(() => {
+        db.collection('users')
+          .doc(user.uid)
+          .update({
+            email: user.email
+          })
+      })
+      .catch(function(error) {
+        console.log(error)
+      })
+  }
 
   async changePassword() {
     var auth = firebase.auth()
     var emailAddress = await auth.currentUser.email
     auth
       .sendPasswordResetEmail(emailAddress)
-      .then(
-        function() {
-          console.log('sent email')
-          this.setState({open: true})
-        }.bind(this)
-      )
+      .then(() => {
+        this.setState({
+          popUpMessage: 'Check your email for password reset!',
+          popUpMessageType: 'success'
+        })
+      })
+      .then(() => {
+        this.setState({open: true})
+      })
       .catch(function(error) {
         console.log(error)
       })
@@ -110,8 +155,8 @@ class Profile extends Component {
           }}
         >
           <Avatar
-            alt="Pinto Bean"
-            src="http://blogs.staffs.ac.uk/student-blogs/files/2016/08/iStock_28423686_MEDIUM.jpg"
+            alt="default prof pic"
+            src={this.state.user.profilePicURL}
             className={classNames(classes.avatar, classes.bigAvatar)}
           />
           <div>
@@ -121,15 +166,7 @@ class Profile extends Component {
               variant="contained"
               color="primary"
               size="small"
-              onClick={this.changeUsername}
-            >
-              Change UserName
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={this.changeEmail}
+              onClick={() => this.setState({emailFormOpen: true})}
             >
               Change Email
             </Button>
@@ -152,10 +189,38 @@ class Profile extends Component {
             >
               <Notification
                 onClose={this.handleClose}
-                variant="success"
-                message="Check your email for password reset!"
+                variant={this.state.popUpMessageType}
+                message={this.state.popUpMessage}
               />
             </Snackbar>
+
+            <Dialog
+              open={this.state.emailFormOpen}
+              onClose={this.handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Change Email</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  name="newEmail"
+                  label="Email Address"
+                  type="email"
+                  fullWidth
+                  onChange={this.handleChange}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose} color="secondary">
+                  Cancel
+                </Button>
+                <Button onClick={this.changeEmail} color="primary">
+                  Confirm
+                </Button>
+              </DialogActions>
+            </Dialog>
           </div>
         </div>
         <RoomContainer rooms={this.state.user.rooms} user={this.state.user} />
