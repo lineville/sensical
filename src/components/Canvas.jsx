@@ -16,6 +16,8 @@ class Canvas extends Component {
   canvas = document.createElement('canvas')
   ctx = this.canvas.getContext('2d')
 
+  picker = document.createElement('div')
+
   color = 'black'
   //// Position tracking
   currentMousePosition = {
@@ -77,11 +79,22 @@ class Canvas extends Component {
           strokes: null
         })
         this.forceUpdate()
+        this.setup()
         console.log('STATE: ', this.state)
       })
       .catch(error => {
         console.error('Error drawing new stroke to Firestore Database: ', error)
       })
+  }
+
+  undoLastStroke = () => {
+    console.log('UNDO LAST STROKE RAN')
+  }
+
+  clearCanvasDOM = () => {
+    const classroom = document.getElementById('whiteboard-canvas')
+    classroom.removeChild(this.canvas)
+    classroom.removeChild(this.picker)
   }
 
   setup = () => {
@@ -93,8 +106,8 @@ class Canvas extends Component {
   }
 
   setupColorPicker = () => {
-    const picker = document.createElement('div')
-    picker.classList.add('color-selector')
+    // const picker = document.createElement('div')
+    this.picker.classList.add('color-selector')
     this.colors
       .map(color => {
         const marker = document.createElement('div')
@@ -103,21 +116,21 @@ class Canvas extends Component {
         marker.style.backgroundColor = color
         return marker
       })
-      .forEach(color => picker.appendChild(color))
+      .forEach(color => this.picker.appendChild(color))
 
-    picker.addEventListener('click', ({target}) => {
+    this.picker.addEventListener('click', ({target}) => {
       this.color = target.dataset.color
       if (!this.color) return
-      const current = picker.querySelector('.selected')
+      const current = this.picker.querySelector('.selected')
       current && current.classList.remove('selected')
       target.classList.add('selected')
     })
 
     let classroom = document.getElementById('whiteboard-canvas')
-    classroom.appendChild(picker)
+    classroom.appendChild(this.picker)
 
     // Select the first color
-    picker.firstChild.click()
+    this.picker.firstChild.click()
   }
 
   resize = () => {
