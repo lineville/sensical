@@ -149,6 +149,7 @@ export default class VideoComponent extends Component {
     var previewContainer = this.refs.localMedia
     if (!previewContainer.querySelector('video')) {
       this.attachParticipantTracks(room.localParticipant, previewContainer)
+      previewContainer.children[1].setAttribute('width', '100%')
     }
 
     // Attach the Tracks of the Room's Participants.
@@ -156,6 +157,7 @@ export default class VideoComponent extends Component {
       console.log("Already in Room: '" + participant.identity + "'")
       var previewContainer = this.refs.remoteMedia
       this.attachParticipantTracks(participant, previewContainer)
+      previewContainer.children[1].setAttribute('width', '100%')
     })
 
     // When a Participant joins the Room, log the event.
@@ -216,7 +218,7 @@ export default class VideoComponent extends Component {
     // Only show video track after user has joined a room
     let showLocalTrack = this.state.localMediaAvailable ? (
       <div className="flex-item">
-        <div ref="localMedia" />
+        <div ref="localMedia" width="100%" />
       </div>
     ) : (
       ''
@@ -249,7 +251,12 @@ export default class VideoComponent extends Component {
         </FormControl>
         <br />
         {joinOrLeaveRoomButton}
-        <div className="flex-item" ref="remoteMedia" id="remote-media" />
+        <div
+          className="flex-item"
+          ref="remoteMedia"
+          id="remote-media"
+          width="100%"
+        />
       </div>
     )
   }
