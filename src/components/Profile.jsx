@@ -56,8 +56,10 @@ class Profile extends Component {
       popUpMessage: '',
       emailFormOpen: false,
       passwordFormOpen: true,
+      userNameFormOpen: false,
       newEmail: '',
-      newPassword: ''
+      newPassword: '',
+      newUserName: ''
     }
     this.changeEmail = this.changeEmail.bind(this)
     this.changePassword = this.changePassword.bind(this)
@@ -81,7 +83,8 @@ class Profile extends Component {
     this.setState({
       open: false,
       emailFormOpen: false,
-      passwordFormOpen: false
+      passwordFormOpen: false,
+      userNameFormOpen: false
     })
   }
 
@@ -140,12 +143,17 @@ class Profile extends Component {
       })
   }
 
-  async changeUsername() {
+  changeUsername = async () => {
     const authorizedUser = await firebase.auth().currentUser
-    const user = await db
+    await db
       .collection('users')
       .doc(authorizedUser.uid)
-      .update({username: newUserName})
+      .update({username: this.state.newUserName})
+      .then(() => {
+        this.setState({
+          userNameFormOpen: false
+        })
+      })
   }
 
   render() {
@@ -193,7 +201,7 @@ class Profile extends Component {
               variant="contained"
               color="primary"
               size="small"
-              onClick={this.changeUsername}
+              onClick={() => this.setState({userNameFormOpen: true})}
             >
               Change Username
             </Button>
@@ -236,6 +244,34 @@ class Profile extends Component {
                   Cancel
                 </Button>
                 <Button onClick={this.changeEmail} color="primary">
+                  Confirm
+                </Button>
+              </DialogActions>
+            </Dialog>
+
+            <Dialog
+              open={this.state.userNameFormOpen}
+              onClose={this.handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Change Username</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  name="newUserName"
+                  label="Username"
+                  type="email"
+                  fullWidth
+                  onChange={this.handleChange}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose} color="secondary">
+                  Cancel
+                </Button>
+                <Button onClick={this.changeUsername} color="primary">
                   Confirm
                 </Button>
               </DialogActions>
