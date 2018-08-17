@@ -140,6 +140,14 @@ class Profile extends Component {
       })
   }
 
+  async changeUsername() {
+    const authorizedUser = await firebase.auth().currentUser
+    const user = await db
+      .collection('users')
+      .doc(authorizedUser.uid)
+      .update({username: newUserName})
+  }
+
   render() {
     const {classes, filter, className, style, small} = this.props
     const parallaxClasses = classNames({
@@ -180,6 +188,14 @@ class Profile extends Component {
               onClick={this.changePassword}
             >
               Change Password
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={this.changeUsername}
+            >
+              Change Username
             </Button>
             <Snackbar
               anchorOrigin={{
