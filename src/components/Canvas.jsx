@@ -103,7 +103,6 @@ class Canvas extends Component {
   }
 
   clearCanvas = () => {
-    console.log('CLEAR CANVAS RAN')
     db.collection('whiteboards')
       .doc(this.props.whiteboardId)
       .update({
@@ -124,14 +123,7 @@ class Canvas extends Component {
   }
 
   undoLastStroke = () => {
-    // console.log('UNDO LAST STROKE RAN')
-    console.log('SETUP RAN')
-    const classroom = document.getElementById('whiteboard-canvas')
-    classroom.appendChild(this.canvas)
-
-    this.setupColorPicker()
-    this.setupCanvas()
-    this.forceUpdate()
+    console.log('UNDER LAST STROKE')
   }
 
   clearCanvasDOM = () => {
@@ -142,6 +134,12 @@ class Canvas extends Component {
       this.picker.removeChild(this.picker.firstChild)
     }
     classroom.removeChild(this.picker)
+
+    const newCanvas = document.createElement('canvas')
+    classroom.appendChild(newCanvas)
+
+    this.setupColorPicker()
+    this.setupCanvas()
   }
 
   setup = () => {
@@ -268,7 +266,6 @@ class Canvas extends Component {
   }
 
   render() {
-    console.log('RENDERED STATE: ', this.state.strokes)
     if (this.state.strokes) {
       this.state.strokes.forEach(stroke => {
         this.ctx.beginPath()
@@ -297,7 +294,7 @@ class Canvas extends Component {
             <div id="whiteboard">
               <div id="whiteboard-canvas" />
               <Button onClick={this.clearCanvas}>Clear</Button>
-              <Button onClick={this.undoLastStroke}>Undo</Button>
+              {/* <Button onClick={this.undoLastStroke}>Undo</Button> */}
             </div>
           </CardContent>
           <Button>Remove</Button>
