@@ -29,6 +29,7 @@ class Output extends Component {
 
   run() {
     const {input} = this.props
+    this.setState({output: ''})
     limitEval(
       input,
       (success, returnValue) => {
@@ -39,12 +40,12 @@ class Output extends Component {
           })
         } else {
           try {
-            //eslint-disable-next-line
-            eval(input)
             this.setState({
               output:
                 'The code takes too long to run...  Is there is an infinite loop?'
             })
+            //eslint-disable-next-line
+            eval(input)
           } catch (error) {
             this.setState({
               output: error.message
@@ -64,6 +65,7 @@ class Output extends Component {
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
             onClick={this.run}
+            onChange={() => this.setState({output: ''})}
           >
             <Typography className={classes.heading}>Output</Typography>
           </ExpansionPanelSummary>
