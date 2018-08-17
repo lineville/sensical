@@ -31,7 +31,6 @@ const styles = theme => ({
   },
   text: {
     fontSize: 14,
-    fontWeight: 200,
     flexGrow: 1,
     display: 'flex'
   }

@@ -4,11 +4,9 @@ import Typography from '@material-ui/core/Typography'
 
 const Message = props => (
   <Typography>
-    <p>
-      {props.message.user}
-      :&nbsp;
-      {props.message.text}
-    </p>
+    {props.message.user}
+    :&nbsp;
+    {props.message.text}
   </Typography>
 )
 

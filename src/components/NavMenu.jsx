@@ -31,6 +31,9 @@ const styles = theme => ({
   },
   fullList: {
     width: 'auto'
+  },
+  lowercase: {
+    textTransform: 'lowercase'
   }
 })
 
@@ -40,6 +43,7 @@ class NavMenu extends Component {
     this.loginPush = this.loginPush.bind(this)
     this.signupPush = this.signupPush.bind(this)
     this.profilePush = this.profilePush.bind(this)
+    this.homePush = this.homePush.bind(this)
     this.handleLogout = this.handleLogout.bind(this)
   }
 
@@ -64,19 +68,25 @@ class NavMenu extends Component {
     this.props.history.push('/profile')
   }
 
+  homePush() {
+    this.props.history.push('/')
+  }
+
   render() {
     const {classes} = this.props
     return (
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <Typography
-              variant="title"
-              color="inherit"
-              className={classes.flex}
-            >
-              fig
-            </Typography>
+            <Button color="inherit" onClick={this.homePush}>
+              <Typography
+                variant="title"
+                color="inherit"
+                className={classes.lowercase}
+              >
+                fig
+              </Typography>
+            </Button>
             <Typography
               variant="title"
               color="inherit"
