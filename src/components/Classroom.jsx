@@ -13,7 +13,6 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import InviteForm from './InviteForm'
 import RoomStatusBar from './RoomStatusBar'
-import HideBin from './HideBin'
 
 const styles = theme => ({
   root: {
@@ -94,52 +93,53 @@ class Classroom extends Component {
     const {classes} = this.props
     if (this.shouldRender()) {
       return (
-        <div className={classes.root}>
+        <div>
+          <div className={classes.root}>
+            <Grid container direction="row" align-items="flex-start">
+              {this.state.chat ? (
+                <Grid item>
+                  <Messaging
+                    chatsId={this.state.chatsId}
+                    roomId={this.state.roomId}
+                    handleDrop={() => this.handleDrop('chat')}
+                  />
+                </Grid>
+              ) : null}
+              <Grid item>
+                {this.state.codeEditors ? (
+                  <CodeEditorCard
+                    codeEditors={this.state.codeEditorIds}
+                    roomId={this.state.roomId}
+                    handleDrop={() => this.handleDrop('codeEditors')}
+                  />
+                ) : null}
+              </Grid>
+              <Grid item>
+                {this.state.canvas ? (
+                  <Canvas
+                    whiteboardId={this.state.whiteboardId}
+                    roomId={this.state.roomId}
+                    handleDrop={() => this.handleDrop('canvas')}
+                  />
+                ) : null}
+              </Grid>
+              <Grid item>
+                <Card className={classes.card}>
+                  <CardContent>
+                    <Typography className={classes.title} color="textSecondary">
+                      Invite a Friend!
+                    </Typography>
+                    <InviteForm roomId={this.state.roomId} />
+                  </CardContent>
+                  <Button>Remove</Button>
+                </Card>
+              </Grid>
+            </Grid>
+          </div>
           <RoomStatusBar
             roomId={this.state.roomId}
             userIds={this.state.userIds}
           />
-          <HideBin />
-          <Grid container direction="row" align-items="flex-start">
-            {this.state.chat ? (
-              <Grid item>
-                <Messaging
-                  chatsId={this.state.chatsId}
-                  roomId={this.state.roomId}
-                  handleDrop={() => this.handleDrop('chat')}
-                />
-              </Grid>
-            ) : null}
-            <Grid item>
-              {this.state.codeEditors ? (
-                <CodeEditorCard
-                  codeEditors={this.state.codeEditorIds}
-                  roomId={this.state.roomId}
-                  handleDrop={() => this.handleDrop('codeEditors')}
-                />
-              ) : null}
-            </Grid>
-            <Grid item>
-              {this.state.canvas ? (
-                <Canvas
-                  whiteboardId={this.state.whiteboardId}
-                  roomId={this.state.roomId}
-                  handleDrop={() => this.handleDrop('canvas')}
-                />
-              ) : null}
-            </Grid>
-            <Grid item>
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary">
-                    Invite a Friend!
-                  </Typography>
-                  <InviteForm roomId={this.state.roomId} />
-                </CardContent>
-                <Button>Remove</Button>
-              </Card>
-            </Grid>
-          </Grid>
         </div>
       )
     }
