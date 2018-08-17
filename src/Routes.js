@@ -8,7 +8,8 @@ import HomePage from './components/HomePage'
 import Signup from './components/Signup'
 import Login from './components/Login'
 import {withAuth} from 'fireview'
-import VideoChat from './components/Video'
+// import VideoChat from './components/Video'
+import VideoComponent from './components/VideoComponent'
 
 const Routes = props => {
   const isLoggedIn = props._user
@@ -19,6 +20,7 @@ const Routes = props => {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
+        <Route exact path="/twilio" component={VideoComponent} />
         {/* Routes that only logged in users can access */}
         {isLoggedIn && (
           <Switch>
@@ -29,7 +31,7 @@ const Routes = props => {
               component={ClassroomContext}
             />
             <Route path="/codeEditor/:codeEditorId" component={CodeEditor} />
-            <Route exact path="/video" component={VideoChat} />
+            {/* <Route exact path="/video" component={VideoChat} /> */}
             <Route path="/whiteboards/:whiteboardId" component={Canvas} />
           </Switch>
         )}
