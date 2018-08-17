@@ -47,7 +47,7 @@ const styles = theme => ({
   }
 })
 
-function MySnackbarContent(props) {
+function Notification(props) {
   const {classes, className, message, onClose, variant, ...other} = props
   const Icon = variantIcon[variant]
 
@@ -77,7 +77,7 @@ function MySnackbarContent(props) {
   )
 }
 
-MySnackbarContent.propTypes = {
+Notification.propTypes = {
   classes: PropTypes.object.isRequired,
   className: PropTypes.string,
   message: PropTypes.node,
@@ -85,4 +85,4 @@ MySnackbarContent.propTypes = {
   variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired
 }
 
-export default withStyles(styles)(MySnackbarContent)
+export default withStyles(styles)(Notification)

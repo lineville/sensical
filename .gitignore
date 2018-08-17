@@ -24,4 +24,8 @@ yarn-error.log*
 build
 
 #secrets
-secrets.js
+secrets
+secrets.*
+
+#firestore
+firestore.js
