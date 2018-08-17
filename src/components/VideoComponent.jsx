@@ -61,10 +61,10 @@ const styles = theme => ({
 
 export default class VideoComponent extends Component {
   constructor(props) {
-    super()
+    super(props)
     this.state = {
       identity: null,
-      roomName: '',
+      roomName: this.props.roomId,
       roomNameErr: false, // Track error for room name TextField
       previewTracks: null,
       localMediaAvailable: false,
@@ -241,7 +241,7 @@ export default class VideoComponent extends Component {
             id="roomName"
             name="roomName"
             label="Room Name"
-            value={this.state.roomName}
+            value={this.props.roomId}
             type="roomName"
             margin="normal"
             onChange={this.handleRoomNameChange}
@@ -252,24 +252,5 @@ export default class VideoComponent extends Component {
         <div className="flex-item" ref="remoteMedia" id="remote-media" />
       </div>
     )
-    // <Card>
-    //   <CardText>
-    //     <div className="flex-container">
-    //       {showLocalTrack}
-    //       <div className="flex-item">
-    //         <TextField
-    //           hintText="Room Name"
-    //           onChange={this.handleRoomNameChange}
-    //           errorText={
-    //             this.state.roomNameErr ? 'Room Name is required' : undefined
-    //           }
-    //         />
-    //         <br />
-    //         {joinOrLeaveRoomButton}
-    //       </div>
-    //       <div className="flex-item" ref="remoteMedia" id="remote-media" />
-    //     </div>
-    //   </CardText>
-    // </Card>
   }
 }

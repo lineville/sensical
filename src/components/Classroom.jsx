@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
+import db from '../firestore'
+import firebase from 'firebase'
 import Messaging from './Messaging'
 import CodeEditorCard from './CodeEditorCard'
 import Canvas from './Canvas'
-import db from '../firestore'
-import firebase from 'firebase'
+import VideoCard from './VideoCard'
 
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -42,7 +43,8 @@ class Classroom extends Component {
       chatsId: '',
       chat: true,
       codeEditors: true,
-      canvas: true
+      canvas: true,
+      video: true
     }
     this.handleDrop = this.handleDrop.bind(this)
   }
@@ -53,14 +55,14 @@ class Classroom extends Component {
       .doc(this.props.classroom)
       .get()
     this.setState({
+      userIds: classroom.data().userIds,
       roomId: classroom.id,
       whiteboardId: classroom.data().whiteboardId,
       codeEditorIds: [
         ...this.state.codeEditorIds,
         ...classroom.data().codeEditorIds
       ],
-      chatsId: classroom.data().chatsId,
-      userIds: classroom.data().userIds
+      chatsId: classroom.data().chatsId
     })
   }
 
@@ -87,6 +89,14 @@ class Classroom extends Component {
         <div>
           <div className={classes.root}>
             <Grid container direction="row" align-items="flex-start">
+              <Grid item>
+                {this.state.video ? (
+                  <VideoCard
+                    roomId={this.state.roomId}
+                    handleDrop={() => this.handleDrop('video')}
+                  />
+                ) : null}
+              </Grid>
               {this.state.chat ? (
                 <Grid item>
                   <Messaging

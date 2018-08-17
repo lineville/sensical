@@ -5,7 +5,7 @@ var express = require('express')
 var faker = require('faker')
 var AccessToken = require('twilio').jwt.AccessToken
 var VideoGrant = AccessToken.VideoGrant
-require('./Secrets')
+require('./secrets')
 console.log(process.env)
 
 var app = express()
