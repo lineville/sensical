@@ -144,7 +144,6 @@ export class Messaging extends Component {
               </form>
             </div>
           </CardContent>
-          <Button>Remove</Button>
         </Card>
       </div>
     )

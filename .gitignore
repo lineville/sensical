@@ -24,7 +24,6 @@ yarn-error.log*
 build
 
 #secrets
-secrets.js
 secrets
 secrets.*
 

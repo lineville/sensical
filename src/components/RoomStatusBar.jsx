@@ -71,23 +71,39 @@ class RoomStatusBar extends Component {
 
   render() {
     const {classes} = this.props
+    console.log(this.props)
     const sideList = (
       <div className={classes.fullList}>
         <List>
           <ListItem button>
-            <ListItemText primary="WhiteBoard" />
+            <ListItemText
+              primary="Canvas"
+              onClick={() => this.props.addModule('canvas')}
+            />
           </ListItem>
           <ListItem button>
-            <ListItemText primary="Code Editor" />
+            <ListItemText
+              primary="Code Editor"
+              onClick={() => this.props.addModule('codeEditors')}
+            />
           </ListItem>
           <ListItem button>
-            <ListItemText primary="Video" />
+            <ListItemText
+              primary="Video"
+              onClick={() => this.props.addModule('video')}
+            />
           </ListItem>
           <ListItem button>
-            <ListItemText primary="Notes" />
+            <ListItemText
+              primary="Notepad"
+              onClick={() => this.props.addModule('notepad')}
+            />
           </ListItem>
           <ListItem button>
-            <ListItemText primary="Chat" />
+            <ListItemText
+              primary="Chat"
+              onClick={() => this.props.addModule('chat')}
+            />
           </ListItem>
         </List>
       </div>
