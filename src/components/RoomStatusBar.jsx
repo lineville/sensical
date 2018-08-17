@@ -23,14 +23,17 @@ const styles = theme => ({
     width: '100%',
     zIndex: 100
   },
-  flex: {
-    flexGrow: 1
-  },
   list: {
     width: 250
   },
   fullList: {
     width: 'auto'
+  },
+  text: {
+    fontSize: 14,
+    fontWeight: 200,
+    flexGrow: 1,
+    display: 'flex'
   }
 })
 
@@ -118,28 +121,21 @@ class RoomStatusBar extends Component {
             <Typography
               variant="title"
               color="inherit"
-              className={classes.flex}
+              className={classes.text}
             >
               Room Name:
-            </Typography>
-            <Typography
-              variant="title"
-              color="inherit"
-              className={classes.flex}
-            >
               {this.state.currentRoom}
             </Typography>
             <Typography
               variant="title"
               color="inherit"
-              className={classes.flex}
+              className={classes.text}
             >
               Room Members:
+              {this.state.roomMemberIds.map(memberId => {
+                return <RoomMembers id={memberId} key={memberId} />
+              })}
             </Typography>
-
-            {this.state.roomMemberIds.map(memberId => {
-              return <RoomMembers id={memberId} key={memberId} />
-            })}
             <HideBin />
           </Toolbar>
         </AppBar>
