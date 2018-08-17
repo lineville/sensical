@@ -1,0 +1,3 @@
+process.env.ACCOUNT_SID = 'AC452c89bfd98d8789a7e228f19622053e'
+process.env.API_KEY_SID = 'SKde63f91dd89621d02d5f134f0ec0e150'
+process.env.API_KEY_SECRET = 'EdXuTazQ1eYZsL22vdmi7R9IAAfVIEML'
