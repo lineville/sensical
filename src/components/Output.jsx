@@ -6,7 +6,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import sanitize, {limitEval} from '../sanitize'
+import limitEval from '../sanitize'
 
 const styles = theme => ({
   root: {
@@ -27,38 +27,53 @@ class Output extends Component {
     this.run = this.run.bind(this)
   }
 
+  componentDidMount() {
+    window.onerror = (message, source, lineno, colno, error) => {
+      console.log('on error listener called')
+      this.setState({
+        output: message
+      })
+    }
+  }
+
+  // componentWillUnmount() {
+  //   window.removeEventListener('error')
+  // }
+
   run() {
     const {input} = this.props
-    // const sanitizedInput = limitEval(input)
+    let oldLog = console.log
+    let oldError = console.error
+    this.setState({output: ''})
+
     limitEval(
       input,
-      function(success, output) {
+      (success, returnValue) => {
         if (success) {
           this.setState({
-            // eslint-disable-next-line
-            output: eval(output)
+            output: returnValue
           })
         } else {
-          this.setState({
-            // eslint-disable-next-line
-            output: error.message
-          })
+          //some kind of error either timeout or anything else
+
+          try {
+            //eslint-disable-next-line
+            // eval(input)
+            this.setState({
+              output:
+                'The code takes too long to run... Is there is an infinite loop?'
+            })
+          } catch (error) {
+            this.setState({
+              output: error.message
+            })
+          }
         }
       },
       3000
     )
-    console.log(this.state.output)
-    // try {
-    //   this.setState({
-    //     // eslint-disable-next-line
-    //     output: eval(sanitizedInput)
-    //   })
-    // } catch (error) {
-    //   this.setState({
-    //     // eslint-disable-next-line
-    //     output: error.message
-    //   })
-    // }
+    console.log = oldLog
+    console.error = oldError
   }
 
   render() {
@@ -69,6 +84,7 @@ class Output extends Component {
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
             onClick={this.run}
+            onChange={() => this.setState({output: ''})}
           >
             <Typography className={classes.heading}>Output</Typography>
           </ExpansionPanelSummary>

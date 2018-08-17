@@ -1,12 +1,16 @@
-export const scanForIllegalTokens = code => {
+const hasBadToken = code => {
   const illegalTokens = ['alert', 'eval', 'process', 'fs']
   let valid = true
   illegalTokens.forEach(token => {
     valid = valid && !code.includes(token)
   })
-  return valid
+  return !valid
 }
-export function limitEval(code, fnOnStop, optionalTimeout) {
+
+function limitEval(code, fnOnStop, timeOut) {
+  if (hasBadToken(code)) {
+    return 'Sorry... you are not permitted to user eval, alert, process or fs.'
+  }
   var id = Math.random() + 1,
     blob = new Blob(
       [
@@ -33,37 +37,17 @@ export function limitEval(code, fnOnStop, optionalTimeout) {
             myWorker.terminate()
             onDone(false)
           }
-        }, optionalTimeout || 1000)
+        }, timeOut || 1000)
       }
     }
+  }
+
+  myWorker.onerror = function(error) {
+    console.log(error.message)
+    onDone(true, error.message)
   }
 
   myWorker.postMessage({c: code, i: id})
 }
 
-export const guardInfiniteLoop = code => {
-  limitEval(
-    code,
-    function(success, returnValue) {
-      if (success) {
-        return returnValue
-      } else {
-        return false
-      }
-    },
-    3000
-  )
-}
-
-const codeSnippet =
-  'let i = 0 \n let x = 0 \n while (x < 10) { x++ } while (x < 10) { i++ }'
-
-export default code => {
-  if (!scanForIllegalTokens(code)) {
-    return 'Error: Sorry... you are not permitted to use alert, eval, process or fs'
-  } else if (!guardInfiniteLoop(code)) {
-    return 'The code takes too long to run. Is there an infinite loop?'
-  } else {
-    return guardInfiniteLoop(code)
-  }
-}
+export default limitEval
