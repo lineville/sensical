@@ -55,7 +55,6 @@ class CodeEditor extends Component {
   }
 
   canType = () => {
-    console.log(this.props.codeEditorId, this.state.user.codeEditorId)
     return this.props.codeEditorId === this.state.user.codeEditorId
   }
 

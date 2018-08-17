@@ -24,10 +24,10 @@ const moduleTarget = {
     return sourceSubject
   },
   drop(props, monitor) {
-    let {subject: targetSubject} = props
+    // let {subject: targetSubject} = props
     let sourceSubject = monitor.getItem()
     let offset = monitor.getDifferenceFromInitialOffset()
-    console.log(offset)
+    console.log(offset, props)
     return sourceSubject
   }
 }
@@ -121,7 +121,7 @@ class Classroom extends Component {
               <Messaging
                 chatsId={this.state.chatsId}
                 roomId={this.state.roomId}
-                style={this.props.style}
+                offset={this.props.clientOffset}
               />
             </Grid>
             <Grid item>

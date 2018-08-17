@@ -13,16 +13,17 @@ import Typography from '@material-ui/core/Typography'
 
 const messagingSource = {
   beginDrag(props) {
-    console.log(props)
-    return getStyles(props)
+    return props
   },
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
       console.log('NOT DROPPED!!!!')
-      return props
+      return component
     } else {
-      console.log('DROPPED', component)
-      return monitor.getDropResult()
+      console.log('DROPPED', component, monitor)
+      // console.log(monitor.getDropResult())
+      return component
+      // return monitor.getDropResult()
       // getStyles(props)
     }
   }
@@ -143,12 +144,14 @@ export class Messaging extends Component {
   }
 
   render() {
+    console.log(this.props)
     const {classes, connectDragSource, isDragging, currentOffset} = this.props
-    let translate = `translate(0px, 0px)`
-    if (isDragging && currentOffset) {
-      console.log(currentOffset.x, currentOffset.y)
-      translate = `translate(${currentOffset.x}px, ${currentOffset.y}px)`
-    }
+    // if (isDragging && currentOffset) {
+    //   if (currentOffset.x > 0 || currentOffset.y > 0) {
+    //     console.log(currentOffset.x, currentOffset.y)
+    //     translate = `translate(${currentOffset.x}px, ${currentOffset.y}px)`
+    //   }
+    // }
     // const transform = this.props.currentOffset
     //   ? `translate(${this.props.currentOffset.x}px, ${
     //       this.props.currentOffset.y
@@ -162,7 +165,9 @@ export class Messaging extends Component {
           style={{
             opacity: isDragging ? 0.3 : 1,
             cursor: 'move',
-            transform: translate
+            transform: this.props.style
+              ? `translate(${this.props.style.x}px, ${this.props.style.y}px)`
+              : ''
           }}
         >
           <CardContent>
