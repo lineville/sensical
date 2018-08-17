@@ -6,7 +6,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import sanitize, {limitEval} from '../sanitize'
+import limitEval from '../sanitize'
 
 const styles = theme => ({
   root: {
@@ -29,36 +29,31 @@ class Output extends Component {
 
   run() {
     const {input} = this.props
-    // const sanitizedInput = limitEval(input)
     limitEval(
       input,
-      function(success, output) {
+      (success, returnValue) => {
         if (success) {
+          console.log(returnValue)
           this.setState({
-            // eslint-disable-next-line
-            output: eval(output)
+            output: returnValue
           })
         } else {
-          this.setState({
-            // eslint-disable-next-line
-            output: error.message
-          })
+          try {
+            //eslint-disable-next-line
+            eval(input)
+            this.setState({
+              output:
+                'The code takes too long to run...  Is there is an infinite loop?'
+            })
+          } catch (error) {
+            this.setState({
+              output: error.message
+            })
+          }
         }
       },
       3000
     )
-    console.log(this.state.output)
-    // try {
-    //   this.setState({
-    //     // eslint-disable-next-line
-    //     output: eval(sanitizedInput)
-    //   })
-    // } catch (error) {
-    //   this.setState({
-    //     // eslint-disable-next-line
-    //     output: error.message
-    //   })
-    // }
   }
 
   render() {
