@@ -89,12 +89,10 @@ class Profile extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
-    console.log(this.state)
   }
 
   async changeEmail() {
     const user = await firebase.auth().currentUser
-    console.log(this.state.newEmail)
     user
       .updateEmail(this.state.newEmail)
       .then(() => {
@@ -113,8 +111,13 @@ class Profile extends Component {
             email: user.email
           })
       })
-      .catch(function(error) {
-        console.log(error)
+      .catch(error => {
+        this.setState({
+          popUpMessage: error.message,
+          popUpMessageType: 'warning',
+          open: true
+        })
+        console.log(error, this.state)
       })
   }
 
