@@ -15,13 +15,6 @@ const styles = theme => ({
   flex: {
     flexGrow: 1
   },
-  menuButton: {
-    marginLeft: 0,
-    marginRight: 0
-  },
-  icon: {
-    margin: theme.spacing.unit * 2
-  },
   list: {
     width: 250
   },

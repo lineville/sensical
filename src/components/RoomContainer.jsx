@@ -7,6 +7,7 @@ import {withStyles} from '../../node_modules/@material-ui/core'
 const styles = theme => ({
   cardRow: {
     display: 'flex',
+    justifyContent: 'space-evenly',
     flexWrap: 'wrap'
   }
 })
@@ -17,6 +18,7 @@ class RoomContainer extends Component {
     return (
       <div>
         <p>Available Rooms</p>
+        <CreateRoom />
         <div className={classes.cardRow}>
           {this.props.rooms
             ? this.props.rooms.map(roomId => {
@@ -24,7 +26,6 @@ class RoomContainer extends Component {
               })
             : 'no rooms'}
         </div>
-        <CreateRoom />
       </div>
     )
   }

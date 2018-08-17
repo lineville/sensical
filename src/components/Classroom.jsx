@@ -1,13 +1,10 @@
 import React, {Component} from 'react'
 import Messaging from './Messaging'
-import CodeEditor from './CodeEditor'
+import CodeEditorCard from './CodeEditorCard'
 import Canvas from './Canvas'
 import db from '../firestore'
 import firebase from 'firebase'
 
-import {DropTarget} from 'react-dnd'
-
-import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
@@ -16,29 +13,7 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import InviteForm from './InviteForm'
 import RoomStatusBar from './RoomStatusBar'
-
-const moduleTarget = {
-  canDrop(props, monitor) {
-    let sourceSubject = monitor.getItem()
-    let {subject: targetSubject} = props
-    return sourceSubject
-  },
-  drop(props, monitor) {
-    // let {subject: targetSubject} = props
-    let sourceSubject = monitor.getItem()
-    let offset = monitor.getDifferenceFromInitialOffset()
-    console.log(offset, props)
-    return sourceSubject
-  }
-}
-
-function collect(connect, monitor) {
-  return {
-    connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver(),
-    clientOffset: monitor.getDifferenceFromInitialOffset()
-  }
-}
+import HideBin from './HideBin'
 
 const styles = theme => ({
   root: {
@@ -74,8 +49,12 @@ class Classroom extends Component {
       roomId: '',
       whiteboardId: '',
       codeEditorIds: [],
-      chatsId: ''
+      chatsId: '',
+      chat: true,
+      codeEditors: true,
+      canvas: true
     }
+    this.handleDrop = this.handleDrop.bind(this)
   }
 
   async componentDidMount() {
@@ -95,6 +74,10 @@ class Classroom extends Component {
     })
   }
 
+  handleDrop(item) {
+    this.setState({[item]: false})
+  }
+
   shouldRender = () => {
     const hasCodeEditorIds = true
     this.state.codeEditorIds.forEach(editorId => {
@@ -108,52 +91,42 @@ class Classroom extends Component {
     )
   }
   render() {
-    const {classes, isOver, connectDropTarget} = this.props
+    const {classes} = this.props
     if (this.shouldRender()) {
-      return connectDropTarget(
+      return (
         <div className={classes.root}>
           <RoomStatusBar
             roomId={this.state.roomId}
             userIds={this.state.userIds}
           />
+          <HideBin />
           <Grid container direction="row" align-items="flex-start">
+            {this.state.chat ? (
+              <Grid item>
+                <Messaging
+                  chatsId={this.state.chatsId}
+                  roomId={this.state.roomId}
+                  handleDrop={() => this.handleDrop('chat')}
+                />
+              </Grid>
+            ) : null}
             <Grid item>
-              <Messaging
-                chatsId={this.state.chatsId}
-                roomId={this.state.roomId}
-                offset={this.props.clientOffset}
-              />
+              {this.state.codeEditors ? (
+                <CodeEditorCard
+                  codeEditors={this.state.codeEditorIds}
+                  roomId={this.state.roomId}
+                  handleDrop={() => this.handleDrop('codeEditors')}
+                />
+              ) : null}
             </Grid>
             <Grid item>
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary">
-                    Code Editor
-                  </Typography>
-                  {this.state.codeEditorIds.map(id => (
-                    <CodeEditor
-                      codeEditorId={id}
-                      key={id}
-                      roomId={this.state.roomId}
-                    />
-                  ))}
-                </CardContent>
-                <Button>Remove</Button>
-              </Card>
-            </Grid>
-            <Grid item>
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary">
-                    Canvas
-                  </Typography>
-                  <Canvas
-                    whiteboardId={this.state.whiteboardId}
-                    roomId={this.state.roomId}
-                  />
-                </CardContent>
-                <Button>Remove</Button>
-              </Card>
+              {this.state.canvas ? (
+                <Canvas
+                  whiteboardId={this.state.whiteboardId}
+                  roomId={this.state.roomId}
+                  handleDrop={() => this.handleDrop('canvas')}
+                />
+              ) : null}
             </Grid>
             <Grid item>
               <Card className={classes.card}>
@@ -167,100 +140,11 @@ class Classroom extends Component {
               </Card>
             </Grid>
           </Grid>
-          {isOver && (
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                height: '100%',
-                width: '100%',
-                zIndex: 1,
-                opacity: 0.3,
-                backgroundColor: '#414654'
-              }}
-            />
-          )}
         </div>
       )
-
-      // return connectDropTarget(
-      //   <div className={classes.root}>
-      //     <Grid container direction="row" align-items="flex-start">
-      //       <Grid item>
-      //         <Messaging
-      //           chatsId={this.state.chatsId}
-      //           roomId={this.state.roomId}
-      //         />
-      //       </Grid>
-      //       <Grid item>
-      //         <Card className={classes.card}>
-      //           <CardContent>
-      //             <Typography className={classes.title} color="textSecondary">
-      //               Code Editor
-      //             </Typography>
-      //             {/* <CodeEditor
-      //               fireCodesId={this.state.fireCodesId}
-      //               roomId={this.state.roomId}
-      //             /> */}
-      //           </CardContent>
-      //           <Button>Remove</Button>
-      //         </Card>
-      //       </Grid>
-      //       <Grid item>
-      //         <Card className={classes.card}>
-      //           <CardContent>
-      //             <Typography className={classes.title} color="textSecondary">
-      //               Canvas
-      //             </Typography>
-      //             {/* <Canvas
-      //               whiteboardId={this.state.whiteboardId}
-      //               roomId={this.state.roomId}
-      //             /> */}
-      //           </CardContent>
-      //           <Button>Remove</Button>
-      //         </Card>
-      //       </Grid>
-      //       <Grid item>
-      //         <Card className={classes.card}>
-      //           <CardContent>
-      //             <Typography className={classes.title} color="textSecondary">
-      //               Invite a Friend!
-      //             </Typography>
-      //             <InviteForm roomId={this.state.roomId} />
-      //           </CardContent>
-      //           <Button>Remove</Button>
-      //         </Card>
-      //       </Grid>
-      //     </Grid>
-      //     <InviteForm roomId={this.state.roomId} />
-      //     {isOver && (
-      //       <div
-      //         style={{
-      //           position: 'absolute',
-      //           top: 0,
-      //           right: 0,
-      //           height: '100%',
-      //           width: '100%',
-      //           zIndex: 1,
-      //           opacity: 0.3,
-      //           backgroundColor: '#414654'
-      //         }}
-      //       />
-      //     )}
-      //   </div>
-      // )
     }
     return <div />
   }
 }
 
-Classroom.propTypes = {
-  classes: PropTypes.object.isRequired,
-  connectDropTarget: PropTypes.func.isRequired,
-  isOver: PropTypes.bool.isRequired
-}
-
-export default DropTarget('MODULE', moduleTarget, collect)(
-  withStyles(styles)(Classroom)
-)
+export default withStyles(styles)(Classroom)

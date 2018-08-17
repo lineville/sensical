@@ -17,52 +17,18 @@ const messagingSource = {
   },
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
-      console.log('NOT DROPPED!!!!')
-      return component
-    } else {
-      console.log('DROPPED', component, monitor)
-      // console.log(monitor.getDropResult())
-      return component
-      // return monitor.getDropResult()
-      // getStyles(props)
+      return
     }
+    return props.handleDrop()
   }
-}
-
-function getStyles(props) {
-  const {currentOffset} = props
-  if (!currentOffset) {
-    return {
-      display: 'none'
-    }
-  }
-
-  const {x, y} = currentOffset
-  const transform = `translate(${x}px, ${y}px)`
-  return {
-    transform: transform,
-    WebkitTransform: transform
-  }
-  // const {left, top, isDragging} = props
-  // const transform = `translate3d(${left}px, ${top}px, 0)`
-
-  // return {
-  //   position: 'absolute',
-  //   transform,
-  //   WebkitTransform: transform,
-  //   // IE fallback: hide the real node using CSS when dragging
-  //   // because IE will ignore our custom "empty image" drag preview.
-  //   opacity: isDragging ? 0 : 1,
-  //   height: isDragging ? 0 : ''
-  // }
 }
 
 function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
-    connectDragPreview: connect.dragSource(),
-    isDragging: monitor.isDragging(),
-    currentOffset: monitor.getSourceClientOffset()
+    connectDragPreview: connect.dragPreview(),
+    isDragging: monitor.isDragging()
+    // currentOffset: monitor.getSourceClientOffset()
   }
 }
 
@@ -95,10 +61,6 @@ export class Messaging extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-
-  // move(offset) {
-  //   this.setState({top: offset.y, left: offset.x})
-  // }
 
   async componentDidMount() {
     await db
@@ -144,30 +106,14 @@ export class Messaging extends Component {
   }
 
   render() {
-    console.log(this.props)
-    const {classes, connectDragSource, isDragging, currentOffset} = this.props
-    // if (isDragging && currentOffset) {
-    //   if (currentOffset.x > 0 || currentOffset.y > 0) {
-    //     console.log(currentOffset.x, currentOffset.y)
-    //     translate = `translate(${currentOffset.x}px, ${currentOffset.y}px)`
-    //   }
-    // }
-    // const transform = this.props.currentOffset
-    //   ? `translate(${this.props.currentOffset.x}px, ${
-    //       this.props.currentOffset.y
-    //     }px)`
-    //   : 'translate(0px, 0px)'
-    // console.log('transform', transform)
+    const {classes, connectDragSource, isDragging, item} = this.props
     return connectDragSource(
-      <div>
+      <div className="item">
         <Card
           className={classes.card}
           style={{
             opacity: isDragging ? 0.3 : 1,
-            cursor: 'move',
-            transform: this.props.style
-              ? `translate(${this.props.style.x}px, ${this.props.style.y}px)`
-              : ''
+            cursor: 'move'
           }}
         >
           <CardContent>
@@ -210,11 +156,7 @@ export class Messaging extends Component {
 Messaging.propTypes = {
   classes: PropTypes.object.isRequired,
   connectDragSource: PropTypes.func.isRequired,
-  isDragging: PropTypes.bool.isRequired,
-  currentOffset: PropTypes.shape({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired
-  })
+  isDragging: PropTypes.bool.isRequired
 }
 
 export default DragSource('MODULE', messagingSource, collect)(

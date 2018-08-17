@@ -1,16 +1,14 @@
 import React, {Component} from 'react'
-import ClassroomDragLayer from './ClassroomDragLayer'
 
 import HTML5Backend from 'react-dnd-html5-backend'
 import {DragDropContext} from 'react-dnd'
-// import Classroom from './Classroom'
+import Classroom from './Classroom'
 
 class ClassroomContext extends Component {
   render() {
     return (
       <div>
-        {/* <Classroom classroom={this.props.match.params.classroomId} /> */}
-        <ClassroomDragLayer classroom={this.props.match.params.classroomId} />
+        <Classroom classroom={this.props.match.params.classroomId} />
       </div>
     )
   }
