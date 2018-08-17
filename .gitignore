@@ -23,3 +23,5 @@ yarn-error.log*
 #build
 build
 
+#secrets
+secrets.js
