@@ -8,6 +8,8 @@ import {withStyles} from '../../node_modules/@material-ui/core'
 import Button from '@material-ui/core/Button'
 import parallaxStyle from '../styles/parallaxStyle'
 import RoomContainer from './RoomContainer'
+import Snackbar from '@material-ui/core/Snackbar'
+import Notification from './Notification'
 
 const styles = theme => ({
   row: {
@@ -42,8 +44,13 @@ class Profile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: {}
+      user: {},
+      open: false
     }
+    this.changeUsername = this.changePassword.bind(this)
+    this.changeEmail = this.changeEmail.bind(this)
+    this.changePassword = this.changePassword.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   async componentDidMount() {
@@ -53,6 +60,35 @@ class Profile extends Component {
       .doc(authorizedUser.uid)
       .onSnapshot(doc => {
         this.setState({user: {...doc.data(), id: authorizedUser.uid}})
+      })
+  }
+
+  handleClose(event, reason) {
+    if (reason === 'clickaway') {
+      return
+    }
+    this.setState({
+      open: false
+    })
+  }
+
+  changeUsername = async () => {}
+
+  changeEmail = async () => {}
+
+  async changePassword() {
+    var auth = firebase.auth()
+    var emailAddress = await auth.currentUser.email
+    auth
+      .sendPasswordResetEmail(emailAddress)
+      .then(
+        function() {
+          console.log('sent email')
+          this.setState({open: true})
+        }.bind(this)
+      )
+      .catch(function(error) {
+        console.log(error)
       })
   }
 
@@ -81,9 +117,45 @@ class Profile extends Component {
           <div>
             <p>Welcome {this.state.user.username}!</p>
             <p>Email: {this.state.user.email}</p>
-            <Button size="small" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={this.changeUsername}
+            >
+              Change UserName
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={this.changeEmail}
+            >
+              Change Email
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={this.changePassword}
+            >
               Change Password
             </Button>
+            <Snackbar
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left'
+              }}
+              open={this.state.open}
+              autoHideDuration={6000}
+              onClose={this.handleClose}
+            >
+              <Notification
+                onClose={this.handleClose}
+                variant="success"
+                message="Check your email for password reset!"
+              />
+            </Snackbar>
           </div>
         </div>
         <RoomContainer rooms={this.state.user.rooms} user={this.state.user} />
