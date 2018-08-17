@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
+import TextField from '@material-ui/core/TextField'
 
 const messagingSource = {
   beginDrag(props) {
@@ -34,19 +35,18 @@ function collect(connect, monitor) {
 
 const styles = theme => ({
   card: {
-    minWidth: 275
+    maxWidth: 275
   },
   button: {
     margin: theme.spacing.unit
   },
-  leftIcon: {
-    marginRight: theme.spacing.unit
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200
   },
-  rightIcon: {
-    marginLeft: theme.spacing.unit
-  },
-  iconSmall: {
-    fontSize: 20
+  form: {
+    display: 'flex'
   }
 })
 
@@ -117,17 +117,15 @@ export class Messaging extends Component {
           }}
         >
           <CardContent>
-            <Typography className={classes.title} color="textSecondary">
-              Chat
-            </Typography>
+            <Typography color="textSecondary">Chat</Typography>
             <div id="messages">
               <div>
                 {this.state.messages.map(message => (
                   <Message key={message.id} message={message} />
                 ))}
               </div>
-              <form onSubmit={this.handleSubmit}>
-                <input
+              <form onSubmit={this.handleSubmit} className={classes.form}>
+                <TextField
                   type="text"
                   name="newMessage"
                   value={this.state.newMessage}

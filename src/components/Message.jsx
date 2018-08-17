@@ -1,21 +1,13 @@
 import React from 'react'
 
-import {withStyles} from '@material-ui/core/styles'
-
-const styles = theme => ({
-  // font: {
-  //   font: theme.typography.fontFamily
-  // }
-})
+import Typography from '@material-ui/core/Typography'
 
 const Message = props => (
-  <div>
-    <p>
-      {props.message.user}
-      :&nbsp;
-      {props.message.text}
-    </p>
-  </div>
+  <Typography>
+    {props.message.user}
+    :&nbsp;
+    {props.message.text}
+  </Typography>
 )
 
-export default withStyles(styles)(Message)
+export default Message

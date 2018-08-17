@@ -7,23 +7,10 @@ import Typography from '@material-ui/core/Typography'
 
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    margin: '0 10px'
   },
-  flex: {
-    flexGrow: 1
-  },
-  menuButton: {
-    marginLeft: 0,
-    marginRight: 0
-  },
-  icon: {
-    margin: theme.spacing.unit * 2
-  },
-  list: {
-    width: 250
-  },
-  fullList: {
-    width: 'auto'
+  text: {
+    fontSize: 14
   }
 })
 
@@ -50,7 +37,7 @@ class RoomMembers extends Component {
     const {classes} = this.props
     return (
       <div className={classes.root}>
-        <Typography variant="title" color="inherit" className={classes.flex}>
+        <Typography variant="title" color="inherit" className={classes.text}>
           {this.state.username}
         </Typography>
       </div>

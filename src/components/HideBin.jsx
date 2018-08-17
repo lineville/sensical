@@ -1,6 +1,16 @@
 import React, {Component} from 'react'
 import {DropTarget} from 'react-dnd'
 
+import {withStyles} from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
+import DeleteIcon from '@material-ui/icons/Delete'
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit
+  }
+})
+
 function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
@@ -11,18 +21,23 @@ function collect(connect, monitor) {
 
 class HideBin extends Component {
   render() {
-    const {connectDropTarget, isOver, item} = this.props
-    const backgroundColor = isOver ? '#0115213b' : '#FFFFFF'
+    const {classes, connectDropTarget, isOver, item} = this.props
+    const backgroundColor = isOver ? '#0115213b' : null
 
     return connectDropTarget(
-      <div
-        className="target"
-        style={{background: backgroundColor, padding: '40px'}}
-      >
-        Hide
+      <div className="target" style={{background: backgroundColor}}>
+        <Button
+          variant="fab"
+          disabled
+          aria-label="Delete"
+          className={classes.button}
+        >
+          <DeleteIcon />
+          Hide
+        </Button>
       </div>
     )
   }
 }
 
-export default DropTarget('MODULE', {}, collect)(HideBin)
+export default withStyles(styles)(DropTarget('MODULE', {}, collect)(HideBin))
