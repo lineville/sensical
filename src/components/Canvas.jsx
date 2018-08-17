@@ -2,9 +2,6 @@ import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
 
-<<<<<<< HEAD
-import Button from '@material-ui/core/Button'
-=======
 import {DragSource} from 'react-dnd'
 
 import PropTypes from 'prop-types'
@@ -42,7 +39,6 @@ const styles = theme => ({
     margin: theme.spacing.unit
   }
 })
->>>>>>> master
 
 class Canvas extends Component {
   constructor() {
@@ -114,12 +110,12 @@ class Canvas extends Component {
         strokes: []
       })
       .then(() => {
+        this.clearCanvasDOM()
         this.setState({
           curStroke: [],
           strokes: null
         })
-        this.forceUpdate()
-        this.setup()
+        // this.setup()
         console.log('STATE: ', this.state)
       })
       .catch(error => {
@@ -128,12 +124,23 @@ class Canvas extends Component {
   }
 
   undoLastStroke = () => {
-    console.log('UNDO LAST STROKE RAN')
+    // console.log('UNDO LAST STROKE RAN')
+    console.log('SETUP RAN')
+    const classroom = document.getElementById('whiteboard-canvas')
+    classroom.appendChild(this.canvas)
+
+    this.setupColorPicker()
+    this.setupCanvas()
+    this.forceUpdate()
   }
 
   clearCanvasDOM = () => {
     const classroom = document.getElementById('whiteboard-canvas')
     classroom.removeChild(this.canvas)
+
+    while (this.picker.firstChild) {
+      this.picker.removeChild(this.picker.firstChild)
+    }
     classroom.removeChild(this.picker)
   }
 
@@ -261,6 +268,7 @@ class Canvas extends Component {
   }
 
   render() {
+    console.log('RENDERED STATE: ', this.state.strokes)
     if (this.state.strokes) {
       this.state.strokes.forEach(stroke => {
         this.ctx.beginPath()
@@ -271,13 +279,6 @@ class Canvas extends Component {
         this.ctx.stroke()
       })
     }
-<<<<<<< HEAD
-    return (
-      <div id="whiteboard">
-        <div id="whiteboard-canvas" />
-        <Button onClick={this.clearCanvas}>Clear</Button>
-        <Button onClick={this.undoLastStroke}>Undo</Button>
-=======
     const {classes, connectDragSource, isDragging, item} = this.props
     return connectDragSource(
       <div>
@@ -295,11 +296,12 @@ class Canvas extends Component {
 
             <div id="whiteboard">
               <div id="whiteboard-canvas" />
+              <Button onClick={this.clearCanvas}>Clear</Button>
+              <Button onClick={this.undoLastStroke}>Undo</Button>
             </div>
           </CardContent>
           <Button>Remove</Button>
         </Card>
->>>>>>> master
       </div>
     )
   }
