@@ -114,8 +114,7 @@ class Canvas extends Component {
           curStroke: [],
           strokes: null
         })
-        this.setup()
-        console.log('STATE: ', this.state)
+        this.setupColorPicker()
       })
       .catch(error => {
         console.error('Error drawing new stroke to Firestore Database: ', error)
@@ -123,7 +122,7 @@ class Canvas extends Component {
   }
 
   undoLastStroke = () => {
-    console.log('UNDER LAST STROKE')
+    console.log('UNDO LAST STROKE')
   }
 
   clearCanvasDOM = () => {
