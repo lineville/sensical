@@ -47,10 +47,10 @@ class RoomStatusBar extends Component {
   }
 
   async componentDidMount() {
-    if (this.props.roomId) {
+    if (this.props.classState.roomId) {
       await db
         .collection('rooms')
-        .doc(this.props.roomId)
+        .doc(this.props.classState.roomId)
         .onSnapshot(snapshot => {
           const subject = snapshot.data().subject
           const members = snapshot.data().userIds
@@ -71,40 +71,58 @@ class RoomStatusBar extends Component {
 
   render() {
     const {classes} = this.props
-    console.log(this.props)
     const sideList = (
       <div className={classes.fullList}>
         <List>
-          <ListItem button>
-            <ListItemText
-              primary="Canvas"
-              onClick={() => this.props.addModule('canvas')}
-            />
-          </ListItem>
-          <ListItem button>
-            <ListItemText
-              primary="Code Editor"
-              onClick={() => this.props.addModule('codeEditors')}
-            />
-          </ListItem>
-          <ListItem button>
-            <ListItemText
-              primary="Video"
-              onClick={() => this.props.addModule('video')}
-            />
-          </ListItem>
-          <ListItem button>
-            <ListItemText
-              primary="Notepad"
-              onClick={() => this.props.addModule('notepad')}
-            />
-          </ListItem>
-          <ListItem button>
-            <ListItemText
-              primary="Chat"
-              onClick={() => this.props.addModule('chat')}
-            />
-          </ListItem>
+          {!this.props.classState.canvas ? (
+            <ListItem button>
+              <ListItemText
+                primary="Canvas"
+                onClick={() => this.props.addModule('canvas')}
+              />
+            </ListItem>
+          ) : null}
+          {!this.props.classState.codeEditors ? (
+            <ListItem button>
+              <ListItemText
+                primary="Code Editor"
+                onClick={() => this.props.addModule('codeEditors')}
+              />
+            </ListItem>
+          ) : null}
+          {!this.props.classState.video ? (
+            <ListItem button>
+              <ListItemText
+                primary="Video"
+                onClick={() => this.props.addModule('video')}
+              />
+            </ListItem>
+          ) : null}
+          {!this.props.classState.notepad ? (
+            <ListItem button>
+              <ListItemText
+                primary="Notepad"
+                onClick={() => this.props.addModule('notepad')}
+              />
+            </ListItem>
+          ) : null}
+          {!this.props.classState.chat ? (
+            <ListItem button>
+              <ListItemText
+                primary="Chat"
+                onClick={() => this.props.addModule('chat')}
+              />
+            </ListItem>
+          ) : null}
+          {this.props.classState.canvas &&
+          this.props.classState.codeEditors &&
+          this.props.classState.video &&
+          this.props.classState.notepad &&
+          this.props.classState.chat ? (
+            <ListItem>
+              <ListItemText primary="No Extra Modules To Add" />
+            </ListItem>
+          ) : null}
         </List>
       </div>
     )
@@ -138,7 +156,7 @@ class RoomStatusBar extends Component {
               color="inherit"
               className={classes.text}
             >
-              Room Name:
+              Room Name: &nbsp;
               {this.state.currentRoom}
             </Typography>
             <Typography
