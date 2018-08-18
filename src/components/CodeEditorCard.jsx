@@ -54,18 +54,19 @@ class CodeEditorCard extends Component {
     const {classes, connectDragSource, isDragging, item} = this.props
     return connectDragSource(
       <div className="item">
-        <Card className={classes.card}>
+        <Card
+          className={classes.card}
+          style={{
+            opacity: isDragging ? 0.3 : 1,
+            cursor: 'move',
+            resize: 'both'
+          }}
+        >
           <CardContent>
             <Typography className={classes.title} color="textSecondary">
               Code Editor
             </Typography>
-
-            <div
-              style={{
-                opacity: isDragging ? 0.3 : 1,
-                cursor: 'move'
-              }}
-            >
+            <div>
               {this.props.codeEditors.map(id => (
                 <CodeEditor
                   codeEditorId={id}

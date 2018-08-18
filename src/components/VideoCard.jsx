@@ -65,7 +65,8 @@ export class VideoCard extends Component {
           className={classes.card}
           style={{
             opacity: isDragging ? 0.3 : 1,
-            cursor: 'move'
+            cursor: 'move',
+            resize: 'both'
           }}
         >
           <CardContent>
