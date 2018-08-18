@@ -152,8 +152,7 @@ class Classroom extends Component {
             </Grid>
           </div>
           <RoomStatusBar
-            roomId={this.state.roomId}
-            userIds={this.state.userIds}
+            classState={this.state}
             addModule={module => this.addModule(module)}
           />
         </div>
