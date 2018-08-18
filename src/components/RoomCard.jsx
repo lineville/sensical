@@ -18,7 +18,6 @@ import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
 const styles = theme => ({
@@ -45,7 +44,9 @@ export class RoomCard extends Component {
       room: {},
       inviteEmail: '',
       inviteFormOpen: false,
-      open: false
+      open: false,
+      snackBarVariant: '',
+      snackBarMessage: ''
     }
   }
 
@@ -63,7 +64,8 @@ export class RoomCard extends Component {
   onSubmit = async () => {
     const roomId = this.state.roomId
 
-    const invitee = await db
+    try {
+      const invitee = await db
       .collection(`users`)
       .where('email', '==', `${this.state.inviteEmail}`)
       .get()
@@ -107,9 +109,21 @@ export class RoomCard extends Component {
 
     this.setState({
       inviteEmail: '', 
+      snackBarVariant: 'success',
+      snackBarMessage: 'Invite successfully sent!',
       open: true,
       inviteFormOpen: false
     })
+    } catch (error) {
+      console.log("THERE WAS AN ERROR: ", error)
+      this.setState({
+        snackBarVariant: 'error',
+        snackBarMessage: 'Looks like there was a problem with the email you selected.',
+        open: true,
+        inviteFormOpen: false
+      })
+    }
+    
   }
 
   handleClose = (event, reason) => {
@@ -205,8 +219,8 @@ export class RoomCard extends Component {
             >
               <Notification
                 onClose={this.handleClose}
-                variant="success"
-                message="Invite Sent!"
+                variant={this.state.snackBarVariant}
+                message={this.state.snackBarMessage}
               />
             </Snackbar>
 
