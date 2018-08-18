@@ -44,7 +44,8 @@ export class RoomCard extends Component {
       roomId: props.roomId,
       room: {},
       inviteEmail: '',
-      inviteFormOpen: false
+      inviteFormOpen: false,
+      open: false
     }
   }
 
@@ -104,7 +105,11 @@ export class RoomCard extends Component {
         })
     }
 
-    // this.setState({email: '', open: true})
+    this.setState({
+      inviteEmail: '', 
+      open: true,
+      inviteFormOpen: false
+    })
   }
 
   handleClose = (event, reason) => {
@@ -200,8 +205,8 @@ export class RoomCard extends Component {
             >
               <Notification
                 onClose={this.handleClose}
-                variant={this.state.popUpMessageType}
-                message={this.state.popUpMessage}
+                variant="success"
+                message="Invite Sent!"
               />
             </Snackbar>
 
