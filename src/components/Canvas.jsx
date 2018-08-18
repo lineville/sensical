@@ -2,6 +2,44 @@ import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
 
+import {DragSource} from 'react-dnd'
+
+import PropTypes from 'prop-types'
+import {withStyles} from '@material-ui/core/styles'
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+
+const canvasSource = {
+  beginDrag(props) {
+    return props
+  },
+  endDrag(props, monitor, component) {
+    if (!monitor.didDrop()) {
+      return
+    }
+    return props.handleDrop()
+  }
+}
+
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
+    isDragging: monitor.isDragging()
+  }
+}
+
+const styles = theme => ({
+  card: {
+    minWidth: 275
+  },
+  button: {
+    margin: theme.spacing.unit
+  }
+})
+
 class Canvas extends Component {
   constructor() {
     super()
@@ -13,6 +51,8 @@ class Canvas extends Component {
 
   canvas = document.createElement('canvas')
   ctx = this.canvas.getContext('2d')
+
+  picker = document.createElement('div')
 
   color = 'black'
   //// Position tracking
@@ -62,6 +102,42 @@ class Canvas extends Component {
     this.ctx.stroke()
   }
 
+  clearCanvas = () => {
+    db.collection('whiteboards')
+      .doc(this.props.whiteboardId)
+      .update({
+        strokes: []
+      })
+      .then(() => {
+        this.clearCanvasDOM()
+        this.setState({
+          curStroke: [],
+          strokes: null
+        })
+        this.setupColorPicker()
+      })
+      .catch(error => {
+        console.error('Error drawing new stroke to Firestore Database: ', error)
+      })
+  }
+
+  undoLastStroke = () => {
+    console.log('UNDO LAST STROKE')
+  }
+
+  clearCanvasDOM = () => {
+    const classroom = document.getElementById('whiteboard-canvas')
+    classroom.removeChild(this.canvas)
+
+    while (this.picker.firstChild) {
+      this.picker.removeChild(this.picker.firstChild)
+    }
+    classroom.removeChild(this.picker)
+
+    const newCanvas = document.createElement('canvas')
+    classroom.appendChild(newCanvas)
+  }
+
   setup = () => {
     const classroom = document.getElementById('whiteboard-canvas')
     classroom.appendChild(this.canvas)
@@ -71,8 +147,7 @@ class Canvas extends Component {
   }
 
   setupColorPicker = () => {
-    const picker = document.createElement('div')
-    picker.classList.add('color-selector')
+    this.picker.classList.add('color-selector')
     this.colors
       .map(color => {
         const marker = document.createElement('div')
@@ -81,21 +156,21 @@ class Canvas extends Component {
         marker.style.backgroundColor = color
         return marker
       })
-      .forEach(color => picker.appendChild(color))
+      .forEach(color => this.picker.appendChild(color))
 
-    picker.addEventListener('click', ({target}) => {
+    this.picker.addEventListener('click', ({target}) => {
       this.color = target.dataset.color
       if (!this.color) return
-      const current = picker.querySelector('.selected')
+      const current = this.picker.querySelector('.selected')
       current && current.classList.remove('selected')
       target.classList.add('selected')
     })
 
     let classroom = document.getElementById('whiteboard-canvas')
-    classroom.appendChild(picker)
+    classroom.appendChild(this.picker)
 
     // Select the first color
-    picker.firstChild.click()
+    this.picker.firstChild.click()
   }
 
   resize = () => {
@@ -196,12 +271,40 @@ class Canvas extends Component {
         this.ctx.stroke()
       })
     }
-    return (
-      <div id="whiteboard">
-        <div id="whiteboard-canvas" />
+    const {classes, connectDragSource, isDragging, item} = this.props
+    return connectDragSource(
+      <div>
+        <Card
+          className={classes.card}
+          style={{
+            opacity: isDragging ? 0.3 : 1,
+            cursor: 'move',
+            resize: 'both'
+          }}
+        >
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary">
+              Canvas
+            </Typography>
+
+            <div id="whiteboard">
+              <div id="whiteboard-canvas" />
+              <Button onClick={this.clearCanvas}>Clear</Button>
+              {/* <Button onClick={this.undoLastStroke}>Undo</Button> */}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     )
   }
 }
 
-export default Canvas
+Canvas.propTypes = {
+  classes: PropTypes.object.isRequired,
+  connectDragSource: PropTypes.func.isRequired,
+  isDragging: PropTypes.bool.isRequired
+}
+
+export default DragSource('MODULE', canvasSource, collect)(
+  withStyles(styles)(Canvas)
+)

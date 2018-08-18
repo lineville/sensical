@@ -1,13 +1,13 @@
 import React from 'react'
 
+import Typography from '@material-ui/core/Typography'
+
 const Message = props => (
-  <div>
-    <span>
-      {props.message.user}
-      :&nbsp;
-      {props.message.text}
-    </span>
-  </div>
+  <Typography>
+    {props.message.user}
+    :&nbsp;
+    {props.message.text}
+  </Typography>
 )
 
 export default Message

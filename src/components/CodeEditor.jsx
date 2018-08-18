@@ -4,63 +4,58 @@ import db from '../firestore'
 import Output from './Output'
 import 'brace/mode/javascript'
 import 'brace/theme/monokai'
+import firebase from 'firebase'
 
 class CodeEditor extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      code1: '',
-      code2: '',
-      docId: '',
-      roomId: ''
+      code: '',
+      codeEditorId: '',
+      user: '',
+      canType: false
     }
-    this.onChange1 = this.onChange1.bind(this)
-    this.onChange2 = this.onChange2.bind(this)
+    this.onChange = this.onChange.bind(this)
   }
 
   async componentDidMount() {
-    const {fireCodesId, roomId} = this.props
+    const {codeEditorId} = this.props
     const doc = await db
-      .collection('fireCodes')
-      .doc(fireCodesId)
+      .collection('codeEditors')
+      .doc(codeEditorId)
+      .get()
+    const user = await db
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
       .get()
     await this.setState({
-      docId: doc.id,
-      roomId: roomId,
-      code1: doc.data().code1,
-      code2: doc.data().code2
+      codeEditorId: doc.id,
+      code: doc.data().code,
+      user: user.data()
     })
-    db.collection('fireCodes')
-      .doc(fireCodesId)
+    db.collection('codeEditors')
+      .doc(codeEditorId)
       .onSnapshot(code => {
         this.setState({
-          code1: code.data().code1,
-          code2: code.data().code2
+          code: code.data().code,
+          canType: this.canType()
         })
       })
   }
 
-  onChange1(value) {
+  onChange(value) {
     this.setState({
-      code1: value
+      code: value
     })
-    db.collection('fireCodes')
-      .doc(this.state.docId)
+    db.collection('codeEditors')
+      .doc(this.state.codeEditorId)
       .set({
-        code1: value,
-        code2: this.state.code2
+        code: value
       })
   }
-  onChange2(value) {
-    this.setState({
-      code2: value
-    })
-    db.collection('fireCodes')
-      .doc(this.state.docId)
-      .set({
-        code1: this.state.code1,
-        code2: value
-      })
+
+  canType = () => {
+    return this.props.codeEditorId === this.state.user.codeEditorId
   }
 
   render() {
@@ -70,27 +65,14 @@ class CodeEditor extends Component {
           <AceEditor
             mode="javascript"
             theme="monokai"
-            onChange={this.onChange1}
-            value={this.state.code1}
+            onChange={this.onChange}
+            value={this.state.code}
             name="code-editor"
             tabSize={2}
-            enableBasicAutocompletion={true}
+            readOnly={!this.state.canType}
             editorProps={{$blockScrolling: true}}
           />
-          <Output input={this.state.code1} />
-        </div>
-        <div className="">
-          <AceEditor
-            mode="javascript"
-            theme="monokai"
-            onChange={this.onChange2}
-            value={this.state.code2}
-            name="code-editor"
-            tabSize={2}
-            enableBasicAutocompletion={true}
-            editorProps={{$blockScrolling: true}}
-          />
-          <Output input={this.state.code2} />
+          <Output input={this.state.code} />
         </div>
       </div>
     )

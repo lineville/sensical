@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
-import CodeEditor from './CodeEditor'
-import Canvas from './Canvas'
-import Messaging from './Messaging'
 import db from '../firestore'
 import firebase from 'firebase'
+import Messaging from './Messaging'
+import CodeEditorCard from './CodeEditorCard'
+import Canvas from './Canvas'
+import VideoCard from './VideoCard'
+import Notepad from './Notepad'
 
-import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
@@ -13,6 +14,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import InviteForm from './InviteForm'
+import RoomStatusBar from './RoomStatusBar'
 
 const styles = theme => ({
   root: {
@@ -26,15 +28,6 @@ const styles = theme => ({
   card: {
     minWidth: 275
   },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)'
-  },
-  title: {
-    marginBottom: 16,
-    fontSize: 14
-  },
   pos: {
     marginBottom: 12
   }
@@ -44,92 +37,132 @@ class Classroom extends Component {
   constructor() {
     super()
     this.state = {
-      room: {}
+      userIds: [],
+      roomId: '',
+      whiteboardId: '',
+      codeEditorIds: [],
+      chatsId: '',
+      notepadId: '',
+      chat: true,
+      codeEditors: true,
+      canvas: true,
+      video: true,
+      notepad: true
     }
+    this.handleDrop = this.handleDrop.bind(this)
   }
 
   async componentDidMount() {
     const classroom = await db
       .collection('rooms')
-      .doc(this.props.match.params.classroomId)
+      .doc(this.props.classroom)
       .get()
-    this.setState({room: classroom.data()})
+    this.setState({
+      userIds: classroom.data().userIds,
+      roomId: classroom.id,
+      whiteboardId: classroom.data().whiteboardId,
+      codeEditorIds: [
+        ...this.state.codeEditorIds,
+        ...classroom.data().codeEditorIds
+      ],
+      chatsId: classroom.data().chatsId,
+      notepadId: classroom.data().notepadId
+    })
   }
 
+  handleDrop(item) {
+    this.setState({[item]: false})
+  }
+
+  addModule(item) {
+    this.setState({[item]: true})
+  }
+
+  shouldRender = () => {
+    const hasCodeEditorIds = true
+    this.state.codeEditorIds.forEach(editorId => {
+      if (!editorId.length) return false
+    })
+    return (
+      hasCodeEditorIds &&
+      this.state.chatsId.length &&
+      this.state.whiteboardId.length &&
+      firebase.auth().currentUser
+    )
+  }
   render() {
     const {classes} = this.props
-    if (
-      this.state.room.fireCodesId &&
-      this.state.room.chatsId &&
-      this.state.room.whiteboardId &&
-      firebase.auth().currentUser
-    ) {
+    if (this.shouldRender()) {
       return (
-        <div className={classes.root}>
-          <Grid container direction="row" align-items="flex-start">
-            <Grid item>
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary">
-                    Chat
-                  </Typography>
+        <div>
+          <div className={classes.root}>
+            <Grid container direction="row" align-items="flex-start">
+              <Grid item>
+                {this.state.video ? (
+                  <VideoCard
+                    roomId={this.state.roomId}
+                    handleDrop={() => this.handleDrop('video')}
+                  />
+                ) : null}
+              </Grid>
+              {this.state.chat ? (
+                <Grid item>
                   <Messaging
-                    chatsId={this.state.room.chatsId}
-                    roomId={this.state.room.roomId}
+                    chatsId={this.state.chatsId}
+                    roomId={this.state.roomId}
+                    handleDrop={() => this.handleDrop('chat')}
                   />
-                </CardContent>
-                <Button>Remove</Button>
-              </Card>
-            </Grid>
-            <Grid item>
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary">
-                    Code Editor
-                  </Typography>
-                  <CodeEditor
-                    fireCodesId={this.state.room.fireCodesId}
-                    roomId={this.state.room.roomId}
-                  />
-                </CardContent>
-                <Button>Remove</Button>
-              </Card>
-            </Grid>
-            <Grid item>
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary">
-                    Canvas
-                  </Typography>
+                </Grid>
+              ) : null}
+              <Grid item>
+                {this.state.canvas ? (
                   <Canvas
-                    whiteboardId={this.state.room.whiteboardId}
-                    roomId={this.state.room.roomId}
+                    whiteboardId={this.state.whiteboardId}
+                    roomId={this.state.roomId}
+                    handleDrop={() => this.handleDrop('canvas')}
                   />
-                </CardContent>
-                <Button>Remove</Button>
-              </Card>
+                ) : null}
+              </Grid>
+              <Grid item>
+                {this.state.notepad ? (
+                  <Notepad
+                    notepadId={this.state.notepadId}
+                    roomId={this.state.roomId}
+                    handleDrop={() => this.handleDrop('notepad')}
+                  />
+                ) : null}
+              </Grid>
+              <Grid item>
+                {this.state.codeEditors ? (
+                  <CodeEditorCard
+                    codeEditors={this.state.codeEditorIds}
+                    roomId={this.state.roomId}
+                    handleDrop={() => this.handleDrop('codeEditors')}
+                  />
+                ) : null}
+              </Grid>
+              <Grid item>
+                <Card className={classes.card}>
+                  <CardContent>
+                    <Typography className={classes.title} color="textSecondary">
+                      Invite a Friend!
+                    </Typography>
+                    <InviteForm roomId={this.state.roomId} />
+                  </CardContent>
+                  <Button>Remove</Button>
+                </Card>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary">
-                    Invite a Friend!
-                  </Typography>
-                  <InviteForm roomId={this.state.room.roomId} />
-                </CardContent>
-                <Button>Remove</Button>
-              </Card>
-            </Grid>
-          </Grid>
+          </div>
+          <RoomStatusBar
+            classState={this.state}
+            addModule={module => this.addModule(module)}
+          />
         </div>
       )
     }
     return <div />
   }
-}
-
-Classroom.propTypes = {
-  classes: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(Classroom)

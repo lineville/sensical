@@ -50,18 +50,6 @@ const styles = theme => ({
     padding: '10px 12px',
     width: 'calc(100% - 24px)',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"'
-    ].join(','),
     '&:focus': {
       borderColor: '#80bdff',
       boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
@@ -111,12 +99,31 @@ class InviteForm extends Component {
       .get()
 
     let roomsArray = invitedUser.data().rooms
+
+    const room = await db
+      .collection('rooms')
+      .doc(roomId)
+      .get()
+
+    let userIds = room.data().userIds
+    // add another condition
     if (!roomsArray.includes(roomId)) {
+      const newCodeEditorId = await db
+        .collection('codeEditors')
+        .add({code: '', userId: invitedUser.id})
       await db
         .collection('users')
         .doc(inviteeId)
         .update({
-          rooms: roomsArray.concat(roomId)
+          rooms: roomsArray.concat(roomId),
+          codeEditorId: newCodeEditorId.id
+        })
+      await db
+        .collection('rooms')
+        .doc(roomId)
+        .update({
+          userIds: userIds.concat(inviteeId),
+          codeEditorIds: room.data().codeEditorIds.concat(newCodeEditorId.id)
         })
     }
 
@@ -155,7 +162,7 @@ class InviteForm extends Component {
             <Notification
               onClose={this.handleClose}
               variant="success"
-              message="This is a success message!"
+              message="Invite Sent!"
             />
           </Snackbar>
         </div>
