@@ -36,9 +36,11 @@ export class CreateRoom extends Component {
     })
     const whiteboards = await db.collection('whiteboards').add({strokes: []})
     const chats = await db.collection('chats').add({})
+    const notepad = await db.collection('notepads').add({})
     const room = await db.collection('rooms').add({
       whiteboardId: whiteboards.id,
       codeEditorIds: [codeEditor.id],
+      notepadId: notepad.id,
       chatsId: chats.id,
       subject: this.state.subject,
       userIds: [currentUser.uid]

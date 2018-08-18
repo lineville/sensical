@@ -48,18 +48,29 @@ export class Notepad extends Component {
   }
 
   async componentDidMount() {
-    // await db
-    //   .collection('notepads')
-    //   .doc(this.props.notepadId)
-    //   .onSnapshot(text => {
-    //     this.setState({text: text})
-    //   })
+    await db
+      .collection('notepads')
+      .doc(this.props.notepadId)
+      .onSnapshot(text => {
+        this.setState({text: text.data().text})
+      })
   }
 
   handleChange(event) {
-    this.setState({
-      text: event.target.value
-    })
+    this.setState(
+      {
+        text: event.target.value
+      },
+      async () => {
+        await db
+          .collection('notepads')
+          .doc(this.props.notepadId)
+          .set({text: this.state.text})
+          .catch(error => {
+            console.error('Error writing document', error)
+          })
+      }
+    )
   }
 
   render() {
