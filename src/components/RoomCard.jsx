@@ -212,7 +212,6 @@ export class RoomCard extends Component {
 
   render() {
     const {classes} = this.props
-    console.log(this.state.imageURL)
     return (
       <React.Fragment>
         <Card className={classes.card}>
