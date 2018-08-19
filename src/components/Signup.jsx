@@ -124,7 +124,6 @@ class Signup extends Component {
           <TextField
             id="username-input"
             name="username"
-            placeholder="Username"
             label="Username"
             className={classes.textField}
             type="username"
@@ -136,7 +135,6 @@ class Signup extends Component {
           <TextField
             id="email-input"
             name="email"
-            placeholder="Email"
             label="Email"
             className={classes.textField}
             type="email"

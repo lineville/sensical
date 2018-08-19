@@ -22,8 +22,13 @@ function collect(connect, monitor) {
 
 class HideBin extends Component {
   render() {
+<<<<<<< HEAD
     const {classes, connectDropTarget, isOver, item} = this.props
     const backgroundColor = isOver ? '#0115213b' : '#ffffff00'
+=======
+    const {classes, connectDropTarget, isOver} = this.props
+    const backgroundColor = isOver ? '#0115213b' : '#F1EDEB3b'
+>>>>>>> 8ea12bfcf4a919a46ba7636fda77f731ef358e5c
 
     return connectDropTarget(
       <div className="target" style={{background: backgroundColor}}>

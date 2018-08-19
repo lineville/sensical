@@ -5,6 +5,7 @@ import firebase from 'firebase'
 import {DragSource} from 'react-dnd'
 
 import PropTypes from 'prop-types'
+import SendIcon from '@material-ui/icons/Send'
 import {withStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -56,6 +57,9 @@ const styles = theme => ({
   },
   form: {
     display: 'flex'
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
   }
 })
 
@@ -115,7 +119,7 @@ export class Messaging extends Component {
   }
 
   render() {
-    const {classes, connectDragSource, isDragging, item} = this.props
+    const {classes, connectDragSource, isDragging} = this.props
     return connectDragSource(
       <div className="item">
         <Card
@@ -143,13 +147,12 @@ export class Messaging extends Component {
                 />
 
                 <Button
-                  type="submit"
-                  size="small"
-                  variant="outlined"
+                  variant="contained"
                   color="primary"
                   className={classes.button}
                 >
                   Send
+                  <SendIcon className={classes.rightIcon}>send</SendIcon>
                 </Button>
               </form>
             </div>

@@ -29,6 +29,11 @@ const styles = theme => ({
     height: 0,
     paddingTop: '56.25%' // 16:9
   },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200
+  },
   rightIcon: {
     marginLeft: theme.spacing.unit
   },
@@ -197,7 +202,7 @@ export class RoomCard extends Component {
           <CardActions>
             <Button
               variant="contained"
-              color="default"
+              color="primary"
               className={classes.button}
               onClick={this.joinRoom}
             >
@@ -205,7 +210,7 @@ export class RoomCard extends Component {
             </Button>
             <Button
               variant="contained"
-              color="primary"
+              color="default"
               className={classes.button}
               onClick={() => this.setState({inviteFormOpen: true})}
             >
@@ -246,12 +251,12 @@ export class RoomCard extends Component {
               <DialogContent>
                 <TextField
                   autoFocus
-                  margin="dense"
+                  margin="normal"
                   id="name"
                   name="inviteEmail"
-                  label="Email Address of Invitee"
+                  label="Email"
                   type="email"
-                  fullWidth
+                  className={classes.textField}
                   onChange={this.handleChange}
                 />
               </DialogContent>

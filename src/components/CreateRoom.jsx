@@ -2,11 +2,14 @@ import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
 
-import {withStyles, Snackbar, TextField} from '../../node_modules/@material-ui/core'
+import {
+  withStyles,
+  Snackbar,
+  TextField
+} from '../../node_modules/@material-ui/core'
 import Notification from './Notification'
 import FormControl from '@material-ui/core/FormControl'
 import Button from '@material-ui/core/Button'
-
 
 const styles = theme => ({
   margin: {
@@ -25,7 +28,7 @@ export class CreateRoom extends Component {
     }
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -41,21 +44,21 @@ export class CreateRoom extends Component {
   createRoom = async () => {
     try {
       const currentUser = await firebase.auth().currentUser
-    const codeEditor = await db.collection('codeEditors').add({
-      code: '',
-      userId: currentUser.uid
-    })
-    const whiteboards = await db.collection('whiteboards').add({strokes: []})
-    const chats = await db.collection('chats').add({})
-    const notepad = await db.collection('notepads').add({})
-    const room = await db.collection('rooms').add({
-      whiteboardId: whiteboards.id,
-      codeEditorIds: [codeEditor.id],
-      notepadId: notepad.id,
-      chatsId: chats.id,
-      subject: this.state.subject,
-      userIds: [currentUser.uid]
-    })
+      const codeEditor = await db.collection('codeEditors').add({
+        code: '',
+        userId: currentUser.uid
+      })
+      const whiteboards = await db.collection('whiteboards').add({strokes: []})
+      const chats = await db.collection('chats').add({})
+      const notepad = await db.collection('notepads').add({})
+      const room = await db.collection('rooms').add({
+        whiteboardId: whiteboards.id,
+        codeEditorIds: [codeEditor.id],
+        notepadId: notepad.id,
+        chatsId: chats.id,
+        subject: this.state.subject,
+        userIds: [currentUser.uid]
+      })
 
       let user = await db
         .collection('users')
@@ -83,10 +86,10 @@ export class CreateRoom extends Component {
         subject: '',
         snackBarOpen: true,
         snackBarVariant: 'error',
-        snackBarMessage: 'Hmmm, we could not create a new classroom. Sorry about that.'
+        snackBarMessage:
+          'Hmmm, we could not create a new classroom. Sorry about that.'
       })
     }
-    
   }
 
   render() {
@@ -97,7 +100,6 @@ export class CreateRoom extends Component {
           <TextField
             id="subject"
             name="subject"
-            placeholder="Subject"
             label="Subject"
             className={classes.textField}
             type="subject"
@@ -111,20 +113,20 @@ export class CreateRoom extends Component {
         </Button>
 
         <Snackbar
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              open={this.state.snackBarOpen}
-              autoHideDuration={2000}
-              onClose={this.handleClose}
-            >
-              <Notification
-                onClose={this.handleClose}
-                variant={this.state.snackBarVariant}
-                message={this.state.snackBarMessage}
-              />
-            </Snackbar>
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          open={this.state.snackBarOpen}
+          autoHideDuration={2000}
+          onClose={this.handleClose}
+        >
+          <Notification
+            onClose={this.handleClose}
+            variant={this.state.snackBarVariant}
+            message={this.state.snackBarMessage}
+          />
+        </Snackbar>
       </div>
     )
   }

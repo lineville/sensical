@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import db from '../firestore'
-import firebase from 'firebase'
 import {DragSource} from 'react-dnd'
 
 import PropTypes from 'prop-types'
@@ -13,7 +12,7 @@ const notepadSource = {
   beginDrag(props) {
     return props
   },
-  endDrag(props, monitor, component) {
+  endDrag(props, monitor) {
     if (!monitor.didDrop()) {
       return
     }
@@ -29,7 +28,7 @@ function collect(connect, monitor) {
   }
 }
 
-const styles = theme => ({
+const styles = () => ({
   card: {
     minWidth: 275
   },
@@ -76,7 +75,7 @@ export class Notepad extends Component {
   }
 
   render() {
-    const {classes, connectDragSource, isDragging, item} = this.props
+    const {classes, connectDragSource, isDragging} = this.props
     return connectDragSource(
       <div className="item">
         <Card

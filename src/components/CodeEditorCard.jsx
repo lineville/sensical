@@ -8,14 +8,13 @@ import {DragSource} from 'react-dnd'
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 
 const codeEditorSource = {
   beginDrag(props) {
     return props
   },
-  endDrag(props, monitor, component) {
+  endDrag(props, monitor) {
     if (!monitor.didDrop()) {
       return
     }
@@ -51,7 +50,7 @@ const styles = theme => ({
 
 class CodeEditorCard extends Component {
   render() {
-    const {classes, connectDragSource, isDragging, item} = this.props
+    const {classes, connectDragSource, isDragging} = this.props
     return connectDragSource(
       <div className="item">
         <Card
