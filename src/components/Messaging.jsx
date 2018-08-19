@@ -106,7 +106,7 @@ export class Messaging extends Component {
   }
 
   render() {
-    const {classes, connectDragSource, isDragging, item} = this.props
+    const {classes, connectDragSource, isDragging} = this.props
     return connectDragSource(
       <div className="item">
         <Card
