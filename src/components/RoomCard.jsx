@@ -142,8 +142,20 @@ export class RoomCard extends Component {
       .collection('rooms')
       .doc(this.state.roomId)
       .update({
-        subject: this.state.newSubject
+        subject: this.state.newSubject,
+        imageURL: this.state.newImageURL
       })
+
+    await this.setState({
+      room: {
+        ...this.state.room,
+        subject: this.state.newSubject,
+        imageURL: this.state.newImageURL
+      },
+      open: true,
+      snackBarVariant: 'success',
+      snackBarMessage: 'Subject changed successfully!'
+    })
   }
 
   handleClose = (event, reason) => {
@@ -200,12 +212,13 @@ export class RoomCard extends Component {
 
   render() {
     const {classes} = this.props
+    console.log(this.state.imageURL)
     return (
       <React.Fragment>
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}
-            image="http://cdn.shopify.com/s/files/1/1091/8014/products/whiteyboard_chalkboard_grande.jpeg?v=1528698765"
+            image={this.state.room.imageURL}
             title={this.state.room.subject}
           />
           <CardContent>
@@ -317,7 +330,7 @@ export class RoomCard extends Component {
                   id="roomImage"
                   name="newImageURL"
                   label="image URL"
-                  placeholder={this.state.room.subject}
+                  placeholder={this.state.room.imageURL}
                   type="text"
                   className={classes.textField}
                   onChange={this.handleChange}

@@ -4,6 +4,7 @@
   "rules": {
     "semi": 0,
     "no-alert": 0,
-    "react/no-string-refs": 0
+    "react/no-string-refs": 0,
+    "react/no-access-state-in-setstate": 0
   }
 }
