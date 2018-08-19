@@ -2,10 +2,9 @@ import firebase from 'firebase'
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import FormControl from '@material-ui/core/FormControl'
 import purple from '@material-ui/core/colors/purple'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
+import {FormControl, Button, TextField, Snackbar} from '@material-ui/core'
+import Notification from './Notification'
 
 const styles = theme => ({
   container: {
@@ -60,46 +59,68 @@ class Login extends Component {
     super(props)
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      snackBarOpen: false,
+      snackBarVariant: '',
+      snackBarMessage: ''
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleLogin = this.handleLogin.bind(this)
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
     })
   }
 
-  handleLogin() {
+  handleLogin = async () => {
     try {
-      firebase
+      await firebase
         .auth()
         .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-        .then(() => {
-          return firebase
-            .auth()
-            .signInWithEmailAndPassword(this.state.email, this.state.password)
-        })
+      await firebase
+        .auth()
+        .signInWithEmailAndPassword(this.state.email, this.state.password)
 
       this.props.history.push('/profile')
     } catch (error) {
       let errorCode = error.code
-      if (errorCode === 'auth/weak-password') {
-        alert('The password is too weak.')
-      }
+        if (errorCode === 'auth/weak-password') {
+          this.setState({
+            snackBarOpen: true,
+            snackBarVariant: 'error',
+            snackBarMessage: 'Sorry that password is weak, try something a bit stronger.'
+          })
+        }
+      this.setState({
+        snackBarOpen: true,
+        snackBarVariant: 'error',
+        snackBarMessage: 'Sorry about that. It seems there was an error while logging in...'
+      })
       console.error(error)
     }
   }
 
-  async handleLogout() {
+  handleLogout = async () => {
     try {
       await firebase.auth().signOut()
       this.props.history.push('/')
     } catch (error) {
+      this.setState({
+        snackBarOpen: true,
+        snackBarVariant: 'error',
+        snackBarMessage: 'Sorry there was an error while logging out.'
+      })
       console.error(error)
     }
+  }
+
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    this.setState({
+      snackBarOpen: false,
+    })
   }
 
   render() {
@@ -138,6 +159,22 @@ class Login extends Component {
         >
           Login
         </Button>
+
+        <Snackbar
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left'
+              }}
+              open={this.state.snackBarOpen}
+              autoHideDuration={4000}
+              onClose={this.handleClose}
+            >
+              <Notification
+                onClose={this.handleClose}
+                variant={this.state.snackBarVariant}
+                message={this.state.snackBarMessage}
+              />
+        </Snackbar>
       </div>
     )
   }
