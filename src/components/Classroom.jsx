@@ -117,7 +117,8 @@ class Classroom extends Component {
               <Grid item>
                 {this.state.canvas ? (
                   <Canvas
-                    whiteboardId={this.state.whiteboardId}
+                    // whiteboardId={this.state.whiteboardId}
+                    whiteboardId='NfJWMELXoOZHzZSV1GSz'
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('canvas')}
                   />
