@@ -32,13 +32,6 @@ const styles = theme => ({
   card: {
     width: 275
   },
-  container: {
-    flexWrap: 'wrap',
-    textAlign: 'center',
-    position: 'relative',
-    display: 'block',
-    width: '100%'
-  },
   margin: {
     margin: theme.spacing.unit
   },
@@ -62,7 +55,7 @@ export class VideoCard extends Component {
             resize: 'both'
           }}
         >
-          <CardContent>
+          <CardContent className={classes.cardContent}>
             <Typography color="textSecondary">Video</Typography>
             <VideoComponent roomId={this.props.roomId} />
           </CardContent>

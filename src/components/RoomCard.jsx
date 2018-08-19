@@ -22,7 +22,8 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 
 const styles = theme => ({
   card: {
-    maxWidth: 300
+    maxWidth: 300,
+    margin: '2%'
   },
   media: {
     height: 0,

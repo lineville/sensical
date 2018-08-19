@@ -183,28 +183,28 @@ class Profile extends Component {
             <p>Welcome {this.state.user.username}!</p>
             <p>Email: {this.state.user.email}</p>
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               size="small"
               onClick={() => this.setState({emailFormOpen: true})}
             >
-              Change Email
+              Edit Email
             </Button>
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               size="small"
               onClick={this.changePassword}
             >
-              Change Password
+              Edit Password
             </Button>
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               size="small"
               onClick={() => this.setState({userNameFormOpen: true})}
             >
-              Change Username
+              Edit Username
             </Button>
             <Snackbar
               anchorOrigin={{
