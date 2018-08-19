@@ -171,7 +171,6 @@ class Profile extends Component {
           className={parallaxClasses}
           style={{
             ...style
-            // backgroundImage: 'url(' + image + ')'
           }}
         >
           <Avatar
@@ -182,30 +181,36 @@ class Profile extends Component {
           <div>
             <p>Welcome {this.state.user.username}!</p>
             <p>Email: {this.state.user.email}</p>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={() => this.setState({emailFormOpen: true})}
-            >
-              Change Email
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={this.changePassword}
-            >
-              Change Password
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={() => this.setState({userNameFormOpen: true})}
-            >
-              Change Username
-            </Button>
+            <p>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={() => this.setState({emailFormOpen: true})}
+              >
+                Change Email
+              </Button>
+            </p>
+            <p>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={this.changePassword}
+              >
+                Change Password
+              </Button>
+            </p>
+            <p>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={() => this.setState({userNameFormOpen: true})}
+              >
+                Change Username
+              </Button>
+            </p>
             <Snackbar
               anchorOrigin={{
                 vertical: 'bottom',

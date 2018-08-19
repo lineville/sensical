@@ -51,6 +51,7 @@ export class RoomCard extends Component {
       room: {},
       inviteEmail: '',
       inviteFormOpen: false,
+      editFormOpen: false,
       open: false,
       snackBarVariant: '',
       snackBarMessage: '',
@@ -135,13 +136,23 @@ export class RoomCard extends Component {
     }
   }
 
+  handleEdit = async () => {
+    await db
+      .collection('rooms')
+      .doc(this.state.roomId)
+      .update({
+        subject: this.state.newSubject
+      })
+  }
+
   handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
     }
     this.setState({
       open: false,
-      inviteFormOpen: false
+      inviteFormOpen: false,
+      editFormOpen: false
     })
   }
 
@@ -204,6 +215,7 @@ export class RoomCard extends Component {
                 mini
                 color="primary"
                 className={classes.button}
+                onClick={() => this.setState({editFormOpen: true})}
               >
                 <EditIcon />
               </Button>
@@ -238,36 +250,6 @@ export class RoomCard extends Component {
               Leave
               <DeleteIcon className={classes.rightIcon} />
             </Button>
-            <FormControl className={classes.margin}>
-              <TextField
-                id="email-input"
-                name="email"
-                label="Email"
-                value={this.state.email}
-                className={classes.textField}
-                type="email"
-                margin="normal"
-                onChange={this.handleChange}
-              />
-            </FormControl>
-            <Button className={classes.margin} onClick={this.onSubmit}>
-              Invite
-            </Button>
-            <Snackbar
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              open={this.state.open}
-              autoHideDuration={6000}
-              onClose={this.handleClose}
-            >
-              <Notification
-                onClose={this.handleClose}
-                variant="success"
-                message="Invite Sent!"
-              />
-            </Snackbar>
             <Snackbar
               anchorOrigin={{
                 vertical: 'bottom',
@@ -306,6 +288,45 @@ export class RoomCard extends Component {
                   Cancel
                 </Button>
                 <Button onClick={this.onSubmit} color="primary">
+                  Confirm
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Dialog
+              open={this.state.editFormOpen}
+              onClose={this.handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Edit Room</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="normal"
+                  id="subject"
+                  name="newSubject"
+                  label="Subject"
+                  placeholder={this.state.room.subject}
+                  type="text"
+                  className={classes.textField}
+                  onChange={this.handleChange}
+                />
+                <TextField
+                  autoFocus
+                  margin="normal"
+                  id="roomImage"
+                  name="newImageURL"
+                  label="image URL"
+                  placeholder={this.state.room.subject}
+                  type="text"
+                  className={classes.textField}
+                  onChange={this.handleChange}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose} color="secondary">
+                  Cancel
+                </Button>
+                <Button onClick={this.handleEdit} color="primary">
                   Confirm
                 </Button>
               </DialogActions>

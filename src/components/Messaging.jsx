@@ -139,8 +139,9 @@ export class Messaging extends Component {
 
                 <Button
                   variant="contained"
-                  color="primary"
+                  color="default"
                   className={classes.button}
+                  onClick={this.handleSubmit}
                 >
                   Send
                   <SendIcon className={classes.rightIcon}>send</SendIcon>
