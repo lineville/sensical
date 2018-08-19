@@ -17,7 +17,7 @@ class RoomContainer extends Component {
     const {classes, user} = this.props
     return (
       <div>
-        <p>Available Rooms</p>
+        <h4>Available Rooms</h4>
         <CreateRoom />
         <div className={classes.cardRow}>
           {this.props.rooms

@@ -66,7 +66,7 @@ class Login extends Component {
     }
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -74,9 +74,7 @@ class Login extends Component {
 
   handleLogin = async () => {
     try {
-      await firebase
-        .auth()
-        .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+      await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       await firebase
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -84,17 +82,19 @@ class Login extends Component {
       this.props.history.push('/profile')
     } catch (error) {
       let errorCode = error.code
-        if (errorCode === 'auth/weak-password') {
-          this.setState({
-            snackBarOpen: true,
-            snackBarVariant: 'error',
-            snackBarMessage: 'Sorry that password is weak, try something a bit stronger.'
-          })
-        }
+      if (errorCode === 'auth/weak-password') {
+        this.setState({
+          snackBarOpen: true,
+          snackBarVariant: 'error',
+          snackBarMessage:
+            'Sorry that password is weak, try something a bit stronger.'
+        })
+      }
       this.setState({
         snackBarOpen: true,
         snackBarVariant: 'error',
-        snackBarMessage: 'Sorry about that. It seems there was an error while logging in...'
+        snackBarMessage:
+          'Sorry about that. It seems there was an error while logging in...'
       })
       console.error(error)
     }
@@ -119,7 +119,7 @@ class Login extends Component {
       return
     }
     this.setState({
-      snackBarOpen: false,
+      snackBarOpen: false
     })
   }
 
@@ -131,7 +131,6 @@ class Login extends Component {
           <TextField
             id="email-input"
             name="email"
-            placeholder="Email"
             label="Email"
             className={classes.textField}
             type="email"
@@ -161,19 +160,19 @@ class Login extends Component {
         </Button>
 
         <Snackbar
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              open={this.state.snackBarOpen}
-              autoHideDuration={4000}
-              onClose={this.handleClose}
-            >
-              <Notification
-                onClose={this.handleClose}
-                variant={this.state.snackBarVariant}
-                message={this.state.snackBarMessage}
-              />
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          open={this.state.snackBarOpen}
+          autoHideDuration={4000}
+          onClose={this.handleClose}
+        >
+          <Notification
+            onClose={this.handleClose}
+            variant={this.state.snackBarVariant}
+            message={this.state.snackBarMessage}
+          />
         </Snackbar>
       </div>
     )

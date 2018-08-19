@@ -28,6 +28,11 @@ const styles = theme => ({
     height: 0,
     paddingTop: '56.25%' // 16:9
   },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200
+  },
   rightIcon: {
     marginLeft: theme.spacing.unit
   },
@@ -66,64 +71,64 @@ export class RoomCard extends Component {
 
     try {
       const invitee = await db
-      .collection(`users`)
-      .where('email', '==', `${this.state.inviteEmail}`)
-      .get()
+        .collection(`users`)
+        .where('email', '==', `${this.state.inviteEmail}`)
+        .get()
 
-    const inviteeId = invitee.docs[0].id
+      const inviteeId = invitee.docs[0].id
 
-    console.log('invitee:', invitee)
-    const invitedUser = await db
-      .collection('users')
-      .doc(inviteeId)
-      .get()
-
-    let roomsArray = invitedUser.data().rooms
-
-    const room = await db
-      .collection('rooms')
-      .doc(roomId)
-      .get()
-
-    let userIds = room.data().userIds
-    // add another condition
-    if (!roomsArray.includes(roomId)) {
-      const newCodeEditorId = await db
-        .collection('codeEditors')
-        .add({code: '', userId: invitedUser.id})
-      await db
+      console.log('invitee:', invitee)
+      const invitedUser = await db
         .collection('users')
         .doc(inviteeId)
-        .update({
-          rooms: roomsArray.concat(roomId),
-          codeEditorId: newCodeEditorId.id
-        })
-      await db
+        .get()
+
+      let roomsArray = invitedUser.data().rooms
+
+      const room = await db
         .collection('rooms')
         .doc(roomId)
-        .update({
-          userIds: userIds.concat(inviteeId),
-          codeEditorIds: room.data().codeEditorIds.concat(newCodeEditorId.id)
-        })
-    }
+        .get()
 
-    this.setState({
-      inviteEmail: '', 
-      snackBarVariant: 'success',
-      snackBarMessage: 'Invite successfully sent!',
-      open: true,
-      inviteFormOpen: false
-    })
+      let userIds = room.data().userIds
+      // add another condition
+      if (!roomsArray.includes(roomId)) {
+        const newCodeEditorId = await db
+          .collection('codeEditors')
+          .add({code: '', userId: invitedUser.id})
+        await db
+          .collection('users')
+          .doc(inviteeId)
+          .update({
+            rooms: roomsArray.concat(roomId),
+            codeEditorId: newCodeEditorId.id
+          })
+        await db
+          .collection('rooms')
+          .doc(roomId)
+          .update({
+            userIds: userIds.concat(inviteeId),
+            codeEditorIds: room.data().codeEditorIds.concat(newCodeEditorId.id)
+          })
+      }
+
+      this.setState({
+        inviteEmail: '',
+        snackBarVariant: 'success',
+        snackBarMessage: 'Invite successfully sent!',
+        open: true,
+        inviteFormOpen: false
+      })
     } catch (error) {
-      console.log("THERE WAS AN ERROR: ", error)
+      console.log('THERE WAS AN ERROR: ', error)
       this.setState({
         snackBarVariant: 'error',
-        snackBarMessage: 'Looks like there was a problem with the email you selected.',
+        snackBarMessage:
+          'Looks like there was a problem with the email you selected.',
         open: true,
         inviteFormOpen: false
       })
     }
-    
   }
 
   handleClose = (event, reason) => {
@@ -152,7 +157,9 @@ export class RoomCard extends Component {
         .collection('rooms')
         .doc(this.state.roomId)
         .update({
-          codeEditorIds: firebase.firestore.FieldValue.arrayRemove(codeEditorId),
+          codeEditorIds: firebase.firestore.FieldValue.arrayRemove(
+            codeEditorId
+          ),
           userIds: firebase.firestore.FieldValue.arrayRemove(user.id)
         })
       //removes codeEditor from user
@@ -165,11 +172,12 @@ export class RoomCard extends Component {
           rooms: firebase.firestore.FieldValue.arrayRemove(this.state.roomId)
         })
     } catch (error) {
-      console.log("THERE WAS AN ERROR: ", error)
+      console.log('THERE WAS AN ERROR: ', error)
       this.setState({
         snackBarVariant: 'error',
-        snackBarMessage: 'Looks like there was an error while leaving the room.',
-        open: true,
+        snackBarMessage:
+          'Looks like there was an error while leaving the room.',
+        open: true
       })
     }
   }
@@ -193,7 +201,7 @@ export class RoomCard extends Component {
           <CardActions>
             <Button
               variant="contained"
-              color="default"
+              color="primary"
               className={classes.button}
               onClick={this.joinRoom}
             >
@@ -201,7 +209,7 @@ export class RoomCard extends Component {
             </Button>
             <Button
               variant="contained"
-              color="primary"
+              color="default"
               className={classes.button}
               onClick={() => this.setState({inviteFormOpen: true})}
             >
@@ -242,12 +250,12 @@ export class RoomCard extends Component {
               <DialogContent>
                 <TextField
                   autoFocus
-                  margin="dense"
+                  margin="normal"
                   id="name"
                   name="inviteEmail"
-                  label="Email Address of Invitee"
+                  label="Email"
                   type="email"
-                  fullWidth
+                  className={classes.textField}
                   onChange={this.handleChange}
                 />
               </DialogContent>

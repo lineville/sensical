@@ -1,63 +1,57 @@
 import React, {Component} from 'react'
 import Video from 'twilio-video'
 import axios from 'axios'
-import PropTypes from 'prop-types'
-import {withStyles} from '@material-ui/core/styles'
 import FormControl from '@material-ui/core/FormControl'
-import purple from '@material-ui/core/colors/purple'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-// import RaisedButton from 'material-ui/RaisedButton'
-// import TextField from 'material-ui/TextField'
-// import {Card, CardHeader, CardText} from 'material-ui/Card'
 
-const styles = theme => ({
-  container: {
-    flexWrap: 'wrap',
-    textAlign: 'center',
-    position: 'relative',
-    display: 'block',
-    width: '100%'
-  },
-  margin: {
-    margin: theme.spacing.unit
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  },
-  cssLabel: {
-    '&$cssFocused': {
-      color: purple[500]
-    }
-  },
-  cssFocused: {},
-  cssUnderline: {
-    '&:after': {
-      borderBottomColor: purple[500]
-    }
-  },
-  bootstrapRoot: {
-    padding: 0,
-    'label + &': {
-      marginTop: theme.spacing.unit * 3
-    }
-  },
-  bootstrapInput: {
-    borderRadius: 4,
-    backgroundColor: theme.palette.common.white,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '10px 12px',
-    width: 'calc(100% - 24px)',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    '&:focus': {
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
-    }
-  }
-})
+// const styles = theme => ({
+//   container: {
+//     flexWrap: 'wrap',
+//     textAlign: 'center',
+//     position: 'relative',
+//     display: 'block',
+//     width: '100%'
+//   },
+//   margin: {
+//     margin: theme.spacing.unit
+//   },
+//   textField: {
+//     marginLeft: theme.spacing.unit,
+//     marginRight: theme.spacing.unit,
+//     width: 200
+//   },
+//   cssLabel: {
+//     '&$cssFocused': {
+//       color: purple[500]
+//     }
+//   },
+//   cssFocused: {},
+//   cssUnderline: {
+//     '&:after': {
+//       borderBottomColor: purple[500]
+//     }
+//   },
+//   bootstrapRoot: {
+//     padding: 0,
+//     'label + &': {
+//       marginTop: theme.spacing.unit * 3
+//     }
+//   },
+//   bootstrapInput: {
+//     borderRadius: 4,
+//     backgroundColor: theme.palette.common.white,
+//     border: '1px solid #ced4da',
+//     fontSize: 16,
+//     padding: '10px 12px',
+//     width: 'calc(100% - 24px)',
+//     transition: theme.transitions.create(['border-color', 'box-shadow']),
+//     '&:focus': {
+//       borderColor: '#80bdff',
+//       boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
+//     }
+//   }
+// })
 
 export default class VideoComponent extends Component {
   constructor(props) {
@@ -196,7 +190,7 @@ export default class VideoComponent extends Component {
       }
       this.detachParticipantTracks(room.localParticipant)
       room.participants.forEach(this.detachParticipantTracks)
-      this.state.activeRoom = null
+      this.setState({activeRoom: null})
       this.setState({hasJoinedRoom: false, localMediaAvailable: false})
     })
   }

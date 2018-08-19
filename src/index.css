@@ -46,7 +46,9 @@ canvas {
   background-color: black;
   height: 100%;
 }
-
+h4 {
+  margin: 15px 15px;
+}
 a {
   text-decoration: none;
 }

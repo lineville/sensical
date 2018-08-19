@@ -225,7 +225,7 @@ class Canvas extends Component {
         this.draw(stroke.start, stroke.end, stroke.strokeColor)
       })
     }
-    const {classes, connectDragSource, isDragging, item} = this.props
+    const {classes, connectDragSource, isDragging} = this.props
     return connectDragSource(
       <div>
         <Card
