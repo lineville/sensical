@@ -9,11 +9,6 @@ import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import FormControl from '@material-ui/core/FormControl'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-// import RaisedButton from 'material-ui/RaisedButton'
-// import TextField from 'material-ui/TextField'
 
 const messagingSource = {
   beginDrag(props) {
@@ -39,13 +34,6 @@ const styles = theme => ({
   card: {
     width: 275
   },
-  container: {
-    flexWrap: 'wrap',
-    textAlign: 'center',
-    position: 'relative',
-    display: 'block',
-    width: '100%'
-  },
   margin: {
     margin: theme.spacing.unit
   },
@@ -69,7 +57,7 @@ export class VideoCard extends Component {
             resize: 'both'
           }}
         >
-          <CardContent>
+          <CardContent className={classes.cardContent}>
             <Typography color="textSecondary">Video</Typography>
             <VideoComponent roomId={this.props.roomId} />
           </CardContent>

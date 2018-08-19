@@ -37,6 +37,15 @@ const styles = theme => ({
   card: {
     maxWidth: 275
   },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+  messages: {
+    height: 175,
+    overflow: 'scroll'
+  },
   button: {
     margin: theme.spacing.unit
   },
@@ -119,8 +128,8 @@ export class Messaging extends Component {
         >
           <CardContent>
             <Typography color="textSecondary">Chat</Typography>
-            <div id="messages">
-              <div>
+            <div className={classes.content}>
+              <div className={classes.messages}>
                 {this.state.messages.map(message => (
                   <Message key={message.id} message={message} />
                 ))}

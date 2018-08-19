@@ -7,7 +7,8 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    backgroundColor: 'none'
   }
 })
 
@@ -22,16 +23,11 @@ function collect(connect, monitor) {
 class HideBin extends Component {
   render() {
     const {classes, connectDropTarget, isOver, item} = this.props
-    const backgroundColor = isOver ? '#0115213b' : '#F1EDEB3b'
+    const backgroundColor = isOver ? '#0115213b' : '#ffffff00'
 
     return connectDropTarget(
       <div className="target" style={{background: backgroundColor}}>
-        <Button
-          variant="fab"
-          disabled
-          aria-label="Delete"
-          className={classes.button}
-        >
+        <Button color="inherit" className={classes.button}>
           <DeleteIcon />
           Hide
         </Button>

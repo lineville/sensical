@@ -81,7 +81,7 @@ class Profile extends Component {
       open: false,
       emailFormOpen: false,
       passwordFormOpen: false,
-      userNameFormOpen: false,
+      userNameFormOpen: false
     })
   }
 
@@ -91,7 +91,7 @@ class Profile extends Component {
     })
   }
 
-  changeEmail= async () => {
+  changeEmail = async () => {
     const user = await firebase.auth().currentUser
     user
       .updateEmail(this.state.newEmail)
@@ -134,7 +134,8 @@ class Profile extends Component {
       .catch(function(error) {
         console.log(error)
         this.setState({
-          popUpMessage: 'Sorry about that, it seems there was an error trying to change your password.',
+          popUpMessage:
+            'Sorry about that, it seems there was an error trying to change your password.',
           popUpMessageType: 'error',
           open: true
         })
@@ -183,28 +184,28 @@ class Profile extends Component {
             <p>Welcome {this.state.user.username}!</p>
             <p>Email: {this.state.user.email}</p>
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               size="small"
               onClick={() => this.setState({emailFormOpen: true})}
             >
-              Change Email
+              Edit Email
             </Button>
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               size="small"
               onClick={this.changePassword}
             >
-              Change Password
+              Edit Password
             </Button>
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               size="small"
               onClick={() => this.setState({userNameFormOpen: true})}
             >
-              Change Username
+              Edit Username
             </Button>
             <Snackbar
               anchorOrigin={{

@@ -132,7 +132,7 @@ class RoomStatusBar extends Component {
           <Toolbar>
             <IconButton
               className={classes.menuButton}
-              color="secondary"
+              color="inherit"
               variant="fab"
               aria-label="Add"
             >
