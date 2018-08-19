@@ -3,7 +3,6 @@ import Video from 'twilio-video'
 import axios from 'axios'
 
 import {withStyles} from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
 import Switch from '@material-ui/core/Switch'
 
 const styles = () => ({
