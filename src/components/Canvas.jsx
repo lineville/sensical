@@ -122,35 +122,22 @@ class Canvas extends Component {
   }
 
   setup = () => {
-    // this.setupColorPicker()
+    this.setupColorPicker()
     this.setupEventListeners()
   }
 
   setupColorPicker = () => {
-    this.picker.classList.add('color-selector')
-    this.colors
-      .map(color => {
-        const marker = document.createElement('div')
-        marker.classList.add('marker')
-        marker.dataset.color = color
-        marker.style.backgroundColor = color
-        return marker
-      })
-      .forEach(color => this.picker.appendChild(color))
-
-    this.picker.addEventListener('click', ({target}) => {
+    const picker = document.getElementById('picker')
+    picker.addEventListener('click', ({target}) => {
+      console.log("CLICK ON COLOR PICKER")
       this.color = target.dataset.color
       if (!this.color) return
-      const current = this.picker.querySelector('.selected')
+      const current = picker.querySelector('.selected')
       current && current.classList.remove('selected')
       target.classList.add('selected')
     })
 
-    let classroom = document.getElementById('whiteboard-canvas')
-    classroom.appendChild(this.picker)
-
-    // Select the first color
-    this.picker.firstChild.click()
+    picker.firstChild.click()
   }
 
   // resize = () => {
@@ -271,6 +258,16 @@ class Canvas extends Component {
               height={500}
               width={500}
               />
+              <div id='picker' className='color-selector'>
+                <div className='marker' data-color='#000000' style={{backgroundColor: '#000000'}} />
+                <div className='marker' data-color='#ff1000' style={{backgroundColor: '#ff1000'}} />
+                <div className='marker' data-color='#380566' style={{backgroundColor: '#380566'}} />
+                <div className='marker' data-color='#1d00ff' style={{backgroundColor: '#1d00ff'}} />
+                <div className='marker' data-color='#a31149' style={{backgroundColor: '#a31149'}} />
+                <div className='marker' data-color='#30a300' style={{backgroundColor: '#30a300'}} />
+                <div className='marker' data-color='#40d6c9' style={{backgroundColor: '#40d6c9'}} />
+                <div className='marker' data-color='#fffc51' style={{backgroundColor: '#fffc51'}} />
+              </div>
             </div>
           </CardContent>
         </Card>
