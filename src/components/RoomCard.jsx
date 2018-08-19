@@ -24,7 +24,8 @@ import FormControl from '@material-ui/core/FormControl'
 
 const styles = theme => ({
   card: {
-    maxWidth: 300
+    maxWidth: 300,
+    margin: '2%'
   },
   media: {
     height: 0,

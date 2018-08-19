@@ -13,7 +13,13 @@ import RoomStatusBar from './RoomStatusBar'
 
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+  room: {
+    flexGrow: 1,
+    height: '100vh'
   },
   paper: {
     padding: theme.spacing.unit * 2,
@@ -89,8 +95,8 @@ class Classroom extends Component {
     const {classes} = this.props
     if (this.shouldRender()) {
       return (
-        <div>
-          <div className={classes.root}>
+        <div className={classes.root}>
+          <div className={classes.room}>
             <Grid container direction="row" align-items="flex-start">
               <Grid item>
                 {this.state.video ? (
@@ -137,11 +143,11 @@ class Classroom extends Component {
                 ) : null}
               </Grid>
             </Grid>
+            <RoomStatusBar
+              classState={this.state}
+              addModule={module => this.addModule(module)}
+            />
           </div>
-          <RoomStatusBar
-            classState={this.state}
-            addModule={module => this.addModule(module)}
-          />
         </div>
       )
     }

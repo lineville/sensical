@@ -33,7 +33,9 @@ const styles = () => ({
     minWidth: 275
   },
   textArea: {
-    width: '100%'
+    width: '100%',
+    height: '-webkit-fill-available',
+    border: '1px dotted'
   }
 })
 

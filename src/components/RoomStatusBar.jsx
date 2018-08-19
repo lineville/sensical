@@ -41,7 +41,8 @@ const styles = theme => ({
   text: {
     fontSize: 14,
     flexGrow: 1,
-    display: 'flex'
+    display: 'flex',
+    alignItems: 'center'
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -230,7 +231,7 @@ class RoomStatusBar extends Component {
           <Toolbar>
             <IconButton
               className={classes.menuButton}
-              color="secondary"
+              color="inherit"
               variant="fab"
               aria-label="Add"
             >
@@ -266,43 +267,42 @@ class RoomStatusBar extends Component {
               {this.state.roomMemberIds.map(memberId => {
                 return <RoomMembers id={memberId} key={memberId} />
               })}
+              <Button
+                color="inherit"
+                className={classes.button}
+                onClick={() => this.setState({inviteFormOpen: true})}
+              >
+                Invite
+                <ShareIcon className={classes.rightIcon} />
+              </Button>
+              <Dialog
+                open={this.state.inviteFormOpen}
+                onClose={this.handleClose}
+                aria-labelledby="form-dialog-title"
+              >
+                <DialogTitle id="form-dialog-title">Invite To Room</DialogTitle>
+                <DialogContent>
+                  <TextField
+                    autoFocus
+                    margin="normal"
+                    id="name"
+                    name="inviteEmail"
+                    label="Email"
+                    type="email"
+                    className={classes.textField}
+                    onChange={this.handleChange}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleClose} color="secondary">
+                    Cancel
+                  </Button>
+                  <Button onClick={this.onSubmit} color="primary">
+                    Confirm
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </Typography>
-            <Button
-              variant="contained"
-              color="default"
-              className={classes.button}
-              onClick={() => this.setState({inviteFormOpen: true})}
-            >
-              Invite
-              <ShareIcon className={classes.rightIcon} />
-            </Button>
-            <Dialog
-              open={this.state.inviteFormOpen}
-              onClose={this.handleClose}
-              aria-labelledby="form-dialog-title"
-            >
-              <DialogTitle id="form-dialog-title">Invite To Room</DialogTitle>
-              <DialogContent>
-                <TextField
-                  autoFocus
-                  margin="normal"
-                  id="name"
-                  name="inviteEmail"
-                  label="Email"
-                  type="email"
-                  className={classes.textField}
-                  onChange={this.handleChange}
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleClose} color="secondary">
-                  Cancel
-                </Button>
-                <Button onClick={this.onSubmit} color="primary">
-                  Confirm
-                </Button>
-              </DialogActions>
-            </Dialog>
             <HideBin />
           </Toolbar>
         </AppBar>
