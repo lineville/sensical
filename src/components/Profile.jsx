@@ -14,7 +14,6 @@ import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
 const styles = theme => ({
@@ -81,7 +80,7 @@ class Profile extends Component {
       open: false,
       emailFormOpen: false,
       passwordFormOpen: false,
-      userNameFormOpen: false,
+      userNameFormOpen: false
     })
   }
 
@@ -91,7 +90,7 @@ class Profile extends Component {
     })
   }
 
-  changeEmail= async () => {
+  changeEmail = async () => {
     const user = await firebase.auth().currentUser
     user
       .updateEmail(this.state.newEmail)
@@ -134,7 +133,8 @@ class Profile extends Component {
       .catch(function(error) {
         console.log(error)
         this.setState({
-          popUpMessage: 'Sorry about that, it seems there was an error trying to change your password.',
+          popUpMessage:
+            'Sorry about that, it seems there was an error trying to change your password.',
           popUpMessageType: 'error',
           open: true
         })

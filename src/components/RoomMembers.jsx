@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     margin: '0 10px'
   },

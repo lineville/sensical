@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-import Video from 'twilio-video'
-import axios from 'axios'
 import {DragSource} from 'react-dnd'
 import VideoComponent from './VideoComponent'
 
@@ -9,17 +7,12 @@ import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import FormControl from '@material-ui/core/FormControl'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-// import RaisedButton from 'material-ui/RaisedButton'
-// import TextField from 'material-ui/TextField'
 
 const messagingSource = {
   beginDrag(props) {
     return props
   },
-  endDrag(props, monitor, component) {
+  endDrag(props, monitor) {
     if (!monitor.didDrop()) {
       return
     }
@@ -58,7 +51,7 @@ const styles = theme => ({
 
 export class VideoCard extends Component {
   render() {
-    const {classes, connectDragSource, isDragging, item} = this.props
+    const {classes, connectDragSource, isDragging} = this.props
     return connectDragSource(
       <div className="item">
         <Card
