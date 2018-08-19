@@ -1,71 +1,18 @@
 import React, {Component} from 'react'
 import Video from 'twilio-video'
 import axios from 'axios'
-<<<<<<< HEAD
 
 import {withStyles} from '@material-ui/core/styles'
-=======
->>>>>>> 8ea12bfcf4a919a46ba7636fda77f731ef358e5c
 import FormControl from '@material-ui/core/FormControl'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
-<<<<<<< HEAD
 const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column'
   }
 })
-=======
-// const styles = theme => ({
-//   container: {
-//     flexWrap: 'wrap',
-//     textAlign: 'center',
-//     position: 'relative',
-//     display: 'block',
-//     width: '100%'
-//   },
-//   margin: {
-//     margin: theme.spacing.unit
-//   },
-//   textField: {
-//     marginLeft: theme.spacing.unit,
-//     marginRight: theme.spacing.unit,
-//     width: 200
-//   },
-//   cssLabel: {
-//     '&$cssFocused': {
-//       color: purple[500]
-//     }
-//   },
-//   cssFocused: {},
-//   cssUnderline: {
-//     '&:after': {
-//       borderBottomColor: purple[500]
-//     }
-//   },
-//   bootstrapRoot: {
-//     padding: 0,
-//     'label + &': {
-//       marginTop: theme.spacing.unit * 3
-//     }
-//   },
-//   bootstrapInput: {
-//     borderRadius: 4,
-//     backgroundColor: theme.palette.common.white,
-//     border: '1px solid #ced4da',
-//     fontSize: 16,
-//     padding: '10px 12px',
-//     width: 'calc(100% - 24px)',
-//     transition: theme.transitions.create(['border-color', 'box-shadow']),
-//     '&:focus': {
-//       borderColor: '#80bdff',
-//       boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
-//     }
-//   }
-// })
->>>>>>> 8ea12bfcf4a919a46ba7636fda77f731ef358e5c
 
 export class VideoComponent extends Component {
   constructor(props) {

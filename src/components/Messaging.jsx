@@ -104,18 +104,20 @@ export class Messaging extends Component {
 
   async handleSubmit(event) {
     event.preventDefault()
-    await db
-      .collection('chats')
-      .doc(this.props.chatsId)
-      .collection('messages')
-      .add({
-        user: this.state.user,
-        text: this.state.newMessage,
-        timestamp: new Date().toUTCString()
+    if (this.state.newMessage.length) {
+      await db
+        .collection('chats')
+        .doc(this.props.chatsId)
+        .collection('messages')
+        .add({
+          user: this.state.user,
+          text: this.state.newMessage,
+          timestamp: new Date().toUTCString()
+        })
+      this.setState({
+        newMessage: ''
       })
-    this.setState({
-      newMessage: ''
-    })
+    }
   }
 
   render() {
@@ -147,9 +149,10 @@ export class Messaging extends Component {
                 />
 
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   color="primary"
                   className={classes.button}
+                  onClick={this.handleSubmit}
                 >
                   Send
                   <SendIcon className={classes.rightIcon}>send</SendIcon>
