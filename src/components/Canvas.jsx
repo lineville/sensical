@@ -44,10 +44,7 @@ class Canvas extends Component {
       curStroke: [],
       strokes: null
     }
-    // this.whiteboardCanvas = React.createRef();
   }
-
-  picker = document.createElement('div')
 
   color = 'black'
   //// Position tracking
@@ -61,18 +58,6 @@ class Canvas extends Component {
     y: 0
   }
 
-  // Color picker settings
-  colors = [
-    '#000000',
-    '#ff1000',
-    '#380566',
-    '#1d00ff',
-    '#a31149',
-    '#30a300',
-    '#40d6c9',
-    '#fffc51'
-  ]
-
   strokeToDb = curStroke => {
     db.collection('whiteboards')
       .doc(this.props.whiteboardId)
@@ -80,11 +65,13 @@ class Canvas extends Component {
         strokes: firebase.firestore.FieldValue.arrayUnion(...curStroke)
       })
       .then(() => {
-        this.setState({curStroke: []})
+        this.setState({curStroke: [],
+        strokes: null})
       })
       .catch(error => {
         console.error('Error drawing new stroke to Firestore Database: ', error)
       })
+      this.forceUpdate()
   }
 
   draw = (start, end, strokeColor = 'black', shouldBroadcast = true) => {
@@ -105,12 +92,13 @@ class Canvas extends Component {
         strokes: []
       })
       .then(() => {
-        this.clearCanvasDOM()
         this.setState({
           curStroke: [],
           strokes: null
         })
-        this.setupColorPicker()
+        const ctx = this.whiteboardCanvas.getContext('2d')
+        ctx.fillStyle='white'
+        ctx.fillRect(0, 0, 500, 500);
       })
       .catch(error => {
         console.error('Error drawing new stroke to Firestore Database: ', error)
@@ -129,7 +117,6 @@ class Canvas extends Component {
   setupColorPicker = () => {
     const picker = document.getElementById('picker')
     picker.addEventListener('click', ({target}) => {
-      console.log("CLICK ON COLOR PICKER")
       this.color = target.dataset.color
       if (!this.color) return
       const current = picker.querySelector('.selected')
@@ -253,7 +240,6 @@ class Canvas extends Component {
             <div id="whiteboard">
               <div id="whiteboard-canvas" />
               <canvas 
-              // ref={this.whiteboardCanvas}
               ref={canvas => (this.whiteboardCanvas = canvas)}
               height={500}
               width={500}
@@ -267,6 +253,9 @@ class Canvas extends Component {
                 <div className='marker' data-color='#30a300' style={{backgroundColor: '#30a300'}} />
                 <div className='marker' data-color='#40d6c9' style={{backgroundColor: '#40d6c9'}} />
                 <div className='marker' data-color='#fffc51' style={{backgroundColor: '#fffc51'}} />
+                <Button onClick={this.clearCanvas} >
+                  Clear
+                </Button>
               </div>
             </div>
           </CardContent>
