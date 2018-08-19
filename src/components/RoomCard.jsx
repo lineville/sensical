@@ -16,9 +16,11 @@ import Snackbar from '@material-ui/core/Snackbar'
 import Notification from './Notification'
 import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
+import EditIcon from '@material-ui/icons/Edit'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import FormControl from '@material-ui/core/FormControl'
 
 const styles = theme => ({
   card: {
@@ -51,7 +53,9 @@ export class RoomCard extends Component {
       inviteFormOpen: false,
       open: false,
       snackBarVariant: '',
-      snackBarMessage: ''
+      snackBarMessage: '',
+      newSubject: '',
+      newImageURL: ''
     }
   }
 
@@ -195,6 +199,14 @@ export class RoomCard extends Component {
           <CardContent>
             <Typography gutterBottom variant="headline" component="h2">
               {this.state.room.subject}
+              <Button
+                variant="fab"
+                mini
+                color="primary"
+                className={classes.button}
+              >
+                <EditIcon />
+              </Button>
             </Typography>
             <Typography component="p">Practice your coding here.</Typography>
           </CardContent>
@@ -216,6 +228,7 @@ export class RoomCard extends Component {
               Invite
               <ShareIcon className={classes.rightIcon} />
             </Button>
+
             <Button
               variant="contained"
               color="secondary"
@@ -225,6 +238,36 @@ export class RoomCard extends Component {
               Leave
               <DeleteIcon className={classes.rightIcon} />
             </Button>
+            <FormControl className={classes.margin}>
+              <TextField
+                id="email-input"
+                name="email"
+                label="Email"
+                value={this.state.email}
+                className={classes.textField}
+                type="email"
+                margin="normal"
+                onChange={this.handleChange}
+              />
+            </FormControl>
+            <Button className={classes.margin} onClick={this.onSubmit}>
+              Invite
+            </Button>
+            <Snackbar
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left'
+              }}
+              open={this.state.open}
+              autoHideDuration={6000}
+              onClose={this.handleClose}
+            >
+              <Notification
+                onClose={this.handleClose}
+                variant="success"
+                message="Invite Sent!"
+              />
+            </Snackbar>
             <Snackbar
               anchorOrigin={{
                 vertical: 'bottom',
@@ -240,7 +283,6 @@ export class RoomCard extends Component {
                 message={this.state.snackBarMessage}
               />
             </Snackbar>
-
             <Dialog
               open={this.state.inviteFormOpen}
               onClose={this.handleClose}
