@@ -116,6 +116,7 @@ class Canvas extends Component {
 
   setupColorPicker = () => {
     const picker = document.getElementById('picker')
+    const selector = document.getElementById('selector')
     picker.addEventListener('click', ({target}) => {
       this.color = target.dataset.color
       if (!this.color) return
@@ -123,56 +124,59 @@ class Canvas extends Component {
       current && current.classList.remove('selected')
       target.classList.add('selected')
     })
-
     picker.firstChild.click()
+
+    selector.addEventListener('change', ({target}) => {
+      this.color = target.value
+    })
   }
 
-  // resize = () => {
-  //   // Unscale the canvas (if it was previously scaled)
-  //   const ctx = this.whiteboardCanvas.getContext('2d')
-  //   ctx.setTransform(1, 0, 0, 1, 0, 0)
+  resize = () => {
+    // Unscale the canvas (if it was previously scaled)
+    const ctx = this.whiteboardCanvas.getContext('2d')
+    ctx.setTransform(1, 0, 0, 1, 0, 0)
 
-  //   // The device pixel ratio is the multiplier between CSS pixels
-  //   // and device pixels
-  //   var pixelRatio = window.devicePixelRatio || 1
+    // The device pixel ratio is the multiplier between CSS pixels
+    // and device pixels
+    var pixelRatio = window.devicePixelRatio || 1
 
-  //   // Allocate backing store large enough to give us a 1:1 device pixel
-  //   // to canvas pixel ratio.
-  //   var w = this.canvas.clientWidth * pixelRatio,
-  //     h = this.canvas.clientHeight * pixelRatio
-  //   if (w !== this.canvas.width || h !== this.canvas.height) {
-  //     // Resizing the canvas destroys the current content.
-  //     // So, save it...
-  //     var imgData = this.ctx.getImageData(
-  //       0,
-  //       0,
-  //       this.canvas.width,
-  //       this.canvas.height
-  //     )
+    // Allocate backing store large enough to give us a 1:1 device pixel
+    // to canvas pixel ratio.
+    var w = this.whiteboardCanvas.clientWidth * pixelRatio,
+      h = this.whiteboardCanvas.clientHeight * pixelRatio
+    if (w !== this.whiteboardCanvas.width || h !== this.whiteboardCanvas.height) {
+      // Resizing the whiteboardCanvas destroys the current content.
+      // So, save it...
+      var imgData = this.ctx.getImageData(
+        0,
+        0,
+        this.whiteboardCanvas.width,
+        this.whiteboardCanvas.height
+      )
 
-  //     this.canvas.width = w
-  //     this.canvas.height = h
+      this.whiteboardCanvas.width = w
+      this.whiteboardCanvas.height = h
 
-  //     // ...then restore it.
-  //     this.ctx.putImageData(imgData, 0, 0)
-  //   }
+      // ...then restore it.
+      this.ctx.putImageData(imgData, 0, 0)
+    }
 
-  //   // Scale the canvas' internal coordinate system by the device pixel
-  //   // ratio to ensure that 1 canvas unit = 1 css pixel, even though our
-  //   // backing store is larger.
-  //   this.ctx.scale(pixelRatio, pixelRatio)
+    // Scale the canvas' internal coordinate system by the device pixel
+    // ratio to ensure that 1 canvas unit = 1 css pixel, even though our
+    // backing store is larger.
+    this.ctx.scale(pixelRatio, pixelRatio)
 
-  //   this.ctx.lineWidth = 5
-  //   this.ctx.lineJoin = 'round'
-  //   this.ctx.lineCap = 'round'
-  // }
+    this.ctx.lineWidth = 5
+    this.ctx.lineJoin = 'round'
+    this.ctx.lineCap = 'round'
+  }
 
   setupEventListeners = () => {
     // Set the size of the canvas and attach a listener
     // to handle resizing.
     // this.resize()
     const eventArea = document.getElementById('whiteboard')
-    // eventArea.addEventListener('resize', this.resize)
+    eventArea.addEventListener('resize', this.resize)
 
     eventArea.addEventListener('mousedown', e => {
       this.currentMousePosition = this.pos(e)
@@ -253,6 +257,11 @@ class Canvas extends Component {
                 <div className='marker' data-color='#30a300' style={{backgroundColor: '#30a300'}} />
                 <div className='marker' data-color='#40d6c9' style={{backgroundColor: '#40d6c9'}} />
                 <div className='marker' data-color='#fffc51' style={{backgroundColor: '#fffc51'}} />
+                <div>
+                    <input type="color" id="selector" name="color"
+                          value="#e66465" />
+                    <label>Selector</label> 
+                </div>
                 <Button onClick={this.clearCanvas} >
                   Clear
                 </Button>
