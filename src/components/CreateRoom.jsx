@@ -74,10 +74,10 @@ export class CreateRoom extends Component {
         subject: '',
         snackBarOpen: true,
         snackBarVariant: 'success',
-        snackBarMessage: 'New Classroom successfull created.'
+        snackBarMessage: 'New Classroom successfully created.'
       })
     } catch (error) {
-      console.lolg(error)
+      console.log(error)
       this.setState({
         subject: '',
         snackBarOpen: true,

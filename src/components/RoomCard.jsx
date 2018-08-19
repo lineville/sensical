@@ -143,26 +143,35 @@ export class RoomCard extends Component {
   }
 
   leaveRoom = async () => {
-    const {user} = this.props
-    const codeEditorId = user.codeEditorId
-    //removes code editor from room
-    //removes userId from room
-    await db
-      .collection('rooms')
-      .doc(this.state.roomId)
-      .update({
-        codeEditorIds: firebase.firestore.FieldValue.arrayRemove(codeEditorId),
-        userIds: firebase.firestore.FieldValue.arrayRemove(user.id)
+    try {
+      const {user} = this.props
+      const codeEditorId = user.codeEditorId
+      //removes code editor from room
+      //removes userId from room
+      await db
+        .collection('rooms')
+        .doc(this.state.roomId)
+        .update({
+          codeEditorIds: firebase.firestore.FieldValue.arrayRemove(codeEditorId),
+          userIds: firebase.firestore.FieldValue.arrayRemove(user.id)
+        })
+      //removes codeEditor from user
+      //remove roomId from user
+      await db
+        .collection('users')
+        .doc(user.id)
+        .update({
+          codeEditorId: '',
+          rooms: firebase.firestore.FieldValue.arrayRemove(this.state.roomId)
+        })
+    } catch (error) {
+      console.log("THERE WAS AN ERROR: ", error)
+      this.setState({
+        snackBarVariant: 'error',
+        snackBarMessage: 'Looks like there was an error while leaving the room.',
+        open: true,
       })
-    //removes codeEditor from user
-    //remove roomId from user
-    await db
-      .collection('users')
-      .doc(user.id)
-      .update({
-        codeEditorId: '',
-        rooms: firebase.firestore.FieldValue.arrayRemove(this.state.roomId)
-      })
+    }
   }
 
   render() {
