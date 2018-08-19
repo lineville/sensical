@@ -28,6 +28,11 @@ const styles = theme => ({
     height: 0,
     paddingTop: '56.25%' // 16:9
   },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200
+  },
   rightIcon: {
     marginLeft: theme.spacing.unit
   },
@@ -152,7 +157,9 @@ export class RoomCard extends Component {
         .collection('rooms')
         .doc(this.state.roomId)
         .update({
-          codeEditorIds: firebase.firestore.FieldValue.arrayRemove(codeEditorId),
+          codeEditorIds: firebase.firestore.FieldValue.arrayRemove(
+            codeEditorId
+          ),
           userIds: firebase.firestore.FieldValue.arrayRemove(user.id)
         })
       //removes codeEditor from user
@@ -165,11 +172,12 @@ export class RoomCard extends Component {
           rooms: firebase.firestore.FieldValue.arrayRemove(this.state.roomId)
         })
     } catch (error) {
-      console.log("THERE WAS AN ERROR: ", error)
+      console.log('THERE WAS AN ERROR: ', error)
       this.setState({
         snackBarVariant: 'error',
-        snackBarMessage: 'Looks like there was an error while leaving the room.',
-        open: true,
+        snackBarMessage:
+          'Looks like there was an error while leaving the room.',
+        open: true
       })
     }
   }
@@ -242,12 +250,12 @@ export class RoomCard extends Component {
               <DialogContent>
                 <TextField
                   autoFocus
-                  margin="dense"
+                  margin="normal"
                   id="name"
                   name="inviteEmail"
-                  label="Email Address of Invitee"
+                  label="Email"
                   type="email"
-                  fullWidth
+                  className={classes.textField}
                   onChange={this.handleChange}
                 />
               </DialogContent>
