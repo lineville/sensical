@@ -266,16 +266,16 @@ class RoomStatusBar extends Component {
               {this.state.roomMemberIds.map(memberId => {
                 return <RoomMembers id={memberId} key={memberId} />
               })}
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={() => this.setState({inviteFormOpen: true})}
-              >
-                Invite
-                <ShareIcon className={classes.rightIcon} />
-              </Button>
             </Typography>
+            <Button
+              variant="contained"
+              color="default"
+              className={classes.button}
+              onClick={() => this.setState({inviteFormOpen: true})}
+            >
+              Invite
+              <ShareIcon className={classes.rightIcon} />
+            </Button>
             <Dialog
               open={this.state.inviteFormOpen}
               onClose={this.handleClose}
