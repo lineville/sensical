@@ -14,6 +14,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
+import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
   root: {
@@ -169,6 +170,21 @@ class RoomStatusBar extends Component {
                 return <RoomMembers id={memberId} key={memberId} />
               })}
             </Typography>
+            <Typography
+              variant="title"
+              color="inherit"
+              className={classes.text}
+            >
+              Invite a friend!
+            </Typography>
+            <Button
+              variant="fab"
+              color="primary"
+              aria-label="Add"
+              className={classes.button}
+            >
+              <AddIcon />
+            </Button>
             <HideBin />
           </Toolbar>
         </AppBar>
