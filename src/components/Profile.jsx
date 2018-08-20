@@ -13,6 +13,8 @@ import Notification from './Notification'
 import TextField from '@material-ui/core/TextField'
 import EditIcon from '@material-ui/icons/Edit'
 import Dialog from '@material-ui/core/Dialog'
+import DoneIcon from '@material-ui/icons/Done'
+import CancelIcon from '@material-ui/icons/Cancel'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -108,6 +110,11 @@ class Profile extends Component {
               email: user.email
             })
         })
+        .then(() => {
+          this.setState({
+            newEmail: ''
+          })
+        })
         .catch(error => {
           this.setState({
             popUpMessage: error.message,
@@ -190,6 +197,7 @@ class Profile extends Component {
       [classes.small]: small,
       [className]: className !== undefined
     })
+    console.log(this.state.user.profilePicURL)
     return (
       <React.Fragment>
         <div
@@ -288,10 +296,10 @@ class Profile extends Component {
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.handleClose} color="secondary">
-                  Cancel
+                  <CancelIcon />
                 </Button>
                 <Button onClick={this.updateProfile} color="primary">
-                  Confirm
+                  <DoneIcon />
                 </Button>
               </DialogActions>
             </Dialog>

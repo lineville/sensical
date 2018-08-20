@@ -11,6 +11,8 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import DeleteIcon from '@material-ui/icons/Delete'
+import DoneIcon from '@material-ui/icons/Done'
+import CancelIcon from '@material-ui/icons/Cancel'
 import ShareIcon from '@material-ui/icons/Share'
 import Snackbar from '@material-ui/core/Snackbar'
 import Notification from './Notification'
@@ -296,6 +298,7 @@ export class RoomCard extends Component {
               open={this.state.inviteFormOpen}
               onClose={this.handleClose}
               aria-labelledby="form-dialog-title"
+              onSubmit={this.onSubmit}
             >
               <DialogTitle id="form-dialog-title">Invite To Room</DialogTitle>
               <DialogContent>
@@ -312,10 +315,10 @@ export class RoomCard extends Component {
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.handleClose} color="secondary">
-                  Cancel
+                  <CancelIcon />
                 </Button>
                 <Button onClick={this.onSubmit} color="primary">
-                  Confirm
+                  <DoneIcon />
                 </Button>
               </DialogActions>
             </Dialog>
@@ -325,6 +328,7 @@ export class RoomCard extends Component {
               aria-labelledby="form-dialog-title"
             >
               <DialogTitle id="form-dialog-title">Edit Room</DialogTitle>
+
               <DialogContent>
                 <TextField
                   autoFocus
@@ -351,10 +355,10 @@ export class RoomCard extends Component {
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.handleClose} color="secondary">
-                  Cancel
+                  <CancelIcon />
                 </Button>
                 <Button onClick={this.handleEdit} color="primary">
-                  Confirm
+                  <DoneIcon />
                 </Button>
               </DialogActions>
             </Dialog>
