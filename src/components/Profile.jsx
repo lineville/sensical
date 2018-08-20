@@ -11,6 +11,7 @@ import RoomContainer from './RoomContainer'
 import Snackbar from '@material-ui/core/Snackbar'
 import Notification from './Notification'
 import TextField from '@material-ui/core/TextField'
+import EditIcon from '@material-ui/icons/Edit'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -53,12 +54,11 @@ class Profile extends Component {
       open: false,
       popUpMessageType: '',
       popUpMessage: '',
-      emailFormOpen: false,
+      editFormOpen: false,
       passwordFormOpen: false,
-      userNameFormOpen: false,
       newEmail: '',
-      newPassword: '',
-      newUserName: ''
+      newUserName: '',
+      newImageURL: ''
     }
   }
 
@@ -78,9 +78,8 @@ class Profile extends Component {
     }
     this.setState({
       open: false,
-      emailFormOpen: false,
-      passwordFormOpen: false,
-      userNameFormOpen: false
+      editFormOpen: false,
+      passwordFormOpen: false
     })
   }
 
@@ -118,6 +117,12 @@ class Profile extends Component {
       })
   }
 
+  updateProfile = async () => {
+    await this.changeUsername()
+    await this.changeEmail()
+    await this.changeImage()
+  }
+
   changePassword = async () => {
     var auth = firebase.auth()
     var emailAddress = await auth.currentUser.email
@@ -142,16 +147,30 @@ class Profile extends Component {
   }
 
   changeUsername = async () => {
-    const authorizedUser = await firebase.auth().currentUser
     await db
       .collection('users')
-      .doc(authorizedUser.uid)
+      .doc(this.state.user.id)
       .update({username: this.state.newUserName})
       .then(() => {
         this.setState({
-          userNameFormOpen: false,
+          // editFormOpen: false,
           popUpMessageType: 'success',
           popUpMessage: 'Username successfully changed',
+          open: true
+        })
+      })
+  }
+
+  changeImage = async () => {
+    await db
+      .collection('users')
+      .doc(this.state.user.id)
+      .update({profilePicURL: this.state.newImageURL})
+      .then(() => {
+        this.setState({
+          // editFormOpen: false,
+          popUpMessageType: 'success',
+          popUpMessage: 'Profile image successfully changed',
           open: true
         })
       })
@@ -181,30 +200,26 @@ class Profile extends Component {
           <div>
             <p>Welcome {this.state.user.username}!</p>
             <p>Email: {this.state.user.email}</p>
+
             <Button
-              variant="outlined"
+              variant="fab"
+              mini
               color="primary"
-              size="small"
-              onClick={() => this.setState({emailFormOpen: true})}
+              className={classes.button}
+              onClick={() => this.setState({editFormOpen: true})}
             >
-              Edit Email
+              <EditIcon />
             </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              size="small"
-              onClick={this.changePassword}
-            >
-              Edit Password
-            </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              size="small"
-              onClick={() => this.setState({userNameFormOpen: true})}
-            >
-              Edit Username
-            </Button>
+            <p>
+              <Button
+                variant="outlined"
+                color="primary"
+                size="small"
+                onClick={this.changePassword}
+              >
+                Password Reset
+              </Button>
+            </p>
             <Snackbar
               anchorOrigin={{
                 vertical: 'bottom',
@@ -222,46 +237,44 @@ class Profile extends Component {
             </Snackbar>
 
             <Dialog
-              open={this.state.emailFormOpen}
+              open={this.state.editFormOpen}
               onClose={this.handleClose}
               aria-labelledby="form-dialog-title"
             >
-              <DialogTitle id="form-dialog-title">Change Email</DialogTitle>
+              <DialogTitle id="form-dialog-title">Edit Profile</DialogTitle>
               <DialogContent>
                 <TextField
                   autoFocus
-                  margin="dense"
+                  margin="normal"
                   id="name"
                   name="newEmail"
                   label="Email Address"
+                  placeholder={this.state.user.email}
+                  value={this.state.newEmail}
                   type="email"
                   fullWidth
                   onChange={this.handleChange}
                 />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleClose} color="secondary">
-                  Cancel
-                </Button>
-                <Button onClick={this.changeEmail} color="primary">
-                  Confirm
-                </Button>
-              </DialogActions>
-            </Dialog>
-
-            <Dialog
-              open={this.state.userNameFormOpen}
-              onClose={this.handleClose}
-              aria-labelledby="form-dialog-title"
-            >
-              <DialogTitle id="form-dialog-title">Change Username</DialogTitle>
-              <DialogContent>
                 <TextField
                   autoFocus
-                  margin="dense"
+                  margin="normal"
                   id="name"
                   name="newUserName"
                   label="Username"
+                  placeholder={this.state.user.username}
+                  value={this.state.newUserName}
+                  type="email"
+                  fullWidth
+                  onChange={this.handleChange}
+                />
+                <TextField
+                  autoFocus
+                  margin="normal"
+                  id="name"
+                  name="newImageURL"
+                  label="image URL"
+                  placeholder={this.state.user.profilePicURL}
+                  value={this.state.newImageURL}
                   type="email"
                   fullWidth
                   onChange={this.handleChange}
@@ -271,7 +284,7 @@ class Profile extends Component {
                 <Button onClick={this.handleClose} color="secondary">
                   Cancel
                 </Button>
-                <Button onClick={this.changeUsername} color="primary">
+                <Button onClick={this.updateProfile} color="primary">
                   Confirm
                 </Button>
               </DialogActions>
