@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
-import {withRouter} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -11,6 +11,8 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import DeleteIcon from '@material-ui/icons/Delete'
+import DoneIcon from '@material-ui/icons/Done'
+import CancelIcon from '@material-ui/icons/Cancel'
 import ShareIcon from '@material-ui/icons/Share'
 import Snackbar from '@material-ui/core/Snackbar'
 import Notification from './Notification'
@@ -137,23 +139,35 @@ export class RoomCard extends Component {
   }
 
   handleEdit = async () => {
-    await db
-      .collection('rooms')
-      .doc(this.state.roomId)
-      .update({
-        subject: this.state.newSubject,
-        imageURL: this.state.newImageURL
+    if (this.state.newSubject.length) {
+      await db
+        .collection('rooms')
+        .doc(this.state.roomId)
+        .update({
+          subject: this.state.newSubject
+        })
+      await this.setState({
+        snackBarMessage: 'Subject changed successfully!',
+        room: {...this.state.room, subject: this.state.newSubject}
       })
+    }
+    if (this.state.newImageURL.length) {
+      await db
+        .collection('rooms')
+        .doc(this.state.roomId)
+        .update({
+          imageURL: this.state.newImageURL
+        })
+      await this.setState({
+        snackBarMessage: 'Classroom image changed successfully!',
+        room: {...this.state.room, imageURL: this.state.newImageURL}
+      })
+    }
 
     await this.setState({
-      room: {
-        ...this.state.room,
-        subject: this.state.newSubject,
-        imageURL: this.state.newImageURL
-      },
       open: true,
       snackBarVariant: 'success',
-      snackBarMessage: 'Subject changed successfully!'
+      editFormOpen: false
     })
   }
 
@@ -164,7 +178,8 @@ export class RoomCard extends Component {
     this.setState({
       open: false,
       inviteFormOpen: false,
-      editFormOpen: false
+      editFormOpen: false,
+      snackBarMessage: ''
     })
   }
 
@@ -214,11 +229,13 @@ export class RoomCard extends Component {
     return (
       <React.Fragment>
         <Card className={classes.card}>
-          <CardMedia
-            className={classes.media}
-            image={this.state.room.imageURL}
-            title={this.state.room.subject}
-          />
+          <Link to={`/classroom/${this.state.roomId}`}>
+            <CardMedia
+              className={classes.media}
+              image={this.state.room.imageURL}
+              title={this.state.room.subject}
+            />
+          </Link>
           <CardContent>
             <Typography gutterBottom variant="headline" component="h2">
               {this.state.room.subject}
@@ -281,6 +298,7 @@ export class RoomCard extends Component {
               open={this.state.inviteFormOpen}
               onClose={this.handleClose}
               aria-labelledby="form-dialog-title"
+              onSubmit={this.onSubmit}
             >
               <DialogTitle id="form-dialog-title">Invite To Room</DialogTitle>
               <DialogContent>
@@ -297,10 +315,10 @@ export class RoomCard extends Component {
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.handleClose} color="secondary">
-                  Cancel
+                  <CancelIcon />
                 </Button>
                 <Button onClick={this.onSubmit} color="primary">
-                  Confirm
+                  <DoneIcon />
                 </Button>
               </DialogActions>
             </Dialog>
@@ -310,6 +328,7 @@ export class RoomCard extends Component {
               aria-labelledby="form-dialog-title"
             >
               <DialogTitle id="form-dialog-title">Edit Room</DialogTitle>
+
               <DialogContent>
                 <TextField
                   autoFocus
@@ -336,10 +355,10 @@ export class RoomCard extends Component {
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.handleClose} color="secondary">
-                  Cancel
+                  <CancelIcon />
                 </Button>
                 <Button onClick={this.handleEdit} color="primary">
-                  Confirm
+                  <DoneIcon />
                 </Button>
               </DialogActions>
             </Dialog>

@@ -13,6 +13,8 @@ import Notification from './Notification'
 import TextField from '@material-ui/core/TextField'
 import EditIcon from '@material-ui/icons/Edit'
 import Dialog from '@material-ui/core/Dialog'
+import DoneIcon from '@material-ui/icons/Done'
+import CancelIcon from '@material-ui/icons/Cancel'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -89,32 +91,39 @@ class Profile extends Component {
     })
   }
 
-  changeEmail = async () => {
-    const user = await firebase.auth().currentUser
-    user
-      .updateEmail(this.state.newEmail)
-      .then(() => {
-        this.setState({
-          popUpMessage: 'Email successfully updated',
-          popUpMessageType: 'success',
-          open: true
-        })
-      })
-      .then(() => {
-        db.collection('users')
-          .doc(user.uid)
-          .update({
-            email: user.email
+  changeEmail = () => {
+    const user = firebase.auth().currentUser
+    if (this.state.newEmail.length) {
+      user
+        .updateEmail(this.state.newEmail)
+        .then(() => {
+          this.setState({
+            popUpMessage: 'Email successfully updated',
+            popUpMessageType: 'success',
+            open: true
           })
-      })
-      .catch(error => {
-        this.setState({
-          popUpMessage: error.message,
-          popUpMessageType: 'warning',
-          open: true
         })
-        console.log(error, this.state)
-      })
+        .then(() => {
+          db.collection('users')
+            .doc(user.uid)
+            .update({
+              email: user.email
+            })
+        })
+        .then(() => {
+          this.setState({
+            newEmail: ''
+          })
+        })
+        .catch(error => {
+          this.setState({
+            popUpMessage: error.message,
+            popUpMessageType: 'warning',
+            open: true
+          })
+          console.log(error, this.state)
+        })
+    }
   }
 
   updateProfile = async () => {
@@ -146,34 +155,38 @@ class Profile extends Component {
       })
   }
 
-  changeUsername = async () => {
-    await db
-      .collection('users')
-      .doc(this.state.user.id)
-      .update({username: this.state.newUserName})
-      .then(() => {
-        this.setState({
-          // editFormOpen: false,
-          popUpMessageType: 'success',
-          popUpMessage: 'Username successfully changed',
-          open: true
+  changeUsername = () => {
+    if (this.state.newUserName.length) {
+      db.collection('users')
+        .doc(this.state.user.id)
+        .update({username: this.state.newUserName})
+        .then(() => {
+          this.setState({
+            // editFormOpen: false,
+            popUpMessageType: 'success',
+            popUpMessage: 'Username successfully changed',
+            open: true,
+            newUserName: ''
+          })
         })
-      })
+    }
   }
 
-  changeImage = async () => {
-    await db
-      .collection('users')
-      .doc(this.state.user.id)
-      .update({profilePicURL: this.state.newImageURL})
-      .then(() => {
-        this.setState({
-          // editFormOpen: false,
-          popUpMessageType: 'success',
-          popUpMessage: 'Profile image successfully changed',
-          open: true
+  changeImage = () => {
+    if (this.state.newImageURL) {
+      db.collection('users')
+        .doc(this.state.user.id)
+        .update({profilePicURL: this.state.newImageURL})
+        .then(() => {
+          this.setState({
+            // editFormOpen: false,
+            popUpMessageType: 'success',
+            popUpMessage: 'Profile image successfully changed',
+            open: true,
+            newImageURL: ''
+          })
         })
-      })
+    }
   }
 
   render() {
@@ -184,6 +197,7 @@ class Profile extends Component {
       [classes.small]: small,
       [className]: className !== undefined
     })
+    console.log(this.state.user.profilePicURL)
     return (
       <React.Fragment>
         <div
@@ -282,10 +296,10 @@ class Profile extends Component {
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.handleClose} color="secondary">
-                  Cancel
+                  <CancelIcon />
                 </Button>
                 <Button onClick={this.updateProfile} color="primary">
-                  Confirm
+                  <DoneIcon />
                 </Button>
               </DialogActions>
             </Dialog>
