@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
+import {HuePicker} from 'react-color'
 
 import {DragSource} from 'react-dnd'
 
@@ -37,11 +38,13 @@ class Canvas extends Component {
     super()
     this.state = {
       curStroke: [],
-      strokes: null
+      strokes: null,
+      displayColorPicker: false,
+      color: 'black',
+      lineWidth: 5
     }
   }
 
-  color = 'black'
   //// Position tracking
   currentMousePosition = {
     x: 0,
@@ -71,7 +74,7 @@ class Canvas extends Component {
     this.forceUpdate()
   }
 
-  draw = (start, end, strokeColor = 'black', shouldBroadcast = true) => {
+  draw = (start, end, strokeColor = 'black') => {
     const ctx = this.whiteboardCanvas.getContext('2d')
     this.state.curStroke.push({start, end, strokeColor})
     ctx.beginPath()
@@ -102,30 +105,8 @@ class Canvas extends Component {
       })
   }
 
-  undoLastStroke = () => {
-    console.log('UNDO LAST STROKE')
-  }
-
   setup = () => {
-    this.setupColorPicker()
     this.setupEventListeners()
-  }
-
-  setupColorPicker = () => {
-    const picker = document.getElementById('picker')
-    const selector = document.getElementById('selector')
-    picker.addEventListener('click', ({target}) => {
-      this.color = target.dataset.color
-      if (!this.color) return
-      const current = picker.querySelector('.selected')
-      current && current.classList.remove('selected')
-      target.classList.add('selected')
-    })
-    picker.firstChild.click()
-
-    selector.addEventListener('change', ({target}) => {
-      this.color = target.value
-    })
   }
 
   resize = () => {
@@ -197,7 +178,7 @@ class Canvas extends Component {
         this.draw(
           this.lastMousePosition,
           this.currentMousePosition,
-          this.color,
+          this.state.color,
           true
         )
     })
@@ -221,6 +202,10 @@ class Canvas extends Component {
 
     this.setup()
   }
+
+  // toggleColorPicker = () => {
+  //   this.setState({displayColorPicker: !this.state.displayColorPicker})
+  // }
 
   render() {
     if (this.state.strokes) {
@@ -247,64 +232,25 @@ class Canvas extends Component {
             </Typography>
 
             <div id="whiteboard">
-              <div id="whiteboard-canvas" />
               <canvas
                 ref={canvas => (this.whiteboardCanvas = canvas)}
                 height={500}
                 width={500}
               />
-              <div id="picker" className="color-selector">
-                <div
-                  className="marker"
-                  data-color="#000000"
-                  style={{backgroundColor: '#000000'}}
-                />
-                <div
-                  className="marker"
-                  data-color="#ff1000"
-                  style={{backgroundColor: '#ff1000'}}
-                />
-                <div
-                  className="marker"
-                  data-color="#380566"
-                  style={{backgroundColor: '#380566'}}
-                />
-                <div
-                  className="marker"
-                  data-color="#1d00ff"
-                  style={{backgroundColor: '#1d00ff'}}
-                />
-                <div
-                  className="marker"
-                  data-color="#a31149"
-                  style={{backgroundColor: '#a31149'}}
-                />
-                <div
-                  className="marker"
-                  data-color="#30a300"
-                  style={{backgroundColor: '#30a300'}}
-                />
-                <div
-                  className="marker"
-                  data-color="#40d6c9"
-                  style={{backgroundColor: '#40d6c9'}}
-                />
-                <div
-                  className="marker"
-                  data-color="#fffc51"
-                  style={{backgroundColor: '#fffc51'}}
-                />
-                <div>
-                  <input
-                    type="color"
-                    id="selector"
-                    name="color"
-                    value="#e66465"
-                  />
-                  <label>Selector</label>
-                </div>
-                <Button onClick={this.clearCanvas}>Clear</Button>
-              </div>
+              <HuePicker
+                onChangeComplete={color => {
+                  this.setState({color: color.hex})
+                }}
+                color={this.state.color}
+              />
+              <Button onClick={this.clearCanvas}>Clear</Button>
+              {/* {!this.state.displayColorPicker ? null : (
+                // <SketchPicker
+                //   onChangeComplete={color => {
+                //     this.setState({color: color.hex})
+                //   }}
+                //   color={this.state.color}
+              )} */}
             </div>
           </CardContent>
         </Card>
