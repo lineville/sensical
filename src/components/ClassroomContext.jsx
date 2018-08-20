@@ -5,6 +5,13 @@ import HTML5Backend from 'react-dnd-html5-backend'
 import Classroom from './Classroom'
 
 const classroomTarget = {
+  canDrop(props, monitor) {
+    const isJustOverThisOne = monitor.isOver({shallow: true})
+    if (isJustOverThisOne) {
+      return true
+    }
+    return false
+  },
   drop(props, monitor, component) {
     if (!component) {
       return
@@ -29,11 +36,11 @@ class ClassroomContext extends Component {
   constructor() {
     super()
     this.state = {
-      video: {top: 40, left: 0},
-      messaging: {top: 40, left: 340},
-      canvas: {top: 40, left: 680},
-      notepad: {top: 280, left: 340},
-      codeEditor: {top: 280, left: 0}
+      video: {top: 85, left: 0},
+      messaging: {top: 85, left: 280},
+      canvas: {top: 85, left: 560},
+      notepad: {top: 200, left: 0},
+      codeEditor: {top: 430, left: 0}
     }
     this.moveModule = this.moveModule.bind(this)
   }

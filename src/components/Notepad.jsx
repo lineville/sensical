@@ -11,12 +11,6 @@ import Typography from '@material-ui/core/Typography'
 const notepadSource = {
   beginDrag(props) {
     return {...props, modName: 'notepad'}
-  },
-  endDrag(props, monitor) {
-    if (!monitor.didDrop()) {
-      return
-    }
-    return props.handleDrop()
   }
 }
 
@@ -30,7 +24,8 @@ function collect(connect, monitor) {
 
 const styles = () => ({
   card: {
-    minWidth: 275
+    minWidth: 275,
+    position: 'absolute'
   },
   textArea: {
     width: '100%',

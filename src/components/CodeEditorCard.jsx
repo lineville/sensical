@@ -13,12 +13,6 @@ import Typography from '@material-ui/core/Typography'
 const codeEditorSource = {
   beginDrag(props) {
     return {...props, modName: 'codeEditor'}
-  },
-  endDrag(props, monitor) {
-    if (!monitor.didDrop()) {
-      return
-    }
-    return props.handleDrop()
   }
 }
 

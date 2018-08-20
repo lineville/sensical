@@ -11,12 +11,6 @@ import {Card, CardContent, Button, Typography} from '@material-ui/core/'
 const canvasSource = {
   beginDrag(props) {
     return {...props, modName: 'canvas'}
-  },
-  endDrag(props, monitor, component) {
-    if (!monitor.didDrop()) {
-      return
-    }
-    return props.handleDrop()
   }
 }
 

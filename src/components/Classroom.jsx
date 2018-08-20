@@ -7,14 +7,6 @@ import Canvas from './Canvas'
 import VideoCard from './VideoCard'
 import Notepad from './Notepad'
 
-import {
-  DropTarget,
-  DragDropContext,
-  ConnectDropTarget,
-  DropTargetMonitor,
-  XYCoord
-} from 'react-dnd'
-
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import RoomStatusBar from './RoomStatusBar'
@@ -88,10 +80,7 @@ class Classroom extends Component {
   }
 
   handleDrop(item) {
-    console.log(item)
-    //if drop to trash, set visible to false
-    //if drop in room, move to coordinates
-    // this.setState({[item]: false})
+    this.setState({[item]: false})
   }
 
   addModule(item) {
@@ -170,6 +159,7 @@ class Classroom extends Component {
             <RoomStatusBar
               classState={this.state}
               addModule={module => this.addModule(module)}
+              handleDrop={this.handleDrop}
             />
           </div>
         </div>

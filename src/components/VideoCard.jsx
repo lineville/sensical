@@ -11,12 +11,6 @@ import Typography from '@material-ui/core/Typography'
 const messagingSource = {
   beginDrag(props) {
     return {...props, modName: 'video'}
-  },
-  endDrag(props, monitor) {
-    if (!monitor.didDrop()) {
-      return
-    }
-    return props.handleDrop()
   }
 }
 

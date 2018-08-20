@@ -16,12 +16,6 @@ import TextField from '@material-ui/core/TextField'
 const messagingSource = {
   beginDrag(props) {
     return {...props, modName: 'messaging'}
-  },
-  endDrag(props, monitor, component) {
-    if (!monitor.didDrop()) {
-      return
-    }
-    return props.handleDrop()
   }
 }
 
