@@ -75,11 +75,13 @@ class CodeEditorCard extends Component {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const id = await this.props.codeEditorId
     db.collection('codeEditors')
-      .doc(this.props.codeEditorId)
+      .doc(id)
       .get()
       .then(editor => {
+        console.log(editor.data())
         this.setState({
           mode: editor.data().settings.mode,
           theme: editor.data().settings.theme,
