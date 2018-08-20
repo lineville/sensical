@@ -115,7 +115,6 @@ export class VideoComponent extends Component {
     room.on('trackSubscribed', (track, participant) => {
       console.log(participant.identity + ' added track: ' + track.kind)
       var previewContainer = this.refs.remoteMedia
-      previewContainer.children[1].setAttribute('width', '100%')
       this.attachTracks([track], previewContainer)
     })
 
