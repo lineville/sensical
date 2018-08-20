@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
-import {SketchPicker, HuePicker} from 'react-color'
+import {HuePicker} from 'react-color'
 
 import {DragSource} from 'react-dnd'
 
@@ -45,7 +45,8 @@ class Canvas extends Component {
       curStroke: [],
       strokes: null,
       displayColorPicker: false,
-      color: 'black'
+      color: 'black',
+      lineWidth: 5
     }
   }
 
@@ -78,7 +79,7 @@ class Canvas extends Component {
     this.forceUpdate()
   }
 
-  draw = (start, end, strokeColor = 'black', shouldBroadcast = true) => {
+  draw = (start, end, strokeColor = 'black') => {
     const ctx = this.whiteboardCanvas.getContext('2d')
     this.state.curStroke.push({start, end, strokeColor})
     ctx.beginPath()
@@ -109,25 +110,8 @@ class Canvas extends Component {
       })
   }
 
-  undoLastStroke = () => {
-    console.log('UNDO LAST STROKE')
-  }
-
   setup = () => {
-    this.setupColorPicker()
     this.setupEventListeners()
-  }
-
-  setupColorPicker = () => {
-    // const picker = document.getElementById('picker')
-    // picker.addEventListener('click', ({target}) => {
-    //   this.setState({color: target.dataset.color})
-    //   if (!this.state.color) return
-    //   const current = picker.querySelector('.selected')
-    //   current && current.classList.remove('selected')
-    //   target.classList.add('selected')
-    // })
-    // picker.firstChild.click()
   }
 
   resize = () => {
@@ -224,9 +208,9 @@ class Canvas extends Component {
     this.setup()
   }
 
-  toggleColorPicker = () => {
-    this.setState({displayColorPicker: !this.state.displayColorPicker})
-  }
+  // toggleColorPicker = () => {
+  //   this.setState({displayColorPicker: !this.state.displayColorPicker})
+  // }
 
   render() {
     if (this.state.strokes) {
