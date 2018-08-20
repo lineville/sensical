@@ -5,36 +5,21 @@ var express = require('express')
 var faker = require('faker')
 var AccessToken = require('twilio').jwt.AccessToken
 var VideoGrant = AccessToken.VideoGrant
-require('./secrets')
-console.log(process.env)
+const path = require('path')
+
+if (process.env.NODE_ENV === 'DEV') {
+  require('./secrets')
+}
 
 var app = express()
-
-// if (process.env.NODE_ENV === 'DEV') {
-//   // Configuration for development environment
-
-//   var webpackDevMiddleware = require('webpack-dev-middleware')
-//   var webpackHotMiddleware = require('webpack-hot-middleware')
-//   var webpackConfig = require('./webpack.config.js')
-//   const webpackCompiler = webpack(webpackConfig)
-//   app.use(
-//     webpackDevMiddleware(webpackCompiler, {
-//       hot: true
-//     })
-//   )
-//   app.use(webpackHotMiddleware(webpackCompiler))
-//   app.use(express.static(path.join(__dirname, 'app')))
-// } else if (process.env.NODE_ENV === 'PROD') {
-//   // Configuration for production environment
-//   app.use(express.static(path.join(__dirname, 'dist')))
-// }
 
 app.use(function(req, res, next) {
   console.log('Request from: ', req.url)
   next()
 })
 
-console.log(process.env)
+app.use(express.static(path.join(__dirname, 'build')))
+
 // Endpoint to generate access token
 app.get('/token', function(request, response) {
   var identity = faker.name.findName()
@@ -43,8 +28,8 @@ app.get('/token', function(request, response) {
   // containing the grant we just created
   var token = new AccessToken(
     process.env.ACCOUNT_SID,
-    process.env.API_KEY_SID,
-    process.env.API_KEY_SECRET
+    process.env.API_KEY,
+    process.env.API_SECRET
   )
 
   // Assign the generated identity to the token
@@ -61,8 +46,7 @@ app.get('/token', function(request, response) {
   })
 })
 
-// var port = process.env.PORT || 3000
-var port = 4000
+var port = process.env.PORT || 4000
 app.listen(port, function() {
   console.log('Express server listening on *:' + port)
 })

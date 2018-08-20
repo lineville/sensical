@@ -9,16 +9,17 @@ import Notepad from './Notepad'
 
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import InviteForm from './InviteForm'
 import RoomStatusBar from './RoomStatusBar'
 
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+  room: {
+    flexGrow: 1,
+    height: '100vh'
   },
   paper: {
     padding: theme.spacing.unit * 2,
@@ -68,6 +69,14 @@ class Classroom extends Component {
       chatsId: classroom.data().chatsId,
       notepadId: classroom.data().notepadId
     })
+
+    db.collection('rooms')
+      .doc(this.props.classroom)
+      .onSnapshot(snapshot => {
+        this.setState({
+          codeEditorIds: snapshot.data().codeEditorIds
+        })
+      })
   }
 
   handleDrop(item) {
@@ -94,14 +103,15 @@ class Classroom extends Component {
     const {classes} = this.props
     if (this.shouldRender()) {
       return (
-        <div>
-          <div className={classes.root}>
+        <div className={classes.root}>
+          <div className={classes.room}>
             <Grid container direction="row" align-items="flex-start">
               <Grid item>
                 {this.state.video ? (
                   <VideoCard
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('video')}
+                    position={this.props.positions.video}
                   />
                 ) : null}
               </Grid>
@@ -111,6 +121,7 @@ class Classroom extends Component {
                     chatsId={this.state.chatsId}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('chat')}
+                    position={this.props.positions.messaging}
                   />
                 </Grid>
               ) : null}
@@ -120,6 +131,7 @@ class Classroom extends Component {
                     whiteboardId={this.state.whiteboardId}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('canvas')}
+                    position={this.props.positions.canvas}
                   />
                 ) : null}
               </Grid>
@@ -129,10 +141,22 @@ class Classroom extends Component {
                     notepadId={this.state.notepadId}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('notepad')}
+                    position={this.props.positions.notepad}
                   />
                 ) : null}
               </Grid>
-              <Grid item>
+              {this.state.codeEditorIds
+                ? this.state.codeEditorIds.map(id => (
+                    <CodeEditorCard
+                      key={id}
+                      codeEditorId={id}
+                      roomId={this.state.roomId}
+                      handleDrop={() => this.handleDrop('codeEditors')}
+                      position={this.props.positions.codeEditor}
+                    />
+                  ))
+                : null}
+              {/* <Grid item>
                 {this.state.codeEditors ? (
                   <CodeEditorCard
                     codeEditors={this.state.codeEditorIds}
@@ -140,24 +164,14 @@ class Classroom extends Component {
                     handleDrop={() => this.handleDrop('codeEditors')}
                   />
                 ) : null}
-              </Grid>
-              <Grid item>
-                <Card className={classes.card}>
-                  <CardContent>
-                    <Typography className={classes.title} color="textSecondary">
-                      Invite a Friend!
-                    </Typography>
-                    <InviteForm roomId={this.state.roomId} />
-                  </CardContent>
-                  <Button>Remove</Button>
-                </Card>
-              </Grid>
+              </Grid> */}
             </Grid>
+            <RoomStatusBar
+              classState={this.state}
+              addModule={module => this.addModule(module)}
+              handleDrop={this.handleDrop}
+            />
           </div>
-          <RoomStatusBar
-            classState={this.state}
-            addModule={module => this.addModule(module)}
-          />
         </div>
       )
     }

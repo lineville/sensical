@@ -11,14 +11,25 @@ import Typography from '@material-ui/core/Typography'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
+import ShareIcon from '@material-ui/icons/Share'
+import DoneIcon from '@material-ui/icons/Done'
+import CancelIcon from '@material-ui/icons/Cancel'
 import ListItemText from '@material-ui/core/ListItemText'
+import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 import AddIcon from '@material-ui/icons/Add'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import TextField from '@material-ui/core/TextField'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Notification from './Notification'
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    position: 'sticky',
+    position: 'fixed',
     bottom: 0,
     width: '100%',
     zIndex: 100
@@ -32,7 +43,13 @@ const styles = theme => ({
   text: {
     fontSize: 14,
     flexGrow: 1,
-    display: 'flex'
+    display: 'flex',
+    alignItems: 'center'
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200
   }
 })
 
@@ -42,7 +59,12 @@ class RoomStatusBar extends Component {
     this.state = {
       currentRoom: '',
       roomMemberIds: [],
-      drawerOpen: false
+      drawerOpen: false,
+      inviteFormOpen: false,
+      open: false,
+      snackBarVariant: '',
+      snackBarMessage: '',
+      inviteEmail: ''
     }
   }
 
@@ -67,6 +89,94 @@ class RoomStatusBar extends Component {
     this.setState({
       drawerOpen: open
     })
+  }
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    this.setState({
+      open: false,
+      inviteFormOpen: false
+    })
+  }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  onSubmit = async () => {
+    const roomId = this.props.classState.roomId
+
+    try {
+      const invitee = await db
+        .collection(`users`)
+        .where('email', '==', `${this.state.inviteEmail}`)
+        .get()
+
+      const inviteeId = invitee.docs[0].id
+
+      console.log('invitee:', invitee)
+      const invitedUser = await db
+        .collection('users')
+        .doc(inviteeId)
+        .get()
+
+      let roomsArray = invitedUser.data().rooms
+
+      const room = await db
+        .collection('rooms')
+        .doc(roomId)
+        .get()
+
+      let userIds = room.data().userIds
+      // add another condition
+      if (!roomsArray.includes(roomId)) {
+        const newCodeEditorId = await db.collection('codeEditors').add({
+          code: '',
+          userId: invitedUser.id,
+          settings: {
+            mode: 'javascript',
+            theme: 'monokai',
+            fontSize: 12,
+            showGutter: true,
+            showLineNumbers: true,
+            tabSize: 2
+          }
+        })
+        await db
+          .collection('users')
+          .doc(inviteeId)
+          .update({
+            rooms: roomsArray.concat(roomId),
+            codeEditorId: newCodeEditorId.id
+          })
+        await db
+          .collection('rooms')
+          .doc(roomId)
+          .update({
+            userIds: userIds.concat(inviteeId),
+            codeEditorIds: room.data().codeEditorIds.concat(newCodeEditorId.id)
+          })
+      }
+      this.setState({
+        inviteEmail: '',
+        snackBarVariant: 'success',
+        snackBarMessage: 'Invite successfully sent!',
+        open: true,
+        inviteFormOpen: false
+      })
+    } catch (error) {
+      console.log('THERE WAS AN ERROR: ', error)
+      this.setState({
+        snackBarVariant: 'error',
+        snackBarMessage:
+          'Looks like there was a problem with the email you selected.',
+        open: true,
+        inviteFormOpen: false
+      })
+    }
   }
 
   render() {
@@ -132,7 +242,7 @@ class RoomStatusBar extends Component {
           <Toolbar>
             <IconButton
               className={classes.menuButton}
-              color="secondary"
+              color="inherit"
               variant="fab"
               aria-label="Add"
             >
@@ -168,10 +278,60 @@ class RoomStatusBar extends Component {
               {this.state.roomMemberIds.map(memberId => {
                 return <RoomMembers id={memberId} key={memberId} />
               })}
+              <Button
+                color="inherit"
+                className={classes.button}
+                onClick={() => this.setState({inviteFormOpen: true})}
+              >
+                Invite
+                <ShareIcon className={classes.rightIcon} />
+              </Button>
+              <Dialog
+                open={this.state.inviteFormOpen}
+                onClose={this.handleClose}
+                aria-labelledby="form-dialog-title"
+              >
+                <DialogTitle id="form-dialog-title">Invite To Room</DialogTitle>
+                <DialogContent>
+                  <TextField
+                    autoFocus
+                    margin="normal"
+                    id="name"
+                    name="inviteEmail"
+                    label="Email"
+                    type="email"
+                    className={classes.textField}
+                    onChange={this.handleChange}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleClose} color="secondary">
+                    <CancelIcon />
+                  </Button>
+                  <Button onClick={this.onSubmit} color="primary">
+                    <DoneIcon />
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </Typography>
             <HideBin />
           </Toolbar>
         </AppBar>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          open={this.state.open}
+          autoHideDuration={6000}
+          onClose={this.handleClose}
+        >
+          <Notification
+            onClose={this.handleClose}
+            variant={this.state.snackBarVariant}
+            message={this.state.snackBarMessage}
+          />
+        </Snackbar>
       </div>
     )
   }

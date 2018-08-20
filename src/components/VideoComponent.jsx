@@ -1,65 +1,17 @@
 import React, {Component} from 'react'
 import Video from 'twilio-video'
 import axios from 'axios'
-import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import FormControl from '@material-ui/core/FormControl'
-import purple from '@material-ui/core/colors/purple'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-// import RaisedButton from 'material-ui/RaisedButton'
-// import TextField from 'material-ui/TextField'
-// import {Card, CardHeader, CardText} from 'material-ui/Card'
+import Switch from '@material-ui/core/Switch'
 
-const styles = theme => ({
-  container: {
-    flexWrap: 'wrap',
-    textAlign: 'center',
-    position: 'relative',
-    display: 'block',
-    width: '100%'
-  },
-  margin: {
-    margin: theme.spacing.unit
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  },
-  cssLabel: {
-    '&$cssFocused': {
-      color: purple[500]
-    }
-  },
-  cssFocused: {},
-  cssUnderline: {
-    '&:after': {
-      borderBottomColor: purple[500]
-    }
-  },
-  bootstrapRoot: {
-    padding: 0,
-    'label + &': {
-      marginTop: theme.spacing.unit * 3
-    }
-  },
-  bootstrapInput: {
-    borderRadius: 4,
-    backgroundColor: theme.palette.common.white,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '10px 12px',
-    width: 'calc(100% - 24px)',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    '&:focus': {
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
-    }
+const styles = () => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column'
   }
 })
 
-export default class VideoComponent extends Component {
+export class VideoComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -72,16 +24,10 @@ export default class VideoComponent extends Component {
       activeRoom: '' // Track the current active room
     }
     this.joinRoom = this.joinRoom.bind(this)
-    this.handleRoomNameChange = this.handleRoomNameChange.bind(this)
     this.roomJoined = this.roomJoined.bind(this)
     this.leaveRoom = this.leaveRoom.bind(this)
     this.detachTracks = this.detachTracks.bind(this)
     this.detachParticipantTracks = this.detachParticipantTracks.bind(this)
-  }
-
-  handleRoomNameChange(e) {
-    let roomName = e.target.value
-    this.setState({roomName})
   }
 
   joinRoom() {
@@ -89,7 +35,6 @@ export default class VideoComponent extends Component {
       this.setState({roomNameErr: true})
       return
     }
-
     console.log("Joining room '" + this.state.roomName + "'...")
     let connectOptions = {
       name: this.state.roomName
@@ -156,8 +101,8 @@ export default class VideoComponent extends Component {
     room.participants.forEach(participant => {
       console.log("Already in Room: '" + participant.identity + "'")
       var previewContainer = this.refs.remoteMedia
-      this.attachParticipantTracks(participant, previewContainer)
       previewContainer.children[1].setAttribute('width', '100%')
+      this.attachParticipantTracks(participant, previewContainer)
     })
 
     // When a Participant joins the Room, log the event.
@@ -170,6 +115,7 @@ export default class VideoComponent extends Component {
     room.on('trackSubscribed', (track, participant) => {
       console.log(participant.identity + ' added track: ' + track.kind)
       var previewContainer = this.refs.remoteMedia
+      previewContainer.children[1].setAttribute('width', '100%')
       this.attachTracks([track], previewContainer)
     })
 
@@ -196,7 +142,7 @@ export default class VideoComponent extends Component {
       }
       this.detachParticipantTracks(room.localParticipant)
       room.participants.forEach(this.detachParticipantTracks)
-      this.state.activeRoom = null
+      this.setState({activeRoom: null})
       this.setState({hasJoinedRoom: false, localMediaAvailable: false})
     })
   }
@@ -213,8 +159,16 @@ export default class VideoComponent extends Component {
     this.setState({hasJoinedRoom: false, localMediaAvailable: false})
   }
 
+  toggleVideo = () => {
+    if (this.state.hasJoinedRoom) {
+      this.leaveRoom()
+    } else {
+      this.joinRoom()
+    }
+  }
+
   render() {
-    console.log('token', this.state.token)
+    const {classes} = this.props
     // Only show video track after user has joined a room
     let showLocalTrack = this.state.localMediaAvailable ? (
       <div className="flex-item">
@@ -223,34 +177,15 @@ export default class VideoComponent extends Component {
     ) : (
       ''
     )
-    // Hide 'Join Room' button if user has already joined a room.
-    let joinOrLeaveRoomButton = this.state.hasJoinedRoom ? (
-      <Button onClick={this.leaveRoom}>Leave Room</Button>
-    ) : (
-      // <RaisedButton
-      //   label="Leave Room"
-      //   secondary={true}
-      //   onClick={this.leaveRoom}
-      // />
-      <Button onClick={this.joinRoom}>Join Room</Button>
-      // <RaisedButton label="Join Room" primary={true} onClick={this.joinRoom} />
-    )
     return (
-      <div>
+      <div className={classes.root}>
+        <Switch
+          checked={this.state.hasJoinedRoom}
+          onChange={this.toggleVideo}
+          value={'' + this.state.hasJoinedRoom}
+          color="primary"
+        />
         {showLocalTrack}
-        <FormControl>
-          <TextField
-            id="roomName"
-            name="roomName"
-            label="Room Name"
-            value={this.props.roomId}
-            type="roomName"
-            margin="normal"
-            onChange={this.handleRoomNameChange}
-          />
-        </FormControl>
-        <br />
-        {joinOrLeaveRoomButton}
         <div
           className="flex-item"
           ref="remoteMedia"
@@ -261,3 +196,5 @@ export default class VideoComponent extends Component {
     )
   }
 }
+
+export default withStyles(styles)(VideoComponent)

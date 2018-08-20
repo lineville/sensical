@@ -1,25 +1,17 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
+import {HuePicker} from 'react-color'
 
 import {DragSource} from 'react-dnd'
 
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
+import {Card, CardContent, Button, Typography} from '@material-ui/core/'
 
 const canvasSource = {
   beginDrag(props) {
-    return props
-  },
-  endDrag(props, monitor, component) {
-    if (!monitor.didDrop()) {
-      return
-    }
-    return props.handleDrop()
+    return {...props, modName: 'canvas'}
   }
 }
 
@@ -33,7 +25,8 @@ function collect(connect, monitor) {
 
 const styles = theme => ({
   card: {
-    minWidth: 275
+    minWidth: 275,
+    position: 'absolute'
   },
   button: {
     margin: theme.spacing.unit
@@ -45,16 +38,13 @@ class Canvas extends Component {
     super()
     this.state = {
       curStroke: [],
-      strokes: null
+      strokes: null,
+      displayColorPicker: false,
+      color: 'black',
+      lineWidth: 5
     }
   }
 
-  canvas = document.createElement('canvas')
-  ctx = this.canvas.getContext('2d')
-
-  picker = document.createElement('div')
-
-  color = 'black'
   //// Position tracking
   currentMousePosition = {
     x: 0,
@@ -66,18 +56,6 @@ class Canvas extends Component {
     y: 0
   }
 
-  // Color picker settings
-  colors = [
-    '#000000',
-    '#ff1000',
-    '#380566',
-    '#1d00ff',
-    '#a31149',
-    '#30a300',
-    '#40d6c9',
-    '#fffc51'
-  ]
-
   strokeToDb = curStroke => {
     db.collection('whiteboards')
       .doc(this.props.whiteboardId)
@@ -85,21 +63,26 @@ class Canvas extends Component {
         strokes: firebase.firestore.FieldValue.arrayUnion(...curStroke)
       })
       .then(() => {
-        this.setState({curStroke: []})
+        this.setState({
+          curStroke: [],
+          strokes: null
+        })
       })
       .catch(error => {
         console.error('Error drawing new stroke to Firestore Database: ', error)
       })
+    this.forceUpdate()
   }
 
-  draw = (start, end, strokeColor = 'black', shouldBroadcast = true) => {
+  draw = (start, end, strokeColor = 'black') => {
+    const ctx = this.whiteboardCanvas.getContext('2d')
     this.state.curStroke.push({start, end, strokeColor})
-    this.ctx.beginPath()
-    this.ctx.strokeStyle = strokeColor
-    this.ctx.moveTo(...start)
-    this.ctx.lineTo(...end)
-    this.ctx.closePath()
-    this.ctx.stroke()
+    ctx.beginPath()
+    ctx.strokeStyle = strokeColor
+    ctx.moveTo(...start)
+    ctx.lineTo(...end)
+    ctx.closePath()
+    ctx.stroke()
   }
 
   clearCanvas = () => {
@@ -109,73 +92,27 @@ class Canvas extends Component {
         strokes: []
       })
       .then(() => {
-        this.clearCanvasDOM()
         this.setState({
           curStroke: [],
           strokes: null
         })
-        this.setupColorPicker()
+        const ctx = this.whiteboardCanvas.getContext('2d')
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, 500, 500)
       })
       .catch(error => {
         console.error('Error drawing new stroke to Firestore Database: ', error)
       })
   }
 
-  undoLastStroke = () => {
-    console.log('UNDO LAST STROKE')
-  }
-
-  clearCanvasDOM = () => {
-    const classroom = document.getElementById('whiteboard-canvas')
-    classroom.removeChild(this.canvas)
-
-    while (this.picker.firstChild) {
-      this.picker.removeChild(this.picker.firstChild)
-    }
-    classroom.removeChild(this.picker)
-
-    const newCanvas = document.createElement('canvas')
-    classroom.appendChild(newCanvas)
-  }
-
   setup = () => {
-    const classroom = document.getElementById('whiteboard-canvas')
-    classroom.appendChild(this.canvas)
-
-    this.setupColorPicker()
-    this.setupCanvas()
-  }
-
-  setupColorPicker = () => {
-    this.picker.classList.add('color-selector')
-    this.colors
-      .map(color => {
-        const marker = document.createElement('div')
-        marker.classList.add('marker')
-        marker.dataset.color = color
-        marker.style.backgroundColor = color
-        return marker
-      })
-      .forEach(color => this.picker.appendChild(color))
-
-    this.picker.addEventListener('click', ({target}) => {
-      this.color = target.dataset.color
-      if (!this.color) return
-      const current = this.picker.querySelector('.selected')
-      current && current.classList.remove('selected')
-      target.classList.add('selected')
-    })
-
-    let classroom = document.getElementById('whiteboard-canvas')
-    classroom.appendChild(this.picker)
-
-    // Select the first color
-    this.picker.firstChild.click()
+    this.setupEventListeners()
   }
 
   resize = () => {
     // Unscale the canvas (if it was previously scaled)
-    this.ctx.setTransform(1, 0, 0, 1, 0, 0)
+    const ctx = this.whiteboardCanvas.getContext('2d')
+    ctx.setTransform(1, 0, 0, 1, 0, 0)
 
     // The device pixel ratio is the multiplier between CSS pixels
     // and device pixels
@@ -183,20 +120,23 @@ class Canvas extends Component {
 
     // Allocate backing store large enough to give us a 1:1 device pixel
     // to canvas pixel ratio.
-    var w = this.canvas.clientWidth * pixelRatio,
-      h = this.canvas.clientHeight * pixelRatio
-    if (w !== this.canvas.width || h !== this.canvas.height) {
-      // Resizing the canvas destroys the current content.
+    var w = this.whiteboardCanvas.clientWidth * pixelRatio,
+      h = this.whiteboardCanvas.clientHeight * pixelRatio
+    if (
+      w !== this.whiteboardCanvas.width ||
+      h !== this.whiteboardCanvas.height
+    ) {
+      // Resizing the whiteboardCanvas destroys the current content.
       // So, save it...
       var imgData = this.ctx.getImageData(
         0,
         0,
-        this.canvas.width,
-        this.canvas.height
+        this.whiteboardCanvas.width,
+        this.whiteboardCanvas.height
       )
 
-      this.canvas.width = w
-      this.canvas.height = h
+      this.whiteboardCanvas.width = w
+      this.whiteboardCanvas.height = h
 
       // ...then restore it.
       this.ctx.putImageData(imgData, 0, 0)
@@ -212,24 +152,24 @@ class Canvas extends Component {
     this.ctx.lineCap = 'round'
   }
 
-  setupCanvas = () => {
+  setupEventListeners = () => {
     // Set the size of the canvas and attach a listener
     // to handle resizing.
-    this.resize()
-    const classroom = document.getElementById('whiteboard-canvas')
-    classroom.addEventListener('resize', this.resize)
+    // this.resize()
+    const eventArea = document.getElementById('whiteboard')
+    eventArea.addEventListener('resize', this.resize)
 
-    classroom.addEventListener('mousedown', e => {
+    eventArea.addEventListener('mousedown', e => {
       this.currentMousePosition = this.pos(e)
     })
 
-    classroom.addEventListener('mouseup', e => {
-      if (e.target === this.canvas) {
+    eventArea.addEventListener('mouseup', e => {
+      if (e.target === this.whiteboardCanvas) {
         this.strokeToDb(this.state.curStroke)
       }
     })
 
-    classroom.addEventListener('mousemove', e => {
+    eventArea.addEventListener('mousemove', e => {
       if (!e.buttons) return
       this.lastMousePosition = this.currentMousePosition
       this.currentMousePosition = this.pos(e)
@@ -238,14 +178,17 @@ class Canvas extends Component {
         this.draw(
           this.lastMousePosition,
           this.currentMousePosition,
-          this.color,
+          this.state.color,
           true
         )
     })
   }
 
   pos = e => {
-    return [e.pageX - this.canvas.offsetLeft, e.pageY - this.canvas.offsetTop]
+    return [
+      e.pageX - this.whiteboardCanvas.offsetLeft,
+      e.pageY - this.whiteboardCanvas.offsetTop
+    ]
   }
 
   async componentDidMount() {
@@ -260,18 +203,17 @@ class Canvas extends Component {
     this.setup()
   }
 
+  // toggleColorPicker = () => {
+  //   this.setState({displayColorPicker: !this.state.displayColorPicker})
+  // }
+
   render() {
     if (this.state.strokes) {
       this.state.strokes.forEach(stroke => {
-        this.ctx.beginPath()
-        this.ctx.strokeStyle = stroke.strokeColor
-        this.ctx.moveTo(...stroke.start)
-        this.ctx.lineTo(...stroke.end)
-        this.ctx.closePath()
-        this.ctx.stroke()
+        this.draw(stroke.start, stroke.end, stroke.strokeColor)
       })
     }
-    const {classes, connectDragSource, isDragging, item} = this.props
+    const {classes, connectDragSource, isDragging} = this.props
     return connectDragSource(
       <div>
         <Card
@@ -279,7 +221,9 @@ class Canvas extends Component {
           style={{
             opacity: isDragging ? 0.3 : 1,
             cursor: 'move',
-            resize: 'both'
+            resize: 'both',
+            top: this.props.position.top,
+            left: this.props.position.left
           }}
         >
           <CardContent>
@@ -288,9 +232,25 @@ class Canvas extends Component {
             </Typography>
 
             <div id="whiteboard">
-              <div id="whiteboard-canvas" />
+              <canvas
+                ref={canvas => (this.whiteboardCanvas = canvas)}
+                height={500}
+                width={500}
+              />
+              <HuePicker
+                onChangeComplete={color => {
+                  this.setState({color: color.hex})
+                }}
+                color={this.state.color}
+              />
               <Button onClick={this.clearCanvas}>Clear</Button>
-              {/* <Button onClick={this.undoLastStroke}>Undo</Button> */}
+              {/* {!this.state.displayColorPicker ? null : (
+                // <SketchPicker
+                //   onChangeComplete={color => {
+                //     this.setState({color: color.hex})
+                //   }}
+                //   color={this.state.color}
+              )} */}
             </div>
           </CardContent>
         </Card>

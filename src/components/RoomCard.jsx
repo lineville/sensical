@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
-import {withRouter} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -11,22 +11,31 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import DeleteIcon from '@material-ui/icons/Delete'
+import DoneIcon from '@material-ui/icons/Done'
+import CancelIcon from '@material-ui/icons/Cancel'
 import ShareIcon from '@material-ui/icons/Share'
 import Snackbar from '@material-ui/core/Snackbar'
 import Notification from './Notification'
 import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
+import EditIcon from '@material-ui/icons/Edit'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
 const styles = theme => ({
   card: {
-    maxWidth: 300
+    maxWidth: 300,
+    margin: '2%'
   },
   media: {
     height: 0,
     paddingTop: '56.25%' // 16:9
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200
   },
   rightIcon: {
     marginLeft: theme.spacing.unit
@@ -44,9 +53,12 @@ export class RoomCard extends Component {
       room: {},
       inviteEmail: '',
       inviteFormOpen: false,
+      editFormOpen: false,
       open: false,
       snackBarVariant: '',
-      snackBarMessage: ''
+      snackBarMessage: '',
+      newSubject: '',
+      newImageURL: ''
     }
   }
 
@@ -66,64 +78,95 @@ export class RoomCard extends Component {
 
     try {
       const invitee = await db
-      .collection(`users`)
-      .where('email', '==', `${this.state.inviteEmail}`)
-      .get()
+        .collection(`users`)
+        .where('email', '==', `${this.state.inviteEmail}`)
+        .get()
 
-    const inviteeId = invitee.docs[0].id
+      const inviteeId = invitee.docs[0].id
 
-    console.log('invitee:', invitee)
-    const invitedUser = await db
-      .collection('users')
-      .doc(inviteeId)
-      .get()
-
-    let roomsArray = invitedUser.data().rooms
-
-    const room = await db
-      .collection('rooms')
-      .doc(roomId)
-      .get()
-
-    let userIds = room.data().userIds
-    // add another condition
-    if (!roomsArray.includes(roomId)) {
-      const newCodeEditorId = await db
-        .collection('codeEditors')
-        .add({code: '', userId: invitedUser.id})
-      await db
+      const invitedUser = await db
         .collection('users')
         .doc(inviteeId)
-        .update({
-          rooms: roomsArray.concat(roomId),
-          codeEditorId: newCodeEditorId.id
-        })
-      await db
+        .get()
+
+      let roomsArray = invitedUser.data().rooms
+
+      const room = await db
         .collection('rooms')
         .doc(roomId)
-        .update({
-          userIds: userIds.concat(inviteeId),
-          codeEditorIds: room.data().codeEditorIds.concat(newCodeEditorId.id)
-        })
-    }
+        .get()
 
-    this.setState({
-      inviteEmail: '', 
-      snackBarVariant: 'success',
-      snackBarMessage: 'Invite successfully sent!',
-      open: true,
-      inviteFormOpen: false
-    })
+      let userIds = room.data().userIds
+      // add another condition
+      if (!roomsArray.includes(roomId)) {
+        const newCodeEditorId = await db
+          .collection('codeEditors')
+          .add({code: '', userId: invitedUser.id})
+        await db
+          .collection('users')
+          .doc(inviteeId)
+          .update({
+            rooms: roomsArray.concat(roomId),
+            codeEditorId: newCodeEditorId.id
+          })
+        await db
+          .collection('rooms')
+          .doc(roomId)
+          .update({
+            userIds: userIds.concat(inviteeId),
+            codeEditorIds: room.data().codeEditorIds.concat(newCodeEditorId.id)
+          })
+      }
+
+      this.setState({
+        inviteEmail: '',
+        snackBarVariant: 'success',
+        snackBarMessage: 'Invite successfully sent!',
+        open: true,
+        inviteFormOpen: false
+      })
     } catch (error) {
-      console.log("THERE WAS AN ERROR: ", error)
       this.setState({
         snackBarVariant: 'error',
-        snackBarMessage: 'Looks like there was a problem with the email you selected.',
+        snackBarMessage:
+          'Looks like there was a problem with the email you selected.',
         open: true,
         inviteFormOpen: false
       })
     }
-    
+  }
+
+  handleEdit = async () => {
+    if (this.state.newSubject.length) {
+      await db
+        .collection('rooms')
+        .doc(this.state.roomId)
+        .update({
+          subject: this.state.newSubject
+        })
+      await this.setState({
+        snackBarMessage: 'Subject changed successfully!',
+        room: {...this.state.room, subject: this.state.newSubject}
+      })
+    }
+    if (this.state.newImageURL.length) {
+      await db
+        .collection('rooms')
+        .doc(this.state.roomId)
+        .update({
+          imageURL: this.state.newImageURL
+        })
+      await this.setState({
+        snackBarMessage: 'Classroom image changed successfully!',
+        room: {...this.state.room, imageURL: this.state.newImageURL}
+      })
+    }
+
+    await this.setState({
+      open: true,
+      snackBarVariant: 'success',
+      editFormOpen: false
+    })
   }
 
   handleClose = (event, reason) => {
@@ -132,7 +175,9 @@ export class RoomCard extends Component {
     }
     this.setState({
       open: false,
-      inviteFormOpen: false
+      inviteFormOpen: false,
+      editFormOpen: false,
+      snackBarMessage: ''
     })
   }
 
@@ -145,14 +190,23 @@ export class RoomCard extends Component {
   leaveRoom = async () => {
     try {
       const {user} = this.props
-      const codeEditorId = user.codeEditorId
+      const codeEditorId = user.codeEditorIds.filter(id =>
+        this.state.room.codeEditorIds.includes(id)
+      )[0]
       //removes code editor from room
       //removes userId from room
+      await this.setState({
+        snackBarMessage: 'You have successfully left this room!',
+        snackBarVariant: 'success',
+        open: true
+      })
       await db
         .collection('rooms')
         .doc(this.state.roomId)
         .update({
-          codeEditorIds: firebase.firestore.FieldValue.arrayRemove(codeEditorId),
+          codeEditorIds: firebase.firestore.FieldValue.arrayRemove(
+            codeEditorId
+          ),
           userIds: firebase.firestore.FieldValue.arrayRemove(user.id)
         })
       //removes codeEditor from user
@@ -165,11 +219,11 @@ export class RoomCard extends Component {
           rooms: firebase.firestore.FieldValue.arrayRemove(this.state.roomId)
         })
     } catch (error) {
-      console.log("THERE WAS AN ERROR: ", error)
       this.setState({
         snackBarVariant: 'error',
-        snackBarMessage: 'Looks like there was an error while leaving the room.',
-        open: true,
+        snackBarMessage:
+          'Looks like there was an error while leaving the room.',
+        open: true
       })
     }
   }
@@ -179,21 +233,32 @@ export class RoomCard extends Component {
     return (
       <React.Fragment>
         <Card className={classes.card}>
-          <CardMedia
-            className={classes.media}
-            image="http://cdn.shopify.com/s/files/1/1091/8014/products/whiteyboard_chalkboard_grande.jpeg?v=1528698765"
-            title={this.state.room.subject}
-          />
+          <Link to={`/classroom/${this.state.roomId}`}>
+            <CardMedia
+              className={classes.media}
+              image={this.state.room.imageURL}
+              title={this.state.room.subject}
+            />
+          </Link>
           <CardContent>
             <Typography gutterBottom variant="headline" component="h2">
               {this.state.room.subject}
+              <Button
+                variant="fab"
+                mini
+                color="primary"
+                className={classes.button}
+                onClick={() => this.setState({editFormOpen: true})}
+              >
+                <EditIcon />
+              </Button>
             </Typography>
             <Typography component="p">Practice your coding here.</Typography>
           </CardContent>
           <CardActions>
             <Button
               variant="contained"
-              color="default"
+              color="primary"
               className={classes.button}
               onClick={this.joinRoom}
             >
@@ -201,13 +266,14 @@ export class RoomCard extends Component {
             </Button>
             <Button
               variant="contained"
-              color="primary"
+              color="default"
               className={classes.button}
               onClick={() => this.setState({inviteFormOpen: true})}
             >
               Invite
               <ShareIcon className={classes.rightIcon} />
             </Button>
+
             <Button
               variant="contained"
               color="secondary"
@@ -232,31 +298,71 @@ export class RoomCard extends Component {
                 message={this.state.snackBarMessage}
               />
             </Snackbar>
-
             <Dialog
               open={this.state.inviteFormOpen}
               onClose={this.handleClose}
               aria-labelledby="form-dialog-title"
+              onSubmit={this.onSubmit}
             >
               <DialogTitle id="form-dialog-title">Invite To Room</DialogTitle>
               <DialogContent>
                 <TextField
                   autoFocus
-                  margin="dense"
+                  margin="normal"
                   id="name"
                   name="inviteEmail"
-                  label="Email Address of Invitee"
+                  label="Email"
                   type="email"
-                  fullWidth
+                  className={classes.textField}
                   onChange={this.handleChange}
                 />
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.handleClose} color="secondary">
-                  Cancel
+                  <CancelIcon />
                 </Button>
                 <Button onClick={this.onSubmit} color="primary">
-                  Confirm
+                  <DoneIcon />
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Dialog
+              open={this.state.editFormOpen}
+              onClose={this.handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Edit Room</DialogTitle>
+
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="normal"
+                  id="subject"
+                  name="newSubject"
+                  label="Subject"
+                  placeholder={this.state.room.subject}
+                  type="text"
+                  className={classes.textField}
+                  onChange={this.handleChange}
+                />
+                <TextField
+                  autoFocus
+                  margin="normal"
+                  id="roomImage"
+                  name="newImageURL"
+                  label="image URL"
+                  placeholder={this.state.room.imageURL}
+                  type="text"
+                  className={classes.textField}
+                  onChange={this.handleChange}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose} color="secondary">
+                  <CancelIcon />
+                </Button>
+                <Button onClick={this.handleEdit} color="primary">
+                  <DoneIcon />
                 </Button>
               </DialogActions>
             </Dialog>

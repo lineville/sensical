@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import db from '../firestore'
-import firebase from 'firebase'
 import {DragSource} from 'react-dnd'
 
 import PropTypes from 'prop-types'
@@ -11,13 +10,7 @@ import Typography from '@material-ui/core/Typography'
 
 const notepadSource = {
   beginDrag(props) {
-    return props
-  },
-  endDrag(props, monitor, component) {
-    if (!monitor.didDrop()) {
-      return
-    }
-    return props.handleDrop()
+    return {...props, modName: 'notepad'}
   }
 }
 
@@ -29,12 +22,15 @@ function collect(connect, monitor) {
   }
 }
 
-const styles = theme => ({
+const styles = () => ({
   card: {
-    minWidth: 275
+    minWidth: 275,
+    position: 'absolute'
   },
   textArea: {
-    width: '100%'
+    width: '100%',
+    height: '-webkit-fill-available',
+    border: '1px dotted'
   }
 })
 
@@ -74,7 +70,7 @@ export class Notepad extends Component {
   }
 
   render() {
-    const {classes, connectDragSource, isDragging, item} = this.props
+    const {classes, connectDragSource, isDragging} = this.props
     return connectDragSource(
       <div className="item">
         <Card
@@ -82,7 +78,9 @@ export class Notepad extends Component {
           style={{
             opacity: isDragging ? 0.3 : 1,
             cursor: 'move',
-            resize: 'both'
+            resize: 'both',
+            top: this.props.position.top,
+            left: this.props.position.left
           }}
         >
           <CardContent>

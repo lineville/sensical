@@ -3,7 +3,37 @@ import AceEditor from 'react-ace'
 import db from '../firestore'
 import Output from './Output'
 import 'brace/mode/javascript'
+import 'brace/mode/python'
+import 'brace/mode/ruby'
+import 'brace/mode/sql'
+import 'brace/mode/space'
+import 'brace/mode/smarty'
+import 'brace/mode/swift'
+import 'brace/mode/coffee'
+import 'brace/mode/csharp'
+import 'brace/mode/css'
+import 'brace/mode/elm'
+import 'brace/mode/fortran'
+import 'brace/mode/golang'
+import 'brace/mode/haskell'
+import 'brace/mode/java'
+import 'brace/mode/markdown'
+import 'brace/mode/php'
+
 import 'brace/theme/monokai'
+import 'brace/theme/github'
+import 'brace/theme/tomorrow'
+import 'brace/theme/vibrant_ink'
+import 'brace/theme/xcode'
+import 'brace/theme/twilight'
+import 'brace/theme/tomorrow_night_eighties'
+import 'brace/theme/sqlserver'
+import 'brace/theme/mono_industrial'
+import 'brace/theme/eclipse'
+import 'brace/theme/chrome'
+import 'brace/theme/clouds_midnight'
+import 'brace/theme/merbivore_soft'
+
 import firebase from 'firebase'
 
 class CodeEditor extends Component {
@@ -12,7 +42,7 @@ class CodeEditor extends Component {
     this.state = {
       code: '',
       codeEditorId: '',
-      user: '',
+      user: {},
       canType: false
     }
     this.onChange = this.onChange.bind(this)
@@ -55,25 +85,29 @@ class CodeEditor extends Component {
   }
 
   canType = () => {
-    return this.props.codeEditorId === this.state.user.codeEditorId
+    return this.state.user.codeEditorIds.includes(this.props.codeEditorId)
   }
 
   render() {
     return (
       <div>
-        <div className="">
-          <AceEditor
-            mode="javascript"
-            theme="monokai"
-            onChange={this.onChange}
-            value={this.state.code}
-            name="code-editor"
-            tabSize={2}
-            readOnly={!this.state.canType}
-            editorProps={{$blockScrolling: true}}
-          />
-          <Output input={this.state.code} />
-        </div>
+        <AceEditor
+          mode={this.props.settings.mode}
+          theme={this.props.settings.theme}
+          onChange={this.onChange}
+          value={this.state.code}
+          name="code-editor"
+          tabSize={this.props.settings.tabSize}
+          showGutter={this.props.settings.showGutter}
+          fontSize={this.props.settings.fontSize}
+          setOptions={{
+            showLineNumbers: this.props.settings.showLineNumbers,
+            tabSize: this.props.settings.tabSize
+          }}
+          readOnly={!this.state.canType}
+          editorProps={{$blockScrolling: true}}
+        />
+        <Output input={this.state.code} />
       </div>
     )
   }

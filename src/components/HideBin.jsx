@@ -7,9 +7,28 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    backgroundColor: 'none'
   }
 })
+
+const hideBinTarget = {
+  canDrop(props, monitor) {
+    const isJustOverThisOne = monitor.isOver({shallow: true})
+    if (isJustOverThisOne) {
+      return props
+    }
+  },
+  hover(props, monitor, component) {
+    const canDrop = monitor.canDrop()
+  },
+  drop(props, monitor, component) {
+    if (monitor.canDrop()) {
+      const mod = monitor.getItem()
+      mod.handleDrop()
+    }
+  }
+}
 
 function collect(connect, monitor) {
   return {
@@ -21,17 +40,12 @@ function collect(connect, monitor) {
 
 class HideBin extends Component {
   render() {
-    const {classes, connectDropTarget, isOver, item} = this.props
-    const backgroundColor = isOver ? '#0115213b' : '#F1EDEB3b'
+    const {classes, connectDropTarget, isOver} = this.props
+    const backgroundColor = isOver ? '#0115213b' : '#ffffff00'
 
     return connectDropTarget(
       <div className="target" style={{background: backgroundColor}}>
-        <Button
-          variant="fab"
-          disabled
-          aria-label="Delete"
-          className={classes.button}
-        >
+        <Button color="inherit" className={classes.button}>
           <DeleteIcon />
           Hide
         </Button>
@@ -40,4 +54,6 @@ class HideBin extends Component {
   }
 }
 
-export default withStyles(styles)(DropTarget('MODULE', {}, collect)(HideBin))
+export default withStyles(styles)(
+  DropTarget('MODULE', hideBinTarget, collect)(HideBin)
+)

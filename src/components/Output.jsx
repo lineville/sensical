@@ -29,16 +29,11 @@ class Output extends Component {
 
   componentDidMount() {
     window.onerror = (message, source, lineno, colno, error) => {
-      console.log('on error listener called')
       this.setState({
         output: message
       })
     }
   }
-
-  // componentWillUnmount() {
-  //   window.removeEventListener('error')
-  // }
 
   run() {
     const {input} = this.props
@@ -54,14 +49,10 @@ class Output extends Component {
             output: returnValue
           })
         } else {
-          //some kind of error either timeout or anything else
-
           try {
-            //eslint-disable-next-line
-            // eval(input)
             this.setState({
               output:
-                'The code takes too long to run... Is there is an infinite loop?'
+                'The code takes too long to run... Is there an infinite loop?'
             })
           } catch (error) {
             this.setState({

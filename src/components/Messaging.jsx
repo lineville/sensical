@@ -5,6 +5,7 @@ import firebase from 'firebase'
 import {DragSource} from 'react-dnd'
 
 import PropTypes from 'prop-types'
+import SendIcon from '@material-ui/icons/Send'
 import {withStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -14,13 +15,7 @@ import TextField from '@material-ui/core/TextField'
 
 const messagingSource = {
   beginDrag(props) {
-    return props
-  },
-  endDrag(props, monitor, component) {
-    if (!monitor.didDrop()) {
-      return
-    }
-    return props.handleDrop()
+    return {...props, modName: 'messaging'}
   }
 }
 
@@ -29,13 +24,22 @@ function collect(connect, monitor) {
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging()
-    // currentOffset: monitor.getSourceClientOffset()
   }
 }
 
 const styles = theme => ({
   card: {
-    maxWidth: 275
+    maxWidth: 275,
+    position: 'absolute'
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+  messages: {
+    height: 175,
+    overflow: 'scroll'
   },
   button: {
     margin: theme.spacing.unit
@@ -47,6 +51,9 @@ const styles = theme => ({
   },
   form: {
     display: 'flex'
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
   }
 })
 
@@ -91,22 +98,24 @@ export class Messaging extends Component {
 
   async handleSubmit(event) {
     event.preventDefault()
-    await db
-      .collection('chats')
-      .doc(this.props.chatsId)
-      .collection('messages')
-      .add({
-        user: this.state.user,
-        text: this.state.newMessage,
-        timestamp: new Date().toUTCString()
+    if (this.state.newMessage.length) {
+      await db
+        .collection('chats')
+        .doc(this.props.chatsId)
+        .collection('messages')
+        .add({
+          user: this.state.user,
+          text: this.state.newMessage,
+          timestamp: new Date().toUTCString()
+        })
+      this.setState({
+        newMessage: ''
       })
-    this.setState({
-      newMessage: ''
-    })
+    }
   }
 
   render() {
-    const {classes, connectDragSource, isDragging, item} = this.props
+    const {classes, connectDragSource, isDragging} = this.props
     return connectDragSource(
       <div className="item">
         <Card
@@ -114,13 +123,15 @@ export class Messaging extends Component {
           style={{
             opacity: isDragging ? 0.3 : 1,
             cursor: 'move',
-            resize: 'both'
+            resize: 'both',
+            top: this.props.position.top,
+            left: this.props.position.left
           }}
         >
           <CardContent>
             <Typography color="textSecondary">Chat</Typography>
-            <div id="messages">
-              <div>
+            <div className={classes.content}>
+              <div className={classes.messages}>
                 {this.state.messages.map(message => (
                   <Message key={message.id} message={message} />
                 ))}
@@ -132,15 +143,14 @@ export class Messaging extends Component {
                   value={this.state.newMessage}
                   onChange={this.handleChange}
                 />
-
                 <Button
-                  type="submit"
-                  size="small"
                   variant="outlined"
                   color="primary"
                   className={classes.button}
+                  onClick={this.handleSubmit}
                 >
                   Send
+                  <SendIcon className={classes.rightIcon}>send</SendIcon>
                 </Button>
               </form>
             </div>

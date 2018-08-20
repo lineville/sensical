@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-import Video from 'twilio-video'
-import axios from 'axios'
 import {DragSource} from 'react-dnd'
 import VideoComponent from './VideoComponent'
 
@@ -9,21 +7,10 @@ import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import FormControl from '@material-ui/core/FormControl'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-// import RaisedButton from 'material-ui/RaisedButton'
-// import TextField from 'material-ui/TextField'
 
 const messagingSource = {
   beginDrag(props) {
-    return props
-  },
-  endDrag(props, monitor, component) {
-    if (!monitor.didDrop()) {
-      return
-    }
-    return props.handleDrop()
+    return {...props, modName: 'video'}
   }
 }
 
@@ -37,14 +24,8 @@ function collect(connect, monitor) {
 
 const styles = theme => ({
   card: {
-    width: 275
-  },
-  container: {
-    flexWrap: 'wrap',
-    textAlign: 'center',
-    position: 'relative',
-    display: 'block',
-    width: '100%'
+    width: 275,
+    position: 'absolute'
   },
   margin: {
     margin: theme.spacing.unit
@@ -58,18 +39,21 @@ const styles = theme => ({
 
 export class VideoCard extends Component {
   render() {
-    const {classes, connectDragSource, isDragging, item} = this.props
+    const {classes, connectDragSource, isDragging} = this.props
     return connectDragSource(
       <div className="item">
         <Card
           className={classes.card}
+          id="video"
           style={{
             opacity: isDragging ? 0.3 : 1,
             cursor: 'move',
-            resize: 'both'
+            resize: 'both',
+            top: this.props.position.top,
+            left: this.props.position.left
           }}
         >
-          <CardContent>
+          <CardContent className={classes.cardContent}>
             <Typography color="textSecondary">Video</Typography>
             <VideoComponent roomId={this.props.roomId} />
           </CardContent>

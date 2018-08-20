@@ -94,6 +94,7 @@ class Signup extends Component {
           email: this.state.email,
           username: this.state.username,
           rooms: [],
+          codeEditorIds: [],
           profilePicURL:
             'https://upload.wikimedia.org/wikipedia/commons/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg'
         })
@@ -124,7 +125,6 @@ class Signup extends Component {
           <TextField
             id="username-input"
             name="username"
-            placeholder="Username"
             label="Username"
             className={classes.textField}
             type="username"
@@ -136,7 +136,6 @@ class Signup extends Component {
           <TextField
             id="email-input"
             name="email"
-            placeholder="Email"
             label="Email"
             className={classes.textField}
             type="email"
