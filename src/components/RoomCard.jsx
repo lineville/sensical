@@ -16,6 +16,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 import Notification from './Notification'
 import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
+import EditIcon from '@material-ui/icons/Edit'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -50,9 +51,12 @@ export class RoomCard extends Component {
       room: {},
       inviteEmail: '',
       inviteFormOpen: false,
+      editFormOpen: false,
       open: false,
       snackBarVariant: '',
-      snackBarMessage: ''
+      snackBarMessage: '',
+      newSubject: '',
+      newImageURL: ''
     }
   }
 
@@ -132,13 +136,35 @@ export class RoomCard extends Component {
     }
   }
 
+  handleEdit = async () => {
+    await db
+      .collection('rooms')
+      .doc(this.state.roomId)
+      .update({
+        subject: this.state.newSubject,
+        imageURL: this.state.newImageURL
+      })
+
+    await this.setState({
+      room: {
+        ...this.state.room,
+        subject: this.state.newSubject,
+        imageURL: this.state.newImageURL
+      },
+      open: true,
+      snackBarVariant: 'success',
+      snackBarMessage: 'Subject changed successfully!'
+    })
+  }
+
   handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
     }
     this.setState({
       open: false,
-      inviteFormOpen: false
+      inviteFormOpen: false,
+      editFormOpen: false
     })
   }
 
@@ -190,12 +216,21 @@ export class RoomCard extends Component {
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}
-            image="http://cdn.shopify.com/s/files/1/1091/8014/products/whiteyboard_chalkboard_grande.jpeg?v=1528698765"
+            image={this.state.room.imageURL}
             title={this.state.room.subject}
           />
           <CardContent>
             <Typography gutterBottom variant="headline" component="h2">
               {this.state.room.subject}
+              <Button
+                variant="fab"
+                mini
+                color="primary"
+                className={classes.button}
+                onClick={() => this.setState({editFormOpen: true})}
+              >
+                <EditIcon />
+              </Button>
             </Typography>
             <Typography component="p">Practice your coding here.</Typography>
           </CardContent>
@@ -217,6 +252,7 @@ export class RoomCard extends Component {
               Invite
               <ShareIcon className={classes.rightIcon} />
             </Button>
+
             <Button
               variant="contained"
               color="secondary"
@@ -241,7 +277,6 @@ export class RoomCard extends Component {
                 message={this.state.snackBarMessage}
               />
             </Snackbar>
-
             <Dialog
               open={this.state.inviteFormOpen}
               onClose={this.handleClose}
@@ -265,6 +300,45 @@ export class RoomCard extends Component {
                   Cancel
                 </Button>
                 <Button onClick={this.onSubmit} color="primary">
+                  Confirm
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Dialog
+              open={this.state.editFormOpen}
+              onClose={this.handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Edit Room</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="normal"
+                  id="subject"
+                  name="newSubject"
+                  label="Subject"
+                  placeholder={this.state.room.subject}
+                  type="text"
+                  className={classes.textField}
+                  onChange={this.handleChange}
+                />
+                <TextField
+                  autoFocus
+                  margin="normal"
+                  id="roomImage"
+                  name="newImageURL"
+                  label="image URL"
+                  placeholder={this.state.room.imageURL}
+                  type="text"
+                  className={classes.textField}
+                  onChange={this.handleChange}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose} color="secondary">
+                  Cancel
+                </Button>
+                <Button onClick={this.handleEdit} color="primary">
                   Confirm
                 </Button>
               </DialogActions>

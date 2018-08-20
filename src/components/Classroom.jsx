@@ -9,11 +9,6 @@ import Notepad from './Notepad'
 
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import InviteForm from './InviteForm'
 import RoomStatusBar from './RoomStatusBar'
 
 const styles = theme => ({
@@ -74,6 +69,14 @@ class Classroom extends Component {
       chatsId: classroom.data().chatsId,
       notepadId: classroom.data().notepadId
     })
+
+    db.collection('rooms')
+      .doc(this.props.classroom)
+      .onSnapshot(snapshot => {
+        this.setState({
+          codeEditorIds: snapshot.data().codeEditorIds
+        })
+      })
   }
 
   handleDrop(item) {
