@@ -7,13 +7,16 @@ import Canvas from './Canvas'
 import VideoCard from './VideoCard'
 import Notepad from './Notepad'
 
+import {
+  DropTarget,
+  DragDropContext,
+  ConnectDropTarget,
+  DropTargetMonitor,
+  XYCoord
+} from 'react-dnd'
+
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import InviteForm from './InviteForm'
 import RoomStatusBar from './RoomStatusBar'
 
 const styles = theme => ({
@@ -108,6 +111,7 @@ class Classroom extends Component {
                   <VideoCard
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('video')}
+                    position={this.props.positions.video}
                   />
                 ) : null}
               </Grid>
