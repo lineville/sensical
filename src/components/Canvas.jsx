@@ -200,7 +200,7 @@ class Canvas extends Component {
         this.draw(
           this.lastMousePosition,
           this.currentMousePosition,
-          this.color,
+          this.state.color,
           true
         )
     })
@@ -295,7 +295,12 @@ class Canvas extends Component {
                   data-color="#fffc51"
                   style={{backgroundColor: '#fffc51'}}
                 />
-                <SketchPicker />
+                <SketchPicker
+                  onChangeComplete={color => {
+                    this.setState({color: color.hex})
+                  }}
+                  color={this.state.color}
+                />
                 <Button onClick={this.clearCanvas}>Clear</Button>
               </div>
             </div>
