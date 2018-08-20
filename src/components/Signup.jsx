@@ -10,11 +10,11 @@ import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
   container: {
+    display: 'flex',
     flexWrap: 'wrap',
-    textAlign: 'center',
-    position: 'relative',
-    display: 'block',
-    width: '100%'
+    flexDirection: 'column',
+    alignItems: 'center',
+    margin: '10%'
   },
   margin: {
     margin: theme.spacing.unit
