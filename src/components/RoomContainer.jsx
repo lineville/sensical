@@ -7,7 +7,8 @@ import {withStyles} from '../../node_modules/@material-ui/core'
 const styles = theme => ({
   root: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginBottom: 64
   },
   cardsHeading: {
     display: 'flex',

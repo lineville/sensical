@@ -3,7 +3,7 @@ import $ from 'jquery'
 
 const HomePage = () => {
   return (
-    <div>
+    <div style={{marginTop: 64}}>
       <div className="brand-name">Fig - Let Knowledge Grow.</div>
       <div className="slidelist">
         <div className="slide open" style={{left: '-100%'}}>
