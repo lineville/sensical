@@ -99,7 +99,11 @@ class CodeEditor extends Component {
           name="code-editor"
           tabSize={this.props.settings.tabSize}
           showGutter={this.props.settings.showGutter}
-          showLineNumbers={true}
+          fontSize={this.props.settings.fontSize}
+          setOptions={{
+            showLineNumbers: this.props.settings.showLineNumbers,
+            tabSize: this.props.settings.tabSize
+          }}
           readOnly={!this.state.canType}
           editorProps={{$blockScrolling: true}}
         />
