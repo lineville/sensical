@@ -102,8 +102,8 @@ export class VideoComponent extends Component {
     room.participants.forEach(participant => {
       console.log("Already in Room: '" + participant.identity + "'")
       var previewContainer = this.refs.remoteMedia
-      this.attachParticipantTracks(participant, previewContainer)
       previewContainer.children[1].setAttribute('width', '100%')
+      this.attachParticipantTracks(participant, previewContainer)
     })
 
     // When a Participant joins the Room, log the event.
