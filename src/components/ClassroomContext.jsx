@@ -64,7 +64,6 @@ class ClassroomContext extends Component {
 
   moveModule(mod, left, top, id) {
     if (mod.modName === 'codeEditors') {
-      console.log(this.state.codeEditors[id])
       this.setState({
         codeEditors: {
           ...this.state.codeEditors,
@@ -75,7 +74,6 @@ class ClassroomContext extends Component {
           }
         }
       })
-      console.log(this.state)
     } else {
       this.setState({
         [mod.modName]: {
