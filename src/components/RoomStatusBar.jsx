@@ -29,7 +29,7 @@ import Notification from './Notification'
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    position: 'sticky',
+    position: 'fixed',
     bottom: 0,
     width: '100%',
     zIndex: 100

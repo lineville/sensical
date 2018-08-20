@@ -10,13 +10,7 @@ import {Card, CardContent, Button, Typography} from '@material-ui/core/'
 
 const canvasSource = {
   beginDrag(props) {
-    return props
-  },
-  endDrag(props, monitor, component) {
-    if (!monitor.didDrop()) {
-      return
-    }
-    return props.handleDrop()
+    return {...props, modName: 'canvas'}
   }
 }
 
@@ -30,7 +24,8 @@ function collect(connect, monitor) {
 
 const styles = theme => ({
   card: {
-    minWidth: 275
+    minWidth: 275,
+    position: 'absolute'
   },
   button: {
     margin: theme.spacing.unit
@@ -65,13 +60,15 @@ class Canvas extends Component {
         strokes: firebase.firestore.FieldValue.arrayUnion(...curStroke)
       })
       .then(() => {
-        this.setState({curStroke: [],
-        strokes: null})
+        this.setState({
+          curStroke: [],
+          strokes: null
+        })
       })
       .catch(error => {
         console.error('Error drawing new stroke to Firestore Database: ', error)
       })
-      this.forceUpdate()
+    this.forceUpdate()
   }
 
   draw = (start, end, strokeColor = 'black', shouldBroadcast = true) => {
@@ -97,8 +94,8 @@ class Canvas extends Component {
           strokes: null
         })
         const ctx = this.whiteboardCanvas.getContext('2d')
-        ctx.fillStyle='white'
-        ctx.fillRect(0, 0, 500, 500);
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, 500, 500)
       })
       .catch(error => {
         console.error('Error drawing new stroke to Firestore Database: ', error)
@@ -144,7 +141,10 @@ class Canvas extends Component {
     // to canvas pixel ratio.
     var w = this.whiteboardCanvas.clientWidth * pixelRatio,
       h = this.whiteboardCanvas.clientHeight * pixelRatio
-    if (w !== this.whiteboardCanvas.width || h !== this.whiteboardCanvas.height) {
+    if (
+      w !== this.whiteboardCanvas.width ||
+      h !== this.whiteboardCanvas.height
+    ) {
       // Resizing the whiteboardCanvas destroys the current content.
       // So, save it...
       var imgData = this.ctx.getImageData(
@@ -204,7 +204,10 @@ class Canvas extends Component {
   }
 
   pos = e => {
-    return [e.pageX - this.whiteboardCanvas.offsetLeft, e.pageY - this.whiteboardCanvas.offsetTop]
+    return [
+      e.pageX - this.whiteboardCanvas.offsetLeft,
+      e.pageY - this.whiteboardCanvas.offsetTop
+    ]
   }
 
   async componentDidMount() {
@@ -233,7 +236,9 @@ class Canvas extends Component {
           style={{
             opacity: isDragging ? 0.3 : 1,
             cursor: 'move',
-            resize: 'both'
+            resize: 'both',
+            top: this.props.position.top,
+            left: this.props.position.left
           }}
         >
           <CardContent>
@@ -243,28 +248,62 @@ class Canvas extends Component {
 
             <div id="whiteboard">
               <div id="whiteboard-canvas" />
-              <canvas 
-              ref={canvas => (this.whiteboardCanvas = canvas)}
-              height={500}
-              width={500}
+              <canvas
+                ref={canvas => (this.whiteboardCanvas = canvas)}
+                height={500}
+                width={500}
               />
-              <div id='picker' className='color-selector'>
-                <div className='marker' data-color='#000000' style={{backgroundColor: '#000000'}} />
-                <div className='marker' data-color='#ff1000' style={{backgroundColor: '#ff1000'}} />
-                <div className='marker' data-color='#380566' style={{backgroundColor: '#380566'}} />
-                <div className='marker' data-color='#1d00ff' style={{backgroundColor: '#1d00ff'}} />
-                <div className='marker' data-color='#a31149' style={{backgroundColor: '#a31149'}} />
-                <div className='marker' data-color='#30a300' style={{backgroundColor: '#30a300'}} />
-                <div className='marker' data-color='#40d6c9' style={{backgroundColor: '#40d6c9'}} />
-                <div className='marker' data-color='#fffc51' style={{backgroundColor: '#fffc51'}} />
+              <div id="picker" className="color-selector">
+                <div
+                  className="marker"
+                  data-color="#000000"
+                  style={{backgroundColor: '#000000'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#ff1000"
+                  style={{backgroundColor: '#ff1000'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#380566"
+                  style={{backgroundColor: '#380566'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#1d00ff"
+                  style={{backgroundColor: '#1d00ff'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#a31149"
+                  style={{backgroundColor: '#a31149'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#30a300"
+                  style={{backgroundColor: '#30a300'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#40d6c9"
+                  style={{backgroundColor: '#40d6c9'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#fffc51"
+                  style={{backgroundColor: '#fffc51'}}
+                />
                 <div>
-                    <input type="color" id="selector" name="color"
-                          value="#e66465" />
-                    <label>Selector</label> 
+                  <input
+                    type="color"
+                    id="selector"
+                    name="color"
+                    value="#e66465"
+                  />
+                  <label>Selector</label>
                 </div>
-                <Button onClick={this.clearCanvas} >
-                  Clear
-                </Button>
+                <Button onClick={this.clearCanvas}>Clear</Button>
               </div>
             </div>
           </CardContent>
