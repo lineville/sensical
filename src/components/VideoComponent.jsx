@@ -101,6 +101,7 @@ export class VideoComponent extends Component {
     room.participants.forEach(participant => {
       console.log("Already in Room: '" + participant.identity + "'")
       var previewContainer = this.refs.remoteMedia
+      console.log('line 104', previewContainer)
       this.attachParticipantTracks(participant, previewContainer)
     })
 
@@ -114,6 +115,7 @@ export class VideoComponent extends Component {
     room.on('trackSubscribed', (track, participant) => {
       console.log(participant.identity + ' added track: ' + track.kind)
       var previewContainer = this.refs.remoteMedia
+      console.log('line 118', previewContainer)
       this.attachTracks([track], previewContainer)
     })
 
