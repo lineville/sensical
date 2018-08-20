@@ -59,8 +59,7 @@ app.get('/token', function(request, response) {
   })
 })
 
-// var port = process.env.PORT || 3000
-var port = 4000
+var port = process.env.PORT || 4000
 app.listen(port, function() {
   console.log('Express server listening on *:' + port)
 })
