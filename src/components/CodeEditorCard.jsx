@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
 import CodeEditor from './CodeEditor'
-import 'brace/mode/javascript'
-import 'brace/theme/monokai'
 import PropTypes from 'prop-types'
 import {DragSource} from 'react-dnd'
+import db from '../firestore'
 
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -13,15 +12,15 @@ import Dialog from '@material-ui/core/Dialog'
 import EditIcon from '@material-ui/icons/Edit'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
+import Snackbar from '@material-ui/core/Snackbar'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DoneIcon from '@material-ui/icons/Done'
 import CancelIcon from '@material-ui/icons/Cancel'
 import Button from '@material-ui/core/Button'
-import InputLabel from '@material-ui/core/InputLabel'
 import Input from '@material-ui/core/Input'
-import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+import Notification from './Notification'
 
 const codeEditorSource = {
   beginDrag(props) {
@@ -68,22 +67,53 @@ class CodeEditorCard extends Component {
     this.state = {
       mode: 'javascript',
       theme: 'monokai',
-      fontSize: '12',
+      fontSize: 12,
       showGutter: true,
       showLineNumber: true,
       tabSize: 2,
       settingsFormOpen: false,
-      snackBarMessage: ''
+      snackBarMessage: '',
+      snackBarVariant: '',
+      open: false
     }
   }
+
+  componentDidMount() {
+    db.collection('codeEditors')
+      .doc(this.props.codeEditorId)
+      .get()
+      .then(editor => {
+        this.setState({
+          mode: editor.data().settings.mode,
+          theme: editor.data().settings.theme,
+          fontSize: editor.data().settings.fontSize,
+          showGutter: editor.data().settings.showGutter,
+          showLineNumber: editor.data().settings.showLineNumber,
+          tabSize: editor.data().settings.tabSize
+        })
+      })
+    // db.collection('codeEditors')
+    //   .doc(this.props.codeEditorId)
+    //   .onSnapshot(snapshot => {
+    //     console.log('snapshot data', snapshot.data())
+    //     this.setState({
+    //       mode: snapshot.data().settings.mode,
+    //       theme: snapshot.data().settings.theme,
+    //       fontSize: snapshot.data().settings.fontSize,
+    //       showGutter: snapshot.data().settings.showGutter,
+    //       showLineNumber: snapshot.data().settings.showLineNumber,
+    //       tabSize: snapshot.data().settings.tabSize
+    //     })
+    //   })
+  }
+
   handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
     }
     this.setState({
       open: false,
-      settingsFormOpen: false,
-      snackBarMessage: ''
+      settingsFormOpen: false
     })
   }
 
@@ -93,7 +123,44 @@ class CodeEditorCard extends Component {
     })
   }
 
-  handleEdit = async => {}
+  handleEdit = () => {
+    try {
+      db.collection('codeEditors')
+        .doc(this.props.codeEditorId)
+        .update({
+          settings: {
+            mode: this.state.mode,
+            theme: this.state.theme,
+            fontSize: this.state.fontSize,
+            showGutter: this.state.showGutter,
+            showLineNumber: this.state.showLineNumber,
+            tabSize: this.state.tabSize
+          }
+        })
+        .then(() => {
+          this.setState({
+            settingsFormOpen: false,
+            snackBarMessage: 'Settings updated!',
+            snackBarVariant: 'success'
+          })
+        })
+        .then(() => {
+          this.setState({
+            open: true
+          })
+        })
+    } catch (error) {
+      this.setState({
+        settingsFormOpen: false,
+        snackBarMessage: `Oops... unable to save settings. Error: ${
+          error.message
+        }`,
+        snackBarVariant: 'error',
+        open: true
+      })
+    }
+  }
+
   render() {
     const {classes, connectDragSource, isDragging} = this.props
     return connectDragSource(
@@ -180,6 +247,21 @@ class CodeEditorCard extends Component {
                   </Button>
                 </DialogActions>
               </Dialog>
+              <Snackbar
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left'
+                }}
+                open={this.state.open}
+                autoHideDuration={6000}
+                onClose={this.handleClose}
+              >
+                <Notification
+                  onClose={this.handleClose}
+                  variant={this.state.snackBarVariant}
+                  message={this.state.snackBarMessage}
+                />
+              </Snackbar>
             </div>
           </CardContent>
         </Card>
