@@ -5,7 +5,10 @@ var express = require('express')
 var faker = require('faker')
 var AccessToken = require('twilio').jwt.AccessToken
 var VideoGrant = AccessToken.VideoGrant
-// require('./secrets')
+
+if (process.env.NODE_ENV === 'DEV') {
+  require('./secrets')
+}
 
 var app = express()
 
@@ -59,8 +62,7 @@ app.get('/token', function(request, response) {
   })
 })
 
-// var port = process.env.PORT || 3000
-var port = 4000
+var port = process.env.PORT || 4000
 app.listen(port, function() {
   console.log('Express server listening on *:' + port)
 })
