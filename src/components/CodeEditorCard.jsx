@@ -26,7 +26,7 @@ import Notification from './Notification'
 
 const codeEditorSource = {
   beginDrag(props) {
-    return {...props, modName: 'codeEditor'}
+    return {...props, modName: 'codeEditors'}
   }
 }
 
@@ -146,7 +146,10 @@ class CodeEditorCard extends Component {
   }
 
   render() {
-    const {classes, connectDragSource, isDragging} = this.props
+    const {classes, connectDragSource, isDragging, position} = this.props
+    if (!position) {
+      return <div />
+    }
     return connectDragSource(
       <div className="item">
         <Card
@@ -155,8 +158,8 @@ class CodeEditorCard extends Component {
             opacity: isDragging ? 0.3 : 1,
             cursor: 'move',
             resize: 'both',
-            top: this.props.position.top,
-            left: this.props.position.left
+            top: position.top,
+            left: position.left
           }}
         >
           <CardContent>
