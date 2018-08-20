@@ -88,7 +88,10 @@ class Classroom extends Component {
   }
 
   handleDrop(item) {
-    this.setState({[item]: false})
+    console.log(item)
+    //if drop to trash, set visible to false
+    //if drop in room, move to coordinates
+    // this.setState({[item]: false})
   }
 
   addModule(item) {

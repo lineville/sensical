@@ -7,14 +7,12 @@ import Classroom from './Classroom'
 const classroomTarget = {
   drop(props, monitor, component) {
     if (!component) {
-      console.log('!com')
       return
     }
     const item = monitor.getItem()
     const XY = monitor.getDifferenceFromInitialOffset()
     const left = Math.round(item.position.left + XY.x)
     const top = Math.round(item.position.top + XY.y)
-    console.log('log', item, XY, left, top)
     component.moveModule(item, left, top)
   }
 }
@@ -31,24 +29,20 @@ class ClassroomContext extends Component {
   constructor() {
     super()
     this.state = {
-      modulePositions: {
-        video: {top: 20, left: 0},
-        messaging: {top: 180, left: 20},
-        canvas: {top: 20, left: 80},
-        notepad: {top: 180, left: 20},
-        codeEditor: {top: 20, left: 80}
-      }
+      video: {top: 40, left: 0},
+      messaging: {top: 40, left: 340},
+      canvas: {top: 40, left: 680},
+      notepad: {top: 280, left: 340},
+      codeEditor: {top: 280, left: 0}
     }
     this.moveModule = this.moveModule.bind(this)
   }
 
   moveModule(mod, left, top) {
     this.setState({
-      modulePositions: {
-        [mod]: {
-          left: left,
-          top: top
-        }
+      [mod.modName]: {
+        top: top,
+        left: left
       }
     })
     console.log(this.state)
@@ -61,7 +55,7 @@ class ClassroomContext extends Component {
       <div>
         <Classroom
           classroom={this.props.match.params.classroomId}
-          positions={this.state.modulePositions}
+          positions={this.state}
         />
       </div>
     )

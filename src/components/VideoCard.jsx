@@ -10,8 +10,7 @@ import Typography from '@material-ui/core/Typography'
 
 const messagingSource = {
   beginDrag(props) {
-    console.log(props)
-    return props
+    return {...props, modName: 'video'}
   },
   endDrag(props, monitor) {
     if (!monitor.didDrop()) {
@@ -45,16 +44,6 @@ const styles = theme => ({
 })
 
 export class VideoCard extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      top: props.position.top,
-      left: props.position.left
-    }
-  }
-
-  getDerivedStateFromProps() {}
-
   render() {
     const {classes, connectDragSource, isDragging} = this.props
     return connectDragSource(
@@ -66,8 +55,8 @@ export class VideoCard extends Component {
             opacity: isDragging ? 0.3 : 1,
             cursor: 'move',
             resize: 'both',
-            top: this.state.top,
-            left: this.state.left
+            top: this.props.position.top,
+            left: this.props.position.left
           }}
         >
           <CardContent className={classes.cardContent}>
