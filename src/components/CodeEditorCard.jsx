@@ -19,6 +19,7 @@ import CancelIcon from '@material-ui/icons/Cancel'
 import Button from '@material-ui/core/Button'
 import Input from '@material-ui/core/Input'
 import FormControl from '@material-ui/core/FormControl'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import Select from '@material-ui/core/Select'
 import Switch from '@material-ui/core/Switch'
 import Notification from './Notification'
@@ -82,10 +83,10 @@ class CodeEditorCard extends Component {
         this.setState({
           mode: editor.data().settings.mode,
           theme: editor.data().settings.theme,
-          fontSize: editor.data().settings.fontSize,
+          fontSize: Number(editor.data().settings.fontSize),
           showGutter: editor.data().settings.showGutter,
           showLineNumbers: editor.data().settings.showLineNumbers,
-          tabSize: editor.data().settings.tabSize
+          tabSize: Number(editor.data().settings.tabSize)
         })
       })
   }
@@ -114,10 +115,10 @@ class CodeEditorCard extends Component {
           settings: {
             mode: this.state.mode,
             theme: this.state.theme,
-            fontSize: this.state.fontSize,
+            fontSize: Number(this.state.fontSize),
             showGutter: this.state.showGutter,
             showLineNumbers: this.state.showLineNumbers,
-            tabSize: this.state.tabSize
+            tabSize: Number(this.state.tabSize)
           }
         })
         .then(() => {
@@ -217,6 +218,7 @@ class CodeEditorCard extends Component {
                         <option value="clouds_midnight">Clouds Midnight</option>
                         <option value="merbivore_soft">Merbivore Soft</option>
                       </Select>
+                      <FormHelperText>Theme</FormHelperText>
                     </FormControl>
                     <FormControl className={classes.formControl}>
                       <Select
@@ -242,6 +244,41 @@ class CodeEditorCard extends Component {
                         <option value="markdown">Markdown</option>
                         <option value="php">PHP</option>
                       </Select>
+                      <FormHelperText>Language</FormHelperText>
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                      <Select
+                        native
+                        value={this.state.fontSize}
+                        name="fontSize"
+                        onChange={this.handleChange}
+                        input={<Input id="native-simple" />}
+                      >
+                        <option value={12}>12</option>
+                        <option value={14}>14</option>
+                        <option value={16}>16</option>
+                        <option value={18}>18</option>
+                        <option value={20}>20</option>
+                        <option value={24}>24</option>
+                        <option value={28}>28</option>
+                        <option value={40}>40</option>
+                      </Select>
+                      <FormHelperText>Font Size</FormHelperText>
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                      <Select
+                        native
+                        value={this.state.tabSize}
+                        name="tabSize"
+                        onChange={this.handleChange}
+                        input={<Input id="native-simple" />}
+                      >
+                        <option value={0}>0</option>
+                        <option value={2}>2</option>
+                        <option value={4}>4</option>
+                        <option value={6}>6</option>
+                      </Select>
+                      <FormHelperText>Tab Size</FormHelperText>
                     </FormControl>
                     <FormControl className={classes.formControl}>
                       <Switch
@@ -252,7 +289,7 @@ class CodeEditorCard extends Component {
                         value={'' + this.state.showGutter}
                         color="primary"
                       />
-                      Show Gutter
+                      Gutter
                     </FormControl>
                     <FormControl className={classes.formControl}>
                       <Switch
@@ -265,7 +302,7 @@ class CodeEditorCard extends Component {
                         value={'' + this.state.showLineNumbers}
                         color="primary"
                       />
-                      Show Line Numbers
+                      Line Numbers
                     </FormControl>
                   </form>
                 </DialogContent>
