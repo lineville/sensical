@@ -90,6 +90,7 @@ export class RoomCard extends Component {
         .get()
 
       let roomsArray = invitedUser.data().rooms
+      let codeEditorsArray = invitedUser.data().codeEditorIds
 
       const room = await db
         .collection('rooms')
@@ -99,22 +100,31 @@ export class RoomCard extends Component {
       let userIds = room.data().userIds
       // add another condition
       if (!roomsArray.includes(roomId)) {
-        const newCodeEditorId = await db
-          .collection('codeEditors')
-          .add({code: '', userId: invitedUser.id})
+        const newCodeEditor = await db.collection('codeEditors').add({
+          code: '',
+          userId: invitedUser.id,
+          settings: {
+            mode: 'javascript',
+            theme: 'monokai',
+            fontSize: 12,
+            showGutter: true,
+            showLineNumbers: true,
+            tabSize: 2
+          }
+        })
         await db
           .collection('users')
           .doc(inviteeId)
           .update({
             rooms: roomsArray.concat(roomId),
-            codeEditorId: newCodeEditorId.id
+            codeEditorIds: codeEditorsArray.concat(newCodeEditor.id)
           })
         await db
           .collection('rooms')
           .doc(roomId)
           .update({
             userIds: userIds.concat(inviteeId),
-            codeEditorIds: room.data().codeEditorIds.concat(newCodeEditorId.id)
+            codeEditorIds: room.data().codeEditorIds.concat(newCodeEditor.id)
           })
       }
 
