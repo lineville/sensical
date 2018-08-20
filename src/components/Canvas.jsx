@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
+import {SketchPicker} from 'react-color'
 
 import {DragSource} from 'react-dnd'
 
@@ -42,11 +43,12 @@ class Canvas extends Component {
     super()
     this.state = {
       curStroke: [],
-      strokes: null
+      strokes: null,
+      color: 'black'
     }
   }
 
-  color = 'black'
+  // color = 'black'
   //// Position tracking
   currentMousePosition = {
     x: 0,
@@ -65,13 +67,15 @@ class Canvas extends Component {
         strokes: firebase.firestore.FieldValue.arrayUnion(...curStroke)
       })
       .then(() => {
-        this.setState({curStroke: [],
-        strokes: null})
+        this.setState({
+          curStroke: [],
+          strokes: null
+        })
       })
       .catch(error => {
         console.error('Error drawing new stroke to Firestore Database: ', error)
       })
-      this.forceUpdate()
+    this.forceUpdate()
   }
 
   draw = (start, end, strokeColor = 'black', shouldBroadcast = true) => {
@@ -97,8 +101,8 @@ class Canvas extends Component {
           strokes: null
         })
         const ctx = this.whiteboardCanvas.getContext('2d')
-        ctx.fillStyle='white'
-        ctx.fillRect(0, 0, 500, 500);
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, 500, 500)
       })
       .catch(error => {
         console.error('Error drawing new stroke to Firestore Database: ', error)
@@ -116,19 +120,15 @@ class Canvas extends Component {
 
   setupColorPicker = () => {
     const picker = document.getElementById('picker')
-    const selector = document.getElementById('selector')
     picker.addEventListener('click', ({target}) => {
-      this.color = target.dataset.color
-      if (!this.color) return
+      this.setState({color: target.dataset.color})
+      // this.color = target.dataset.color
+      if (!this.state.color) return
       const current = picker.querySelector('.selected')
       current && current.classList.remove('selected')
       target.classList.add('selected')
     })
     picker.firstChild.click()
-
-    selector.addEventListener('change', ({target}) => {
-      this.color = target.value
-    })
   }
 
   resize = () => {
@@ -144,7 +144,10 @@ class Canvas extends Component {
     // to canvas pixel ratio.
     var w = this.whiteboardCanvas.clientWidth * pixelRatio,
       h = this.whiteboardCanvas.clientHeight * pixelRatio
-    if (w !== this.whiteboardCanvas.width || h !== this.whiteboardCanvas.height) {
+    if (
+      w !== this.whiteboardCanvas.width ||
+      h !== this.whiteboardCanvas.height
+    ) {
       // Resizing the whiteboardCanvas destroys the current content.
       // So, save it...
       var imgData = this.ctx.getImageData(
@@ -204,7 +207,10 @@ class Canvas extends Component {
   }
 
   pos = e => {
-    return [e.pageX - this.whiteboardCanvas.offsetLeft, e.pageY - this.whiteboardCanvas.offsetTop]
+    return [
+      e.pageX - this.whiteboardCanvas.offsetLeft,
+      e.pageY - this.whiteboardCanvas.offsetTop
+    ]
   }
 
   async componentDidMount() {
@@ -243,28 +249,54 @@ class Canvas extends Component {
 
             <div id="whiteboard">
               <div id="whiteboard-canvas" />
-              <canvas 
-              ref={canvas => (this.whiteboardCanvas = canvas)}
-              height={500}
-              width={500}
+              <canvas
+                ref={canvas => (this.whiteboardCanvas = canvas)}
+                height={500}
+                width={500}
               />
-              <div id='picker' className='color-selector'>
-                <div className='marker' data-color='#000000' style={{backgroundColor: '#000000'}} />
-                <div className='marker' data-color='#ff1000' style={{backgroundColor: '#ff1000'}} />
-                <div className='marker' data-color='#380566' style={{backgroundColor: '#380566'}} />
-                <div className='marker' data-color='#1d00ff' style={{backgroundColor: '#1d00ff'}} />
-                <div className='marker' data-color='#a31149' style={{backgroundColor: '#a31149'}} />
-                <div className='marker' data-color='#30a300' style={{backgroundColor: '#30a300'}} />
-                <div className='marker' data-color='#40d6c9' style={{backgroundColor: '#40d6c9'}} />
-                <div className='marker' data-color='#fffc51' style={{backgroundColor: '#fffc51'}} />
-                <div>
-                    <input type="color" id="selector" name="color"
-                          value="#e66465" />
-                    <label>Selector</label> 
-                </div>
-                <Button onClick={this.clearCanvas} >
-                  Clear
-                </Button>
+              <div id="picker" className="color-selector">
+                <div
+                  className="marker"
+                  data-color="#000000"
+                  style={{backgroundColor: '#000000'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#ff1000"
+                  style={{backgroundColor: '#ff1000'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#380566"
+                  style={{backgroundColor: '#380566'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#1d00ff"
+                  style={{backgroundColor: '#1d00ff'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#a31149"
+                  style={{backgroundColor: '#a31149'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#30a300"
+                  style={{backgroundColor: '#30a300'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#40d6c9"
+                  style={{backgroundColor: '#40d6c9'}}
+                />
+                <div
+                  className="marker"
+                  data-color="#fffc51"
+                  style={{backgroundColor: '#fffc51'}}
+                />
+                <SketchPicker />
+                <Button onClick={this.clearCanvas}>Clear</Button>
               </div>
             </div>
           </CardContent>
