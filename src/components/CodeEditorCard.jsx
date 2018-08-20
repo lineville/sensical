@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography'
 
 const codeEditorSource = {
   beginDrag(props) {
-    return props
+    return {...props, modName: 'codeEditor'}
   },
   endDrag(props, monitor) {
     if (!monitor.didDrop()) {
@@ -32,7 +32,8 @@ function collect(connect, monitor) {
 
 const styles = theme => ({
   card: {
-    minWidth: 275
+    minWidth: 275,
+    position: 'absolute'
   },
   button: {
     margin: theme.spacing.unit
@@ -58,7 +59,9 @@ class CodeEditorCard extends Component {
           style={{
             opacity: isDragging ? 0.3 : 1,
             cursor: 'move',
-            resize: 'both'
+            resize: 'both',
+            top: this.props.position.top,
+            left: this.props.position.left
           }}
         >
           <CardContent>

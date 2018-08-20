@@ -132,6 +132,7 @@ class Classroom extends Component {
                     chatsId={this.state.chatsId}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('chat')}
+                    position={this.props.positions.messaging}
                   />
                 </Grid>
               ) : null}
@@ -141,6 +142,7 @@ class Classroom extends Component {
                     whiteboardId={this.state.whiteboardId}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('canvas')}
+                    position={this.props.positions.canvas}
                   />
                 ) : null}
               </Grid>
@@ -150,6 +152,7 @@ class Classroom extends Component {
                     notepadId={this.state.notepadId}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('notepad')}
+                    position={this.props.positions.notepad}
                   />
                 ) : null}
               </Grid>
@@ -159,6 +162,7 @@ class Classroom extends Component {
                     codeEditors={this.state.codeEditorIds}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('codeEditors')}
+                    position={this.props.positions.codeEditor}
                   />
                 ) : null}
               </Grid>

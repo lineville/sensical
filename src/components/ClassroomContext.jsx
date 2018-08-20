@@ -45,7 +45,6 @@ class ClassroomContext extends Component {
         left: left
       }
     })
-    console.log(this.state)
   }
 
   render() {

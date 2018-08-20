@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography'
 
 const notepadSource = {
   beginDrag(props) {
-    return props
+    return {...props, modName: 'notepad'}
   },
   endDrag(props, monitor) {
     if (!monitor.didDrop()) {
@@ -83,7 +83,9 @@ export class Notepad extends Component {
           style={{
             opacity: isDragging ? 0.3 : 1,
             cursor: 'move',
-            resize: 'both'
+            resize: 'both',
+            top: this.props.position.top,
+            left: this.props.position.left
           }}
         >
           <CardContent>

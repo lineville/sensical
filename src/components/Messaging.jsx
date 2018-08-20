@@ -15,7 +15,7 @@ import TextField from '@material-ui/core/TextField'
 
 const messagingSource = {
   beginDrag(props) {
-    return props
+    return {...props, modName: 'messaging'}
   },
   endDrag(props, monitor, component) {
     if (!monitor.didDrop()) {
@@ -30,13 +30,13 @@ function collect(connect, monitor) {
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging()
-    // currentOffset: monitor.getSourceClientOffset()
   }
 }
 
 const styles = theme => ({
   card: {
-    maxWidth: 275
+    maxWidth: 275,
+    position: 'absolute'
   },
   content: {
     display: 'flex',
@@ -129,7 +129,9 @@ export class Messaging extends Component {
           style={{
             opacity: isDragging ? 0.3 : 1,
             cursor: 'move',
-            resize: 'both'
+            resize: 'both',
+            top: this.props.position.top,
+            left: this.props.position.left
           }}
         >
           <CardContent>
