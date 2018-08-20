@@ -14,7 +14,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    position: 'absolute'
   },
   flex: {
     flexGrow: 1
@@ -76,7 +76,7 @@ class NavMenu extends Component {
     const {classes} = this.props
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar>
           <Toolbar>
             <Button color="inherit" onClick={this.homePush}>
               <Typography

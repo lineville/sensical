@@ -111,6 +111,7 @@ class Classroom extends Component {
                   <VideoCard
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('video')}
+                    position={this.props.positions.video}
                   />
                 ) : null}
               </Grid>
@@ -120,6 +121,7 @@ class Classroom extends Component {
                     chatsId={this.state.chatsId}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('chat')}
+                    position={this.props.positions.messaging}
                   />
                 </Grid>
               ) : null}
@@ -129,6 +131,7 @@ class Classroom extends Component {
                     whiteboardId={this.state.whiteboardId}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('canvas')}
+                    position={this.props.positions.canvas}
                   />
                 ) : null}
               </Grid>
@@ -138,22 +141,35 @@ class Classroom extends Component {
                     notepadId={this.state.notepadId}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('notepad')}
+                    position={this.props.positions.notepad}
                   />
                 ) : null}
               </Grid>
-              <Grid item>
+              {this.state.codeEditorIds
+                ? this.state.codeEditorIds.map(id => (
+                    <CodeEditorCard
+                      key={id}
+                      codeEditorId={id}
+                      roomId={this.state.roomId}
+                      handleDrop={() => this.handleDrop('codeEditors')}
+                    />
+                  ))
+                : null}
+              {/* <Grid item>
                 {this.state.codeEditors ? (
                   <CodeEditorCard
                     codeEditors={this.state.codeEditorIds}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('codeEditors')}
+                    position={this.props.positions.codeEditor}
                   />
                 ) : null}
-              </Grid>
+              </Grid> */}
             </Grid>
             <RoomStatusBar
               classState={this.state}
               addModule={module => this.addModule(module)}
+              handleDrop={this.handleDrop}
             />
           </div>
         </div>
