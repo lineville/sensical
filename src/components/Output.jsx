@@ -61,7 +61,7 @@ class Output extends Component {
             // eval(input)
             this.setState({
               output:
-                'The code takes too long to run... Is there is an infinite loop?'
+                'The code takes too long to run... Is there an infinite loop?'
             })
           } catch (error) {
             this.setState({

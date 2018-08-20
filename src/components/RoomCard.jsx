@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
-import {withRouter} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -227,11 +227,13 @@ export class RoomCard extends Component {
     return (
       <React.Fragment>
         <Card className={classes.card}>
-          <CardMedia
-            className={classes.media}
-            image={this.state.room.imageURL}
-            title={this.state.room.subject}
-          />
+          <Link to={`/classroom/${this.state.roomId}`}>
+            <CardMedia
+              className={classes.media}
+              image={this.state.room.imageURL}
+              title={this.state.room.subject}
+            />
+          </Link>
           <CardContent>
             <Typography gutterBottom variant="headline" component="h2">
               {this.state.room.subject}
