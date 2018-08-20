@@ -52,7 +52,7 @@ export class CreateRoom extends Component {
           theme: 'monokai',
           fontSize: 12,
           showGutter: true,
-          showLineNumber: true,
+          showLineNumbers: true,
           tabSize: 2,
           settingsFormOpen: false,
           snackBarMessage: '',

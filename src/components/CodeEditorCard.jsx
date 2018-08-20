@@ -20,6 +20,7 @@ import Button from '@material-ui/core/Button'
 import Input from '@material-ui/core/Input'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+import Switch from '@material-ui/core/Switch'
 import Notification from './Notification'
 
 const codeEditorSource = {
@@ -64,7 +65,7 @@ class CodeEditorCard extends Component {
       theme: 'monokai',
       fontSize: 12,
       showGutter: true,
-      showLineNumber: true,
+      showLineNumbers: true,
       tabSize: 2,
       settingsFormOpen: false,
       snackBarMessage: '',
@@ -83,23 +84,10 @@ class CodeEditorCard extends Component {
           theme: editor.data().settings.theme,
           fontSize: editor.data().settings.fontSize,
           showGutter: editor.data().settings.showGutter,
-          showLineNumber: editor.data().settings.showLineNumber,
+          showLineNumbers: editor.data().settings.showLineNumbers,
           tabSize: editor.data().settings.tabSize
         })
       })
-    // db.collection('codeEditors')
-    //   .doc(this.props.codeEditorId)
-    //   .onSnapshot(snapshot => {
-    //     console.log('snapshot data', snapshot.data())
-    //     this.setState({
-    //       mode: snapshot.data().settings.mode,
-    //       theme: snapshot.data().settings.theme,
-    //       fontSize: snapshot.data().settings.fontSize,
-    //       showGutter: snapshot.data().settings.showGutter,
-    //       showLineNumber: snapshot.data().settings.showLineNumber,
-    //       tabSize: snapshot.data().settings.tabSize
-    //     })
-    //   })
   }
 
   handleClose = (event, reason) => {
@@ -128,7 +116,7 @@ class CodeEditorCard extends Component {
             theme: this.state.theme,
             fontSize: this.state.fontSize,
             showGutter: this.state.showGutter,
-            showLineNumber: this.state.showLineNumber,
+            showLineNumbers: this.state.showLineNumbers,
             tabSize: this.state.tabSize
           }
         })
@@ -218,6 +206,16 @@ class CodeEditorCard extends Component {
                         <option value="solarized_dark">Solarized Dark</option>
                         <option value="solarized_light">Solarized Light</option>
                         <option value="terminal">Terminal</option>
+                        <option value="twilight">Twilight</option>
+                        <option value="tomorrow_night_eighties">
+                          Tomorrow Night Eighties
+                        </option>
+                        <option value="sql_server">SQL Server</option>
+                        <option value="mono_industrial">Mono Industrial</option>
+                        <option value="eclipse">Eclipse</option>
+                        <option value="chrome">Chrome</option>
+                        <option value="clouds_midnight">Clouds Midnight</option>
+                        <option value="merbivore_soft">Merbivore Soft</option>
                       </Select>
                     </FormControl>
                     <FormControl className={classes.formControl}>
@@ -231,7 +229,43 @@ class CodeEditorCard extends Component {
                         <option value="javascript">JavaScript</option>
                         <option value="python">Python</option>
                         <option value="ruby">Ruby</option>
+                        <option value="sql">SQL</option>
+                        <option value="space">Space</option>
+                        <option value="smarty">Smarty</option>
+                        <option value="swift">Swift</option>
+                        <option value="coffee">Coffee</option>
+                        <option value="csharp">C#</option>
+                        <option value="css">CSS</option>
+                        <option value="elm">Elm</option>
+                        <option value="golang">Go</option>
+                        <option value="java">Java</option>
+                        <option value="markdown">Markdown</option>
+                        <option value="php">PHP</option>
                       </Select>
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                      <Switch
+                        checked={this.state.showGutter}
+                        onChange={() =>
+                          this.setState({showGutter: !this.state.showGutter})
+                        }
+                        value={'' + this.state.showGutter}
+                        color="primary"
+                      />
+                      Show Gutter
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                      <Switch
+                        checked={this.state.showLineNumbers}
+                        onChange={() =>
+                          this.setState({
+                            showLineNumbers: !this.state.showLineNumbers
+                          })
+                        }
+                        value={'' + this.state.showLineNumbers}
+                        color="primary"
+                      />
+                      Show Line Numbers
                     </FormControl>
                   </form>
                 </DialogContent>

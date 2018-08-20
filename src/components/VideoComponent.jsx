@@ -182,7 +182,7 @@ export class VideoComponent extends Component {
         <Switch
           checked={this.state.hasJoinedRoom}
           onChange={this.toggleVideo}
-          value={this.state.hasJoinedRoom}
+          value={'' + this.state.hasJoinedRoom}
           color="primary"
         />
         {showLocalTrack}
