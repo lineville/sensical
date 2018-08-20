@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
 import CodeEditor from './CodeEditor'
-import 'brace/mode/javascript'
-import 'brace/theme/monokai'
 import PropTypes from 'prop-types'
 import {DragSource} from 'react-dnd'
+import db from '../firestore'
 
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -13,15 +12,16 @@ import Dialog from '@material-ui/core/Dialog'
 import EditIcon from '@material-ui/icons/Edit'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
+import Snackbar from '@material-ui/core/Snackbar'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DoneIcon from '@material-ui/icons/Done'
 import CancelIcon from '@material-ui/icons/Cancel'
 import Button from '@material-ui/core/Button'
-import InputLabel from '@material-ui/core/InputLabel'
 import Input from '@material-ui/core/Input'
-import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+import Switch from '@material-ui/core/Switch'
+import Notification from './Notification'
 
 const codeEditorSource = {
   beginDrag(props) {
@@ -63,22 +63,40 @@ class CodeEditorCard extends Component {
     this.state = {
       mode: 'javascript',
       theme: 'monokai',
-      fontSize: '12',
+      fontSize: 12,
       showGutter: true,
-      showLineNumber: true,
+      showLineNumbers: true,
       tabSize: 2,
       settingsFormOpen: false,
-      snackBarMessage: ''
+      snackBarMessage: '',
+      snackBarVariant: '',
+      open: false
     }
   }
+
+  componentDidMount() {
+    db.collection('codeEditors')
+      .doc(this.props.codeEditorId)
+      .get()
+      .then(editor => {
+        this.setState({
+          mode: editor.data().settings.mode,
+          theme: editor.data().settings.theme,
+          fontSize: editor.data().settings.fontSize,
+          showGutter: editor.data().settings.showGutter,
+          showLineNumbers: editor.data().settings.showLineNumbers,
+          tabSize: editor.data().settings.tabSize
+        })
+      })
+  }
+
   handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return
     }
     this.setState({
       open: false,
-      settingsFormOpen: false,
-      snackBarMessage: ''
+      settingsFormOpen: false
     })
   }
 
@@ -88,7 +106,44 @@ class CodeEditorCard extends Component {
     })
   }
 
-  handleEdit = async => {}
+  handleEdit = () => {
+    try {
+      db.collection('codeEditors')
+        .doc(this.props.codeEditorId)
+        .update({
+          settings: {
+            mode: this.state.mode,
+            theme: this.state.theme,
+            fontSize: this.state.fontSize,
+            showGutter: this.state.showGutter,
+            showLineNumbers: this.state.showLineNumbers,
+            tabSize: this.state.tabSize
+          }
+        })
+        .then(() => {
+          this.setState({
+            settingsFormOpen: false,
+            snackBarMessage: 'Settings updated!',
+            snackBarVariant: 'success'
+          })
+        })
+        .then(() => {
+          this.setState({
+            open: true
+          })
+        })
+    } catch (error) {
+      this.setState({
+        settingsFormOpen: false,
+        snackBarMessage: `Oops... unable to save settings. Error: ${
+          error.message
+        }`,
+        snackBarVariant: 'error',
+        open: true
+      })
+    }
+  }
+
   render() {
     const {classes, connectDragSource, isDragging} = this.props
     return connectDragSource(
@@ -151,6 +206,16 @@ class CodeEditorCard extends Component {
                         <option value="solarized_dark">Solarized Dark</option>
                         <option value="solarized_light">Solarized Light</option>
                         <option value="terminal">Terminal</option>
+                        <option value="twilight">Twilight</option>
+                        <option value="tomorrow_night_eighties">
+                          Tomorrow Night Eighties
+                        </option>
+                        <option value="sql_server">SQL Server</option>
+                        <option value="mono_industrial">Mono Industrial</option>
+                        <option value="eclipse">Eclipse</option>
+                        <option value="chrome">Chrome</option>
+                        <option value="clouds_midnight">Clouds Midnight</option>
+                        <option value="merbivore_soft">Merbivore Soft</option>
                       </Select>
                     </FormControl>
                     <FormControl className={classes.formControl}>
@@ -164,7 +229,43 @@ class CodeEditorCard extends Component {
                         <option value="javascript">JavaScript</option>
                         <option value="python">Python</option>
                         <option value="ruby">Ruby</option>
+                        <option value="sql">SQL</option>
+                        <option value="space">Space</option>
+                        <option value="smarty">Smarty</option>
+                        <option value="swift">Swift</option>
+                        <option value="coffee">Coffee</option>
+                        <option value="csharp">C#</option>
+                        <option value="css">CSS</option>
+                        <option value="elm">Elm</option>
+                        <option value="golang">Go</option>
+                        <option value="java">Java</option>
+                        <option value="markdown">Markdown</option>
+                        <option value="php">PHP</option>
                       </Select>
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                      <Switch
+                        checked={this.state.showGutter}
+                        onChange={() =>
+                          this.setState({showGutter: !this.state.showGutter})
+                        }
+                        value={'' + this.state.showGutter}
+                        color="primary"
+                      />
+                      Show Gutter
+                    </FormControl>
+                    <FormControl className={classes.formControl}>
+                      <Switch
+                        checked={this.state.showLineNumbers}
+                        onChange={() =>
+                          this.setState({
+                            showLineNumbers: !this.state.showLineNumbers
+                          })
+                        }
+                        value={'' + this.state.showLineNumbers}
+                        color="primary"
+                      />
+                      Show Line Numbers
                     </FormControl>
                   </form>
                 </DialogContent>
@@ -177,6 +278,21 @@ class CodeEditorCard extends Component {
                   </Button>
                 </DialogActions>
               </Dialog>
+              <Snackbar
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left'
+                }}
+                open={this.state.open}
+                autoHideDuration={6000}
+                onClose={this.handleClose}
+              >
+                <Notification
+                  onClose={this.handleClose}
+                  variant={this.state.snackBarVariant}
+                  message={this.state.snackBarMessage}
+                />
+              </Snackbar>
             </div>
           </CardContent>
         </Card>

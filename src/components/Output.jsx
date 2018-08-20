@@ -29,16 +29,11 @@ class Output extends Component {
 
   componentDidMount() {
     window.onerror = (message, source, lineno, colno, error) => {
-      console.log('on error listener called')
       this.setState({
         output: message
       })
     }
   }
-
-  // componentWillUnmount() {
-  //   window.removeEventListener('error')
-  // }
 
   run() {
     const {input} = this.props

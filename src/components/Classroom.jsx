@@ -152,6 +152,7 @@ class Classroom extends Component {
                       codeEditorId={id}
                       roomId={this.state.roomId}
                       handleDrop={() => this.handleDrop('codeEditors')}
+                      position={this.props.positions.codeEditor}
                     />
                   ))
                 : null}
@@ -161,7 +162,6 @@ class Classroom extends Component {
                     codeEditors={this.state.codeEditorIds}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('codeEditors')}
-                    position={this.props.positions.codeEditor}
                   />
                 ) : null}
               </Grid> */}

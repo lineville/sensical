@@ -133,9 +133,18 @@ class RoomStatusBar extends Component {
       let userIds = room.data().userIds
       // add another condition
       if (!roomsArray.includes(roomId)) {
-        const newCodeEditorId = await db
-          .collection('codeEditors')
-          .add({code: '', userId: invitedUser.id})
+        const newCodeEditorId = await db.collection('codeEditors').add({
+          code: '',
+          userId: invitedUser.id,
+          settings: {
+            mode: 'javascript',
+            theme: 'monokai',
+            fontSize: 12,
+            showGutter: true,
+            showLineNumbers: true,
+            tabSize: 2
+          }
+        })
         await db
           .collection('users')
           .doc(inviteeId)

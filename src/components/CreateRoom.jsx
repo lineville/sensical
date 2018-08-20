@@ -47,7 +47,18 @@ export class CreateRoom extends Component {
       const codeEditor = await db.collection('codeEditors').add({
         code: '',
         userId: currentUser.uid,
-        settings: {}
+        settings: {
+          mode: 'javascript',
+          theme: 'monokai',
+          fontSize: 12,
+          showGutter: true,
+          showLineNumbers: true,
+          tabSize: 2,
+          settingsFormOpen: false,
+          snackBarMessage: '',
+          snackBarVariant: '',
+          open: false
+        }
       })
       const whiteboards = await db.collection('whiteboards').add({strokes: []})
       const chats = await db.collection('chats').add({})
@@ -85,13 +96,13 @@ export class CreateRoom extends Component {
         snackBarMessage: 'New Classroom successfully created.'
       })
     } catch (error) {
-      console.log(error)
       this.setState({
         subject: '',
         snackBarOpen: true,
         snackBarVariant: 'error',
-        snackBarMessage:
-          'Hmmm, we could not create a new classroom. Sorry about that.'
+        snackBarMessage: `Hmmm, we could not create a new classroom. Sorry about that. Error: ${
+          error.message
+        }`
       })
     }
   }
