@@ -43,8 +43,8 @@ app.get('/token', function(request, response) {
   // containing the grant we just created
   var token = new AccessToken(
     process.env.ACCOUNT_SID,
-    process.env.API_KEY_SID,
-    process.env.API_KEY_SECRET
+    process.env.API_KEY,
+    process.env.API_SECRET
   )
 
   // Assign the generated identity to the token

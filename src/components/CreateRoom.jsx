@@ -57,7 +57,9 @@ export class CreateRoom extends Component {
         notepadId: notepad.id,
         chatsId: chats.id,
         subject: this.state.subject,
-        userIds: [currentUser.uid]
+        userIds: [currentUser.uid],
+        imageURL:
+          'http://cdn.shopify.com/s/files/1/1091/8014/products/whiteyboard_chalkboard_grande.jpeg?v=1528698765'
       })
 
       let user = await db

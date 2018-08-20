@@ -12,6 +12,8 @@ import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ShareIcon from '@material-ui/icons/Share'
+import DoneIcon from '@material-ui/icons/Done'
+import CancelIcon from '@material-ui/icons/Cancel'
 import ListItemText from '@material-ui/core/ListItemText'
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
@@ -295,10 +297,10 @@ class RoomStatusBar extends Component {
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={this.handleClose} color="secondary">
-                    Cancel
+                    <CancelIcon />
                   </Button>
                   <Button onClick={this.onSubmit} color="primary">
-                    Confirm
+                    <DoneIcon />
                   </Button>
                 </DialogActions>
               </Dialog>

@@ -77,6 +77,14 @@ class Classroom extends Component {
       chatsId: classroom.data().chatsId,
       notepadId: classroom.data().notepadId
     })
+
+    db.collection('rooms')
+      .doc(this.props.classroom)
+      .onSnapshot(snapshot => {
+        this.setState({
+          codeEditorIds: snapshot.data().codeEditorIds
+        })
+      })
   }
 
   handleDrop(item) {

@@ -3,11 +3,9 @@ import Video from 'twilio-video'
 import axios from 'axios'
 
 import {withStyles} from '@material-ui/core/styles'
-import FormControl from '@material-ui/core/FormControl'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
+import Switch from '@material-ui/core/Switch'
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     display: 'flex',
     flexDirection: 'column'
@@ -27,16 +25,10 @@ export class VideoComponent extends Component {
       activeRoom: '' // Track the current active room
     }
     this.joinRoom = this.joinRoom.bind(this)
-    this.handleRoomNameChange = this.handleRoomNameChange.bind(this)
     this.roomJoined = this.roomJoined.bind(this)
     this.leaveRoom = this.leaveRoom.bind(this)
     this.detachTracks = this.detachTracks.bind(this)
     this.detachParticipantTracks = this.detachParticipantTracks.bind(this)
-  }
-
-  handleRoomNameChange(e) {
-    let roomName = e.target.value
-    this.setState({roomName})
   }
 
   joinRoom() {
@@ -44,7 +36,6 @@ export class VideoComponent extends Component {
       this.setState({roomNameErr: true})
       return
     }
-
     console.log("Joining room '" + this.state.roomName + "'...")
     let connectOptions = {
       name: this.state.roomName
@@ -168,9 +159,16 @@ export class VideoComponent extends Component {
     this.setState({hasJoinedRoom: false, localMediaAvailable: false})
   }
 
+  toggleVideo = () => {
+    if (this.state.hasJoinedRoom) {
+      this.leaveRoom()
+    } else {
+      this.joinRoom()
+    }
+  }
+
   render() {
     const {classes} = this.props
-    console.log('token', this.state.token)
     // Only show video track after user has joined a room
     let showLocalTrack = this.state.localMediaAvailable ? (
       <div className="flex-item">
@@ -179,34 +177,15 @@ export class VideoComponent extends Component {
     ) : (
       ''
     )
-    // Hide 'Join Room' button if user has already joined a room.
-    let joinOrLeaveRoomButton = this.state.hasJoinedRoom ? (
-      <Button onClick={this.leaveRoom}>Leave Room</Button>
-    ) : (
-      // <RaisedButton
-      //   label="Leave Room"
-      //   secondary={true}
-      //   onClick={this.leaveRoom}
-      // />
-      <Button onClick={this.joinRoom}>Join Room</Button>
-      // <RaisedButton label="Join Room" primary={true} onClick={this.joinRoom} />
-    )
     return (
       <div className={classes.root}>
+        <Switch
+          checked={this.state.hasJoinedRoom}
+          onChange={this.toggleVideo}
+          value={this.state.hasJoinedRoom}
+          color="primary"
+        />
         {showLocalTrack}
-        <FormControl>
-          <TextField
-            id="roomName"
-            name="roomName"
-            label="Room Name"
-            value={this.props.roomId}
-            type="roomName"
-            margin="normal"
-            onChange={this.handleRoomNameChange}
-          />
-        </FormControl>
-        <br />
-        {joinOrLeaveRoomButton}
         <div
           className="flex-item"
           ref="remoteMedia"

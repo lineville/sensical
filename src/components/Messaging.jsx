@@ -147,7 +147,6 @@ export class Messaging extends Component {
                   value={this.state.newMessage}
                   onChange={this.handleChange}
                 />
-
                 <Button
                   variant="outlined"
                   color="primary"
