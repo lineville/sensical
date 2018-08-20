@@ -46,7 +46,8 @@ export class CreateRoom extends Component {
       const currentUser = await firebase.auth().currentUser
       const codeEditor = await db.collection('codeEditors').add({
         code: '',
-        userId: currentUser.uid
+        userId: currentUser.uid,
+        settings: {}
       })
       const whiteboards = await db.collection('whiteboards').add({strokes: []})
       const chats = await db.collection('chats').add({})
@@ -67,13 +68,14 @@ export class CreateRoom extends Component {
         .doc(currentUser.uid)
         .get()
       let roomsArray = user.data().rooms
+      let codeEditors = user.data().codeEditorIds
       if (!roomsArray.includes(room.id)) {
         await db
           .collection('users')
           .doc(currentUser.uid)
           .update({
             rooms: roomsArray.concat(room.id),
-            codeEditorId: codeEditor.id
+            codeEditorIds: codeEditors.concat(codeEditor.id)
           })
       }
       this.setState({

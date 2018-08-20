@@ -192,7 +192,9 @@ export class RoomCard extends Component {
   leaveRoom = async () => {
     try {
       const {user} = this.props
-      const codeEditorId = user.codeEditorId
+      const codeEditorId = user.codeEditorIds.find(
+        id => id === this.state.room.codeEditorIds.includes(id)
+      )
       //removes code editor from room
       //removes userId from room
       await db
