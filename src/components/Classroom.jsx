@@ -141,7 +141,17 @@ class Classroom extends Component {
                   />
                 ) : null}
               </Grid>
-              <Grid item>
+              {this.state.codeEditorIds
+                ? this.state.codeEditorIds.map(id => (
+                    <CodeEditorCard
+                      key={id}
+                      codeEditorId={id}
+                      roomId={this.state.roomId}
+                      handleDrop={() => this.handleDrop('codeEditors')}
+                    />
+                  ))
+                : null}
+              {/* <Grid item>
                 {this.state.codeEditors ? (
                   <CodeEditorCard
                     codeEditors={this.state.codeEditorIds}
@@ -149,7 +159,7 @@ class Classroom extends Component {
                     handleDrop={() => this.handleDrop('codeEditors')}
                   />
                 ) : null}
-              </Grid>
+              </Grid> */}
             </Grid>
             <RoomStatusBar
               classState={this.state}

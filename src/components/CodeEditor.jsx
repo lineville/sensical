@@ -64,28 +64,24 @@ class CodeEditor extends Component {
       'user on state',
       this.state.user
     )
-    return (
-      this.state.user.codeEditorIds.includes(this.props.codeEditorId) || false
-    )
+    return this.state.user.codeEditorIds.includes(this.props.codeEditorId)
   }
 
   render() {
-    console.log(this.state.user)
+    console.log(this.state.settings)
     return (
       <div>
-        <div className="">
-          <AceEditor
-            mode={this.state.settings.mode}
-            theme={this.state.settings.theme}
-            onChange={this.onChange}
-            value={this.state.code}
-            name="code-editor"
-            tabSize={2}
-            readOnly={!this.state.canType}
-            editorProps={{$blockScrolling: true}}
-          />
-          <Output input={this.state.code} />
-        </div>
+        <AceEditor
+          mode={this.state.settings.mode}
+          theme={this.state.settings.theme}
+          onChange={this.onChange}
+          value={this.state.code}
+          name="code-editor"
+          tabSize={2}
+          readOnly={!this.state.canType}
+          editorProps={{$blockScrolling: true}}
+        />
+        <Output input={this.state.code} />
       </div>
     )
   }
