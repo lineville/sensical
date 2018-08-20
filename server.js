@@ -5,8 +5,7 @@ var express = require('express')
 var faker = require('faker')
 var AccessToken = require('twilio').jwt.AccessToken
 var VideoGrant = AccessToken.VideoGrant
-require('./secrets')
-console.log(process.env)
+// require('./secrets')
 
 var app = express()
 
@@ -34,7 +33,6 @@ app.use(function(req, res, next) {
   next()
 })
 
-console.log(process.env)
 // Endpoint to generate access token
 app.get('/token', function(request, response) {
   var identity = faker.name.findName()
