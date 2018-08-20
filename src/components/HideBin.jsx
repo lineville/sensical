@@ -12,6 +12,24 @@ const styles = theme => ({
   }
 })
 
+const hideBinTarget = {
+  canDrop(props, monitor) {
+    const isJustOverThisOne = monitor.isOver({shallow: true})
+    if (isJustOverThisOne) {
+      return props
+    }
+  },
+  hover(props, monitor, component) {
+    const canDrop = monitor.canDrop()
+  },
+  drop(props, monitor, component) {
+    if (monitor.canDrop()) {
+      const mod = monitor.getItem()
+      mod.handleDrop()
+    }
+  }
+}
+
 function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
@@ -36,4 +54,6 @@ class HideBin extends Component {
   }
 }
 
-export default withStyles(styles)(DropTarget('MODULE', {}, collect)(HideBin))
+export default withStyles(styles)(
+  DropTarget('MODULE', hideBinTarget, collect)(HideBin)
+)
