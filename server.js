@@ -18,7 +18,7 @@ app.use(function(req, res, next) {
   next()
 })
 
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'build')))
 
 // Endpoint to generate access token
 app.get('/token', function(request, response) {
