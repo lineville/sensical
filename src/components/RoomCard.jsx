@@ -84,7 +84,6 @@ export class RoomCard extends Component {
 
       const inviteeId = invitee.docs[0].id
 
-      console.log('invitee:', invitee)
       const invitedUser = await db
         .collection('users')
         .doc(inviteeId)
@@ -127,7 +126,6 @@ export class RoomCard extends Component {
         inviteFormOpen: false
       })
     } catch (error) {
-      console.log('THERE WAS AN ERROR: ', error)
       this.setState({
         snackBarVariant: 'error',
         snackBarMessage:
@@ -192,11 +190,16 @@ export class RoomCard extends Component {
   leaveRoom = async () => {
     try {
       const {user} = this.props
-      const codeEditorId = user.codeEditorIds.find(
-        id => id === this.state.room.codeEditorIds.includes(id)
-      )
+      const codeEditorId = user.codeEditorIds.filter(id =>
+        this.state.room.codeEditorIds.includes(id)
+      )[0]
       //removes code editor from room
       //removes userId from room
+      await this.setState({
+        snackBarMessage: 'You have successfully left this room!',
+        snackBarVariant: 'success',
+        open: true
+      })
       await db
         .collection('rooms')
         .doc(this.state.roomId)
@@ -216,7 +219,6 @@ export class RoomCard extends Component {
           rooms: firebase.firestore.FieldValue.arrayRemove(this.state.roomId)
         })
     } catch (error) {
-      console.log('THERE WAS AN ERROR: ', error)
       this.setState({
         snackBarVariant: 'error',
         snackBarMessage:

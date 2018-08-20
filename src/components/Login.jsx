@@ -93,10 +93,10 @@ class Login extends Component {
       this.setState({
         snackBarOpen: true,
         snackBarVariant: 'error',
-        snackBarMessage:
-          'Sorry about that. It seems there was an error while logging in...'
+        snackBarMessage: `Sorry about that. It seems there was an error while logging in...Error: ${
+          error.message
+        }`
       })
-      console.error(error)
     }
   }
 

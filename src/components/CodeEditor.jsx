@@ -3,7 +3,37 @@ import AceEditor from 'react-ace'
 import db from '../firestore'
 import Output from './Output'
 import 'brace/mode/javascript'
+import 'brace/mode/python'
+import 'brace/mode/ruby'
+import 'brace/mode/sql'
+import 'brace/mode/space'
+import 'brace/mode/smarty'
+import 'brace/mode/swift'
+import 'brace/mode/coffee'
+import 'brace/mode/csharp'
+import 'brace/mode/css'
+import 'brace/mode/elm'
+import 'brace/mode/fortran'
+import 'brace/mode/golang'
+import 'brace/mode/haskell'
+import 'brace/mode/java'
+import 'brace/mode/markdown'
+import 'brace/mode/php'
+
 import 'brace/theme/monokai'
+import 'brace/theme/github'
+import 'brace/theme/tomorrow'
+import 'brace/theme/vibrant_ink'
+import 'brace/theme/xcode'
+import 'brace/theme/twilight'
+import 'brace/theme/tomorrow_night_eighties'
+import 'brace/theme/sqlserver'
+import 'brace/theme/mono_industrial'
+import 'brace/theme/eclipse'
+import 'brace/theme/chrome'
+import 'brace/theme/clouds_midnight'
+import 'brace/theme/merbivore_soft'
+
 import firebase from 'firebase'
 
 class CodeEditor extends Component {
@@ -13,14 +43,13 @@ class CodeEditor extends Component {
       code: '',
       codeEditorId: '',
       user: {},
-      canType: false,
-      settings: {}
+      canType: false
     }
     this.onChange = this.onChange.bind(this)
   }
 
   async componentDidMount() {
-    const {codeEditorId, settings} = this.props
+    const {codeEditorId} = this.props
     const doc = await db
       .collection('codeEditors')
       .doc(codeEditorId)
@@ -32,8 +61,7 @@ class CodeEditor extends Component {
     await this.setState({
       codeEditorId: doc.id,
       code: doc.data().code,
-      user: user.data(),
-      settings: settings
+      user: user.data()
     })
     db.collection('codeEditors')
       .doc(codeEditorId)
@@ -43,7 +71,6 @@ class CodeEditor extends Component {
           canType: this.canType()
         })
       })
-    console.log(this.state.user)
   }
 
   onChange(value) {
@@ -58,26 +85,21 @@ class CodeEditor extends Component {
   }
 
   canType = () => {
-    console.log(
-      'editor id',
-      this.props.codeEditorId,
-      'user on state',
-      this.state.user
-    )
     return this.state.user.codeEditorIds.includes(this.props.codeEditorId)
   }
 
   render() {
-    console.log(this.state.settings)
     return (
       <div>
         <AceEditor
-          mode={this.state.settings.mode}
-          theme={this.state.settings.theme}
+          mode={this.props.settings.mode}
+          theme={this.props.settings.theme}
           onChange={this.onChange}
           value={this.state.code}
           name="code-editor"
-          tabSize={2}
+          tabSize={this.props.settings.tabSize}
+          showGutter={this.props.settings.showGutter}
+          showLineNumbers={true}
           readOnly={!this.state.canType}
           editorProps={{$blockScrolling: true}}
         />
