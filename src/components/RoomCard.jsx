@@ -137,23 +137,35 @@ export class RoomCard extends Component {
   }
 
   handleEdit = async () => {
-    await db
-      .collection('rooms')
-      .doc(this.state.roomId)
-      .update({
-        subject: this.state.newSubject,
-        imageURL: this.state.newImageURL
+    if (this.state.newSubject.length) {
+      await db
+        .collection('rooms')
+        .doc(this.state.roomId)
+        .update({
+          subject: this.state.newSubject
+        })
+      await this.setState({
+        snackBarMessage: 'Subject changed successfully!',
+        room: {...this.state.room, subject: this.state.newSubject}
       })
+    }
+    if (this.state.newImageURL.length) {
+      await db
+        .collection('rooms')
+        .doc(this.state.roomId)
+        .update({
+          imageURL: this.state.newImageURL
+        })
+      await this.setState({
+        snackBarMessage: 'Classroom image changed successfully!',
+        room: {...this.state.room, imageURL: this.state.newImageURL}
+      })
+    }
 
     await this.setState({
-      room: {
-        ...this.state.room,
-        subject: this.state.newSubject,
-        imageURL: this.state.newImageURL
-      },
       open: true,
       snackBarVariant: 'success',
-      snackBarMessage: 'Subject changed successfully!'
+      editFormOpen: false
     })
   }
 
@@ -164,7 +176,8 @@ export class RoomCard extends Component {
     this.setState({
       open: false,
       inviteFormOpen: false,
-      editFormOpen: false
+      editFormOpen: false,
+      snackBarMessage: ''
     })
   }
 

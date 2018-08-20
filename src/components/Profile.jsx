@@ -89,32 +89,34 @@ class Profile extends Component {
     })
   }
 
-  changeEmail = async () => {
-    const user = await firebase.auth().currentUser
-    user
-      .updateEmail(this.state.newEmail)
-      .then(() => {
-        this.setState({
-          popUpMessage: 'Email successfully updated',
-          popUpMessageType: 'success',
-          open: true
-        })
-      })
-      .then(() => {
-        db.collection('users')
-          .doc(user.uid)
-          .update({
-            email: user.email
+  changeEmail = () => {
+    const user = firebase.auth().currentUser
+    if (this.state.newEmail.length) {
+      user
+        .updateEmail(this.state.newEmail)
+        .then(() => {
+          this.setState({
+            popUpMessage: 'Email successfully updated',
+            popUpMessageType: 'success',
+            open: true
           })
-      })
-      .catch(error => {
-        this.setState({
-          popUpMessage: error.message,
-          popUpMessageType: 'warning',
-          open: true
         })
-        console.log(error, this.state)
-      })
+        .then(() => {
+          db.collection('users')
+            .doc(user.uid)
+            .update({
+              email: user.email
+            })
+        })
+        .catch(error => {
+          this.setState({
+            popUpMessage: error.message,
+            popUpMessageType: 'warning',
+            open: true
+          })
+          console.log(error, this.state)
+        })
+    }
   }
 
   updateProfile = async () => {
@@ -146,34 +148,38 @@ class Profile extends Component {
       })
   }
 
-  changeUsername = async () => {
-    await db
-      .collection('users')
-      .doc(this.state.user.id)
-      .update({username: this.state.newUserName})
-      .then(() => {
-        this.setState({
-          // editFormOpen: false,
-          popUpMessageType: 'success',
-          popUpMessage: 'Username successfully changed',
-          open: true
+  changeUsername = () => {
+    if (this.state.newUserName.length) {
+      db.collection('users')
+        .doc(this.state.user.id)
+        .update({username: this.state.newUserName})
+        .then(() => {
+          this.setState({
+            // editFormOpen: false,
+            popUpMessageType: 'success',
+            popUpMessage: 'Username successfully changed',
+            open: true,
+            newUserName: ''
+          })
         })
-      })
+    }
   }
 
-  changeImage = async () => {
-    await db
-      .collection('users')
-      .doc(this.state.user.id)
-      .update({profilePicURL: this.state.newImageURL})
-      .then(() => {
-        this.setState({
-          // editFormOpen: false,
-          popUpMessageType: 'success',
-          popUpMessage: 'Profile image successfully changed',
-          open: true
+  changeImage = () => {
+    if (this.state.newImageURL) {
+      db.collection('users')
+        .doc(this.state.user.id)
+        .update({profilePicURL: this.state.newImageURL})
+        .then(() => {
+          this.setState({
+            // editFormOpen: false,
+            popUpMessageType: 'success',
+            popUpMessage: 'Profile image successfully changed',
+            open: true,
+            newImageURL: ''
+          })
         })
-      })
+    }
   }
 
   render() {
