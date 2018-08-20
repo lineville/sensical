@@ -197,7 +197,7 @@ class Profile extends Component {
       [classes.small]: small,
       [className]: className !== undefined
     })
-    console.log(this.state.user.profilePicURL)
+    console.log(this.state.user)
     return (
       <React.Fragment>
         <div

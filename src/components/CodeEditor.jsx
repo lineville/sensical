@@ -12,14 +12,15 @@ class CodeEditor extends Component {
     this.state = {
       code: '',
       codeEditorId: '',
-      user: '',
-      canType: false
+      user: {},
+      canType: false,
+      settings: {}
     }
     this.onChange = this.onChange.bind(this)
   }
 
   async componentDidMount() {
-    const {codeEditorId} = this.props
+    const {codeEditorId, settings} = this.props
     const doc = await db
       .collection('codeEditors')
       .doc(codeEditorId)
@@ -31,7 +32,8 @@ class CodeEditor extends Component {
     await this.setState({
       codeEditorId: doc.id,
       code: doc.data().code,
-      user: user.data()
+      user: user.data(),
+      settings: settings
     })
     db.collection('codeEditors')
       .doc(codeEditorId)
@@ -41,6 +43,7 @@ class CodeEditor extends Component {
           canType: this.canType()
         })
       })
+    console.log(this.state.user)
   }
 
   onChange(value) {
@@ -55,25 +58,30 @@ class CodeEditor extends Component {
   }
 
   canType = () => {
-    return this.props.codeEditorId === this.state.user.codeEditorId
+    console.log(
+      'editor id',
+      this.props.codeEditorId,
+      'user on state',
+      this.state.user
+    )
+    return this.state.user.codeEditorIds.includes(this.props.codeEditorId)
   }
 
   render() {
+    console.log(this.state.settings)
     return (
       <div>
-        <div className="">
-          <AceEditor
-            mode="javascript"
-            theme="monokai"
-            onChange={this.onChange}
-            value={this.state.code}
-            name="code-editor"
-            tabSize={2}
-            readOnly={!this.state.canType}
-            editorProps={{$blockScrolling: true}}
-          />
-          <Output input={this.state.code} />
-        </div>
+        <AceEditor
+          mode={this.state.settings.mode}
+          theme={this.state.settings.theme}
+          onChange={this.onChange}
+          value={this.state.code}
+          name="code-editor"
+          tabSize={2}
+          readOnly={!this.state.canType}
+          editorProps={{$blockScrolling: true}}
+        />
+        <Output input={this.state.code} />
       </div>
     )
   }
