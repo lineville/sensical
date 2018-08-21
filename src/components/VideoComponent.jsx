@@ -142,7 +142,6 @@ export class VideoComponent extends Component {
     room.on('participantDisconnected', participant => {
       console.log("Participant '" + participant.identity + "' left the room")
       this.detachParticipantTracks(participant)
-      this.detachTracks([track])
       var element = Document.getElementById('remote-media')
       element.remove()
     })
