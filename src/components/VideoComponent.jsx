@@ -103,10 +103,10 @@ export class VideoComponent extends Component {
       var previewContainer = this.refs.remoteMedia
       this.attachParticipantTracks(participant, previewContainer)
       console.log('line106', previewContainer)
-      previewContainer.children.forEach(child =>
-        child.setAttribute('with', '100%')
-      )
-      // previewContainer.children[1].setAttribute('width', '100%')
+      // previewContainer.children.forEach(child =>
+      //   child.setAttribute('with', '100%')
+      // )
+      previewContainer.children[1].setAttribute('width', '100%')
     })
 
     // When a Participant joins the Room, log the event.
@@ -121,10 +121,7 @@ export class VideoComponent extends Component {
       var previewContainer = this.refs.remoteMedia
       this.attachTracks([track], previewContainer)
       console.log('line 119', previewContainer)
-      previewContainer.children.forEach(child =>
-        child.setAttribute('with', '100%')
-      )
-      // previewContainer.children[1].setAttribute('width', '100%')
+      previewContainer.children[1].setAttribute('width', '100%')
     })
 
     // When a Participant removes a Track, detach it from the DOM.
@@ -139,7 +136,7 @@ export class VideoComponent extends Component {
       console.log("Participant '" + participant.identity + "' left the room")
       this.detachParticipantTracks(participant)
       var element = Document.getElementById('remote-media')
-      element.parentNode.removeChild(element)
+      element.remove()
     })
 
     // Once the LocalParticipant leaves the room, detach the Tracks
