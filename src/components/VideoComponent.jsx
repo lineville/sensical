@@ -58,7 +58,6 @@ export class VideoComponent extends Component {
   attachTracks(tracks, container) {
     tracks.forEach(track => {
       console.log(track)
-      track.setAttribute('width', '100%')
       container.appendChild(track.attach())
     })
   }
