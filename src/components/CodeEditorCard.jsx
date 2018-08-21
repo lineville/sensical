@@ -179,7 +179,8 @@ class CodeEditorCard extends Component {
             cursor: 'move',
             resize: 'both',
             top: position.top,
-            left: position.left
+            left: position.left,
+            zIndex: this.props.position.zIndex
           }}
         >
           <CardContent>

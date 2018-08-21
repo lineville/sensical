@@ -197,6 +197,7 @@ class Canvas extends Component {
   }
 
   render() {
+    console.log('Z INDEX: ', this.props.position.zIndex)
     if (this.state.strokes) {
       this.state.strokes.forEach(stroke => {
         this.draw(stroke.start, stroke.end, stroke.strokeColor)
@@ -213,7 +214,8 @@ class Canvas extends Component {
             cursor: this.state.overCanvas ? 'default' : 'move',
             resize: 'both',
             top: this.props.position.top,
-            left: this.props.position.left
+            left: this.props.position.left,
+            zIndex: this.props.position.zIndex
           }}
         >
           <CardContent>

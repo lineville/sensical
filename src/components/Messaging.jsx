@@ -125,7 +125,8 @@ export class Messaging extends Component {
             cursor: 'move',
             resize: 'both',
             top: this.props.position.top,
-            left: this.props.position.left
+            left: this.props.position.left,
+            zIndex: this.props.position.zIndex
           }}
         >
           <CardContent>
