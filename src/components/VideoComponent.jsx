@@ -132,6 +132,8 @@ export class VideoComponent extends Component {
     room.on('participantDisconnected', participant => {
       console.log("Participant '" + participant.identity + "' left the room")
       this.detachParticipantTracks(participant)
+      var element = document.getElementById('remote-Media')
+      element.remove()
     })
 
     // Once the LocalParticipant leaves the room, detach the Tracks
