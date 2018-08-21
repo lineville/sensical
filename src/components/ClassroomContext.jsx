@@ -37,10 +37,10 @@ class ClassroomContext extends Component {
   constructor() {
     super()
     this.state = {
-      video: {top: 85, left: 0},
-      messaging: {top: 85, left: 280},
-      canvas: {top: 85, left: 560},
-      notepad: {top: 200, left: 0},
+      video: {top: 85, left: 10},
+      messaging: {top: 85, left: 1125},
+      canvas: {top: 300, left: 570},
+      notepad: {top: 85, left: 570},
       codeEditors: {}
     }
     this.moveModule = this.moveModule.bind(this)
@@ -54,7 +54,7 @@ class ClassroomContext extends Component {
       .then(room => {
         let codeEditors = {}
         room.data().codeEditorIds.forEach((id, idx) => {
-          codeEditors[id] = {top: 300, left: 600 * idx}
+          codeEditors[id] = {top: 300, left: 600 * idx + 10}
         })
         this.setState({
           codeEditors
@@ -89,6 +89,7 @@ class ClassroomContext extends Component {
     if (!Object.keys(this.state.codeEditors).length) {
       return <div />
     }
+    console.log(this.state)
     return connectDropTarget(
       <div>
         <Classroom
