@@ -3,6 +3,7 @@ import CodeEditor from './CodeEditor'
 import PropTypes from 'prop-types'
 import {DragSource} from 'react-dnd'
 import db from '../firestore'
+import firebase from 'firebase'
 
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -43,9 +44,11 @@ const styles = theme => ({
     minWidth: 275,
     position: 'absolute'
   },
+  label: {
+    textAlign: 'center'
+  },
   button: {
-    margin: theme.spacing.unit,
-    textAlign: 'float-right'
+    margin: theme.spacing.unit
   },
   leftIcon: {
     marginRight: theme.spacing.unit
@@ -71,7 +74,8 @@ class CodeEditorCard extends Component {
       settingsFormOpen: false,
       snackBarMessage: '',
       snackBarVariant: '',
-      open: false
+      open: false,
+      username: ''
     }
   }
 
@@ -81,7 +85,6 @@ class CodeEditorCard extends Component {
       .doc(id)
       .get()
       .then(editor => {
-        console.log(editor.data())
         this.setState({
           mode: editor.data().settings.mode,
           theme: editor.data().settings.theme,
@@ -91,6 +94,13 @@ class CodeEditorCard extends Component {
           tabSize: Number(editor.data().settings.tabSize)
         })
       })
+    const user = await db
+      .collection('users')
+      .doc(firebase.auth().currentUser.uid)
+      .get()
+    await this.setState({
+      username: user.data().username
+    })
   }
 
   handleClose = (event, reason) => {
@@ -166,7 +176,8 @@ class CodeEditorCard extends Component {
         >
           <CardContent>
             <Typography className={classes.title} color="textSecondary">
-              Code Editor
+              {this.state.username}
+              's Code Editor
             </Typography>
             <div>
               <Button
@@ -216,14 +227,15 @@ class CodeEditorCard extends Component {
                         <option value="tomorrow_night_eighties">
                           Tomorrow Night Eighties
                         </option>
-                        <option value="sql_server">SQL Server</option>
                         <option value="mono_industrial">Mono Industrial</option>
                         <option value="eclipse">Eclipse</option>
                         <option value="chrome">Chrome</option>
                         <option value="clouds_midnight">Clouds Midnight</option>
                         <option value="merbivore_soft">Merbivore Soft</option>
                       </Select>
-                      <FormHelperText>Theme</FormHelperText>
+                      <FormHelperText className={classes.label}>
+                        Theme
+                      </FormHelperText>
                     </FormControl>
                     <FormControl className={classes.formControl}>
                       <Select
@@ -249,7 +261,9 @@ class CodeEditorCard extends Component {
                         <option value="markdown">Markdown</option>
                         <option value="php">PHP</option>
                       </Select>
-                      <FormHelperText>Language</FormHelperText>
+                      <FormHelperText className={classes.label}>
+                        Language
+                      </FormHelperText>
                     </FormControl>
                     <FormControl className={classes.formControl}>
                       <Select
@@ -268,7 +282,9 @@ class CodeEditorCard extends Component {
                         <option value={28}>28</option>
                         <option value={40}>40</option>
                       </Select>
-                      <FormHelperText>Font Size</FormHelperText>
+                      <FormHelperText className={classes.label}>
+                        Font Size
+                      </FormHelperText>
                     </FormControl>
                     <FormControl className={classes.formControl}>
                       <Select
@@ -283,7 +299,9 @@ class CodeEditorCard extends Component {
                         <option value={4}>4</option>
                         <option value={6}>6</option>
                       </Select>
-                      <FormHelperText>Tab Size</FormHelperText>
+                      <FormHelperText className={classes.label}>
+                        Tab Size
+                      </FormHelperText>
                     </FormControl>
                     <FormControl className={classes.formControl}>
                       <Switch
