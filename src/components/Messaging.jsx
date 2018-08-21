@@ -35,10 +35,10 @@ const styles = theme => ({
   content: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    height: '-webkit-fill-available'
   },
   messages: {
-    height: 175,
     overflow: 'scroll'
   },
   button: {
@@ -81,6 +81,8 @@ export class Messaging extends Component {
           messages.push({id: doc.id, ...doc.data()})
         })
         this.setState({messages: messages})
+        let messagesDiv = document.getElementById('messages')
+        messagesDiv.scrollTop = messagesDiv.scrollHeight
       })
     const authUser = await firebase.auth().currentUser
     const user = await db
@@ -131,28 +133,30 @@ export class Messaging extends Component {
           <CardContent>
             <Typography color="textSecondary">Chat</Typography>
             <div className={classes.content}>
-              <div className={classes.messages}>
+              <div className={classes.messages} id="messages">
                 {this.state.messages.map(message => (
                   <Message key={message.id} message={message} />
                 ))}
               </div>
-              <form onSubmit={this.handleSubmit} className={classes.form}>
-                <TextField
-                  type="text"
-                  name="newMessage"
-                  value={this.state.newMessage}
-                  onChange={this.handleChange}
-                />
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  className={classes.button}
-                  onClick={this.handleSubmit}
-                >
-                  Send
-                  <SendIcon className={classes.rightIcon}>send</SendIcon>
-                </Button>
-              </form>
+              <div>
+                <form onSubmit={this.handleSubmit} className={classes.form}>
+                  <TextField
+                    type="text"
+                    name="newMessage"
+                    value={this.state.newMessage}
+                    onChange={this.handleChange}
+                  />
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    onClick={this.handleSubmit}
+                  >
+                    Send
+                    <SendIcon className={classes.rightIcon}>send</SendIcon>
+                  </Button>
+                </form>
+              </div>
             </div>
           </CardContent>
         </Card>

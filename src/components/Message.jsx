@@ -10,10 +10,9 @@ const styles = theme => ({
   sender: {
     fontSize: 10
   },
-  bubble: {
+  textBubble: {
     margin: 5,
     padding: 5,
-    border: '1px solid ' + theme.palette.primary.main,
     color: theme.palette.primary.main,
     borderRadius: 5
   }
@@ -26,7 +25,7 @@ export class Message extends Component {
       <div className={classes.message}>
         <Typography>
           <span className={classes.sender}>{this.props.message.user}</span>
-          <span className={classes.bubble}>{this.props.message.text}</span>
+          <span className={classes.textBubble}>{this.props.message.text}</span>
         </Typography>
       </div>
     )

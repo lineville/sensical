@@ -267,7 +267,7 @@ export class RoomCard extends Component {
           </CardContent>
           <CardActions>
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               className={classes.button}
               onClick={this.joinRoom}
@@ -275,7 +275,7 @@ export class RoomCard extends Component {
               Join
             </Button>
             <Button
-              variant="contained"
+              variant="outlined"
               color="default"
               className={classes.button}
               onClick={() => this.setState({inviteFormOpen: true})}
@@ -285,7 +285,7 @@ export class RoomCard extends Component {
             </Button>
 
             <Button
-              variant="contained"
+              variant="outlined"
               color="secondary"
               className={classes.button}
               onClick={this.leaveRoom}
