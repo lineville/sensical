@@ -121,13 +121,15 @@ export class VideoComponent extends Component {
       var previewContainer = this.refs.remoteMedia
       this.attachTracks([track], previewContainer)
       console.log('line 119', previewContainer)
-      previewContainer.children[1].setAttribute('width', '100%')
+      if (previewContainer.children.length) {
+        previewContainer.children[1].setAttribute('width', '100%')
+      }
     })
 
     // When a Participant removes a Track, detach it from the DOM.
     //'trackRemoved'
     room.on('trackUnsubscribed', (track, participant) => {
-      this.log(participant.identity + ' removed track: ' + track.kind)
+      console.log(participant.identity + ' removed track: ' + track.kind)
       this.detachTracks([track])
       var element = Document.getElementById('remote-media')
       element.remove()
