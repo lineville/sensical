@@ -79,7 +79,7 @@ class CodeEditor extends Component {
     })
     db.collection('codeEditors')
       .doc(this.state.codeEditorId)
-      .set({
+      .update({
         code: value
       })
   }
@@ -89,6 +89,9 @@ class CodeEditor extends Component {
   }
 
   render() {
+    if (!Object.keys(this.props.settings).length) {
+      return <div />
+    }
     return (
       <div>
         <AceEditor

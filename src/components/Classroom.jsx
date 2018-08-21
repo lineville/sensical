@@ -10,6 +10,7 @@ import Notepad from './Notepad'
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import RoomStatusBar from './RoomStatusBar'
+import {id} from 'brace/worker/xml'
 
 const styles = theme => ({
   root: {
@@ -45,7 +46,7 @@ class Classroom extends Component {
       chatsId: '',
       notepadId: '',
       chat: true,
-      codeEditors: true,
+      codeEditors: {},
       canvas: true,
       video: true,
       notepad: true
@@ -80,11 +81,19 @@ class Classroom extends Component {
   }
 
   handleDrop(item) {
-    this.setState({[item]: false})
+    if (item === 'codeEditor') {
+      this.setState({codeEditors: {...this.state.codeEditors, item: false}})
+    } else {
+      this.setState({[item]: false})
+    }
   }
 
   addModule(item) {
-    this.setState({[item]: true})
+    if (item === 'codeEditor') {
+      this.setState({codeEditors: {...this.state.codeEditors, item: true}})
+    } else {
+      this.setState({[item]: true})
+    }
   }
 
   shouldRender = () => {
@@ -100,7 +109,7 @@ class Classroom extends Component {
     )
   }
   render() {
-    const {classes} = this.props
+    const {classes, positions} = this.props
     if (this.shouldRender()) {
       return (
         <div className={classes.root}>
@@ -111,7 +120,7 @@ class Classroom extends Component {
                   <VideoCard
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('video')}
-                    position={this.props.positions.video}
+                    position={positions.video}
                   />
                 ) : null}
               </Grid>
@@ -121,7 +130,7 @@ class Classroom extends Component {
                     chatsId={this.state.chatsId}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('chat')}
-                    position={this.props.positions.messaging}
+                    position={positions.messaging}
                   />
                 </Grid>
               ) : null}
@@ -131,7 +140,7 @@ class Classroom extends Component {
                     whiteboardId={this.state.whiteboardId}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('canvas')}
-                    position={this.props.positions.canvas}
+                    position={positions.canvas}
                   />
                 ) : null}
               </Grid>
@@ -141,34 +150,27 @@ class Classroom extends Component {
                     notepadId={this.state.notepadId}
                     roomId={this.state.roomId}
                     handleDrop={() => this.handleDrop('notepad')}
-                    position={this.props.positions.notepad}
+                    position={positions.notepad}
                   />
                 ) : null}
               </Grid>
               {this.state.codeEditorIds
-                ? this.state.codeEditorIds.map(id => (
-                    <CodeEditorCard
-                      key={id}
-                      codeEditorId={id}
-                      roomId={this.state.roomId}
-                      handleDrop={() => this.handleDrop('codeEditors')}
-                      position={this.props.positions.codeEditor}
-                    />
-                  ))
+                ? this.state.codeEditorIds.map(id => {
+                    return (
+                      <CodeEditorCard
+                        key={id}
+                        codeEditorId={id}
+                        roomId={this.state.roomId}
+                        handleDrop={() => this.handleDrop('codeEditor')}
+                        position={positions.codeEditors[id]}
+                      />
+                    )
+                  })
                 : null}
-              {/* <Grid item>
-                {this.state.codeEditors ? (
-                  <CodeEditorCard
-                    codeEditors={this.state.codeEditorIds}
-                    roomId={this.state.roomId}
-                    handleDrop={() => this.handleDrop('codeEditors')}
-                  />
-                ) : null}
-              </Grid> */}
             </Grid>
             <RoomStatusBar
               classState={this.state}
-              addModule={module => this.addModule(module)}
+              addModule={mod => this.addModule(mod)}
               handleDrop={this.handleDrop}
             />
           </div>
