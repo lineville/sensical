@@ -52,7 +52,8 @@ export class VideoCard extends Component {
             top: this.props.position.top,
             left: this.props.position.left,
             width: 545,
-            height: 200
+            height: 200,
+            zIndex: this.props.position.zIndex
           }}
         >
           <CardContent className={classes.cardContent}>

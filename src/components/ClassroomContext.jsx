@@ -37,11 +37,12 @@ class ClassroomContext extends Component {
   constructor() {
     super()
     this.state = {
-      video: {top: 85, left: 10},
-      messaging: {top: 85, left: 1125},
-      canvas: {top: 300, left: 570},
-      notepad: {top: 85, left: 570},
-      codeEditors: {}
+      video: {top: 85, left: 10, zIndex: 1},
+      messaging: {top: 85, left: 1125, zIndex: 1},
+      canvas: {top: 300, left: 570, zIndex: 1},
+      notepad: {top: 85, left: 570, zIndex: 1},
+      codeEditors: {},
+      curZIndex: 1
     }
     this.moveModule = this.moveModule.bind(this)
   }
@@ -64,21 +65,27 @@ class ClassroomContext extends Component {
 
   moveModule(mod, left, top, id) {
     if (mod.modName === 'codeEditors') {
+      this.setState({curZIndex: this.state.curZIndex + 1})
+      console.log('CUR Z INDEX STATE: ', this.state.curZIndex)
       this.setState({
         codeEditors: {
           ...this.state.codeEditors,
 
           [id]: {
             top: top,
-            left: left
+            left: left,
+            zIndex: this.state.curZIndex
           }
         }
       })
     } else {
+      this.setState({curZIndex: this.state.curZIndex + 1})
+      console.log('CUR Z INDEX STATE: ', this.state.curZIndex)
       this.setState({
         [mod.modName]: {
           top: top,
-          left: left
+          left: left,
+          zIndex: this.state.curZIndex
         }
       })
     }
