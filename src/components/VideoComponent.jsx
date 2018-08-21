@@ -103,6 +103,8 @@ export class VideoComponent extends Component {
       console.log("Already in Room: '" + participant.identity + "'")
       var previewContainer = this.refs.remoteMedia
       this.attachParticipantTracks(participant, previewContainer)
+      console.log('line106', previewContainer)
+      previewContainer.children[1].setAttribute('width', '100%')
     })
 
     // When a Participant joins the Room, log the event.
@@ -116,6 +118,7 @@ export class VideoComponent extends Component {
       console.log(participant.identity + ' added track: ' + track.kind)
       var previewContainer = this.refs.remoteMedia
       this.attachTracks([track], previewContainer)
+      console.log('line 119', previewContainer)
       previewContainer.children[1].setAttribute('width', '100%')
     })
 
