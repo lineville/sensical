@@ -106,7 +106,7 @@ export class VideoComponent extends Component {
       // previewContainer.children.forEach(child =>
       //   child.setAttribute('with', '100%')
       // )
-      previewContainer.children[1].setAttribute('width', '100%')
+      // previewContainer.children[1].setAttribute('width', '100%')
     })
 
     // When a Participant joins the Room, log the event.
@@ -129,6 +129,8 @@ export class VideoComponent extends Component {
     room.on('trackUnsubscribed', (track, participant) => {
       this.log(participant.identity + ' removed track: ' + track.kind)
       this.detachTracks([track])
+      var element = Document.getElementById('remote-media')
+      element.remove()
     })
 
     // When a Participant leaves the Room, detach its Tracks.
