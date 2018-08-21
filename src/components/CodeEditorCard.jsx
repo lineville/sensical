@@ -48,7 +48,8 @@ const styles = theme => ({
     textAlign: 'center'
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    marginLeft: '300px'
   },
   leftIcon: {
     marginRight: theme.spacing.unit
@@ -57,7 +58,7 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit
   },
   iconSmall: {
-    fontSize: 20
+    fontSize: 15
   }
 })
 
@@ -94,13 +95,20 @@ class CodeEditorCard extends Component {
           tabSize: Number(editor.data().settings.tabSize)
         })
       })
-    const user = await db
-      .collection('users')
-      .doc(firebase.auth().currentUser.uid)
+    db.collection('codeEditors')
+      .doc(id)
       .get()
-    await this.setState({
-      username: user.data().username
-    })
+      .then(editor => {
+        console.log(editor.data())
+        db.collection('users')
+          .doc(editor.data().userId)
+          .get()
+          .then(user => {
+            this.setState({
+              username: user.data().username
+            })
+          })
+      })
   }
 
   handleClose = (event, reason) => {
@@ -178,8 +186,6 @@ class CodeEditorCard extends Component {
             <Typography className={classes.title} color="textSecondary">
               {this.state.username}
               's Code Editor
-            </Typography>
-            <div>
               <Button
                 variant="fab"
                 mini
@@ -189,6 +195,8 @@ class CodeEditorCard extends Component {
               >
                 <EditIcon />
               </Button>
+            </Typography>
+            <div>
               <CodeEditor
                 codeEditorId={this.props.codeEditorId}
                 roomId={this.props.roomId}
