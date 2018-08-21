@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import ShareIcon from '@material-ui/icons/Share'
+import PersonAddIcon from '@material-ui/icons/PersonAdd'
 import DoneIcon from '@material-ui/icons/Done'
 import CancelIcon from '@material-ui/icons/Cancel'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -284,7 +284,7 @@ class RoomStatusBar extends Component {
                 onClick={() => this.setState({inviteFormOpen: true})}
               >
                 Invite
-                <ShareIcon className={classes.rightIcon} />
+                <PersonAddIcon className={classes.rightIcon} />
               </Button>
               <Dialog
                 open={this.state.inviteFormOpen}
