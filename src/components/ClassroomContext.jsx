@@ -54,7 +54,7 @@ class ClassroomContext extends Component {
       .then(room => {
         let codeEditors = {}
         room.data().codeEditorIds.forEach((id, idx) => {
-          codeEditors[id] = {top: 450, left: 600 * idx}
+          codeEditors[id] = {top: 300, left: 600 * idx}
         })
         this.setState({
           codeEditors

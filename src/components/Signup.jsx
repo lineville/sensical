@@ -7,7 +7,6 @@ import TextField from '@material-ui/core/TextField'
 import FormControl from '@material-ui/core/FormControl'
 import purple from '@material-ui/core/colors/purple'
 import Button from '@material-ui/core/Button'
-var provider = new firebase.auth.GoogleAuthProvider()
 
 const styles = theme => ({
   container: {
@@ -119,6 +118,8 @@ class Signup extends Component {
   }
 
   googleSignup = () => {
+    var provider = new firebase.auth.GoogleAuthProvider()
+
     firebase
       .auth()
       .signInWithPopup(provider)
@@ -200,13 +201,8 @@ class Signup extends Component {
         >
           Signup
         </Button>
-        <Button
-          variant="contained"
-          type="submit"
-          color="primary"
-          onClick={this.googleSignup}
-        >
-          Signup with Google
+        <Button type="submit" id="google" onClick={this.googleSignup}>
+          <img src="/btn_google_signin_light_focus_web@2x.png" id="google" />
         </Button>
       </div>
     )
