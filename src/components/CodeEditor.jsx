@@ -65,7 +65,6 @@ class CodeEditor extends Component {
       codeEditorId: doc.id,
       code: doc.data().code,
       user: user.data()
-      // canType: this.canType()
     })
     if (!this.canType()) {
       db.collection('codeEditors')
@@ -82,7 +81,6 @@ class CodeEditor extends Component {
       .doc(codeEditorId)
       .onSnapshot(() => {
         this.setState({
-          // code: code.data().code,
           canType: this.canType()
         })
       })
