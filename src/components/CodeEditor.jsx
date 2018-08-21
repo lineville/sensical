@@ -61,16 +61,26 @@ class CodeEditor extends Component {
       .collection('users')
       .doc(firebase.auth().currentUser.uid)
       .get()
-    await this.setState({
+    this.setState({
       codeEditorId: doc.id,
       code: doc.data().code,
       user: user.data()
     })
+    if (!this.canType()) {
+      db.collection('codeEditors')
+        .doc(codeEditorId)
+        .onSnapshot(code => {
+          this.setState({
+            code: code.data().code,
+            canType: this.canType()
+          })
+        })
+    }
+
     db.collection('codeEditors')
       .doc(codeEditorId)
-      .onSnapshot(code => {
+      .onSnapshot(() => {
         this.setState({
-          code: code.data().code,
           canType: this.canType()
         })
       })
