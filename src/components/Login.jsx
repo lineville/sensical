@@ -2,9 +2,9 @@ import firebase from 'firebase'
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import purple from '@material-ui/core/colors/purple'
 import {FormControl, Button, TextField, Snackbar} from '@material-ui/core'
 import Notification from './Notification'
+import MaterialUIForm from 'material-ui-form'
 
 const styles = theme => ({
   container: {
@@ -21,36 +21,6 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 200
-  },
-  cssLabel: {
-    '&$cssFocused': {
-      color: purple[500]
-    }
-  },
-  cssFocused: {},
-  cssUnderline: {
-    '&:after': {
-      borderBottomColor: purple[500]
-    }
-  },
-  bootstrapRoot: {
-    padding: 0,
-    'label + &': {
-      marginTop: theme.spacing.unit * 3
-    }
-  },
-  bootstrapInput: {
-    borderRadius: 4,
-    backgroundColor: theme.palette.common.white,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '10px 12px',
-    width: 'calc(100% - 24px)',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    '&:focus': {
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
-    }
   }
 })
 
@@ -72,7 +42,8 @@ class Login extends Component {
     })
   }
 
-  handleLogin = async () => {
+  handleLogin = async ev => {
+    // preventDefault(ev)
     try {
       await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       await firebase
@@ -152,7 +123,8 @@ class Login extends Component {
   render() {
     const {classes} = this.props
     return (
-      <div className={classes.container}>
+      // <div className={classes.container}>
+      <MaterialUIForm onSubmit={this.handleLogin} className={classes.container}>
         <FormControl className={classes.margin}>
           <TextField
             id="email-input"
@@ -184,8 +156,8 @@ class Login extends Component {
         >
           Login
         </Button>
-        <Button type="submit" id="google" onClick={this.googleSignup}>
-          <img src="/btn_google_signin_light_focus_web@2x.png" id="google" />
+        <Button id="google" onClick={this.googleSignup}>
+          <img src="/btn_google_signin_light_pressed_web.png" id="google" />
         </Button>
 
         <Snackbar
@@ -203,7 +175,8 @@ class Login extends Component {
             message={this.state.snackBarMessage}
           />
         </Snackbar>
-      </div>
+      </MaterialUIForm>
+      // </div>
     )
   }
 }

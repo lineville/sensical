@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
+import MaterialUIForm from 'material-ui-form'
+import AddIcon from '@material-ui/icons/Add'
 
 import {
   withStyles,
@@ -111,22 +113,23 @@ export class CreateRoom extends Component {
     const {classes} = this.props
     return (
       <div>
-        <FormControl className={classes.margin}>
-          <TextField
-            id="subject"
-            name="subject"
-            label="Subject"
-            className={classes.textField}
-            type="subject"
-            margin="normal"
-            value={this.state.subject}
-            onChange={this.handleChange}
-          />
-        </FormControl>
-        <Button onClick={this.createRoom} size="small" color="default">
-          Create Room
-        </Button>
-
+        <MaterialUIForm onSubmit={this.createRoom}>
+          <FormControl className={classes.margin}>
+            <TextField
+              id="subject"
+              name="subject"
+              label="New Room"
+              className={classes.textField}
+              type="subject"
+              margin="normal"
+              value={this.state.subject}
+              onChange={this.handleChange}
+            />
+          </FormControl>
+          <Button onClick={this.createRoom}>
+            <AddIcon />
+          </Button>
+        </MaterialUIForm>
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
