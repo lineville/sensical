@@ -247,3 +247,14 @@ ul {
   letter-spacing: 4px;
   text-align: center;
 }
+
+#google {
+  width: 50%;
+  height: 50%;
+  transition: none !important;
+}
+
+#google:hover {
+  background-color: white !important;
+  transition: none;
+}
