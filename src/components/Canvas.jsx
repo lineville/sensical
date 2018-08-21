@@ -176,8 +176,8 @@ class Canvas extends Component {
 
   pos = e => {
     return [
-      e.pageX - this.whiteboardCanvas.offsetLeft,
-      e.pageY - this.whiteboardCanvas.offsetTop
+      e.pageX - this.props.position.left - this.whiteboardCanvas.offsetLeft,
+      e.pageY - this.props.position.top - this.whiteboardCanvas.offsetTop
     ]
   }
 
