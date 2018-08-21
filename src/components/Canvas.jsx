@@ -10,6 +10,9 @@ import {withStyles} from '@material-ui/core/styles'
 import {Card, CardContent, Button, Typography} from '@material-ui/core/'
 
 const canvasSource = {
+  canDrag(props) {
+    return props
+  },
   beginDrag(props) {
     return {...props, modName: 'canvas'}
   }
@@ -41,11 +44,11 @@ class Canvas extends Component {
       strokes: null,
       displayColorPicker: false,
       color: 'black',
-      lineWidth: 5
+      lineWidth: 5,
+      overCanvas: false
     }
   }
 
-  //// Position tracking
   currentMousePosition = {
     x: 0,
     y: 0
@@ -110,24 +113,17 @@ class Canvas extends Component {
   }
 
   resize = () => {
-    // Unscale the canvas (if it was previously scaled)
     const ctx = this.whiteboardCanvas.getContext('2d')
     ctx.setTransform(1, 0, 0, 1, 0, 0)
 
-    // The device pixel ratio is the multiplier between CSS pixels
-    // and device pixels
     var pixelRatio = window.devicePixelRatio || 1
 
-    // Allocate backing store large enough to give us a 1:1 device pixel
-    // to canvas pixel ratio.
     var w = this.whiteboardCanvas.clientWidth * pixelRatio,
       h = this.whiteboardCanvas.clientHeight * pixelRatio
     if (
       w !== this.whiteboardCanvas.width ||
       h !== this.whiteboardCanvas.height
     ) {
-      // Resizing the whiteboardCanvas destroys the current content.
-      // So, save it...
       var imgData = this.ctx.getImageData(
         0,
         0,
@@ -142,9 +138,6 @@ class Canvas extends Component {
       this.ctx.putImageData(imgData, 0, 0)
     }
 
-    // Scale the canvas' internal coordinate system by the device pixel
-    // ratio to ensure that 1 canvas unit = 1 css pixel, even though our
-    // backing store is larger.
     this.ctx.scale(pixelRatio, pixelRatio)
 
     this.ctx.lineWidth = 5
@@ -153,9 +146,6 @@ class Canvas extends Component {
   }
 
   setupEventListeners = () => {
-    // Set the size of the canvas and attach a listener
-    // to handle resizing.
-    // this.resize()
     const eventArea = document.getElementById('whiteboard')
     eventArea.addEventListener('resize', this.resize)
 
@@ -186,8 +176,8 @@ class Canvas extends Component {
 
   pos = e => {
     return [
-      e.pageX - this.whiteboardCanvas.offsetLeft,
-      e.pageY - this.whiteboardCanvas.offsetTop
+      e.pageX - this.props.position.left - this.whiteboardCanvas.offsetLeft,
+      e.pageY - this.props.position.top - this.whiteboardCanvas.offsetTop
     ]
   }
 
@@ -199,13 +189,8 @@ class Canvas extends Component {
         const dbStrokes = snapshot.data().strokes
         this.setState({strokes: dbStrokes})
       })
-
     this.setup()
   }
-
-  // toggleColorPicker = () => {
-  //   this.setState({displayColorPicker: !this.state.displayColorPicker})
-  // }
 
   render() {
     if (this.state.strokes) {
@@ -214,13 +199,14 @@ class Canvas extends Component {
       })
     }
     const {classes, connectDragSource, isDragging} = this.props
-    return connectDragSource(
+
+    const canvas = (
       <div>
         <Card
           className={classes.card}
           style={{
             opacity: isDragging ? 0.3 : 1,
-            cursor: 'move',
+            cursor: this.state.overCanvas ? 'default' : 'move',
             resize: 'both',
             top: this.props.position.top,
             left: this.props.position.left
@@ -233,6 +219,8 @@ class Canvas extends Component {
 
             <div id="whiteboard">
               <canvas
+                onMouseEnter={() => this.setState({overCanvas: true})}
+                onMouseLeave={() => this.setState({overCanvas: false})}
                 ref={canvas => (this.whiteboardCanvas = canvas)}
                 height={500}
                 width={500}
@@ -244,18 +232,15 @@ class Canvas extends Component {
                 color={this.state.color}
               />
               <Button onClick={this.clearCanvas}>Clear</Button>
-              {/* {!this.state.displayColorPicker ? null : (
-                // <SketchPicker
-                //   onChangeComplete={color => {
-                //     this.setState({color: color.hex})
-                //   }}
-                //   color={this.state.color}
-              )} */}
             </div>
           </CardContent>
         </Card>
       </div>
     )
+    if (this.state.overCanvas) {
+      return canvas
+    }
+    return connectDragSource(canvas)
   }
 }
 
