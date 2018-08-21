@@ -137,8 +137,8 @@ export class VideoComponent extends Component {
       console.log(participant.identity + ' removed track: ' + track.kind)
       this.detachTracks([track])
       this.setState({otherpersoninRoom: false})
-      var element = Document.getElementById('remote-media')
-      element.remove()
+      // var element = Document.getElementById('remote-media')
+      // element.remove()
     })
 
     // When a Participant leaves the Room, detach its Tracks.
@@ -176,15 +176,15 @@ export class VideoComponent extends Component {
 
   leaveRoom(room) {
     // room.emit('participantDisconnected', room.localParticipant)
-    var element = Document.getElementById('remote-media')
-    element.remove()
     this.state.activeRoom.disconnect()
+    const element = Document.getElementById('remote-media')
+    element.remove()
     this.setState({hasJoinedRoom: false, localMediaAvailable: false})
   }
 
   toggleVideo = () => {
     if (this.state.hasJoinedRoom) {
-      this.leaveRoom()
+      this.leaveRoom(this.state.activeRoom)
     } else {
       this.joinRoom()
     }
