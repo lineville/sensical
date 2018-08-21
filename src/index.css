@@ -248,7 +248,7 @@ ul {
   text-align: center;
 }
 
-.MuiInputLabel-formControl-116 {
+[class*='MuiInputLabel-formControl-'] {
   top: 0;
   left: 15px !important;
 }
