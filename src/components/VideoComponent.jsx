@@ -58,6 +58,7 @@ export class VideoComponent extends Component {
   attachTracks(tracks, container) {
     tracks.forEach(track => {
       console.log(track)
+      track.setAttribute('width', '100%')
       container.appendChild(track.attach())
     })
   }
@@ -117,6 +118,7 @@ export class VideoComponent extends Component {
       var previewContainer = this.refs.remoteMedia
       console.log('line 118', previewContainer)
       this.attachTracks([track], previewContainer)
+      previewContainer.children[1].setAttribute('width', '100%')
     })
 
     // When a Participant removes a Track, detach it from the DOM.
