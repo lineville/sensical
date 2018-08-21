@@ -101,8 +101,12 @@ export class VideoComponent extends Component {
     room.participants.forEach(participant => {
       console.log("Already in Room: '" + participant.identity + "'")
       var previewContainer = this.refs.remoteMedia
-      previewContainer.children[1].setAttribute('width', '100%')
       this.attachParticipantTracks(participant, previewContainer)
+      console.log('line106', previewContainer)
+      previewContainer.children.forEach(child =>
+        child.setAttribute('with', '100%')
+      )
+      // previewContainer.children[1].setAttribute('width', '100%')
     })
 
     // When a Participant joins the Room, log the event.
@@ -116,6 +120,11 @@ export class VideoComponent extends Component {
       console.log(participant.identity + ' added track: ' + track.kind)
       var previewContainer = this.refs.remoteMedia
       this.attachTracks([track], previewContainer)
+      console.log('line 119', previewContainer)
+      previewContainer.children.forEach(child =>
+        child.setAttribute('with', '100%')
+      )
+      // previewContainer.children[1].setAttribute('width', '100%')
     })
 
     // When a Participant removes a Track, detach it from the DOM.
@@ -129,6 +138,8 @@ export class VideoComponent extends Component {
     room.on('participantDisconnected', participant => {
       console.log("Participant '" + participant.identity + "' left the room")
       this.detachParticipantTracks(participant)
+      var element = Document.getElementById('remote-media')
+      element.parentNode.removeChild(element)
     })
 
     // Once the LocalParticipant leaves the room, detach the Tracks
