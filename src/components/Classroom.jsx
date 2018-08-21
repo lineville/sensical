@@ -161,6 +161,7 @@ class Classroom extends Component {
                       <CodeEditorCard
                         key={id}
                         codeEditorId={id}
+                        allEditorIds={this.state.codeEditorIds}
                         roomId={this.state.roomId}
                         handleDrop={() => this.handleDrop('codeEditor')}
                         position={positions.codeEditors[id]}

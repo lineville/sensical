@@ -83,7 +83,8 @@ export class Notepad extends Component {
             top: this.props.position.top,
             left: this.props.position.left,
             width: '545px',
-            height: '200px'
+            height: '200px',
+            zIndex: this.props.position.zIndex
           }}
         >
           <CardContent>
