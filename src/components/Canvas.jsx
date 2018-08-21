@@ -60,21 +60,25 @@ class Canvas extends Component {
   }
 
   strokeToDb = curStroke => {
-    db.collection('whiteboards')
-      .doc(this.props.whiteboardId)
-      .update({
-        strokes: firebase.firestore.FieldValue.arrayUnion(...curStroke)
-      })
-      .then(() => {
-        this.setState({
-          curStroke: [],
-          strokes: null
+    if (curStroke.length) {
+      db.collection('whiteboards')
+        .doc(this.props.whiteboardId)
+        .update({
+          strokes: firebase.firestore.FieldValue.arrayUnion(...curStroke)
         })
-      })
-      .catch(error => {
-        console.error('Error drawing new stroke to Firestore Database: ', error)
-      })
-    this.forceUpdate()
+        .then(() => {
+          this.setState({
+            curStroke: [],
+            strokes: null
+          })
+        })
+        .catch(error => {
+          console.error(
+            'Error drawing new stroke to Firestore Database: ',
+            error
+          )
+        })
+    }
   }
 
   draw = (start, end, strokeColor = 'black') => {
