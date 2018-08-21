@@ -21,7 +21,7 @@ export class VideoComponent extends Component {
       previewTracks: null,
       localMediaAvailable: false,
       hasJoinedRoom: false,
-      activeRoom: '', // Track the current active room
+      activeRoom: null, // Track the current active room
       otherpersoninRoom: false
     }
     this.joinRoom = this.joinRoom.bind(this)
@@ -125,13 +125,17 @@ export class VideoComponent extends Component {
       console.log('line 119', previewContainer)
       this.setState({otherpersoninRoom: true})
       if (previewContainer.children.length) {
-        previewContainer.children[1].setAttribute('width', '100%')
+        // previewContainer.children[1].setAttribute('width', '100%')
+        ;[...previewContainer.children].forEach(childNode =>
+          childNode.setAttribute('width', '100%')
+        )
       }
     })
 
     // When a Participant removes a Track, detach it from the DOM.
     //'trackRemoved'
-    room.on('trackUnsubscribed', (track, participant) => {
+    // room.on('trackUnsubscribed', (track, participant) => {
+    room.on('trackRemoved', (track, participant) => {
       console.log(participant.identity + ' removed track: ' + track.kind)
       this.detachTracks([track])
       this.setState({otherpersoninRoom: false})
@@ -157,7 +161,9 @@ export class VideoComponent extends Component {
         })
       }
       this.detachParticipantTracks(room.localParticipant)
-      room.participants.forEach(this.detachParticipantTracks)
+      room.participants.forEach(participant =>
+        this.detachParticipantTracks(participant)
+      )
       this.setState({activeRoom: null})
       this.setState({hasJoinedRoom: false, localMediaAvailable: false})
     })
@@ -170,7 +176,8 @@ export class VideoComponent extends Component {
     })
   }
 
-  leaveRoom() {
+  leaveRoom(room) {
+    room.emit('participantDisconnected', room.localParticipant)
     this.state.activeRoom.disconnect()
     this.setState({hasJoinedRoom: false, localMediaAvailable: false})
   }
