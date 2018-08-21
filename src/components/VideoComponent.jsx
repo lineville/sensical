@@ -65,15 +65,12 @@ export class VideoComponent extends Component {
 
   // Attaches a track to a specified DOM container
   attachParticipantTracks(participant, container) {
-    console.log('ATTACH PARTICIPANT RAN')
     var tracks = Array.from(participant.tracks.values())
     this.attachTracks(tracks, container)
   }
 
   detachTracks(tracks) {
-    console.log('DETACH TRACKS RAN')
     tracks.forEach(track => {
-      console.log('TRACK TO DETACH: ', track)
       track.detach().forEach(detachedElement => {
         detachedElement.remove()
       })
@@ -81,7 +78,7 @@ export class VideoComponent extends Component {
   }
 
   detachParticipantTracks(participant) {
-    console.log('DETACH PARTICIPANT RAN')
+    console.log('DETACH PARTICIPANT TRACK RAN')
     var tracks = Array.from(participant.tracks.values())
     this.detachTracks(tracks)
   }
