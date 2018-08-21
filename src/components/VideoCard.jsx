@@ -50,7 +50,9 @@ export class VideoCard extends Component {
             cursor: 'move',
             resize: 'both',
             top: this.props.position.top,
-            left: this.props.position.left
+            left: this.props.position.left,
+            width: 545,
+            height: 200
           }}
         >
           <CardContent className={classes.cardContent}>
