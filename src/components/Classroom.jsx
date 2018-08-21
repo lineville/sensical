@@ -16,7 +16,8 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginBottom: '264px'
   },
   room: {
     flexGrow: 1,

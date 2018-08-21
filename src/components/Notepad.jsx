@@ -29,6 +29,7 @@ const styles = () => ({
   },
   textArea: {
     width: '100%',
+    maxHeight: '500px',
     height: '-webkit-fill-available',
     border: '1px dotted'
   }
@@ -80,7 +81,9 @@ export class Notepad extends Component {
             cursor: 'move',
             resize: 'both',
             top: this.props.position.top,
-            left: this.props.position.left
+            left: this.props.position.left,
+            width: '545px',
+            height: '200px'
           }}
         >
           <CardContent>
