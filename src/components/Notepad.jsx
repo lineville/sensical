@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import {DragSource} from 'react-dnd'
-
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
+import {Card, CardContent, Typography} from '@material-ui/core/'
+import styles from '../styles/NotepadStyles'
 
 const notepadSource = {
   beginDrag(props) {
@@ -21,19 +19,6 @@ function collect(connect, monitor) {
     isDragging: monitor.isDragging()
   }
 }
-
-const styles = () => ({
-  card: {
-    minWidth: 275,
-    position: 'absolute'
-  },
-  textArea: {
-    width: '100%',
-    maxHeight: '500px',
-    height: '-webkit-fill-available',
-    border: '1px dotted'
-  }
-})
 
 export class Notepad extends Component {
   constructor() {

@@ -1,39 +1,18 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
-import Messaging from './Messaging'
-import CodeEditorCard from './CodeEditorCard'
-import Canvas from './Canvas'
-import VideoCard from './VideoCard'
-import Notepad from './Notepad'
+import {
+  Messaging,
+  CodeEditorCard,
+  Canvas,
+  VideoCard,
+  Notepad,
+  RoomStatusBar
+} from '../imports'
 
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import RoomStatusBar from './RoomStatusBar'
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    marginBottom: '264px'
-  },
-  room: {
-    flexGrow: 1,
-    height: '100vh'
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary
-  },
-  card: {
-    minWidth: 275
-  },
-  pos: {
-    marginBottom: 12
-  }
-})
+import styles from '../styles/ClassroomStyle'
 
 class Classroom extends Component {
   constructor(props) {
@@ -67,10 +46,6 @@ class Classroom extends Component {
       roomId: classroom.id,
       whiteboardId: classroom.data().whiteboardId,
       codeEditors,
-      // codeEditorIds: [
-      //   ...this.state.codeEditorIds,
-      //   ...classroom.data().codeEditorIds
-      // ],
       chatsId: classroom.data().chatsId,
       notepadId: classroom.data().notepadId
     })
@@ -90,7 +65,6 @@ class Classroom extends Component {
 
   handleDrop = (item, id) => {
     if (item === 'codeEditor') {
-      // const idx = this.state.codeEditorIds.indexOf(id)
       this.setState({
         codeEditors: {...this.state.codeEditors, [id]: false}
       })

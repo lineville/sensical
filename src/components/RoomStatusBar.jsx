@@ -1,57 +1,32 @@
 import React, {Component} from 'react'
 import db from '../firestore'
-import RoomMembers from './RoomMembers'
-import HideBin from './HideBin'
-
+import {RoomMembers, HideBin, Notification} from '../imports'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import PersonAddIcon from '@material-ui/icons/PersonAdd'
-import DoneIcon from '@material-ui/icons/Done'
-import CancelIcon from '@material-ui/icons/Cancel'
-import ListItemText from '@material-ui/core/ListItemText'
-import Snackbar from '@material-ui/core/Snackbar'
-import IconButton from '@material-ui/core/IconButton'
-import AddIcon from '@material-ui/icons/Add'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import TextField from '@material-ui/core/TextField'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Notification from './Notification'
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    position: 'fixed',
-    bottom: 0,
-    width: '100%',
-    zIndex: 100
-  },
-  list: {
-    width: 250
-  },
-  fullList: {
-    width: 'auto'
-  },
-  text: {
-    fontSize: 14,
-    flexGrow: 1,
-    display: 'flex',
-    alignItems: 'center'
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  }
-})
+import styles from '../styles/RoomStatusBarStyles'
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Snackbar,
+  IconButton,
+  Button,
+  Dialog,
+  TextField,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from '@material-ui/core/'
+import {
+  PersonAdd as PersonAddIcon,
+  Done as DoneIcon,
+  Cancel as CancelIcon,
+  Add as AddIcon
+} from '@material-ui/icons/'
 
 class RoomStatusBar extends Component {
   constructor() {

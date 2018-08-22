@@ -1,28 +1,11 @@
-import firebase from 'firebase'
 import React, {Component} from 'react'
+import firebase from 'firebase'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {FormControl, Button, TextField, Snackbar} from '@material-ui/core'
-import Notification from './Notification'
+import {Notification} from '../imports'
 import MaterialUIForm from 'material-ui-form'
-
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flexDirection: 'column',
-    alignItems: 'center',
-    margin: '10%'
-  },
-  margin: {
-    margin: theme.spacing.unit
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  }
-})
+import styles from '../styles/LoginStyles'
 
 class Login extends Component {
   constructor(props) {
@@ -42,8 +25,7 @@ class Login extends Component {
     })
   }
 
-  handleLogin = async ev => {
-    // preventDefault(ev)
+  handleLogin = async () => {
     try {
       await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       await firebase
@@ -123,7 +105,6 @@ class Login extends Component {
   render() {
     const {classes} = this.props
     return (
-      // <div className={classes.container}>
       <MaterialUIForm onSubmit={this.handleLogin} className={classes.container}>
         <FormControl className={classes.margin}>
           <TextField
@@ -176,7 +157,6 @@ class Login extends Component {
           />
         </Snackbar>
       </MaterialUIForm>
-      // </div>
     )
   }
 }
