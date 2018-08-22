@@ -159,11 +159,8 @@ class RoomStatusBar extends Component {
       <div className={classes.fullList}>
         <List>
           {!this.props.classState.canvas ? (
-            <ListItem button>
-              <ListItemText
-                primary="Canvas"
-                onClick={() => this.props.addModule('canvas')}
-              />
+            <ListItem button onClick={() => this.props.addModule('canvas')}>
+              <ListItemText primary="Canvas" />
             </ListItem>
           ) : null}
           {Object.values(this.props.classState.codeEditors).includes(false)
@@ -171,37 +168,29 @@ class RoomStatusBar extends Component {
                 .filter(id => !this.props.classState.codeEditors[id])
                 .map(id => {
                   return (
-                    <ListItem key={id} button>
-                      <ListItemText
-                        primary={id}
-                        onClick={() => this.props.addModule('codeEditor', id)}
-                      />
+                    <ListItem
+                      key={id}
+                      button
+                      onClick={() => this.props.addModule('codeEditor', id)}
+                    >
+                      <ListItemText primary={id} />
                     </ListItem>
                   )
                 })
             : null}
           {!this.props.classState.video ? (
-            <ListItem button>
-              <ListItemText
-                primary="Video"
-                onClick={() => this.props.addModule('video')}
-              />
+            <ListItem button onClick={() => this.props.addModule('video')}>
+              <ListItemText primary="Video" />
             </ListItem>
           ) : null}
           {!this.props.classState.notepad ? (
-            <ListItem button>
-              <ListItemText
-                primary="Notepad"
-                onClick={() => this.props.addModule('notepad')}
-              />
+            <ListItem button onClick={() => this.props.addModule('notepad')}>
+              <ListItemText primary="Notepad" />
             </ListItem>
           ) : null}
           {!this.props.classState.chat ? (
-            <ListItem button>
-              <ListItemText
-                primary="Chat"
-                onClick={() => this.props.addModule('chat')}
-              />
+            <ListItem button onClick={() => this.props.addModule('chat')}>
+              <ListItemText primary="Chat" />
             </ListItem>
           ) : null}
           {this.props.classState.canvas &&
