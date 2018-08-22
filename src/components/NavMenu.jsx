@@ -49,13 +49,13 @@ class NavMenu extends Component {
     const {classes} = this.props
     return (
       <div className={classes.root}>
-        <AppBar>
+        <AppBar className={classes.height}>
           <Toolbar>
             <Button color="inherit" onClick={this.homePush}>
               <Typography
                 variant="title"
                 color="inherit"
-                className={classes.lowercase}
+                className={classes.logo}
               >
                 fig
               </Typography>

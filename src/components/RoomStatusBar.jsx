@@ -220,7 +220,7 @@ class RoomStatusBar extends Component {
     return (
       <div className={classes.root}>
         <AppBar position="static">
-          <Toolbar>
+          <Toolbar className={classes.content}>
             <IconButton
               className={classes.menuButton}
               color="inherit"

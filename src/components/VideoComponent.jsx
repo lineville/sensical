@@ -30,7 +30,6 @@ export class VideoComponent extends Component {
       this.setState({roomNameErr: true})
       return
     }
-    // console.log("Joining room '" + this.state.roomName + "'...")
     let connectOptions = {
       name: this.state.roomName
     }
