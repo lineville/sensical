@@ -81,12 +81,23 @@ class Classroom extends Component {
       })
   }
 
-  handleDrop(item) {
+  handleDrop = (item, id) => {
     if (item === 'codeEditor') {
-      this.setState({codeEditors: {...this.state.codeEditors, item: false}})
+      const idx = this.state.codeEditorIds.indexOf(id)
+      console.log(
+        this.state.codeEditorIds
+          .slice(0, idx)
+          .concat(this.state.codeEditorIds.slice(idx + 1))
+      )
+      this.setState({
+        codeEditorIds: this.state.codeEditorIds
+          .slice(0, idx)
+          .concat(this.state.codeEditorIds.slice(idx + 1))
+      })
     } else {
       this.setState({[item]: false})
     }
+    console.log(this.state)
   }
 
   addModule(item) {
@@ -163,7 +174,7 @@ class Classroom extends Component {
                         codeEditorId={id}
                         allEditorIds={this.state.codeEditorIds}
                         roomId={this.state.roomId}
-                        handleDrop={() => this.handleDrop('codeEditor')}
+                        handleDrop={() => this.handleDrop('codeEditor', id)}
                         position={positions.codeEditors[id]}
                       />
                     )

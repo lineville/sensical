@@ -64,13 +64,11 @@ class ClassroomContext extends Component {
   }
 
   moveModule(mod, left, top, id) {
-    if (mod.modName === 'codeEditors') {
+    if (mod.modName === 'codeEditor') {
       this.setState({curZIndex: this.state.curZIndex + 1})
-      console.log('CUR Z INDEX STATE: ', this.state.curZIndex)
       this.setState({
         codeEditors: {
           ...this.state.codeEditors,
-
           [id]: {
             top: top,
             left: left,
@@ -80,7 +78,6 @@ class ClassroomContext extends Component {
       })
     } else {
       this.setState({curZIndex: this.state.curZIndex + 1})
-      console.log('CUR Z INDEX STATE: ', this.state.curZIndex)
       this.setState({
         [mod.modName]: {
           top: top,
@@ -96,7 +93,6 @@ class ClassroomContext extends Component {
     if (!Object.keys(this.state.codeEditors).length) {
       return <div />
     }
-    console.log(this.state)
     return connectDropTarget(
       <div>
         <Classroom

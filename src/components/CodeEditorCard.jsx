@@ -3,7 +3,6 @@ import CodeEditor from './CodeEditor'
 import PropTypes from 'prop-types'
 import {DragSource} from 'react-dnd'
 import db from '../firestore'
-import firebase from 'firebase'
 
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -27,7 +26,7 @@ import Notification from './Notification'
 
 const codeEditorSource = {
   beginDrag(props) {
-    return {...props, modName: 'codeEditors'}
+    return {...props, modName: 'codeEditor'}
   }
 }
 
