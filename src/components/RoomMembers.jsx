@@ -1,18 +1,9 @@
 import React, {Component} from 'react'
 import db from '../firestore'
-
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-
-const styles = () => ({
-  root: {
-    margin: '0 10px'
-  },
-  text: {
-    fontSize: 14
-  }
-})
+import {Typography} from '@material-ui/core/'
+import styles from '../styles/RoomMembersStyles'
 
 class RoomMembers extends Component {
   constructor() {

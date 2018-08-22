@@ -3,21 +3,10 @@ import db from '../firestore'
 import firebase from 'firebase'
 import MaterialUIForm from 'material-ui-form'
 import AddIcon from '@material-ui/icons/Add'
-
-import {
-  withStyles,
-  Snackbar,
-  TextField
-} from '../../node_modules/@material-ui/core'
-import Notification from './Notification'
-import FormControl from '@material-ui/core/FormControl'
-import Button from '@material-ui/core/Button'
-
-const styles = theme => ({
-  margin: {
-    margin: theme.spacing.unit
-  }
-})
+import {withStyles} from '@material-ui/core/styles'
+import {Notification} from '../imports'
+import {FormControl, Snackbar, TextField, Button} from '@material-ui/core/'
+import styles from '../styles/CreateRoomStyles'
 
 export class CreateRoom extends Component {
   constructor() {

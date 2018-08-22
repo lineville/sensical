@@ -2,48 +2,30 @@ import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
 import {withRouter, Link} from 'react-router-dom'
-
 import {withStyles} from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import DeleteIcon from '@material-ui/icons/Delete'
-import DoneIcon from '@material-ui/icons/Done'
-import CancelIcon from '@material-ui/icons/Cancel'
-import PersonAddIcon from '@material-ui/icons/PersonAdd'
-import Snackbar from '@material-ui/core/Snackbar'
-import Notification from './Notification'
-import TextField from '@material-ui/core/TextField'
-import Dialog from '@material-ui/core/Dialog'
-import EditIcon from '@material-ui/icons/Edit'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-
-const styles = theme => ({
-  card: {
-    maxWidth: 300,
-    margin: '2%'
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%' // 16:9
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit
-  },
-  button: {
-    margin: theme.spacing.unit
-  }
-})
+import {Notification} from '../imports'
+import styles from '../styles/RoomCardStyles'
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+  Snackbar,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from '@material-ui/core/'
+import {
+  Delete as DeleteIcon,
+  Done as DoneIcon,
+  Cancel as CancelIcon,
+  PersonAdd as PersonAddIcon,
+  Edit as EditIcon
+} from '@material-ui/icons/'
 
 export class RoomCard extends Component {
   constructor(props) {
@@ -98,7 +80,6 @@ export class RoomCard extends Component {
         .get()
 
       let userIds = room.data().userIds
-      // add another condition
       if (!roomsArray.includes(roomId)) {
         const newCodeEditor = await db.collection('codeEditors').add({
           code: '',
@@ -219,8 +200,6 @@ export class RoomCard extends Component {
           ),
           userIds: firebase.firestore.FieldValue.arrayRemove(user.id)
         })
-      //removes codeEditor from user
-      //remove roomId from user
       await db
         .collection('users')
         .doc(user.id)

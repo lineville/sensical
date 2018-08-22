@@ -3,28 +3,9 @@ import React, {Component} from 'react'
 import db from '../firestore'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
-import FormControl from '@material-ui/core/FormControl'
-import Button from '@material-ui/core/Button'
+import {TextField, FormControl, Button} from '@material-ui/core/'
 import MaterialUIForm from 'material-ui-form'
-
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flexDirection: 'column',
-    alignItems: 'center',
-    margin: '10%'
-  },
-  margin: {
-    margin: theme.spacing.unit
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  }
-})
+import styles from '../styles/SignupStyles'
 
 class Signup extends Component {
   constructor() {
@@ -173,7 +154,11 @@ class Signup extends Component {
           Signup
         </Button>
         <Button type="submit" id="google" onClick={this.googleSignup}>
-          <img src="/btn_google_signin_light_pressed_web.png" id="google" />
+          <img
+            src="/btn_google_signin_light_pressed_web.png"
+            id="google"
+            alt="google"
+          />
         </Button>
       </MaterialUIForm>
     )
