@@ -2,12 +2,11 @@ import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
 import {HuePicker} from 'react-color'
-
 import {DragSource} from 'react-dnd'
-
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {Card, CardContent, Button, Typography} from '@material-ui/core/'
+import styles from '../styles/CanvasStyle'
 
 const canvasSource = {
   canDrag(props) {
@@ -25,16 +24,6 @@ function collect(connect, monitor) {
     isDragging: monitor.isDragging()
   }
 }
-
-const styles = theme => ({
-  card: {
-    minWidth: 275,
-    position: 'absolute'
-  },
-  button: {
-    margin: theme.spacing.unit
-  }
-})
 
 class Canvas extends Component {
   constructor() {

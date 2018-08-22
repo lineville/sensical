@@ -2,14 +2,8 @@ import React, {Component} from 'react'
 import Video from 'twilio-video'
 import axios from 'axios'
 import {withStyles} from '@material-ui/core/styles'
-import Switch from '@material-ui/core/Switch'
-
-const styles = () => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column'
-  }
-})
+import {Switch} from '@material-ui/core/'
+import styles from '../styles/VideoComponentStyles'
 
 export class VideoComponent extends Component {
   constructor(props) {
@@ -101,9 +95,7 @@ export class VideoComponent extends Component {
     })
 
     // When a Participant joins the Room, log the event.
-    room.on('participantConnected', participant => {
-      // console.log("Joining: '" + participant.identity + "'")
-    })
+    room.on('participantConnected', participant => {})
 
     // When a Participant adds a Track, attach it to the DOM.
     //'trackAdded'
@@ -120,7 +112,6 @@ export class VideoComponent extends Component {
 
     // When a Participant removes a Track, detach it from the DOM.
     //'trackRemoved'
-    // room.on('trackUnsubscribed', (track, participant) => {
     room.on('trackRemoved', (track, participant) => {
       this.detachTracks([track])
       this.setState({otherpersoninRoom: false})

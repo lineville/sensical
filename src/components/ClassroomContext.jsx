@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 
 import {DropTarget, DragDropContext} from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import Classroom from './Classroom'
+import {Classroom} from '../imports'
 import db from '../firestore'
 
 const classroomTarget = {

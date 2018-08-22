@@ -2,57 +2,25 @@ import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import firebase from 'firebase'
 import {withAuth} from 'fireview'
-
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import AccountCircle from '@material-ui/icons/AccountCircle'
-
-const styles = theme => ({
-  root: {
-    position: 'absolute'
-  },
-  flex: {
-    flexGrow: 1
-  },
-  menuButton: {
-    marginLeft: 0,
-    marginRight: 0
-  },
-  icon: {
-    margin: theme.spacing.unit * 2
-  },
-  list: {
-    width: 250
-  },
-  fullList: {
-    width: 'auto'
-  },
-  logo: {
-    textTransform: 'lowercase',
-    fontSize: 25
-  },
-  height: {
-    height: 50,
-    justifyContent: 'center'
-  }
-})
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton
+} from '@material-ui/core/'
+import {AccountCircle} from '@material-ui/icons/'
+import styles from '../styles/NavMenuStyles'
 
 class NavMenu extends Component {
   constructor() {
     super()
-    this.loginPush = this.loginPush.bind(this)
-    this.signupPush = this.signupPush.bind(this)
-    this.profilePush = this.profilePush.bind(this)
-    this.homePush = this.homePush.bind(this)
     this.handleLogout = this.handleLogout.bind(this)
   }
 
-  async handleLogout() {
+  handleLogout = async () => {
     try {
       await firebase.auth().signOut()
       this.props.history.push('/')
@@ -61,19 +29,19 @@ class NavMenu extends Component {
     }
   }
 
-  loginPush() {
+  loginPush = () => {
     this.props.history.push('/login')
   }
 
-  signupPush() {
+  signupPush = () => {
     this.props.history.push('/signup')
   }
 
-  profilePush() {
+  profilePush = () => {
     this.props.history.push('/profile')
   }
 
-  homePush() {
+  homePush = () => {
     this.props.history.push('/')
   }
 
@@ -97,7 +65,6 @@ class NavMenu extends Component {
               color="inherit"
               className={classes.flex}
             />
-            {/* <img src="fig.svg" alt="fig" /> */}
             {this.props._user ? (
               <div>
                 <Button color="inherit" onClick={this.handleLogout}>

@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
 import {DragSource} from 'react-dnd'
-import VideoComponent from './VideoComponent'
-
+import {VideoComponent} from '../imports'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
+import {Card, CardContent, Typography} from '@material-ui/core/'
+import styles from '../styles/VideoCardStyles'
 
 const messagingSource = {
   beginDrag(props) {
@@ -21,21 +19,6 @@ function collect(connect, monitor) {
     isDragging: monitor.isDragging()
   }
 }
-
-const styles = theme => ({
-  card: {
-    width: 275,
-    position: 'absolute'
-  },
-  margin: {
-    margin: theme.spacing.unit
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  }
-})
 
 export class VideoCard extends Component {
   render() {

@@ -3,15 +3,17 @@ import db from '../firestore'
 import Message from './Message'
 import firebase from 'firebase'
 import {DragSource} from 'react-dnd'
-
 import PropTypes from 'prop-types'
-import SendIcon from '@material-ui/icons/Send'
+import {Send as SendIcon} from '@material-ui/icons/'
 import {withStyles} from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
+import styles from '../styles/MessagingStyles'
+import {
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  TextField
+} from '@material-ui/core/'
 
 const messagingSource = {
   beginDrag(props) {
@@ -26,36 +28,6 @@ function collect(connect, monitor) {
     isDragging: monitor.isDragging()
   }
 }
-
-const styles = theme => ({
-  card: {
-    maxWidth: 275,
-    position: 'absolute'
-  },
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  },
-  messages: {
-    height: 175,
-    overflow: 'scroll'
-  },
-  button: {
-    margin: theme.spacing.unit
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  },
-  form: {
-    display: 'flex'
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit
-  }
-})
 
 export class Messaging extends Component {
   constructor() {

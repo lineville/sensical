@@ -1,16 +1,9 @@
 import React, {Component} from 'react'
 import {DropTarget} from 'react-dnd'
-
 import {withStyles} from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import DeleteIcon from '@material-ui/icons/Delete'
-
-const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-    backgroundColor: 'none'
-  }
-})
+import {Button} from '@material-ui/core/'
+import {Delete as DeleteIcon} from '@material-ui/icons/'
+import styles from '../styles/HideBinStyles'
 
 const hideBinTarget = {
   canDrop(props, monitor) {
@@ -19,7 +12,10 @@ const hideBinTarget = {
       return props
     }
   },
-  drop(props, monitor, component) {
+  hover(props, monitor) {
+    const canDrop = monitor.canDrop()
+  },
+  drop(props, monitor) {
     if (monitor.canDrop()) {
       const mod = monitor.getItem()
       mod.handleDrop()
