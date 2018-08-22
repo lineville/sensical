@@ -3,8 +3,8 @@ import {DragSource} from 'react-dnd'
 import {VideoComponent} from '../imports'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import {Card, CardContent, Typography, Button} from '@material-ui/core/'
-import {Delete as DeleteIcon} from '@material-ui/icons/'
+import {Card, CardContent, Typography} from '@material-ui/core/'
+import {RemoveCircleOutline as DeleteIcon} from '@material-ui/icons/'
 import styles from '../styles/VideoCardStyles'
 
 const messagingSource = {
@@ -41,16 +41,9 @@ export class VideoCard extends Component {
           }}
         >
           <CardContent className={classes.cardContent}>
-            <Typography color="textSecondary">
+            <Typography color="textSecondary" className={classes.title}>
               Video
-              <Button
-                mini
-                variant="outlined"
-                className={classes.button}
-                onClick={() => this.props.handleDrop('videoCard')}
-              >
-                <DeleteIcon />
-              </Button>
+              <DeleteIcon onClick={() => this.props.handleDrop('videoCard')} />
             </Typography>
             <VideoComponent roomId={this.props.roomId} />
           </CardContent>

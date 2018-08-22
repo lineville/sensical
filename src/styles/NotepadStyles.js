@@ -11,6 +11,10 @@ const styles = theme => ({
     maxHeight: '500px',
     height: '-webkit-fill-available',
     border: '1px dotted'
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 })
 

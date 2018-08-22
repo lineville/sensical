@@ -25,7 +25,7 @@ import {
   Edit as EditIcon,
   Done as DoneIcon,
   Cancel as CancelIcon,
-  Delete as DeleteIcon
+  RemoveCircleOutline as DeleteIcon
 } from '@material-ui/icons/'
 import {Notification} from '../imports'
 
@@ -167,25 +167,16 @@ class CodeEditorCard extends Component {
             <Typography className={classes.title} color="textSecondary">
               {this.state.username}
               's Code Editor
-              <Button
-                variant="outlined"
-                mini
-                color="primary"
-                className={classes.button}
-                onClick={() => this.setState({settingsFormOpen: true})}
-              >
-                <EditIcon />
-              </Button>
-              <Button
-                mini
-                variant="outlined"
-                className={classes.button}
-                onClick={() =>
-                  this.props.handleDrop('codeEditor', this.props.codeEditorId)
-                }
-              >
-                <DeleteIcon />
-              </Button>
+              <div>
+                <EditIcon
+                  onClick={() => this.setState({settingsFormOpen: true})}
+                />
+                <DeleteIcon
+                  onClick={() =>
+                    this.props.handleDrop('codeEditor', this.props.codeEditorId)
+                  }
+                />
+              </div>
             </Typography>
             <div>
               <CodeEditor

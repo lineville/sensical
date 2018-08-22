@@ -4,7 +4,10 @@ import Message from './Message'
 import firebase from 'firebase'
 import {DragSource} from 'react-dnd'
 import PropTypes from 'prop-types'
-import {Send as SendIcon, Delete as DeleteIcon} from '@material-ui/icons/'
+import {
+  Send as SendIcon,
+  RemoveCircleOutline as DeleteIcon
+} from '@material-ui/icons/'
 import {withStyles} from '@material-ui/core/styles'
 import styles from '../styles/MessagingStyles'
 import {
@@ -102,16 +105,9 @@ export class Messaging extends Component {
           }}
         >
           <CardContent>
-            <Typography color="textSecondary">
+            <Typography color="textSecondary" className={classes.title}>
               Chat
-              <Button
-                mini
-                variant="outlined"
-                className={classes.button}
-                onClick={() => this.props.handleDrop('chat')}
-              >
-                <DeleteIcon />
-              </Button>
+              <DeleteIcon onClick={() => this.props.handleDrop('chat')} />
             </Typography>
             <div className={classes.content}>
               <div className={classes.messages}>

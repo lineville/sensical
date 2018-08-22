@@ -188,7 +188,7 @@ class Profile extends Component {
             <p>Email: {this.state.user.email}</p>
 
             <Button
-              variant="outlined"
+              variant="fab"
               mini
               color="primary"
               className={classes.button}

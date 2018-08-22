@@ -13,7 +13,6 @@ import {
   ListItem,
   ListItemText,
   Snackbar,
-  IconButton,
   Button,
   Dialog,
   TextField,
@@ -25,7 +24,7 @@ import {
   PersonAdd as PersonAddIcon,
   Done as DoneIcon,
   Cancel as CancelIcon,
-  MoreVert as MoreVertIcon
+  Add as AddIcon
 } from '@material-ui/icons/'
 
 class RoomStatusBar extends Component {
@@ -222,11 +221,13 @@ class RoomStatusBar extends Component {
         <AppBar position="static">
           <Toolbar className={classes.content}>
             <Button
-              className={classes.menuButton}
-              color="inherit"
+              variant="fab"
+              color="default"
               onClick={this.toggleDrawer(true)}
+              aria-label="Add"
+              className={classes.button}
             >
-              <MoreVertIcon />
+              <AddIcon />
             </Button>
             <Drawer
               open={this.state.drawerOpen}

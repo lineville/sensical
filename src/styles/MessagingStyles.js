@@ -15,6 +15,10 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit
   },
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,

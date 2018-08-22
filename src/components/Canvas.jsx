@@ -6,7 +6,7 @@ import {DragSource} from 'react-dnd'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {Card, CardContent, Button, Typography} from '@material-ui/core/'
-import {Delete as DeleteIcon} from '@material-ui/icons/'
+import {RemoveCircleOutline as DeleteIcon} from '@material-ui/icons/'
 import styles from '../styles/CanvasStyle'
 
 const canvasSource = {
@@ -210,14 +210,7 @@ class Canvas extends Component {
           <CardContent>
             <Typography className={classes.title} color="textSecondary">
               Canvas
-              <Button
-                mini
-                variant="outlined"
-                className={classes.button}
-                onClick={() => this.props.handleDrop('canvas')}
-              >
-                <DeleteIcon />
-              </Button>
+              <DeleteIcon onClick={() => this.props.handleDrop('canvas')} />
             </Typography>
 
             <div id="whiteboard">

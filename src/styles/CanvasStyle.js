@@ -6,6 +6,10 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
     textAlign: 'right'
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 })
 

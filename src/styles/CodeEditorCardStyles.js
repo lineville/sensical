@@ -18,6 +18,10 @@ const styles = theme => ({
   },
   iconSmall: {
     fontSize: 15
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 })
 
