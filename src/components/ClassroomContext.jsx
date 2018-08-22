@@ -102,6 +102,7 @@ class ClassroomContext extends Component {
         <Classroom
           classroom={this.props.match.params.classroomId}
           positions={this.state}
+          history={this.props.history}
         />
       </div>
     )
