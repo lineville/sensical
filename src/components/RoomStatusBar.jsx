@@ -195,14 +195,16 @@ class RoomStatusBar extends Component {
           {Object.values(this.props.classState.codeEditors).includes(false)
             ? Object.keys(this.props.classState.codeEditors)
                 .filter(id => !this.props.classState.codeEditors[id])
-                .map(id => (
-                  <ListItem key={id} button>
-                    <ListItemText
-                      primary={id}
-                      onClick={() => this.props.addModule('codeEditor', id)}
-                    />
-                  </ListItem>
-                ))
+                .map(id => {
+                  return (
+                    <ListItem key={id} button>
+                      <ListItemText
+                        primary={id}
+                        onClick={() => this.props.addModule('codeEditor', id)}
+                      />
+                    </ListItem>
+                  )
+                })
             : null}
           {!this.props.classState.video ? (
             <ListItem button>

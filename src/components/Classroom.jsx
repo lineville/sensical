@@ -42,7 +42,6 @@ class Classroom extends Component {
       userIds: [],
       roomId: '',
       whiteboardId: '',
-      // codeEditorIds: [],
       chatsId: '',
       notepadId: '',
       chat: true,
