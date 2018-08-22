@@ -146,7 +146,7 @@ class Signup extends Component {
           />
         </FormControl>
         <Button
-          variant="contained"
+          variant="outlined"
           type="submit"
           color="primary"
           onClick={this.handleSignup}

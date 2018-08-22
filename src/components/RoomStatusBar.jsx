@@ -13,7 +13,6 @@ import {
   ListItem,
   ListItemText,
   Snackbar,
-  IconButton,
   Button,
   Dialog,
   TextField,
@@ -25,7 +24,7 @@ import {
   PersonAdd as PersonAddIcon,
   Done as DoneIcon,
   Cancel as CancelIcon,
-  Add as AddIcon
+  AddCircleOutline as AddIcon
 } from '@material-ui/icons/'
 
 class RoomStatusBar extends Component {
@@ -221,14 +220,15 @@ class RoomStatusBar extends Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar className={classes.content}>
-            <IconButton
-              className={classes.menuButton}
-              color="inherit"
+            {/* <Button
               variant="fab"
+              color="default"
+              onClick={this.toggleDrawer(true)}
               aria-label="Add"
-            >
-              <AddIcon onClick={this.toggleDrawer(true)} />
-            </IconButton>
+              className={classes.button}
+            > */}
+            <AddIcon onClick={this.toggleDrawer(true)} />
+            {/* </Button> */}
             <Drawer
               open={this.state.drawerOpen}
               onClose={this.toggleDrawer(false)}
@@ -264,7 +264,6 @@ class RoomStatusBar extends Component {
                 className={classes.button}
                 onClick={() => this.setState({inviteFormOpen: true})}
               >
-                Invite
                 <PersonAddIcon className={classes.rightIcon} />
               </Button>
               <Dialog

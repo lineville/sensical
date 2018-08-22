@@ -11,6 +11,10 @@ const styles = theme => ({
     border: '1px solid ' + theme.palette.primary.main,
     color: theme.palette.primary.main,
     borderRadius: 5
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 })
 

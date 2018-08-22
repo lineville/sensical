@@ -130,7 +130,7 @@ class Login extends Component {
           />
         </FormControl>
         <Button
-          variant="contained"
+          variant="outlined"
           color="primary"
           type="submit"
           onClick={this.handleLogin}

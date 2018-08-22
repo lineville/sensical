@@ -4,6 +4,7 @@ import {VideoComponent} from '../imports'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {Card, CardContent, Typography} from '@material-ui/core/'
+import {RemoveCircleOutline as DeleteIcon} from '@material-ui/icons/'
 import styles from '../styles/VideoCardStyles'
 
 const messagingSource = {
@@ -40,7 +41,10 @@ export class VideoCard extends Component {
           }}
         >
           <CardContent className={classes.cardContent}>
-            <Typography color="textSecondary">Video</Typography>
+            <Typography color="textSecondary" className={classes.title}>
+              Video
+              <DeleteIcon onClick={() => this.props.handleDrop('videoCard')} />
+            </Typography>
             <VideoComponent roomId={this.props.roomId} />
           </CardContent>
         </Card>

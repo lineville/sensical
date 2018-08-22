@@ -6,10 +6,17 @@ const styles = theme => ({
   margin: {
     margin: theme.spacing.unit
   },
+  button: {
+    margin: theme.spacing.unit
+  },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 200
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 })
 
