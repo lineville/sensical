@@ -33,7 +33,8 @@ class Profile extends Component {
       passwordFormOpen: false,
       newEmail: '',
       newUserName: '',
-      newImageURL: ''
+      newImageURL: '',
+      newBackgroundURL: ''
     }
   }
 
@@ -162,6 +163,23 @@ class Profile extends Component {
     }
   }
 
+  changeBackgroundImage = () => {
+    if (this.state.newBackgroundURL) {
+      db.collection('users')
+        .doc(this.state.user.id)
+        .update({backgroundImageURL: this.state.newBackgroundURL})
+        .then(() => {
+          this.setState({
+            editFormOpen: false,
+            popUpMessageType: 'success',
+            popUpMessage: 'Background image successfully changed',
+            open: true,
+            newImageURL: ''
+          })
+        })
+    }
+  }
+
   render() {
     const {classes, filter, className, style, small} = this.props
     const parallaxClasses = classNames({
@@ -175,7 +193,10 @@ class Profile extends Component {
         <div
           className={parallaxClasses}
           style={{
-            ...style
+            ...style,
+            backgroundImage:
+              this.state.user.backgroundImageURL ||
+              'linear-gradient( 109.6deg,  rgba(70,249,253,1) 21.3%, rgba(247,10,255,1) 77.3% )'
           }}
         >
           <Avatar

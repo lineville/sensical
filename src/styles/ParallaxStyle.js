@@ -8,8 +8,7 @@ const parallaxStyle = {
     paddingTop: '15px',
     border: '0',
     display: 'flex',
-    alignItems: 'center',
-    backgroundImage: 'linear-gradient(to top, #9890e3 0%, #b1f4cf 100%)'
+    alignItems: 'center'
   },
   filter: {
     '&:before': {
