@@ -227,6 +227,20 @@ class Canvas extends Component {
                 }}
                 color={this.state.color}
               />
+              <Button
+                onClick={() => {
+                  this.setState({color: 'black'})
+                }}
+              >
+                BLACK
+              </Button>
+              <Button
+                onClick={() => {
+                  this.setState({color: 'white'})
+                }}
+              >
+                ERASER
+              </Button>
               <Button onClick={this.clearCanvas}>Clear</Button>
             </div>
           </CardContent>
