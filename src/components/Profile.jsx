@@ -18,7 +18,6 @@ import CancelIcon from '@material-ui/icons/Cancel'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import MaterialUIForm from 'material-ui-form'
 
 const styles = theme => ({
   row: {
@@ -163,7 +162,6 @@ class Profile extends Component {
         .update({username: this.state.newUserName})
         .then(() => {
           this.setState({
-            // editFormOpen: false,
             popUpMessageType: 'success',
             popUpMessage: 'Username successfully changed',
             open: true,
@@ -180,7 +178,6 @@ class Profile extends Component {
         .update({profilePicURL: this.state.newImageURL})
         .then(() => {
           this.setState({
-            // editFormOpen: false,
             popUpMessageType: 'success',
             popUpMessage: 'Profile image successfully changed',
             open: true,
@@ -250,7 +247,6 @@ class Profile extends Component {
               />
             </Snackbar>
 
-            {/* <MaterialUIForm onSubmit={this.handleLogin}> */}
             <Dialog
               open={this.state.editFormOpen}
               onClose={this.handleClose}
@@ -304,7 +300,6 @@ class Profile extends Component {
                 </Button>
               </DialogActions>
             </Dialog>
-            {/* </MaterialUIForm> */}
           </div>
         </div>
         <RoomContainer rooms={this.state.user.rooms} user={this.state.user} />
