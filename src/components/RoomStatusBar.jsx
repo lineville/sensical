@@ -33,7 +33,7 @@ const styles = theme => ({
     bottom: 0,
     width: '100%',
     zIndex: 100,
-    height: 35
+    height: 38
   },
   content: {
     bottom: 13
