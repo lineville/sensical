@@ -253,10 +253,6 @@ ul {
   top: 0;
   left: 15px !important;
 }
-[class*='jss'] {
-  top: 0;
-  left: 15px !important;
-}
 
 #google {
   width: 150px !important ;
