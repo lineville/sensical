@@ -10,6 +10,8 @@ import {
   RoomStatusBar
 } from '../imports'
 
+import {Notification} from '../imports'
+import {Snackbar} from '@material-ui/core/'
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import styles from '../styles/ClassroomStyle'
@@ -27,9 +29,14 @@ class Classroom extends Component {
       codeEditors: {},
       canvas: true,
       video: true,
-      notepad: true
+      notepad: true,
+      open: false,
+      popUpMessageType: 'warning',
+      popUpMessage: `You don't have access to this room`,
+      allowedinRoom: false
     }
     this.handleDrop = this.handleDrop.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   async componentDidMount() {
@@ -61,6 +68,13 @@ class Classroom extends Component {
           codeEditors: editors
         })
       })
+
+    const userId = firebase.auth().currentUser.uid
+    if (this.state.userIds.includes(userId)) {
+      this.setState({allowedinRoom: true})
+    } else {
+      this.setState({open: true})
+    }
   }
 
   handleDrop = (item, id) => {
@@ -93,9 +107,20 @@ class Classroom extends Component {
       firebase.auth().currentUser
     )
   }
+
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    this.setState({
+      open: false
+    })
+    this.props.history.push('/profile')
+  }
+
   render() {
     const {classes, positions} = this.props
-    if (this.shouldRender()) {
+    if (this.state.allowedinRoom && this.shouldRender()) {
       return (
         <div className={classes.root}>
           <div className={classes.room}>
@@ -165,7 +190,27 @@ class Classroom extends Component {
         </div>
       )
     }
-    return <div />
+    if (!this.state.allowedinRoom) {
+      return (
+        <React.Fragment>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'left'
+            }}
+            open={this.state.open}
+            autoHideDuration={10000}
+            onClose={this.handleClose}
+          >
+            <Notification
+              onClose={this.handleClose}
+              variant={this.state.popUpMessageType}
+              message={this.state.popUpMessage}
+            />
+          </Snackbar>
+        </React.Fragment>
+      )
+    }
   }
 }
 
