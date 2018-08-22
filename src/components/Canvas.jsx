@@ -241,6 +241,32 @@ class Canvas extends Component {
               >
                 ERASER
               </Button>
+              <Button
+                onClick={() => {
+                  db.collection('whiteboards')
+                    .doc(this.props.whiteboardId)
+                    .update({
+                      strokes: []
+                    })
+                    .then(() => {
+                      this.setState({
+                        curStroke: [],
+                        strokes: null
+                      })
+                    })
+                    .catch(error => {
+                      console.error(
+                        'Error drawing new stroke to Firestore Database: ',
+                        error
+                      )
+                    })
+                  const ctx = this.whiteboardCanvas.getContext('2d')
+                  ctx.fillStyle = this.state.color
+                  ctx.fillRect(0, 0, 500, 500)
+                }}
+              >
+                FILL
+              </Button>
               <Button onClick={this.clearCanvas}>Clear</Button>
             </div>
           </CardContent>
