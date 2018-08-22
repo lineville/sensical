@@ -123,7 +123,6 @@ class Login extends Component {
   render() {
     const {classes} = this.props
     return (
-      // <div className={classes.container}>
       <MaterialUIForm onSubmit={this.handleLogin} className={classes.container}>
         <FormControl className={classes.margin}>
           <TextField
@@ -157,7 +156,11 @@ class Login extends Component {
           Login
         </Button>
         <Button id="google" onClick={this.googleSignup}>
-          <img src="/btn_google_signin_light_pressed_web.png" id="google" />
+          <img
+            src="/btn_google_signin_light_pressed_web.png"
+            id="google"
+            alt="google"
+          />
         </Button>
 
         <Snackbar
@@ -176,7 +179,6 @@ class Login extends Component {
           />
         </Snackbar>
       </MaterialUIForm>
-      // </div>
     )
   }
 }

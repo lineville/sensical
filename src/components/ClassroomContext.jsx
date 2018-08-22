@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import {DropTarget, DragDropContext, XYCoord} from 'react-dnd'
+import {DropTarget, DragDropContext} from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Classroom from './Classroom'
 import db from '../firestore'
@@ -89,7 +89,7 @@ class ClassroomContext extends Component {
   }
 
   render() {
-    const {isOver, connectDropTarget, item} = this.props
+    const {connectDropTarget} = this.props
     if (!Object.keys(this.state.codeEditors).length) {
       return <div />
     }

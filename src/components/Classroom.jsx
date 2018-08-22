@@ -97,7 +97,6 @@ class Classroom extends Component {
     } else {
       this.setState({[item]: false})
     }
-    console.log(this.state)
   }
 
   addModule = (item, id) => {
