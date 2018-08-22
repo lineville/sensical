@@ -18,8 +18,13 @@ const styles = theme => ({
   fullList: {
     width: 'auto'
   },
-  lowercase: {
-    textTransform: 'lowercase'
+  logo: {
+    textTransform: 'lowercase',
+    fontSize: 25
+  },
+  height: {
+    height: 50,
+    justifyContent: 'center'
   }
 })
 
