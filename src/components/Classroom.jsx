@@ -101,13 +101,11 @@ class Classroom extends Component {
   }
 
   addModule = (item, id) => {
-    console.log('id in add', id)
     if (item === 'codeEditor') {
       this.setState({codeEditors: {...this.state.codeEditors, [id]: true}})
     } else {
       this.setState({[item]: true})
     }
-    console.log('state after add', this.state.codeEditors)
   }
 
   shouldRender = () => {
