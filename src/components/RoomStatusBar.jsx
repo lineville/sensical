@@ -24,7 +24,7 @@ import {
   PersonAdd as PersonAddIcon,
   Done as DoneIcon,
   Cancel as CancelIcon,
-  Add as AddIcon
+  AddCircleOutline as AddIcon
 } from '@material-ui/icons/'
 
 class RoomStatusBar extends Component {
@@ -220,15 +220,15 @@ class RoomStatusBar extends Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar className={classes.content}>
-            <Button
+            {/* <Button
               variant="fab"
               color="default"
               onClick={this.toggleDrawer(true)}
               aria-label="Add"
               className={classes.button}
-            >
-              <AddIcon />
-            </Button>
+            > */}
+            <AddIcon onClick={this.toggleDrawer(true)} />
+            {/* </Button> */}
             <Drawer
               open={this.state.drawerOpen}
               onClose={this.toggleDrawer(false)}
@@ -264,7 +264,6 @@ class RoomStatusBar extends Component {
                 className={classes.button}
                 onClick={() => this.setState({inviteFormOpen: true})}
               >
-                Invite
                 <PersonAddIcon className={classes.rightIcon} />
               </Button>
               <Dialog

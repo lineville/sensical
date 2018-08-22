@@ -20,7 +20,8 @@ const styles = theme => ({
     fontSize: 14,
     flexGrow: 1,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingLeft: '15px'
   },
   textField: {
     marginLeft: theme.spacing.unit,

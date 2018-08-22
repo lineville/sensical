@@ -5,6 +5,7 @@ body {
   height: 100vh;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 200;
+  background-color: 'rgba(171,197,170, 0.2)';
 }
 
 canvas {
