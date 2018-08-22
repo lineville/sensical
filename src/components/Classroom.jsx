@@ -10,7 +10,6 @@ import Notepad from './Notepad'
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import RoomStatusBar from './RoomStatusBar'
-import {id} from 'brace/worker/xml'
 
 const styles = theme => ({
   root: {
@@ -43,7 +42,7 @@ class Classroom extends Component {
       userIds: [],
       roomId: '',
       whiteboardId: '',
-      codeEditorIds: [],
+      // codeEditorIds: [],
       chatsId: '',
       notepadId: '',
       chat: true,
@@ -60,14 +59,19 @@ class Classroom extends Component {
       .collection('rooms')
       .doc(this.props.classroom)
       .get()
+    const codeEditors = {}
+    classroom.data().codeEditorIds.forEach(id => {
+      codeEditors[id] = true
+    })
     this.setState({
       userIds: classroom.data().userIds,
       roomId: classroom.id,
       whiteboardId: classroom.data().whiteboardId,
-      codeEditorIds: [
-        ...this.state.codeEditorIds,
-        ...classroom.data().codeEditorIds
-      ],
+      codeEditors,
+      // codeEditorIds: [
+      //   ...this.state.codeEditorIds,
+      //   ...classroom.data().codeEditorIds
+      // ],
       chatsId: classroom.data().chatsId,
       notepadId: classroom.data().notepadId
     })
@@ -75,24 +79,21 @@ class Classroom extends Component {
     db.collection('rooms')
       .doc(this.props.classroom)
       .onSnapshot(snapshot => {
+        let editors = {}
+        snapshot.data().codeEditorIds.forEach(id => {
+          editors[id] = true
+        })
         this.setState({
-          codeEditorIds: snapshot.data().codeEditorIds
+          codeEditors: editors
         })
       })
   }
 
   handleDrop = (item, id) => {
     if (item === 'codeEditor') {
-      const idx = this.state.codeEditorIds.indexOf(id)
-      console.log(
-        this.state.codeEditorIds
-          .slice(0, idx)
-          .concat(this.state.codeEditorIds.slice(idx + 1))
-      )
+      // const idx = this.state.codeEditorIds.indexOf(id)
       this.setState({
-        codeEditorIds: this.state.codeEditorIds
-          .slice(0, idx)
-          .concat(this.state.codeEditorIds.slice(idx + 1))
+        codeEditors: {...this.state.codeEditors, [id]: false}
       })
     } else {
       this.setState({[item]: false})
@@ -100,18 +101,20 @@ class Classroom extends Component {
     console.log(this.state)
   }
 
-  addModule(item) {
+  addModule = (item, id) => {
+    console.log('id in add', id)
     if (item === 'codeEditor') {
-      this.setState({codeEditors: {...this.state.codeEditors, item: true}})
+      this.setState({codeEditors: {...this.state.codeEditors, [id]: true}})
     } else {
       this.setState({[item]: true})
     }
+    console.log('state after add', this.state.codeEditors)
   }
 
   shouldRender = () => {
     const hasCodeEditorIds = true
-    this.state.codeEditorIds.forEach(editorId => {
-      if (!editorId.length) return false
+    Object.keys(this.state.codeEditors).forEach(editorId => {
+      return this.state.codeEditors[editorId]
     })
     return (
       hasCodeEditorIds &&
@@ -166,24 +169,26 @@ class Classroom extends Component {
                   />
                 ) : null}
               </Grid>
-              {this.state.codeEditorIds
-                ? this.state.codeEditorIds.map(id => {
-                    return (
-                      <CodeEditorCard
-                        key={id}
-                        codeEditorId={id}
-                        allEditorIds={this.state.codeEditorIds}
-                        roomId={this.state.roomId}
-                        handleDrop={() => this.handleDrop('codeEditor', id)}
-                        position={positions.codeEditors[id]}
-                      />
-                    )
-                  })
+              {Object.values(this.state.codeEditors).includes(true)
+                ? Object.keys(this.state.codeEditors)
+                    .filter(id => this.state.codeEditors[id])
+                    .map(id => {
+                      return (
+                        <CodeEditorCard
+                          key={id}
+                          codeEditorId={id}
+                          allEditorIds={Object.keys(this.state.codeEditors)}
+                          roomId={this.state.roomId}
+                          handleDrop={() => this.handleDrop('codeEditor', id)}
+                          position={positions.codeEditors[id]}
+                        />
+                      )
+                    })
                 : null}
             </Grid>
             <RoomStatusBar
               classState={this.state}
-              addModule={mod => this.addModule(mod)}
+              addModule={(mod, id) => this.addModule(mod, id)}
               handleDrop={this.handleDrop}
             />
           </div>

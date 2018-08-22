@@ -80,34 +80,38 @@ class CodeEditorCard extends Component {
   }
 
   async componentDidMount() {
-    const id = await this.props.codeEditorId
-    db.collection('codeEditors')
-      .doc(id)
-      .get()
-      .then(editor => {
-        this.setState({
-          mode: editor.data().settings.mode,
-          theme: editor.data().settings.theme,
-          fontSize: Number(editor.data().settings.fontSize),
-          showGutter: editor.data().settings.showGutter,
-          showLineNumbers: editor.data().settings.showLineNumbers,
-          tabSize: Number(editor.data().settings.tabSize)
-        })
-      })
-    db.collection('codeEditors')
-      .doc(id)
-      .get()
-      .then(editor => {
-        console.log(editor.data())
-        db.collection('users')
-          .doc(editor.data().userId)
-          .get()
-          .then(user => {
-            this.setState({
-              username: user.data().username
-            })
+    try {
+      const id = await this.props.codeEditorId
+      console.log(id)
+      db.collection('codeEditors')
+        .doc(id)
+        .get()
+        .then(editor => {
+          this.setState({
+            mode: editor.data().settings.mode,
+            theme: editor.data().settings.theme,
+            fontSize: Number(editor.data().settings.fontSize),
+            showGutter: editor.data().settings.showGutter,
+            showLineNumbers: editor.data().settings.showLineNumbers,
+            tabSize: Number(editor.data().settings.tabSize)
           })
-      })
+        })
+      db.collection('codeEditors')
+        .doc(id)
+        .get()
+        .then(editor => {
+          db.collection('users')
+            .doc(editor.data().userId)
+            .get()
+            .then(user => {
+              this.setState({
+                username: user.data().username
+              })
+            })
+        })
+    } catch (error) {
+      console.log('probably unmounted and no id', error)
+    }
   }
 
   handleClose = (event, reason) => {
