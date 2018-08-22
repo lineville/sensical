@@ -4,7 +4,11 @@ const styles = theme => ({
     position: 'fixed',
     bottom: 0,
     width: '100%',
-    zIndex: 100
+    zIndex: 100,
+    height: 38
+  },
+  content: {
+    bottom: 13
   },
   list: {
     width: 250
