@@ -197,7 +197,6 @@ class Canvas extends Component {
   }
 
   render() {
-    console.log('Z INDEX: ', this.props.position.zIndex)
     if (this.state.strokes) {
       this.state.strokes.forEach(stroke => {
         this.draw(stroke.start, stroke.end, stroke.strokeColor)

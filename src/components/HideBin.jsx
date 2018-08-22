@@ -19,9 +19,6 @@ const hideBinTarget = {
       return props
     }
   },
-  hover(props, monitor, component) {
-    const canDrop = monitor.canDrop()
-  },
   drop(props, monitor, component) {
     if (monitor.canDrop()) {
       const mod = monitor.getItem()

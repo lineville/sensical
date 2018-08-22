@@ -77,7 +77,7 @@ class Output extends Component {
             onClick={this.run}
             onChange={() => this.setState({output: ''})}
           >
-            <Typography className={classes.heading}>Output</Typography>
+            <Typography className={classes.heading}>Run</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <Typography>{this.state.output}</Typography>

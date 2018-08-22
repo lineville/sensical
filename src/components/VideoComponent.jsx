@@ -36,7 +36,6 @@ export class VideoComponent extends Component {
       this.setState({roomNameErr: true})
       return
     }
-    // console.log("Joining room '" + this.state.roomName + "'...")
     let connectOptions = {
       name: this.state.roomName
     }
@@ -82,7 +81,6 @@ export class VideoComponent extends Component {
 
   roomJoined(room) {
     // Called when a participant joins a room
-    // console.log("Joined as '" + this.state.identity + "'")
     this.setState({
       activeRoom: room,
       localMediaAvailable: true,
@@ -98,7 +96,6 @@ export class VideoComponent extends Component {
 
     // Attach the Tracks of the Room's Participants.
     room.participants.forEach(participant => {
-      // console.log("Already in Room: '" + participant.identity + "'")
       var previewContainer = this.refs.remoteMedia
       this.attachParticipantTracks(participant, previewContainer)
     })
@@ -111,7 +108,6 @@ export class VideoComponent extends Component {
     // When a Participant adds a Track, attach it to the DOM.
     //'trackAdded'
     room.on('trackSubscribed', (track, participant) => {
-      // console.log(participant.identity + ' added track: ' + track.kind)
       var previewContainer = this.refs.remoteMedia
       this.attachTracks([track], previewContainer)
       this.setState({otherpersoninRoom: true})
@@ -126,14 +122,12 @@ export class VideoComponent extends Component {
     //'trackRemoved'
     // room.on('trackUnsubscribed', (track, participant) => {
     room.on('trackRemoved', (track, participant) => {
-      // console.log(participant.identity + ' removed track: ' + track.kind)
       this.detachTracks([track])
       this.setState({otherpersoninRoom: false})
     })
 
     // When a Participant leaves the Room, detach its Tracks.
     room.on('participantDisconnected', participant => {
-      // console.log("Participant '" + participant.identity + "' left the room")
       this.detachParticipantTracks(participant)
     })
 

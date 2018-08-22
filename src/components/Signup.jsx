@@ -173,7 +173,11 @@ class Signup extends Component {
           Signup
         </Button>
         <Button type="submit" id="google" onClick={this.googleSignup}>
-          <img src="/btn_google_signin_light_pressed_web.png" id="google" />
+          <img
+            src="/btn_google_signin_light_pressed_web.png"
+            id="google"
+            alt="google"
+          />
         </Button>
       </MaterialUIForm>
     )

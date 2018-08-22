@@ -92,7 +92,6 @@ class InviteForm extends Component {
 
     const inviteeId = invitee.docs[0].id
 
-    console.log('invitee:', invitee)
     const invitedUser = await db
       .collection('users')
       .doc(inviteeId)

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import {DropTarget, DragDropContext, XYCoord} from 'react-dnd'
+import {DropTarget, DragDropContext} from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Classroom from './Classroom'
 import db from '../firestore'
@@ -64,13 +64,11 @@ class ClassroomContext extends Component {
   }
 
   moveModule(mod, left, top, id) {
-    if (mod.modName === 'codeEditors') {
+    if (mod.modName === 'codeEditor') {
       this.setState({curZIndex: this.state.curZIndex + 1})
-      console.log('CUR Z INDEX STATE: ', this.state.curZIndex)
       this.setState({
         codeEditors: {
           ...this.state.codeEditors,
-
           [id]: {
             top: top,
             left: left,
@@ -80,7 +78,6 @@ class ClassroomContext extends Component {
       })
     } else {
       this.setState({curZIndex: this.state.curZIndex + 1})
-      console.log('CUR Z INDEX STATE: ', this.state.curZIndex)
       this.setState({
         [mod.modName]: {
           top: top,
@@ -92,11 +89,10 @@ class ClassroomContext extends Component {
   }
 
   render() {
-    const {isOver, connectDropTarget, item} = this.props
+    const {connectDropTarget} = this.props
     if (!Object.keys(this.state.codeEditors).length) {
       return <div />
     }
-    console.log(this.state)
     return connectDropTarget(
       <div>
         <Classroom
