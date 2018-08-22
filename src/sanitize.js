@@ -44,7 +44,7 @@ function limitEval(code, fnOnStop, timeOut) {
 
   myWorker.onerror = function(error) {
     console.log(error.message)
-    onDone(true, error.message)
+    onDone(false, error.message)
   }
 
   myWorker.postMessage({c: code, i: id})

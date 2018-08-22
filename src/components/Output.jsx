@@ -42,12 +42,15 @@ class Output extends Component {
             this.setState({
               output: returnValue
             })
-          } else {
-            this.setState({
-              output:
-                'The code takes too long to run... Is there an infinite loop?'
-            })
-          }
+          } else if (!returnValue) {
+              this.setState({
+                output: 'Process took too long. Is there an infinite loop?'
+              })
+            } else {
+              this.setState({
+                output: returnValue
+              })
+            }
         } catch (error) {
           this.setState({
             output: error.message
