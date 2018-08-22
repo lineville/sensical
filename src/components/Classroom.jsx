@@ -1,39 +1,20 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
-import Messaging from './Messaging'
-import CodeEditorCard from './CodeEditorCard'
-import Canvas from './Canvas'
-import VideoCard from './VideoCard'
-import Notepad from './Notepad'
+import {
+  Messaging,
+  CodeEditorCard,
+  Canvas,
+  VideoCard,
+  Notepad,
+  RoomStatusBar
+} from '../imports'
 
+import {Notification} from '../imports'
+import {Snackbar} from '@material-ui/core/'
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import RoomStatusBar from './RoomStatusBar'
-import {id} from 'brace/worker/xml'
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  },
-  room: {
-    flexGrow: 1,
-    height: '100vh'
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary
-  },
-  card: {
-    minWidth: 275
-  },
-  pos: {
-    marginBottom: 12
-  }
-})
+import styles from '../styles/ClassroomStyle'
 
 class Classroom extends Component {
   constructor(props) {
@@ -42,16 +23,20 @@ class Classroom extends Component {
       userIds: [],
       roomId: '',
       whiteboardId: '',
-      codeEditorIds: [],
       chatsId: '',
       notepadId: '',
       chat: true,
       codeEditors: {},
       canvas: true,
       video: true,
-      notepad: true
+      notepad: true,
+      open: false,
+      popUpMessageType: 'warning',
+      popUpMessage: `You don't have access to this room`,
+      allowedinRoom: false
     }
     this.handleDrop = this.handleDrop.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   async componentDidMount() {
@@ -59,14 +44,15 @@ class Classroom extends Component {
       .collection('rooms')
       .doc(this.props.classroom)
       .get()
+    const codeEditors = {}
+    classroom.data().codeEditorIds.forEach(id => {
+      codeEditors[id] = true
+    })
     this.setState({
       userIds: classroom.data().userIds,
       roomId: classroom.id,
       whiteboardId: classroom.data().whiteboardId,
-      codeEditorIds: [
-        ...this.state.codeEditorIds,
-        ...classroom.data().codeEditorIds
-      ],
+      codeEditors,
       chatsId: classroom.data().chatsId,
       notepadId: classroom.data().notepadId
     })
@@ -74,23 +60,36 @@ class Classroom extends Component {
     db.collection('rooms')
       .doc(this.props.classroom)
       .onSnapshot(snapshot => {
+        let editors = {}
+        snapshot.data().codeEditorIds.forEach(id => {
+          editors[id] = true
+        })
         this.setState({
-          codeEditorIds: snapshot.data().codeEditorIds
+          codeEditors: editors
         })
       })
+
+    const userId = firebase.auth().currentUser.uid
+    if (this.state.userIds.includes(userId)) {
+      this.setState({allowedinRoom: true})
+    } else {
+      this.setState({open: true})
+    }
   }
 
-  handleDrop(item) {
+  handleDrop = (item, id) => {
     if (item === 'codeEditor') {
-      this.setState({codeEditors: {...this.state.codeEditors, item: false}})
+      this.setState({
+        codeEditors: {...this.state.codeEditors, [id]: false}
+      })
     } else {
       this.setState({[item]: false})
     }
   }
 
-  addModule(item) {
+  addModule = (item, id) => {
     if (item === 'codeEditor') {
-      this.setState({codeEditors: {...this.state.codeEditors, item: true}})
+      this.setState({codeEditors: {...this.state.codeEditors, [id]: true}})
     } else {
       this.setState({[item]: true})
     }
@@ -98,8 +97,8 @@ class Classroom extends Component {
 
   shouldRender = () => {
     const hasCodeEditorIds = true
-    this.state.codeEditorIds.forEach(editorId => {
-      if (!editorId.length) return false
+    Object.keys(this.state.codeEditors).forEach(editorId => {
+      return this.state.codeEditors[editorId]
     })
     return (
       hasCodeEditorIds &&
@@ -108,9 +107,20 @@ class Classroom extends Component {
       firebase.auth().currentUser
     )
   }
+
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    this.setState({
+      open: false
+    })
+    this.props.history.push('/profile')
+  }
+
   render() {
     const {classes, positions} = this.props
-    if (this.shouldRender()) {
+    if (this.state.allowedinRoom && this.shouldRender()) {
       return (
         <div className={classes.root}>
           <div className={classes.room}>
@@ -154,30 +164,53 @@ class Classroom extends Component {
                   />
                 ) : null}
               </Grid>
-              {this.state.codeEditorIds
-                ? this.state.codeEditorIds.map(id => {
-                    return (
-                      <CodeEditorCard
-                        key={id}
-                        codeEditorId={id}
-                        roomId={this.state.roomId}
-                        handleDrop={() => this.handleDrop('codeEditor')}
-                        position={positions.codeEditors[id]}
-                      />
-                    )
-                  })
+              {Object.values(this.state.codeEditors).includes(true)
+                ? Object.keys(this.state.codeEditors)
+                    .filter(id => this.state.codeEditors[id])
+                    .map(id => {
+                      return (
+                        <CodeEditorCard
+                          key={id}
+                          codeEditorId={id}
+                          allEditorIds={Object.keys(this.state.codeEditors)}
+                          roomId={this.state.roomId}
+                          handleDrop={() => this.handleDrop('codeEditor', id)}
+                          position={positions.codeEditors[id]}
+                        />
+                      )
+                    })
                 : null}
             </Grid>
             <RoomStatusBar
               classState={this.state}
-              addModule={mod => this.addModule(mod)}
+              addModule={(mod, id) => this.addModule(mod, id)}
               handleDrop={this.handleDrop}
             />
           </div>
         </div>
       )
     }
-    return <div />
+    if (!this.state.allowedinRoom) {
+      return (
+        <React.Fragment>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'left'
+            }}
+            open={this.state.open}
+            autoHideDuration={10000}
+            onClose={this.handleClose}
+          >
+            <Notification
+              onClose={this.handleClose}
+              variant={this.state.popUpMessageType}
+              message={this.state.popUpMessage}
+            />
+          </Snackbar>
+        </React.Fragment>
+      )
+    }
   }
 }
 

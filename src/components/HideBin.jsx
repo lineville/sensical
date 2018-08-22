@@ -1,16 +1,9 @@
 import React, {Component} from 'react'
 import {DropTarget} from 'react-dnd'
-
 import {withStyles} from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import DeleteIcon from '@material-ui/icons/Delete'
-
-const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-    backgroundColor: 'none'
-  }
-})
+import {Button} from '@material-ui/core/'
+import {Delete as DeleteIcon} from '@material-ui/icons/'
+import styles from '../styles/HideBinStyles'
 
 const hideBinTarget = {
   canDrop(props, monitor) {
@@ -19,10 +12,10 @@ const hideBinTarget = {
       return props
     }
   },
-  hover(props, monitor, component) {
+  hover(props, monitor) {
     const canDrop = monitor.canDrop()
   },
-  drop(props, monitor, component) {
+  drop(props, monitor) {
     if (monitor.canDrop()) {
       const mod = monitor.getItem()
       mod.handleDrop()
@@ -45,7 +38,12 @@ class HideBin extends Component {
 
     return connectDropTarget(
       <div className="target" style={{background: backgroundColor}}>
-        <Button color="inherit" className={classes.button}>
+        <Button
+          color="inherit"
+          className={classes.button}
+          variant="outlined"
+          mini
+        >
           <DeleteIcon />
           Hide
         </Button>

@@ -1,57 +1,31 @@
 import React, {Component} from 'react'
 import db from '../firestore'
-import RoomMembers from './RoomMembers'
-import HideBin from './HideBin'
-
+import {RoomMembers, HideBin, Notification} from '../imports'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Drawer from '@material-ui/core/Drawer'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import PersonAddIcon from '@material-ui/icons/PersonAdd'
-import DoneIcon from '@material-ui/icons/Done'
-import CancelIcon from '@material-ui/icons/Cancel'
-import ListItemText from '@material-ui/core/ListItemText'
-import Snackbar from '@material-ui/core/Snackbar'
-import IconButton from '@material-ui/core/IconButton'
-import AddIcon from '@material-ui/icons/Add'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import TextField from '@material-ui/core/TextField'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Notification from './Notification'
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    position: 'fixed',
-    bottom: 0,
-    width: '100%',
-    zIndex: 100
-  },
-  list: {
-    width: 250
-  },
-  fullList: {
-    width: 'auto'
-  },
-  text: {
-    fontSize: 14,
-    flexGrow: 1,
-    display: 'flex',
-    alignItems: 'center'
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  }
-})
+import styles from '../styles/RoomStatusBarStyles'
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Snackbar,
+  Button,
+  Dialog,
+  TextField,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from '@material-ui/core/'
+import {
+  PersonAdd as PersonAddIcon,
+  Done as DoneIcon,
+  Cancel as CancelIcon,
+  AddCircleOutline as AddIcon
+} from '@material-ui/icons/'
 
 class RoomStatusBar extends Component {
   constructor() {
@@ -185,43 +159,38 @@ class RoomStatusBar extends Component {
       <div className={classes.fullList}>
         <List>
           {!this.props.classState.canvas ? (
-            <ListItem button>
-              <ListItemText
-                primary="Canvas"
-                onClick={() => this.props.addModule('canvas')}
-              />
+            <ListItem button onClick={() => this.props.addModule('canvas')}>
+              <ListItemText primary="Canvas" />
             </ListItem>
           ) : null}
-          {!this.props.classState.codeEditors ? (
-            <ListItem button>
-              <ListItemText
-                primary="Code Editor"
-                onClick={() => this.props.addModule('codeEditors')}
-              />
-            </ListItem>
-          ) : null}
+          {Object.values(this.props.classState.codeEditors).includes(false)
+            ? Object.keys(this.props.classState.codeEditors)
+                .filter(id => !this.props.classState.codeEditors[id])
+                .map(id => {
+                  return (
+                    <ListItem
+                      key={id}
+                      button
+                      onClick={() => this.props.addModule('codeEditor', id)}
+                    >
+                      <ListItemText primary={id} />
+                    </ListItem>
+                  )
+                })
+            : null}
           {!this.props.classState.video ? (
-            <ListItem button>
-              <ListItemText
-                primary="Video"
-                onClick={() => this.props.addModule('video')}
-              />
+            <ListItem button onClick={() => this.props.addModule('video')}>
+              <ListItemText primary="Video" />
             </ListItem>
           ) : null}
           {!this.props.classState.notepad ? (
-            <ListItem button>
-              <ListItemText
-                primary="Notepad"
-                onClick={() => this.props.addModule('notepad')}
-              />
+            <ListItem button onClick={() => this.props.addModule('notepad')}>
+              <ListItemText primary="Notepad" />
             </ListItem>
           ) : null}
           {!this.props.classState.chat ? (
-            <ListItem button>
-              <ListItemText
-                primary="Chat"
-                onClick={() => this.props.addModule('chat')}
-              />
+            <ListItem button onClick={() => this.props.addModule('chat')}>
+              <ListItemText primary="Chat" />
             </ListItem>
           ) : null}
           {this.props.classState.canvas &&
@@ -239,15 +208,16 @@ class RoomStatusBar extends Component {
     return (
       <div className={classes.root}>
         <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              className={classes.menuButton}
-              color="inherit"
+          <Toolbar className={classes.content}>
+            {/* <Button
               variant="fab"
+              color="default"
+              onClick={this.toggleDrawer(true)}
               aria-label="Add"
-            >
-              <AddIcon onClick={this.toggleDrawer(true)} />
-            </IconButton>
+              className={classes.button}
+            > */}
+            <AddIcon onClick={this.toggleDrawer(true)} />
+            {/* </Button> */}
             <Drawer
               open={this.state.drawerOpen}
               onClose={this.toggleDrawer(false)}
@@ -283,7 +253,6 @@ class RoomStatusBar extends Component {
                 className={classes.button}
                 onClick={() => this.setState({inviteFormOpen: true})}
               >
-                Invite
                 <PersonAddIcon className={classes.rightIcon} />
               </Button>
               <Dialog

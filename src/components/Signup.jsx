@@ -3,58 +3,9 @@ import React, {Component} from 'react'
 import db from '../firestore'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
-import FormControl from '@material-ui/core/FormControl'
-import purple from '@material-ui/core/colors/purple'
-import Button from '@material-ui/core/Button'
-
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flexDirection: 'column',
-    alignItems: 'center',
-    margin: '10%'
-  },
-  margin: {
-    margin: theme.spacing.unit
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  },
-  cssLabel: {
-    '&$cssFocused': {
-      color: purple[500]
-    }
-  },
-  cssFocused: {},
-  cssUnderline: {
-    '&:after': {
-      borderBottomColor: purple[500]
-    }
-  },
-  bootstrapRoot: {
-    padding: 0,
-    'label + &': {
-      marginTop: theme.spacing.unit * 3
-    }
-  },
-  bootstrapInput: {
-    borderRadius: 4,
-    backgroundColor: theme.palette.common.white,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '10px 12px',
-    width: 'calc(100% - 24px)',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    '&:focus': {
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)'
-    }
-  }
-})
+import {TextField, FormControl, Button} from '@material-ui/core/'
+import MaterialUIForm from 'material-ui-form'
+import styles from '../styles/SignupStyles'
 
 class Signup extends Component {
   constructor() {
@@ -151,6 +102,7 @@ class Signup extends Component {
         var email = error.email
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential
+        console.log(errorMessage)
         // ...
       })
   }
@@ -158,7 +110,7 @@ class Signup extends Component {
   render() {
     const {classes} = this.props
     return (
-      <div className={classes.container}>
+      <MaterialUIForm onSubmit={this.handleLogin} className={classes.container}>
         <FormControl className={classes.margin}>
           <TextField
             id="username-input"
@@ -194,7 +146,7 @@ class Signup extends Component {
           />
         </FormControl>
         <Button
-          variant="contained"
+          variant="outlined"
           type="submit"
           color="primary"
           onClick={this.handleSignup}
@@ -202,9 +154,13 @@ class Signup extends Component {
           Signup
         </Button>
         <Button type="submit" id="google" onClick={this.googleSignup}>
-          <img src="/btn_google_signin_light_focus_web@2x.png" id="google" />
+          <img
+            src="/btn_google_signin_light_pressed_web.png"
+            id="google"
+            alt="google"
+          />
         </Button>
-      </div>
+      </MaterialUIForm>
     )
   }
 }

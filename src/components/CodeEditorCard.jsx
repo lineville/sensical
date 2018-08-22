@@ -3,31 +3,35 @@ import CodeEditor from './CodeEditor'
 import PropTypes from 'prop-types'
 import {DragSource} from 'react-dnd'
 import db from '../firestore'
-import firebase from 'firebase'
-
 import {withStyles} from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
-import Dialog from '@material-ui/core/Dialog'
-import EditIcon from '@material-ui/icons/Edit'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import Snackbar from '@material-ui/core/Snackbar'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DoneIcon from '@material-ui/icons/Done'
-import CancelIcon from '@material-ui/icons/Cancel'
-import Button from '@material-ui/core/Button'
-import Input from '@material-ui/core/Input'
-import FormControl from '@material-ui/core/FormControl'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import Select from '@material-ui/core/Select'
-import Switch from '@material-ui/core/Switch'
-import Notification from './Notification'
+import styles from '../styles/CodeEditorCardStyles'
+import {
+  Card,
+  CardContent,
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  Snackbar,
+  DialogTitle,
+  Button,
+  Input,
+  FormControl,
+  FormHelperText,
+  Select,
+  Switch
+} from '@material-ui/core/'
+import {
+  Edit as EditIcon,
+  Done as DoneIcon,
+  Cancel as CancelIcon,
+  RemoveCircleOutline as DeleteIcon
+} from '@material-ui/icons/'
+import {Notification} from '../imports'
 
 const codeEditorSource = {
   beginDrag(props) {
-    return {...props, modName: 'codeEditors'}
+    return {...props, modName: 'codeEditor'}
   }
 }
 
@@ -38,29 +42,6 @@ function collect(connect, monitor) {
     isDragging: monitor.isDragging()
   }
 }
-
-const styles = theme => ({
-  card: {
-    minWidth: 275,
-    position: 'absolute'
-  },
-  label: {
-    textAlign: 'center'
-  },
-  button: {
-    margin: theme.spacing.unit,
-    marginLeft: '300px'
-  },
-  leftIcon: {
-    marginRight: theme.spacing.unit
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit
-  },
-  iconSmall: {
-    fontSize: 15
-  }
-})
 
 class CodeEditorCard extends Component {
   constructor() {
@@ -99,7 +80,6 @@ class CodeEditorCard extends Component {
       .doc(id)
       .get()
       .then(editor => {
-        console.log(editor.data())
         db.collection('users')
           .doc(editor.data().userId)
           .get()
@@ -179,22 +159,24 @@ class CodeEditorCard extends Component {
             cursor: 'move',
             resize: 'both',
             top: position.top,
-            left: position.left
+            left: position.left,
+            zIndex: this.props.position.zIndex
           }}
         >
           <CardContent>
             <Typography className={classes.title} color="textSecondary">
               {this.state.username}
               's Code Editor
-              <Button
-                variant="fab"
-                mini
-                color="primary"
-                className={classes.button}
-                onClick={() => this.setState({settingsFormOpen: true})}
-              >
-                <EditIcon />
-              </Button>
+              <div>
+                <EditIcon
+                  onClick={() => this.setState({settingsFormOpen: true})}
+                />
+                <DeleteIcon
+                  onClick={() =>
+                    this.props.handleDrop('codeEditor', this.props.codeEditorId)
+                  }
+                />
+              </div>
             </Typography>
             <div>
               <CodeEditor

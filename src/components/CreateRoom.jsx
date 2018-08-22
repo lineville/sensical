@@ -1,21 +1,12 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
-
-import {
-  withStyles,
-  Snackbar,
-  TextField
-} from '../../node_modules/@material-ui/core'
-import Notification from './Notification'
-import FormControl from '@material-ui/core/FormControl'
-import Button from '@material-ui/core/Button'
-
-const styles = theme => ({
-  margin: {
-    margin: theme.spacing.unit
-  }
-})
+import MaterialUIForm from 'material-ui-form'
+import AddIcon from '@material-ui/icons/Add'
+import {withStyles} from '@material-ui/core/styles'
+import {Notification} from '../imports'
+import {FormControl, Snackbar, TextField, Button} from '@material-ui/core/'
+import styles from '../styles/CreateRoomStyles'
 
 export class CreateRoom extends Component {
   constructor() {
@@ -111,22 +102,30 @@ export class CreateRoom extends Component {
     const {classes} = this.props
     return (
       <div>
-        <FormControl className={classes.margin}>
-          <TextField
-            id="subject"
-            name="subject"
-            label="Subject"
-            className={classes.textField}
-            type="subject"
-            margin="normal"
-            value={this.state.subject}
-            onChange={this.handleChange}
-          />
-        </FormControl>
-        <Button onClick={this.createRoom} size="small" color="default">
-          Create Room
-        </Button>
+        <MaterialUIForm onSubmit={this.createRoom}>
+          <FormControl className={classes.margin}>
+            <TextField
+              id="subject"
+              name="subject"
+              label="New Room"
+              className={classes.textField}
+              type="subject"
+              margin="normal"
+              value={this.state.subject}
+              onChange={this.handleChange}
+            />
+          </FormControl>
 
+          <Button
+            variant="fab"
+            color="secondary"
+            aria-label="Add"
+            className={classes.button}
+            onClick={this.createRoom}
+          >
+            <AddIcon />
+          </Button>
+        </MaterialUIForm>
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',

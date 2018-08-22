@@ -2,12 +2,12 @@ import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
 import {HuePicker} from 'react-color'
-
 import {DragSource} from 'react-dnd'
-
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {Card, CardContent, Button, Typography} from '@material-ui/core/'
+import {RemoveCircleOutline as DeleteIcon} from '@material-ui/icons/'
+import styles from '../styles/CanvasStyle'
 
 const canvasSource = {
   canDrag(props) {
@@ -25,16 +25,6 @@ function collect(connect, monitor) {
     isDragging: monitor.isDragging()
   }
 }
-
-const styles = theme => ({
-  card: {
-    minWidth: 275,
-    position: 'absolute'
-  },
-  button: {
-    margin: theme.spacing.unit
-  }
-})
 
 class Canvas extends Component {
   constructor() {
@@ -60,21 +50,25 @@ class Canvas extends Component {
   }
 
   strokeToDb = curStroke => {
-    db.collection('whiteboards')
-      .doc(this.props.whiteboardId)
-      .update({
-        strokes: firebase.firestore.FieldValue.arrayUnion(...curStroke)
-      })
-      .then(() => {
-        this.setState({
-          curStroke: [],
-          strokes: null
+    if (curStroke.length) {
+      db.collection('whiteboards')
+        .doc(this.props.whiteboardId)
+        .update({
+          strokes: firebase.firestore.FieldValue.arrayUnion(...curStroke)
         })
-      })
-      .catch(error => {
-        console.error('Error drawing new stroke to Firestore Database: ', error)
-      })
-    this.forceUpdate()
+        .then(() => {
+          this.setState({
+            curStroke: [],
+            strokes: null
+          })
+        })
+        .catch(error => {
+          console.error(
+            'Error drawing new stroke to Firestore Database: ',
+            error
+          )
+        })
+    }
   }
 
   draw = (start, end, strokeColor = 'black') => {
@@ -209,12 +203,14 @@ class Canvas extends Component {
             cursor: this.state.overCanvas ? 'default' : 'move',
             resize: 'both',
             top: this.props.position.top,
-            left: this.props.position.left
+            left: this.props.position.left,
+            zIndex: this.props.position.zIndex
           }}
         >
           <CardContent>
             <Typography className={classes.title} color="textSecondary">
               Canvas
+              <DeleteIcon onClick={() => this.props.handleDrop('canvas')} />
             </Typography>
 
             <div id="whiteboard">

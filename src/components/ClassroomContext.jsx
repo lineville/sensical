@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 
-import {DropTarget, DragDropContext, XYCoord} from 'react-dnd'
+import {DropTarget, DragDropContext} from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import Classroom from './Classroom'
+import {Classroom} from '../imports'
 import db from '../firestore'
 
 const classroomTarget = {
@@ -37,11 +37,12 @@ class ClassroomContext extends Component {
   constructor() {
     super()
     this.state = {
-      video: {top: 85, left: 0},
-      messaging: {top: 85, left: 280},
-      canvas: {top: 85, left: 560},
-      notepad: {top: 200, left: 0},
-      codeEditors: {}
+      video: {top: 85, left: 10, zIndex: 1},
+      messaging: {top: 85, left: 1125, zIndex: 1},
+      canvas: {top: 300, left: 570, zIndex: 1},
+      notepad: {top: 85, left: 570, zIndex: 1},
+      codeEditors: {},
+      curZIndex: 1
     }
     this.moveModule = this.moveModule.bind(this)
   }
@@ -54,7 +55,11 @@ class ClassroomContext extends Component {
       .then(room => {
         let codeEditors = {}
         room.data().codeEditorIds.forEach((id, idx) => {
-          codeEditors[id] = {top: 300, left: 600 * idx}
+          codeEditors[id] = {
+            top: 300,
+            left: 900 * idx + 10,
+            zIndex: this.state.curZIndex
+          }
         })
         this.setState({
           codeEditors
@@ -63,29 +68,32 @@ class ClassroomContext extends Component {
   }
 
   moveModule(mod, left, top, id) {
-    if (mod.modName === 'codeEditors') {
+    if (mod.modName === 'codeEditor') {
+      this.setState({curZIndex: this.state.curZIndex + 1})
       this.setState({
         codeEditors: {
           ...this.state.codeEditors,
-
           [id]: {
             top: top,
-            left: left
+            left: left,
+            zIndex: this.state.curZIndex
           }
         }
       })
     } else {
+      this.setState({curZIndex: this.state.curZIndex + 1})
       this.setState({
         [mod.modName]: {
           top: top,
-          left: left
+          left: left,
+          zIndex: this.state.curZIndex
         }
       })
     }
   }
 
   render() {
-    const {isOver, connectDropTarget, item} = this.props
+    const {connectDropTarget} = this.props
     if (!Object.keys(this.state.codeEditors).length) {
       return <div />
     }
@@ -94,6 +102,7 @@ class ClassroomContext extends Component {
         <Classroom
           classroom={this.props.match.params.classroomId}
           positions={this.state}
+          history={this.props.history}
         />
       </div>
     )

@@ -1,26 +1,8 @@
 import React, {Component} from 'react'
 import CreateRoom from './CreateRoom'
 import RoomCard from './RoomCard'
-
-import {withStyles} from '../../node_modules/@material-ui/core'
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginBottom: 64
-  },
-  cardsHeading: {
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    alignItems: 'center'
-  },
-  allCards: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap'
-  }
-})
+import {withStyles} from '@material-ui/core'
+import styles from '../styles/RoomContainerStyles'
 
 class RoomContainer extends Component {
   render() {

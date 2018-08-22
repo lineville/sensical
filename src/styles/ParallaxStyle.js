@@ -5,11 +5,11 @@ const parallaxStyle = {
     position: 'relative',
     backgroundPosition: 'center center',
     backgroundSize: 'cover',
-    margin: '64px 0 0 0',
-    padding: '0',
+    paddingTop: '15px',
     border: '0',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundImage: 'linear-gradient(to top, #9890e3 0%, #b1f4cf 100%)'
   },
   filter: {
     '&:before': {

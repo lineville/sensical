@@ -1,52 +1,25 @@
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
-
 import classNames from 'classnames'
-import Avatar from '@material-ui/core/Avatar'
-import {withStyles} from '../../node_modules/@material-ui/core'
-import Button from '@material-ui/core/Button'
-import parallaxStyle from '../styles/parallaxStyle'
-import RoomContainer from './RoomContainer'
-import Snackbar from '@material-ui/core/Snackbar'
-import Notification from './Notification'
-import TextField from '@material-ui/core/TextField'
-import EditIcon from '@material-ui/icons/Edit'
-import Dialog from '@material-ui/core/Dialog'
-import DoneIcon from '@material-ui/icons/Done'
-import CancelIcon from '@material-ui/icons/Cancel'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-
-const styles = theme => ({
-  row: {
-    display: 'flex'
-  },
-  avatar: {
-    margin: 50
-  },
-  bigAvatar: {
-    width: 260,
-    height: 260
-  },
-  card: {
-    maxWidth: 345
-  },
-  margin: {
-    margin: theme.spacing.unit
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%' // 16:9
-  },
-  ...parallaxStyle
-})
+import {withStyles} from '@material-ui/core'
+import {Notification, RoomContainer} from '../imports'
+import styles from '../styles/ProfileStyles'
+import {
+  Avatar,
+  Button,
+  Snackbar,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from '@material-ui/core/'
+import {
+  Edit as EditIcon,
+  Done as DoneIcon,
+  Cancel as CancelIcon
+} from '@material-ui/icons/'
 
 class Profile extends Component {
   constructor(props) {
@@ -162,7 +135,7 @@ class Profile extends Component {
         .update({username: this.state.newUserName})
         .then(() => {
           this.setState({
-            // editFormOpen: false,
+            editFormOpen: false,
             popUpMessageType: 'success',
             popUpMessage: 'Username successfully changed',
             open: true,
@@ -179,7 +152,7 @@ class Profile extends Component {
         .update({profilePicURL: this.state.newImageURL})
         .then(() => {
           this.setState({
-            // editFormOpen: false,
+            editFormOpen: false,
             popUpMessageType: 'success',
             popUpMessage: 'Profile image successfully changed',
             open: true,
@@ -225,7 +198,7 @@ class Profile extends Component {
             </Button>
             <p>
               <Button
-                variant="outlined"
+                variant="contained"
                 color="primary"
                 size="small"
                 onClick={this.changePassword}

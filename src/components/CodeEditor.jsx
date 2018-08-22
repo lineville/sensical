@@ -1,43 +1,10 @@
 import React, {Component} from 'react'
 import AceEditor from 'react-ace'
-import db from '../firestore'
-import Output from './Output'
-import 'brace/mode/javascript'
-import 'brace/mode/python'
-import 'brace/mode/ruby'
-import 'brace/mode/sql'
-import 'brace/mode/space'
-import 'brace/mode/smarty'
-import 'brace/mode/swift'
-import 'brace/mode/coffee'
-import 'brace/mode/csharp'
-import 'brace/mode/css'
-import 'brace/mode/elm'
-import 'brace/mode/fortran'
-import 'brace/mode/golang'
-import 'brace/mode/haskell'
-import 'brace/mode/java'
-import 'brace/mode/markdown'
-import 'brace/mode/php'
-
-import 'brace/theme/monokai'
-import 'brace/theme/github'
-import 'brace/theme/tomorrow'
-import 'brace/theme/kuroir'
-import 'brace/theme/vibrant_ink'
-import 'brace/theme/xcode'
-import 'brace/theme/terminal'
-import 'brace/theme/twilight'
-import 'brace/theme/tomorrow_night_eighties'
-import 'brace/theme/mono_industrial'
-import 'brace/theme/eclipse'
-import 'brace/theme/chrome'
-import 'brace/theme/clouds_midnight'
-import 'brace/theme/merbivore_soft'
-import 'brace/theme/solarized_dark'
-import 'brace/theme/solarized_light'
-
 import firebase from 'firebase'
+import db from '../firestore'
+import {Output} from '../imports'
+import '../imports/aceModes'
+import '../imports/aceThemes'
 
 class CodeEditor extends Component {
   constructor(props) {
@@ -61,16 +28,26 @@ class CodeEditor extends Component {
       .collection('users')
       .doc(firebase.auth().currentUser.uid)
       .get()
-    await this.setState({
+    this.setState({
       codeEditorId: doc.id,
       code: doc.data().code,
       user: user.data()
     })
+    if (!this.canType()) {
+      db.collection('codeEditors')
+        .doc(codeEditorId)
+        .onSnapshot(code => {
+          this.setState({
+            code: code.data().code,
+            canType: this.canType()
+          })
+        })
+    }
+
     db.collection('codeEditors')
       .doc(codeEditorId)
-      .onSnapshot(code => {
+      .onSnapshot(() => {
         this.setState({
-          code: code.data().code,
           canType: this.canType()
         })
       })
