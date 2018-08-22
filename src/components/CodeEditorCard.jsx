@@ -24,7 +24,8 @@ import {
 import {
   Edit as EditIcon,
   Done as DoneIcon,
-  Cancel as CancelIcon
+  Cancel as CancelIcon,
+  Delete as DeleteIcon
 } from '@material-ui/icons/'
 import {Notification} from '../imports'
 
@@ -174,6 +175,15 @@ class CodeEditorCard extends Component {
                 onClick={() => this.setState({settingsFormOpen: true})}
               >
                 <EditIcon />
+              </Button>
+              <Button
+                mini
+                className={classes.button}
+                onClick={() =>
+                  this.props.handleDrop('codeEditor', this.props.codeEditorId)
+                }
+              >
+                <DeleteIcon />
               </Button>
             </Typography>
             <div>

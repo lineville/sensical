@@ -25,7 +25,7 @@ import {
   PersonAdd as PersonAddIcon,
   Done as DoneIcon,
   Cancel as CancelIcon,
-  Add as AddIcon
+  MoreVert as MoreVertIcon
 } from '@material-ui/icons/'
 
 class RoomStatusBar extends Component {
@@ -221,14 +221,13 @@ class RoomStatusBar extends Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar className={classes.content}>
-            <IconButton
+            <Button
               className={classes.menuButton}
               color="inherit"
-              variant="fab"
-              aria-label="Add"
+              onClick={this.toggleDrawer(true)}
             >
-              <AddIcon onClick={this.toggleDrawer(true)} />
-            </IconButton>
+              <MoreVertIcon />
+            </Button>
             <Drawer
               open={this.state.drawerOpen}
               onClose={this.toggleDrawer(false)}

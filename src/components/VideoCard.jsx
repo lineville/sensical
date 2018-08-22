@@ -3,7 +3,8 @@ import {DragSource} from 'react-dnd'
 import {VideoComponent} from '../imports'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import {Card, CardContent, Typography} from '@material-ui/core/'
+import {Card, CardContent, Typography, Button} from '@material-ui/core/'
+import {Delete as DeleteIcon} from '@material-ui/icons/'
 import styles from '../styles/VideoCardStyles'
 
 const messagingSource = {
@@ -40,7 +41,16 @@ export class VideoCard extends Component {
           }}
         >
           <CardContent className={classes.cardContent}>
-            <Typography color="textSecondary">Video</Typography>
+            <Typography color="textSecondary">
+              Video
+              <Button
+                mini
+                className={classes.button}
+                onClick={() => this.props.handleDrop('videoCard')}
+              >
+                <DeleteIcon />
+              </Button>
+            </Typography>
             <VideoComponent roomId={this.props.roomId} />
           </CardContent>
         </Card>

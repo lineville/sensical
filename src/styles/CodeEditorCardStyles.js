@@ -7,8 +7,8 @@ const styles = theme => ({
     textAlign: 'center'
   },
   button: {
-    margin: theme.spacing.unit,
-    marginLeft: '300px'
+    margin: theme.spacing.unit
+    // marginLeft: '300px'
   },
   leftIcon: {
     marginRight: theme.spacing.unit

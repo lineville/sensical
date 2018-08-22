@@ -4,7 +4,8 @@ const styles = theme => ({
     position: 'absolute'
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    textAlign: 'right'
   }
 })
 

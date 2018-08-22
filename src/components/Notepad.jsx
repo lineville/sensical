@@ -3,7 +3,8 @@ import db from '../firestore'
 import {DragSource} from 'react-dnd'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import {Card, CardContent, Typography} from '@material-ui/core/'
+import {Card, CardContent, Typography, Button} from '@material-ui/core/'
+import {Delete as DeleteIcon} from '@material-ui/icons/'
 import styles from '../styles/NotepadStyles'
 
 const notepadSource = {
@@ -73,7 +74,16 @@ export class Notepad extends Component {
           }}
         >
           <CardContent>
-            <Typography color="textSecondary">Notepad</Typography>
+            <Typography color="textSecondary">
+              Notepad
+              <Button
+                mini
+                className={classes.button}
+                onClick={() => this.props.handleDrop('notePad')}
+              >
+                <DeleteIcon />
+              </Button>
+            </Typography>
             <div id="notepad">
               <textarea
                 type="text"
