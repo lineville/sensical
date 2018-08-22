@@ -3,7 +3,8 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    marginBottom: '264px'
+    paddingBottom: '350px',
+    backgroundColor: 'rgba(171,197,170, 0.2)'
   },
   room: {
     flexGrow: 1,
