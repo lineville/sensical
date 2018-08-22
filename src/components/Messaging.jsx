@@ -106,6 +106,7 @@ export class Messaging extends Component {
               Chat
               <Button
                 mini
+                variant="outlined"
                 className={classes.button}
                 onClick={() => this.props.handleDrop('chat')}
               >

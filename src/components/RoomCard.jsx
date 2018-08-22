@@ -234,7 +234,7 @@ export class RoomCard extends Component {
             <Typography gutterBottom variant="headline" component="h2">
               {this.state.room.subject}
               <Button
-                variant="fab"
+                variant="outlined"
                 mini
                 color="secondary"
                 className={classes.button}

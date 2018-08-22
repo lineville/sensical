@@ -38,7 +38,12 @@ class HideBin extends Component {
 
     return connectDropTarget(
       <div className="target" style={{background: backgroundColor}}>
-        <Button color="inherit" className={classes.button}>
+        <Button
+          color="inherit"
+          className={classes.button}
+          variant="outlined"
+          mini
+        >
           <DeleteIcon />
           Hide
         </Button>

@@ -168,7 +168,7 @@ class CodeEditorCard extends Component {
               {this.state.username}
               's Code Editor
               <Button
-                variant="fab"
+                variant="outlined"
                 mini
                 color="primary"
                 className={classes.button}
@@ -178,6 +178,7 @@ class CodeEditorCard extends Component {
               </Button>
               <Button
                 mini
+                variant="outlined"
                 className={classes.button}
                 onClick={() =>
                   this.props.handleDrop('codeEditor', this.props.codeEditorId)

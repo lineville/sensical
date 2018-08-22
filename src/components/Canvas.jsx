@@ -212,6 +212,7 @@ class Canvas extends Component {
               Canvas
               <Button
                 mini
+                variant="outlined"
                 className={classes.button}
                 onClick={() => this.props.handleDrop('canvas')}
               >

@@ -45,6 +45,7 @@ export class VideoCard extends Component {
               Video
               <Button
                 mini
+                variant="outlined"
                 className={classes.button}
                 onClick={() => this.props.handleDrop('videoCard')}
               >
