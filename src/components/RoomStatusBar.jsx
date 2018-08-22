@@ -32,7 +32,11 @@ const styles = theme => ({
     position: 'fixed',
     bottom: 0,
     width: '100%',
-    zIndex: 100
+    zIndex: 100,
+    height: 38
+  },
+  content: {
+    bottom: 13
   },
   list: {
     width: 250
@@ -245,7 +249,7 @@ class RoomStatusBar extends Component {
     return (
       <div className={classes.root}>
         <AppBar position="static">
-          <Toolbar>
+          <Toolbar className={classes.content}>
             <IconButton
               className={classes.menuButton}
               color="inherit"
