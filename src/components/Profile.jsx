@@ -183,7 +183,7 @@ class Profile extends Component {
 
   convertImage = str => {
     if (str) {
-      return str.includes('http') ? `url(${str})` : str
+      return str.includes('http') || str.includes('com') ? `url(${str})` : str
     } else {
       return str
     }
