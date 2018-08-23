@@ -1,23 +1,19 @@
 const styles = theme => ({
   card: {
-    maxWidth: 275,
+    width: 275,
     position: 'absolute'
   },
   content: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    height: '-webkit-fill-available'
   },
   messages: {
-    height: 175,
     overflow: 'scroll'
   },
   button: {
     margin: theme.spacing.unit
-  },
-  title: {
-    display: 'flex',
-    justifyContent: 'space-between'
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -25,10 +21,15 @@ const styles = theme => ({
     width: 200
   },
   form: {
-    display: 'flex'
+    display: 'flex',
+    justifyContent: 'flex-end'
   },
   rightIcon: {
     marginLeft: theme.spacing.unit
+  },
+  title: {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 })
 

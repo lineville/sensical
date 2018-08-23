@@ -17,8 +17,8 @@ import Grid from '@material-ui/core/Grid'
 import styles from '../styles/ClassroomStyle'
 
 class Classroom extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
       userIds: [],
       roomId: '',

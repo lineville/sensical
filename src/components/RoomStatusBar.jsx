@@ -50,7 +50,6 @@ class RoomStatusBar extends Component {
         .onSnapshot(snapshot => {
           const subject = snapshot.data().subject
           const members = snapshot.data().userIds
-
           this.setState({
             currentRoom: subject,
             roomMemberIds: members
@@ -91,7 +90,6 @@ class RoomStatusBar extends Component {
 
       const inviteeId = invitee.docs[0].id
 
-      console.log('invitee:', invitee)
       const invitedUser = await db
         .collection('users')
         .doc(inviteeId)
@@ -105,7 +103,6 @@ class RoomStatusBar extends Component {
         .get()
 
       let userIds = room.data().userIds
-      // add another condition
       if (!roomsArray.includes(roomId)) {
         const newCodeEditorId = await db.collection('codeEditors').add({
           code: '',
@@ -168,12 +165,11 @@ class RoomStatusBar extends Component {
                 .filter(id => !this.props.classState.codeEditors[id])
                 .map(id => {
                   return (
-                    <ListItem
-                      key={id}
-                      button
-                      onClick={() => this.props.addModule('codeEditor', id)}
-                    >
-                      <ListItemText primary={id} />
+                    <ListItem key={id} button>
+                      <ListItemText
+                        primary="Code Editor"
+                        onClick={() => this.props.addModule('codeEditor', id)}
+                      />
                     </ListItem>
                   )
                 })
@@ -194,7 +190,7 @@ class RoomStatusBar extends Component {
             </ListItem>
           ) : null}
           {this.props.classState.canvas &&
-          this.props.classState.codeEditors &&
+          !Object.values(this.props.classState.codeEditors).includes(false) &&
           this.props.classState.video &&
           this.props.classState.notepad &&
           this.props.classState.chat ? (

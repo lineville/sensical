@@ -8,7 +8,6 @@ const styles = theme => ({
   bubble: {
     margin: 5,
     padding: 5,
-    border: '1px solid ' + theme.palette.primary.main,
     color: theme.palette.primary.main,
     borderRadius: 5
   },
