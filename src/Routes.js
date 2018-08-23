@@ -33,7 +33,7 @@ const Routes = props => {
           </Switch>
         )}
         {/* Fallback to home page */}
-        <Route exact path="/" component={HomePage} />
+        <Route path="/" render={() => <HomePage popupOpen={true} />} />
       </Switch>
     </div>
   )
