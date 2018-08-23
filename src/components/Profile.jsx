@@ -104,6 +104,7 @@ class Profile extends Component {
     await this.changeUsername()
     await this.changeEmail()
     await this.changeImage()
+    await this.changeBackgroundImage()
   }
 
   changePassword = async () => {
@@ -174,9 +175,17 @@ class Profile extends Component {
             popUpMessageType: 'success',
             popUpMessage: 'Background image successfully changed',
             open: true,
-            newImageURL: ''
+            newBackgroundURL: ''
           })
         })
+    }
+  }
+
+  convertImage = str => {
+    if (str) {
+      return str.includes('http') ? `url(${str})` : str
+    } else {
+      return str
     }
   }
 
@@ -188,15 +197,16 @@ class Profile extends Component {
       [classes.small]: small,
       [className]: className !== undefined
     })
+    console.log(this.state.user)
     return (
       <React.Fragment>
         <div
           className={parallaxClasses}
           style={{
             ...style,
-            backgroundImage:
-              this.state.user.backgroundImageURL ||
-              'linear-gradient( 109.6deg,  rgba(70,249,253,1) 21.3%, rgba(247,10,255,1) 77.3% )'
+            backgroundImage: this.convertImage(
+              this.state.user.backgroundImageURL
+            )
           }}
         >
           <Avatar
@@ -282,6 +292,18 @@ class Profile extends Component {
                   label="image URL"
                   placeholder={this.state.user.profilePicURL}
                   value={this.state.newImageURL}
+                  type="email"
+                  fullWidth
+                  onChange={this.handleChange}
+                />
+                <TextField
+                  autoFocus
+                  margin="normal"
+                  id="name"
+                  name="newBackgroundURL"
+                  label="image URL"
+                  placeholder={this.state.user.backgroundImageURL}
+                  value={this.state.newBackgroundURL}
                   type="email"
                   fullWidth
                   onChange={this.handleChange}
