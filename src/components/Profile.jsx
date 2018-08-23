@@ -289,7 +289,7 @@ class Profile extends Component {
                   margin="normal"
                   id="name"
                   name="newImageURL"
-                  label="image URL"
+                  label="Image URL"
                   placeholder={this.state.user.profilePicURL}
                   value={this.state.newImageURL}
                   type="email"
@@ -301,7 +301,7 @@ class Profile extends Component {
                   margin="normal"
                   id="name"
                   name="newBackgroundURL"
-                  label="image URL"
+                  label="Background Image URL"
                   placeholder={this.state.user.backgroundImageURL}
                   value={this.state.newBackgroundURL}
                   type="email"
