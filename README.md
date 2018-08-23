@@ -1,17 +1,41 @@
 # fig
 
-## A collaborative, realtime, customizable learning platforms to enable teachers and students to collaborate more effectively.
+## A customizable and collaborative real-time classroom that allows users to tailor the learning environment to the needs of the subject matter. Users can dynamically add, move and hide various modules within the classroom (including chat, video, whiteboard, notepad, and code editors).
 
-## [DEMO](https://capstone-fig.firebaseapp.com/)
+## View
 
-### Project was built using Google Firebase, and React
+Deployed on [https://capstone-fig-1806.herokuapp.com/](https://capstone-fig-1806.herokuapp.com/)
 
-### Install
+### Stack
 
-- `git clone https://github.com/Capstone1806/fig`
+- ReactJS
+- Google Firestore
+- Node Express
+- React DnD
+- Material UI
 
-- `cd fig`
+## Install
 
-- `npm install`
+Clone this repository and install JS dev dependencies (listed in [package.json](package.json)):
 
-- `npm start`
+```bash
+npm install
+npm run start-dev
+```
+
+View in your browser:
+
+```bash
+localhost:3000
+```
+
+## Screenshot
+
+![screenshot](screenshot.png)
+
+## Team
+
+- [Jessica Hsu](https://github.com/hsujessica)
+- [Zachary Margolies](https://github.com/zachmargo)
+- [Synuhe Uribe](https://github.com/syunhe)
+- [Liam Neville](https://github.com/lineville)
