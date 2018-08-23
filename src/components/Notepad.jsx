@@ -4,6 +4,7 @@ import {DragSource} from 'react-dnd'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {Card, CardContent, Typography} from '@material-ui/core/'
+import {RemoveCircleOutline as DeleteIcon} from '@material-ui/icons/'
 import styles from '../styles/NotepadStyles'
 
 const notepadSource = {
@@ -73,7 +74,10 @@ export class Notepad extends Component {
           }}
         >
           <CardContent>
-            <Typography color="textSecondary">Notepad</Typography>
+            <Typography className={classes.title} color="textSecondary">
+              Notepad
+              <DeleteIcon onClick={() => this.props.handleDrop('notePad')} />
+            </Typography>
             <div id="notepad">
               <textarea
                 type="text"

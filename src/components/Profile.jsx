@@ -198,7 +198,7 @@ class Profile extends Component {
             </Button>
             <p>
               <Button
-                variant="outlined"
+                variant="contained"
                 color="primary"
                 size="small"
                 onClick={this.changePassword}

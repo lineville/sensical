@@ -115,7 +115,14 @@ export class CreateRoom extends Component {
               onChange={this.handleChange}
             />
           </FormControl>
-          <Button onClick={this.createRoom}>
+
+          <Button
+            variant="fab"
+            color="secondary"
+            aria-label="Add"
+            className={classes.button}
+            onClick={this.createRoom}
+          >
             <AddIcon />
           </Button>
         </MaterialUIForm>

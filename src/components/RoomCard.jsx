@@ -24,7 +24,8 @@ import {
   Done as DoneIcon,
   Cancel as CancelIcon,
   PersonAdd as PersonAddIcon,
-  Edit as EditIcon
+  Edit as EditIcon,
+  School as SchoolIcon
 } from '@material-ui/icons/'
 
 export class RoomCard extends Component {
@@ -246,15 +247,16 @@ export class RoomCard extends Component {
           </CardContent>
           <CardActions>
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               className={classes.button}
               onClick={this.joinRoom}
             >
               Join
+              <SchoolIcon className={classes.rightIcon} />
             </Button>
             <Button
-              variant="contained"
+              variant="outlined"
               color="default"
               className={classes.button}
               onClick={() => this.setState({inviteFormOpen: true})}
@@ -264,7 +266,7 @@ export class RoomCard extends Component {
             </Button>
 
             <Button
-              variant="contained"
+              variant="outlined"
               color="secondary"
               className={classes.button}
               onClick={this.leaveRoom}

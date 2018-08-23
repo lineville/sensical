@@ -55,7 +55,11 @@ class ClassroomContext extends Component {
       .then(room => {
         let codeEditors = {}
         room.data().codeEditorIds.forEach((id, idx) => {
-          codeEditors[id] = {top: 300, left: 600 * idx + 10}
+          codeEditors[id] = {
+            top: 300,
+            left: 900 * idx + 10,
+            zIndex: this.state.curZIndex
+          }
         })
         this.setState({
           codeEditors
@@ -98,6 +102,7 @@ class ClassroomContext extends Component {
         <Classroom
           classroom={this.props.match.params.classroomId}
           positions={this.state}
+          history={this.props.history}
         />
       </div>
     )

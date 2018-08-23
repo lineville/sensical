@@ -6,6 +6,7 @@ import {DragSource} from 'react-dnd'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {Card, CardContent, Button, Typography} from '@material-ui/core/'
+import {RemoveCircleOutline as DeleteIcon} from '@material-ui/icons/'
 import styles from '../styles/CanvasStyle'
 
 const canvasSource = {
@@ -209,6 +210,7 @@ class Canvas extends Component {
           <CardContent>
             <Typography className={classes.title} color="textSecondary">
               Canvas
+              <DeleteIcon onClick={() => this.props.handleDrop('canvas')} />
             </Typography>
 
             <div id="whiteboard">
@@ -225,6 +227,46 @@ class Canvas extends Component {
                 }}
                 color={this.state.color}
               />
+              <Button
+                onClick={() => {
+                  this.setState({color: 'black'})
+                }}
+              >
+                BLACK
+              </Button>
+              <Button
+                onClick={() => {
+                  this.setState({color: 'white'})
+                }}
+              >
+                ERASER
+              </Button>
+              <Button
+                onClick={() => {
+                  db.collection('whiteboards')
+                    .doc(this.props.whiteboardId)
+                    .update({
+                      strokes: []
+                    })
+                    .then(() => {
+                      this.setState({
+                        curStroke: [],
+                        strokes: null
+                      })
+                    })
+                    .catch(error => {
+                      console.error(
+                        'Error drawing new stroke to Firestore Database: ',
+                        error
+                      )
+                    })
+                  const ctx = this.whiteboardCanvas.getContext('2d')
+                  ctx.fillStyle = this.state.color
+                  ctx.fillRect(0, 0, 500, 500)
+                }}
+              >
+                FILL
+              </Button>
               <Button onClick={this.clearCanvas}>Clear</Button>
             </div>
           </CardContent>

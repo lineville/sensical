@@ -4,7 +4,11 @@ const styles = theme => ({
     position: 'fixed',
     bottom: 0,
     width: '100%',
-    zIndex: 100
+    zIndex: 100,
+    height: 38
+  },
+  content: {
+    bottom: 13
   },
   list: {
     width: 250
@@ -16,7 +20,8 @@ const styles = theme => ({
     fontSize: 14,
     flexGrow: 1,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingLeft: '15px'
   },
   textField: {
     marginLeft: theme.spacing.unit,
