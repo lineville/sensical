@@ -33,7 +33,8 @@ class Profile extends Component {
       passwordFormOpen: false,
       newEmail: '',
       newUserName: '',
-      newImageURL: ''
+      newImageURL: '',
+      newBackgroundURL: ''
     }
   }
 
@@ -103,6 +104,7 @@ class Profile extends Component {
     await this.changeUsername()
     await this.changeEmail()
     await this.changeImage()
+    await this.changeBackgroundImage()
   }
 
   changePassword = async () => {
@@ -162,6 +164,31 @@ class Profile extends Component {
     }
   }
 
+  changeBackgroundImage = () => {
+    if (this.state.newBackgroundURL) {
+      db.collection('users')
+        .doc(this.state.user.id)
+        .update({backgroundImageURL: this.state.newBackgroundURL})
+        .then(() => {
+          this.setState({
+            editFormOpen: false,
+            popUpMessageType: 'success',
+            popUpMessage: 'Background image successfully changed',
+            open: true,
+            newBackgroundURL: ''
+          })
+        })
+    }
+  }
+
+  convertImage = str => {
+    if (str) {
+      return str.includes('http') || str.includes('com') ? `url(${str})` : str
+    } else {
+      return str
+    }
+  }
+
   render() {
     const {classes, filter, className, style, small} = this.props
     const parallaxClasses = classNames({
@@ -170,12 +197,16 @@ class Profile extends Component {
       [classes.small]: small,
       [className]: className !== undefined
     })
+    console.log(this.state.user)
     return (
       <React.Fragment>
         <div
           className={parallaxClasses}
           style={{
-            ...style
+            ...style,
+            backgroundImage: this.convertImage(
+              this.state.user.backgroundImageURL
+            )
           }}
         >
           <Avatar
@@ -258,9 +289,21 @@ class Profile extends Component {
                   margin="normal"
                   id="name"
                   name="newImageURL"
-                  label="image URL"
+                  label="Image URL"
                   placeholder={this.state.user.profilePicURL}
                   value={this.state.newImageURL}
+                  type="email"
+                  fullWidth
+                  onChange={this.handleChange}
+                />
+                <TextField
+                  autoFocus
+                  margin="normal"
+                  id="name"
+                  name="newBackgroundURL"
+                  label="Background Image URL"
+                  placeholder={this.state.user.backgroundImageURL}
+                  value={this.state.newBackgroundURL}
                   type="email"
                   fullWidth
                   onChange={this.handleChange}

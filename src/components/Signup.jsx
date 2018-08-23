@@ -47,7 +47,9 @@ class Signup extends Component {
           rooms: [],
           codeEditorIds: [],
           profilePicURL:
-            'https://upload.wikimedia.org/wikipedia/commons/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg'
+            'https://upload.wikimedia.org/wikipedia/commons/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg',
+          backgroundImageURL:
+            'linear-gradient( 109.6deg,  rgba(70,249,253,1) 21.3%, rgba(247,10,255,1) 77.3% )'
         })
       //user authenticated id stored at user.uid
       this.props.history.push('/profile')
@@ -88,7 +90,9 @@ class Signup extends Component {
             codeEditorIds: [],
             profilePicURL:
               user.photoURL ||
-              'https://upload.wikimedia.org/wikipedia/commons/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg'
+              'https://upload.wikimedia.org/wikipedia/commons/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg',
+            backgroundImageURL:
+              'linear-gradient( 109.6deg,  rgba(70,249,253,1) 21.3%, rgba(247,10,255,1) 77.3% )'
           })
           .then(() => {
             this.props.history.push('/profile')
