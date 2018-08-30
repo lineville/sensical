@@ -38,7 +38,7 @@ export class Messaging extends Component {
     this.state = {
       messages: [],
       newMessage: '',
-      user: ''
+      user: {}
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -64,7 +64,7 @@ export class Messaging extends Component {
       .collection('users')
       .doc(authUser.uid)
       .get()
-    this.setState({user: user.data().username})
+    this.setState({user: user.data()})
   }
 
   handleChange(event) {
