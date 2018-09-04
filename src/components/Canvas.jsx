@@ -34,7 +34,7 @@ class Canvas extends Component {
       strokes: null,
       displayColorPicker: false,
       color: 'black',
-      lineWidth: 5,
+      strokeWidth: 1,
       overCanvas: false
     }
   }
@@ -71,12 +71,13 @@ class Canvas extends Component {
     }
   }
 
-  draw = (start, end, strokeColor = 'black') => {
+  draw = (start, end, strokeColor = 'black', strokeWidth = 1) => {
     const ctx = this.whiteboardCanvas.getContext('2d')
     if (!end.length) {
       end = start
     }
-    this.state.curStroke.push({start, end, strokeColor})
+    this.state.curStroke.push({start, end, strokeColor, strokeWidth})
+    ctx.lineWidth = strokeWidth
     ctx.beginPath()
     ctx.strokeStyle = strokeColor
     ctx.moveTo(...start)
@@ -166,7 +167,7 @@ class Canvas extends Component {
           this.lastMousePosition,
           this.currentMousePosition,
           this.state.color,
-          true
+          this.state.strokeWidth
         )
     })
   }
@@ -198,7 +199,7 @@ class Canvas extends Component {
     if (this.state.strokes) {
       if (this.state.strokes.length) {
         this.state.strokes.forEach(stroke => {
-          this.draw(stroke.start, stroke.end, stroke.strokeColor)
+          this.draw(stroke.start, stroke.end, stroke.strokeColor, stroke.strokeWidth)
         })
       } else if (!this.state.strokes.length) {
         const ctx = this.whiteboardCanvas.getContext('2d')
@@ -237,20 +238,25 @@ class Canvas extends Component {
               />
               <HuePicker
                 onChangeComplete={color => {
-                  this.setState({color: color.hex})
+                  this.setState({color: color.hex,
+                    strokeWidth: 1})
                 }}
                 color={this.state.color}
               />
               <Button
                 onClick={() => {
-                  this.setState({color: 'black'})
+                  this.setState({color: 'black',
+                  strokeWidth: 1})
                 }}
               >
                 BLACK
               </Button>
               <Button
                 onClick={() => {
-                  this.setState({color: 'white'})
+                  this.setState({
+                    color: 'white',
+                    strokeWidth: 5
+                  })
                 }}
               >
                 ERASER
