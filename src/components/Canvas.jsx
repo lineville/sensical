@@ -5,7 +5,7 @@ import {HuePicker} from 'react-color'
 import {DragSource} from 'react-dnd'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import {Card, CardContent, Button, Typography, Dialog, DialogContent, DialogActions, DialogTitle, TextField} from '@material-ui/core/'
+import {Card, CardContent, Button, Typography, Dialog, DialogContent, DialogActions, DialogTitle, DialogContentText} from '@material-ui/core/'
 import {RemoveCircleOutline as DeleteIcon} from '@material-ui/icons/'
 import styles from '../styles/CanvasStyle'
 
@@ -199,8 +199,6 @@ class Canvas extends Component {
           strokes: dbStrokes,
           curStroke: []
         })
-        console.log("STROKES FROM DB: ", dbStrokes)
-        console.log("STROKES FROM STATE: ", this.state.curStroke)
       })
     this.setup()
   }
@@ -248,15 +246,13 @@ class Canvas extends Component {
               />
               <HuePicker
                 onChangeComplete={color => {
-                  this.setState({color: color.hex,
-                    strokeWidth: 1})
+                  this.setState({color: color.hex})
                 }}
                 color={this.state.color}
               />
               <Button
                 onClick={() => {
-                  this.setState({color: 'black',
-                  strokeWidth: 1})
+                  this.setState({color: 'black'})
                 }}
               >
                 BLACK
@@ -264,8 +260,7 @@ class Canvas extends Component {
               <Button
                 onClick={() => {
                   this.setState({
-                    color: 'white',
-                    strokeWidth: 5
+                    color: 'white'
                   })
                 }}
               >
@@ -315,6 +310,11 @@ class Canvas extends Component {
               aria-labelledby="form-dialog-title"
             >
               <DialogTitle id="form-dialog-title">Canvas Settings</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  {`Stroke Width: ${this.state.strokeWidth}`}
+                </DialogContentText>
+              </DialogContent>
               <DialogActions>
                 <Button onClick={() => {
                   this.setState({
