@@ -191,9 +191,15 @@ class Canvas extends Component {
 
   render() {
     if (this.state.strokes) {
-      this.state.strokes.forEach(stroke => {
-        this.draw(stroke.start, stroke.end, stroke.strokeColor)
-      })
+      if (this.state.strokes.length) {
+        this.state.strokes.forEach(stroke => {
+          this.draw(stroke.start, stroke.end, stroke.strokeColor)
+        })
+      } else if (!this.state.strokes.length) {
+        const ctx = this.whiteboardCanvas.getContext('2d')
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, 500, 500)
+      }
     }
     const {classes, connectDragSource, isDragging} = this.props
 
