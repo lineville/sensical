@@ -73,6 +73,9 @@ class Canvas extends Component {
 
   draw = (start, end, strokeColor = 'black') => {
     const ctx = this.whiteboardCanvas.getContext('2d')
+    if (!end.length) {
+      end = start
+    }
     this.state.curStroke.push({start, end, strokeColor})
     ctx.beginPath()
     ctx.strokeStyle = strokeColor
