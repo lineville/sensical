@@ -184,7 +184,12 @@ class Canvas extends Component {
       .doc(this.props.whiteboardId)
       .onSnapshot(snapshot => {
         const dbStrokes = snapshot.data().strokes
-        this.setState({strokes: dbStrokes})
+        this.setState({
+          strokes: dbStrokes,
+          curStroke: []
+        })
+        console.log("STROKES FROM DB: ", dbStrokes)
+        console.log("STROKES FROM STATE: ", this.state.curStroke)
       })
     this.setup()
   }
