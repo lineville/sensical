@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Snackbar, Typography} from '@material-ui/core/'
+import {Snackbar, Typography, Button} from '@material-ui/core/'
 import {Notification} from '../imports'
 import $ from 'jquery'
 
@@ -24,6 +24,10 @@ class HomePage extends Component {
     this.setState({popupOpen: false})
   }
 
+  signupPush = () => {
+    this.props.history.push('/signup')
+  }
+
   render() {
     console.log(this.state.popupOpen)
     return (
@@ -37,14 +41,19 @@ class HomePage extends Component {
               >
                 fig - Let Knowledge Grow
               </Typography>
-         <p>
-          <i>Your classroom should be a reflection of your personal learning style. So we made classrooms customizable.</i>
-          <br />
-          <br />
-          Sign up now to get started using a fig room.
-        </p>
-          
+            <p>
+              <i>Your classroom should be a reflection of your personal learning style. So we made classrooms customizable.</i>
+              <br />
+              <br />
+              Sign up now to get started using a fig room.
+              <br />
+            </p>
+            <Button onClick={this.signupPush} style={{backgroundColor: "white"}}>
+              Sign Up
+            </Button>
+            <p></p>
           </div>
+
           <div className="slide open" style={{left: '-100%'}}>
             <span className="image1" />
           </div>
