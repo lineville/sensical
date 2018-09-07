@@ -92,7 +92,6 @@ class HomePage extends Component {
         
           <div className="info">
             <h1>A little about fig.</h1>
-            <h2><i>Your classroom should be a reflection of your personal learning style. So we made classrooms customizable.</i></h2>
             <p> 
               Our application was inspired by the changing educational landscape.  As students, we oftentimes found ourselves wanting to study together, but traffic, weather, and the L train get in the way of meeting up.
               In these cases, we would have to use Skype to video chat, repl.it to write out code, Google Docs to take notes. These tools are great on their own but they become cumbersome when used together. 
