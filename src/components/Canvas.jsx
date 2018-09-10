@@ -5,7 +5,7 @@ import {HuePicker} from 'react-color'
 import {DragSource} from 'react-dnd'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import {Card, CardContent, Button, Typography} from '@material-ui/core/'
+import {Card, CardContent, Button, Typography, Dialog, DialogContent, DialogActions, DialogTitle, DialogContentText} from '@material-ui/core/'
 import {RemoveCircleOutline as DeleteIcon} from '@material-ui/icons/'
 import styles from '../styles/CanvasStyle'
 
@@ -34,8 +34,9 @@ class Canvas extends Component {
       strokes: null,
       displayColorPicker: false,
       color: 'black',
-      lineWidth: 5,
-      overCanvas: false
+      strokeWidth: 1,
+      overCanvas: false,
+      displaySettings: false
     }
   }
 
@@ -71,9 +72,13 @@ class Canvas extends Component {
     }
   }
 
-  draw = (start, end, strokeColor = 'black') => {
+  draw = (start, end, strokeColor = 'black', strokeWidth = 1) => {
     const ctx = this.whiteboardCanvas.getContext('2d')
-    this.state.curStroke.push({start, end, strokeColor})
+    if (!end.length) {
+      end = start
+    }
+    this.state.curStroke.push({start, end, strokeColor, strokeWidth})
+    ctx.lineWidth = strokeWidth
     ctx.beginPath()
     ctx.strokeStyle = strokeColor
     ctx.moveTo(...start)
@@ -163,7 +168,7 @@ class Canvas extends Component {
           this.lastMousePosition,
           this.currentMousePosition,
           this.state.color,
-          true
+          this.state.strokeWidth
         )
     })
   }
@@ -175,22 +180,40 @@ class Canvas extends Component {
     ]
   }
 
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+    this.setState({
+      displaySettings: false
+    })
+  }
+
   async componentDidMount() {
     await db
       .collection('whiteboards')
       .doc(this.props.whiteboardId)
       .onSnapshot(snapshot => {
         const dbStrokes = snapshot.data().strokes
-        this.setState({strokes: dbStrokes})
+        this.setState({
+          strokes: dbStrokes,
+          curStroke: []
+        })
       })
     this.setup()
   }
 
   render() {
     if (this.state.strokes) {
-      this.state.strokes.forEach(stroke => {
-        this.draw(stroke.start, stroke.end, stroke.strokeColor)
-      })
+      if (this.state.strokes.length) {
+        this.state.strokes.forEach(stroke => {
+          this.draw(stroke.start, stroke.end, stroke.strokeColor, stroke.strokeWidth)
+        })
+      } else if (!this.state.strokes.length) {
+        const ctx = this.whiteboardCanvas.getContext('2d')
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, 500, 500)
+      }
     }
     const {classes, connectDragSource, isDragging} = this.props
 
@@ -236,7 +259,9 @@ class Canvas extends Component {
               </Button>
               <Button
                 onClick={() => {
-                  this.setState({color: 'white'})
+                  this.setState({
+                    color: 'white'
+                  })
                 }}
               >
                 ERASER
@@ -268,9 +293,52 @@ class Canvas extends Component {
                 FILL
               </Button>
               <Button onClick={this.clearCanvas}>Clear</Button>
+              <Button
+                onClick={() => {
+                  this.setState({displaySettings: true})
+                }}
+              >
+                SETTINGS
+              </Button>
             </div>
           </CardContent>
         </Card>
+
+        <Dialog
+              open={this.state.displaySettings}
+              onClose={this.handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Canvas Settings</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  {`Stroke Width: ${this.state.strokeWidth}`}
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => {
+                  this.setState({
+                    strokeWidth: this.state.strokeWidth + 1
+                  })
+                }} color="secondary">
+                  Stroke Width +
+                </Button>
+                <Button onClick={() => {
+                  this.setState({
+                    strokeWidth: this.state.strokeWidth - 1
+                  })
+                }} color="secondary">
+                  Stroke Width -
+                </Button>
+                <Button onClick={() => {
+                  this.setState({
+                    strokeWidth: 1
+                  })
+                }} color="secondary">
+                  Default
+                </Button>
+              </DialogActions>
+            </Dialog>
       </div>
     )
     if (this.state.overCanvas) {
