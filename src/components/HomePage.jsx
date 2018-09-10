@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
+import {withStyles} from '@material-ui/core/styles'
 import {Snackbar, Typography, Button} from '@material-ui/core/'
 import {Notification} from '../imports'
+import styles from '../styles/HomePageStyles'
 import $ from 'jquery'
 
 class HomePage extends Component {
@@ -29,29 +31,27 @@ class HomePage extends Component {
   }
 
   render() {
-    console.log(this.state.popupOpen)
+    const {classes} = this.props
     return (
       <div style={{marginTop: '50px'}}>
         <div className="slidelist">
-          <div className="info-card">
-           <Typography
-                className="brand-name"
-                variant="title"
-                color="inherit"
-              >
-                fig - Let Knowledge Grow
-              </Typography>
+          <div className={classes.infoCard}>
             <p>
-              <i>Your classroom should be a reflection of your personal learning style. So we made classrooms customizable.</i>
+              Let Knowledge Grow
+              <br />
+              <br />
+              <i>
+                Your classroom should be a reflection of your personal learning
+                style. So we made classrooms customizable.
+              </i>
               <br />
               <br />
               Sign up now to get started using a fig room.
               <br />
             </p>
-            <Button onClick={this.signupPush} style={{backgroundColor: "white"}}>
+            <Button onClick={this.signupPush} className={classes.button}>
               Sign Up
             </Button>
-            <p></p>
           </div>
 
           <div className="slide open" style={{left: '-100%'}}>
@@ -89,17 +89,24 @@ class HomePage extends Component {
               </li>
             </ul>
           </div>
-        
-          <div className="info">
-            <h1>A little about fig.</h1>
-            <p> 
-              Our application was inspired by the changing educational landscape.  As students, we oftentimes found ourselves wanting to study together, but traffic, weather, and the L train get in the way of meeting up.
-              In these cases, we would have to use Skype to video chat, repl.it to write out code, Google Docs to take notes. These tools are great on their own but they become cumbersome when used together. 
+
+          <div className={classes.info}>
+            <h1>about fig</h1>
+            <p>
+              Our application was inspired by the changing educational
+              landscape. As students, we oftentimes found ourselves wanting to
+              study together, but traffic, weather, and the L train get in the
+              way of meeting up. In these cases, we would have to use Skype to
+              video chat, repl.it to write out code and Google Docs to take
+              notes. These tools are great on their own but they become
+              cumbersome when used together.
             </p>
             <p>
-              This is why we created fig. 
-              Fig rooms provide students with a modularized real-time collaborative learning environment. 
-              Fig allows students to build a virtual ‘classroom’ where they can use built-in learning modules to work and study together on a variety of subjects.
+              This is why we created fig. Fig rooms provide students with a
+              modularized real-time collaborative learning environment. Fig
+              allows students to build a virtual classroom where they can use
+              built-in learning modules to work and study together on a variety
+              of subjects.
             </p>
           </div>
         </div>
@@ -145,4 +152,4 @@ $(document).ready(function() {
   }, 7000)
 })
 
-export default HomePage
+export default withStyles(styles)(HomePage)
