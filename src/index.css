@@ -68,49 +68,6 @@ form div {
   display: inline-block;
 }
 
-.btn-primary.raised {
-  box-shadow: 0 3px 0 0 #007299;
-}
-
-.btn-primary.raised:active,
-.btn-primary.raised.active {
-  background: #33a6cc;
-  box-shadow: none;
-  margin-bottom: -3px;
-  margin-top: 3px;
-}
-
-.btn {
-  padding: 14px 15px;
-  border: 0 none;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus {
-  outline: 0 none;
-}
-
-.btn-primary {
-  background: #0099cc;
-  color: #ffffff;
-}
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active,
-.btn-primary.active,
-.open > .dropdown-toggle.btn-primary {
-  background: #33a6cc;
-}
-.btn-primary:active,
-.btn-primary.active {
-  background: #007299;
-  box-shadow: none;
-}
-
 .form {
   background: rgba(26, 145, 89, 0.9);
   padding: 40px;
@@ -131,20 +88,7 @@ form div {
   font-size: 15px;
   color: white;
 }
-.btn-login {
-  width: 280px;
-  height: 45px;
-  color: white;
-  background-color: rgba(14, 82, 50, 0.9);
-  font-size: 17px;
-}
 
-.btn-info {
-  width: 280px;
-  height: 45px;
-  margin-left: 13px;
-  font-size: 14px;
-}
 .form-title {
   font-size: 24px;
   color: white;
@@ -239,14 +183,6 @@ ul {
   background-color: #fff;
   border-radius: 100%;
   opacity: 0.8;
-}
-
-.brand-name {
-  padding: 30px;
-  font-size: 26px;
-  text-align: center;
-  letter-spacing: 4px;
-  text-align: center;
 }
 
 [class*='MuiInputLabel-formControl-'] {
