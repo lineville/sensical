@@ -1,14 +1,14 @@
-const styles = theme => ({
+const styles = () => ({
   infoCard: {
     margin: '8%',
     padding: '2%',
     maxWidth: '380px',
     position: 'absolute',
     zIndex: 1,
-    backgroundColor: 'rgba(58, 13, 39, .8)',
+    backgroundColor: 'rgba(39, 197, 249, .8)',
     borderRadius: '5px',
     fontSize: '18px',
-    color: 'white'
+    color: 'black'
   },
   info: {
     margin: '0 10%',

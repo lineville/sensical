@@ -2,12 +2,12 @@ import firebase from 'firebase'
 require('firebase/firestore')
 
 var config = {
-  apiKey: 'AIzaSyA0BTlfc4ebyjzr9eqYdCm2PG6Vmw3D5mU',
-  authDomain: 'fig-neutron.firebaseapp.com',
-  databaseURL: 'https://fig-neutron.firebaseio.com',
-  projectId: 'fig-neutron',
-  storageBucket: 'fig-neutron.appspot.com',
-  messagingSenderId: '703032848802'
+  apiKey: 'AIzaSyBrIkO1pI5u37nnvw-43OozOZYZ4q0WZwg',
+  authDomain: 'project-sensical.firebaseapp.com',
+  databaseURL: 'https://project-sensical.firebaseio.com',
+  projectId: 'project-sensical',
+  storageBucket: 'project-sensical.appspot.com',
+  messagingSenderId: '24724251792'
 }
 
 firebase.initializeApp(config)

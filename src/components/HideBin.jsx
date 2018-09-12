@@ -13,7 +13,7 @@ const hideBinTarget = {
     }
   },
   hover(props, monitor) {
-    const canDrop = monitor.canDrop()
+    monitor.canDrop()
   },
   drop(props, monitor) {
     if (monitor.canDrop()) {

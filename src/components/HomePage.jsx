@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {withStyles} from '@material-ui/core/styles'
-import {Snackbar, Typography, Button} from '@material-ui/core/'
+import {Snackbar, Button} from '@material-ui/core/'
 import {Notification} from '../imports'
 import styles from '../styles/HomePageStyles'
 import $ from 'jquery'
@@ -46,7 +46,7 @@ class HomePage extends Component {
               </i>
               <br />
               <br />
-              Sign up now to get started using a fig room.
+              Sign up now to get started using a sensical room.
               <br />
             </p>
             <Button onClick={this.signupPush} className={classes.button}>
@@ -91,26 +91,26 @@ class HomePage extends Component {
           </div>
 
           <div className={classes.info}>
-            <h1>about fig</h1>
+            <h1>About Sensical</h1>
             <p>
-              Our application was inspired by the changing educational
-              landscape. As students, we oftentimes found ourselves wanting to
-              study together, but traffic, weather, and the L train get in the
-              way of meeting up. In these cases, we would have to use Skype to
-              video chat, repl.it to write out code and Google Docs to take
-              notes. These tools are great on their own but they become
-              cumbersome when used together.
+              My application was inspired by the changing educational landscape.
+              As students, we oftentimes found ourselves wanting to study
+              together, but traffic, weather, and the L train get in the way of
+              meeting up. In these cases, we would have to use Skype to video
+              chat, repl.it to write out code and Google Docs to take notes.
+              These tools are great on their own but they become cumbersome when
+              used together.
             </p>
             <p>
-              This is why we created fig. Fig rooms provide students with a
-              modularized real-time collaborative learning environment. Fig
-              allows students to build a virtual classroom where they can use
-              built-in learning modules to work and study together on a variety
-              of subjects.
+              This is why we created sensical. Sensical rooms provide students
+              with a modularized real-time collaborative learning environment.
+              Sensical allows students to build a virtual classroom where they
+              can use built-in learning modules to work and study together on a
+              variety of subjects.
             </p>
             <p>
               Come checkout the source code and its developers on{' '}
-              <a href="https://github.com/Capstone1806/fig" alt="github">
+              <a href="https://github.com/lineville/sensical" alt="github">
                 GitHub
               </a>
               .
@@ -128,8 +128,8 @@ class HomePage extends Component {
         >
           <Notification
             onClose={this.handleClose}
-            variant="warning"
-            message="Sorry you must be logged in or be invited to the page you are trying to access"
+            variant="info"
+            message="You are not logged in!"
           />
         </Snackbar>
       </div>

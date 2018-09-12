@@ -56,7 +56,11 @@ class Signup extends Component {
     } catch (error) {
       let errorCode = error.code
       if (errorCode === 'auth/weak-password') {
-        alert('The password is too weak.')
+        this.setState({
+          snackBarOpen: true,
+          snackBarVariant: 'warning',
+          snackBarMessage: 'password was too weak'
+        })
       }
       console.error(error)
     }
@@ -78,7 +82,7 @@ class Signup extends Component {
       .signInWithPopup(provider)
       .then(result => {
         // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = result.credential.accessToken
+        // var token = result.credential.accessToken
         // The signed-in user info.
         var user = result.user
         db.collection('users')
@@ -100,13 +104,20 @@ class Signup extends Component {
       })
       .catch(error => {
         // Handle Errors here.
-        var errorCode = error.code
-        var errorMessage = error.message
-        // The email of the user's account used.
-        var email = error.email
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential
-        console.log(errorMessage)
+        // var errorCode = error.code
+        // var errorMessage = error.message
+        // // The email of the user's account used.
+        // var email = error.email
+        // // The firebase.auth.AuthCredential type that was used.
+        // var credential = error.credential
+        this.setState({
+          snackBarOpen: true,
+          snackBarVariant: 'error',
+          snackBarMessage:
+            'Sorry we received the following error attempting to sign up through google:\n' +
+            error.message
+        })
+        console.log(error.message)
         // ...
       })
   }

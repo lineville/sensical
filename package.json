@@ -1,5 +1,5 @@
 {
-  "name": "fig",
+  "name": "sensical",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -30,9 +30,11 @@
     "twilio": "^3.11.1",
     "twilio-video": "^1.7.0"
   },
+  "main": "src/electron-starter.js",
   "scripts": {
     "start": "react-scripts start",
-    "startServer": "NODE_ENV='DEV' node server",
+    "electron": "electron .",
+    "server": "NODE_ENV='DEV' node server",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
@@ -40,6 +42,7 @@
   },
   "proxy": "http://localhost:4000",
   "devDependencies": {
+    "electron": "^2.0.8",
     "eslint-config-fullstack": "^6.0.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-react": "^7.10.0",
@@ -51,6 +54,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Capstone1806/fig"
+    "url": "https://github.com/lineville/sensical"
   }
 }

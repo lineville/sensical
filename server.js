@@ -50,7 +50,7 @@ app.use('*', (req, res, next) => {
   res.sendFile(path.join(__dirname, 'build/index.html'))
 })
 
-var port = process.env.PORT || 4000
-app.listen(port, function() {
-  console.log('Express server listening on *:' + port)
+var PORT = process.env.PORT || 4000
+app.listen(PORT, function() {
+  console.log(`Express server listening on PORT ${PORT}`)
 })

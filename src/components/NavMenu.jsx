@@ -57,7 +57,7 @@ class NavMenu extends Component {
                 color="inherit"
                 className={classes.logo}
               >
-                fig
+                sensical
               </Typography>
             </Button>
             <Typography

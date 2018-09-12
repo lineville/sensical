@@ -30,8 +30,6 @@ class Output extends Component {
 
   run() {
     const {input} = this.props
-    let oldLog = console.log
-    let oldError = console.error
     this.setState({output: ''})
 
     limitEval(
@@ -43,14 +41,14 @@ class Output extends Component {
               output: returnValue
             })
           } else if (!returnValue) {
-              this.setState({
-                output: 'Process took too long. Is there an infinite loop?'
-              })
-            } else {
-              this.setState({
-                output: returnValue
-              })
-            }
+            this.setState({
+              output: 'Process took too long. Is there an infinite loop?'
+            })
+          } else {
+            this.setState({
+              output: returnValue
+            })
+          }
         } catch (error) {
           this.setState({
             output: error.message
@@ -59,8 +57,6 @@ class Output extends Component {
       },
       3000
     )
-    console.log = oldLog
-    console.error = oldError
   }
 
   render() {
