@@ -27,9 +27,6 @@
     "react-scripts": "1.1.4",
     "react-tap-event-plugin": "^3.0.2",
     "react-testing-library": "^5.0.0",
-    "terminal-in-react": "^4.3.0",
-    "terminal-in-react-node-eval-plugin": "^2.0.0",
-    "terminal-in-react-pseudo-file-system-plugin": "^3.0.0",
     "twilio": "^3.11.1",
     "twilio-video": "^1.7.0"
   },
