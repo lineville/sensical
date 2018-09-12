@@ -26,3 +26,9 @@ npm run start
 ## Creator
 
 - [Liam Neville](https://github.com/lineville)
+
+## Previous Contributors to original project [fig](https://github.com/Capstone1806/fig)
+
+- [Jessica Hsu](https://github.com/hsujessica)
+- [Zach Margolies](https://github.com/zacharymargolies)
+- [Synuhe Uribe](https://github.com/synuhe)
