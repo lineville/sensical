@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
-import {Snackbar} from '@material-ui/core/'
+import {withStyles} from '@material-ui/core/styles'
+import {Snackbar, Typography, Button} from '@material-ui/core/'
 import {Notification} from '../imports'
+import styles from '../styles/HomePageStyles'
 import $ from 'jquery'
 
 class HomePage extends Component {
@@ -24,12 +26,34 @@ class HomePage extends Component {
     this.setState({popupOpen: false})
   }
 
+  signupPush = () => {
+    this.props.history.push('/signup')
+  }
+
   render() {
-    console.log(this.state.popupOpen)
+    const {classes} = this.props
     return (
-      <div style={{marginTop: 64}}>
-        <div className="brand-name">Fig - Let Knowledge Grow.</div>
+      <div style={{marginTop: '50px'}}>
         <div className="slidelist">
+          <div className={classes.infoCard}>
+            <p>
+              Let Knowledge Grow
+              <br />
+              <br />
+              <i>
+                Your classroom should be a reflection of your personal learning
+                style. So we made classrooms customizable.
+              </i>
+              <br />
+              <br />
+              Sign up now to get started using a fig room.
+              <br />
+            </p>
+            <Button onClick={this.signupPush} className={classes.button}>
+              Sign Up
+            </Button>
+          </div>
+
           <div className="slide open" style={{left: '-100%'}}>
             <span className="image1" />
           </div>
@@ -64,6 +88,26 @@ class HomePage extends Component {
                 <i className="fa fa-circle-o" />
               </li>
             </ul>
+          </div>
+
+          <div className={classes.info}>
+            <h1>about fig</h1>
+            <p>
+              Our application was inspired by the changing educational
+              landscape. As students, we oftentimes found ourselves wanting to
+              study together, but traffic, weather, and the L train get in the
+              way of meeting up. In these cases, we would have to use Skype to
+              video chat, repl.it to write out code and Google Docs to take
+              notes. These tools are great on their own but they become
+              cumbersome when used together.
+            </p>
+            <p>
+              This is why we created fig. Fig rooms provide students with a
+              modularized real-time collaborative learning environment. Fig
+              allows students to build a virtual classroom where they can use
+              built-in learning modules to work and study together on a variety
+              of subjects.
+            </p>
           </div>
         </div>
         <Snackbar
@@ -108,4 +152,4 @@ $(document).ready(function() {
   }, 7000)
 })
 
-export default HomePage
+export default withStyles(styles)(HomePage)
