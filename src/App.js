@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 
 import NavMenu from './components/NavMenu'
 import Routes from './Routes'
@@ -19,13 +19,21 @@ const theme = createMuiTheme({
   }
 })
 
-const App = () => {
-  return (
-    <MuiThemeProvider theme={theme}>
-      <NavMenu />
-      <Routes />
-    </MuiThemeProvider>
-  )
+class App extends Component {
+  componentDidMount() {
+    const ele = document.getElementById('loader')
+    if (ele) {
+      ele.outerHTML = ''
+    }
+  }
+  render() {
+    return (
+      <MuiThemeProvider theme={theme}>
+        <NavMenu />
+        <Routes />
+      </MuiThemeProvider>
+    )
+  }
 }
 
 export default App

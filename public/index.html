@@ -7,19 +7,44 @@
   <meta name="theme-color" content="#000000">
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300" rel="stylesheet" defer>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    crossorigin="anonymous" defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-    crossorigin="anonymous"></script>
-  <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+    crossorigin="anonymous" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js" defer></script>
 
   <title>Fig</title>
 </head>
 
 <body>
+  <style>
+    #loader {
+      border: 16px solid #3A0D27;
+      /* Light grey */
+      border-top: 16px solid #414654;
+      /* Blue */
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      margin-right: 50%;
+      margin-left: 50%;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+  <div id="loader"></div>
   <div id="root"></div>
 </body>
 
