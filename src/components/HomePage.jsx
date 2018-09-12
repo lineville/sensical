@@ -108,6 +108,13 @@ class HomePage extends Component {
               built-in learning modules to work and study together on a variety
               of subjects.
             </p>
+            <p>
+              Come checkout the source code and its developers on{' '}
+              <a href="https://github.com/Capstone1806/fig" alt="github">
+                GitHub
+              </a>
+              .
+            </p>
           </div>
         </div>
         <Snackbar
