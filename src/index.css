@@ -42,16 +42,12 @@ canvas {
   transform: translate(0, 0);
 }
 
-.output {
-  color: greenyellow;
-  background-color: black;
-  height: 100%;
-}
 h4 {
   margin: 15px 15px;
 }
 a {
   text-decoration: none;
+  color: #27c5f9;
 }
 
 label {
@@ -66,34 +62,6 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
-}
-
-.form {
-  background: rgba(26, 145, 89, 0.9);
-  padding: 40px;
-  max-width: 390px;
-  margin: 40px auto;
-  border-radius: 4px;
-  box-shadow: 0 5px 10px 5px rgba(26, 145, 89, 0.3);
-}
-.form-wrapper {
-  display: flex;
-  flex-direction: column;
-}
-.input-box {
-  width: 280px;
-  height: 45px;
-}
-.input-text {
-  font-size: 15px;
-  color: white;
-}
-
-.form-title {
-  font-size: 24px;
-  color: white;
-  padding: 13px;
-  text-align: center;
 }
 
 /* Slideshow */
@@ -116,37 +84,21 @@ body {
 ul {
   list-style: none;
 }
-.slidelist .image1 {
-  background-image: url(https://stefanik.house.gov/sites/stefanik.house.gov/files/styles/congress_featured_image/public/featured_image/issues/Education-OpportunitySmall.jpg?itok=BgzAqDM6);
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background-size: cover;
-}
-.slidelist .image2 {
-  background-image: url(https://o.aolcdn.com/images/dims3/GLOB/legacy_thumbnail/630x315/format/jpg/quality/85/http%3A%2F%2Fo.aolcdn.com%2Fhss%2Fstorage%2Fadam%2Fd9713f0ed571f56d064a7cab6d11136d%2F143176813.jpeg);
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background-size: cover;
-}
+.image1 {
+  background: #2980b9; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #ffffff,
+    #6dd5fa,
+    #2980b9
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #ffffff,
+    #6dd5fa,
+    #2980b9
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-.slidelist .image3 {
-  background-image: url(https://cdn.maximumyield.com/images/uploads/soil-flora-food-plant-produce-turnip-vegetable-sprout-radish-fungus.jpg?height=580&width=940&mode=crop);
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background-size: cover;
-}
-.slidelist .image4 {
-  background-image: url(https://edtechmagazine.com/k12/sites/edtechmagazine.com.k12/files/styles/cdw_hero/public/articles/EdTech/201709/%20AndreyPopov_virtual%20teachers.jpg?itok=kGHWSKCi);
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background-size: cover;
-}
-.slidelist .image5 {
-  background-image: url(http://hattatklinik.com/wp-content/uploads/2018/03/Teknoloji-%C4%B0ngilizcesi6.jpg);
   width: 100%;
   height: 100%;
   position: absolute;
@@ -154,12 +106,11 @@ ul {
 }
 
 .slide {
-  display: none;
+  /* display: none; */
   width: 100%;
   height: 500px;
   position: absolute;
 }
-
 .open {
   display: block;
 }
@@ -184,18 +135,15 @@ ul {
   border-radius: 100%;
   opacity: 0.8;
 }
-
 [class*='MuiInputLabel-formControl-'] {
   top: 0;
   left: 15px !important;
 }
-
 #google {
   width: 150px !important ;
   height: 37px !important;
   transition: none !important;
 }
-
 #google:hover {
   background-color: white !important;
   transition: none;

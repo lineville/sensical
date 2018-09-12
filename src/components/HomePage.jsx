@@ -3,7 +3,6 @@ import {withStyles} from '@material-ui/core/styles'
 import {Snackbar, Button} from '@material-ui/core/'
 import {Notification} from '../imports'
 import styles from '../styles/HomePageStyles'
-import $ from 'jquery'
 
 class HomePage extends Component {
   constructor(props) {
@@ -54,20 +53,8 @@ class HomePage extends Component {
             </Button>
           </div>
 
-          <div className="slide open" style={{left: '-100%'}}>
+          <div className="slide open">
             <span className="image1" />
-          </div>
-          <div className="slide open" style={{left: '-100%'}}>
-            <span className="image2" />
-          </div>
-          <div className="slide open" style={{left: '-100%'}}>
-            <span className="image3" />
-          </div>
-          <div className="slide open" style={{left: '-100%'}}>
-            <span className="image4" />
-          </div>
-          <div className="slide open" style={{left: '0%'}}>
-            <span className="image5" />
           </div>
 
           <div className="bottomButton">
@@ -109,9 +96,14 @@ class HomePage extends Component {
               variety of subjects.
             </p>
             <p>
-              Come checkout the source code and its developers on{' '}
+              Come checkout the source code and its creators on{' '}
               <a href="https://github.com/lineville/sensical" alt="github">
                 GitHub
+              </a>{' '}
+              or if you are interested in some of my other work and are looking
+              to hire a fullstack or front end developer, checkout my website{' '}
+              <a href="https://lineville.github.io" alt="github">
+                https://lineville.github.io
               </a>
               .
             </p>
@@ -136,27 +128,5 @@ class HomePage extends Component {
     )
   }
 }
-
-//jQuery caroussel
-$(document).ready(function() {
-  window.setInterval(function() {
-    var next = ($('.select').index() + 1) % $('.circle').length
-    var prev = $('.select').index()
-    $('.select').removeClass('select')
-    $('.circle')
-      .eq(next)
-      .addClass('select')
-    $('.slide')
-      .eq(next)
-      .addClass('open')
-      .css('left', '100%')
-    $('.slide')
-      .eq(prev)
-      .animate({left: '-100%'}, 700)
-    $('.slide')
-      .eq(next)
-      .animate({left: '0%'}, 700)
-  }, 7000)
-})
 
 export default withStyles(styles)(HomePage)

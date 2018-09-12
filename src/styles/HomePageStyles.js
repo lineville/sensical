@@ -5,10 +5,10 @@ const styles = () => ({
     maxWidth: '380px',
     position: 'absolute',
     zIndex: 1,
-    backgroundColor: 'rgba(39, 197, 249, .8)',
+    backgroundColor: 'rgba(45, 45, 45, .8)',
     borderRadius: '5px',
     fontSize: '18px',
-    color: 'black'
+    color: 'white'
   },
   info: {
     margin: '0 10%',
