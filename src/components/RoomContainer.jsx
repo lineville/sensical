@@ -10,7 +10,6 @@ class RoomContainer extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.cardsHeading}>
-          <p>Available Rooms</p>
           <CreateRoom />
         </div>
         <div className={classes.allCards}>

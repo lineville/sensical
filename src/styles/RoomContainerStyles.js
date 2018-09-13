@@ -6,8 +6,9 @@ const styles = () => ({
   },
   cardsHeading: {
     display: 'flex',
-    justifyContent: 'space-evenly',
-    alignItems: 'center'
+    // justifyContent: 'space-evenly',
+    marginLeft: '20px',
+    alignItems: 'left'
   },
   allCards: {
     display: 'flex',

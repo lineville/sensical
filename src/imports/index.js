@@ -3,7 +3,6 @@ import Classroom from '../components/Classroom'
 import CodeEditor from '../components/CodeEditor'
 import CodeEditorCard from '../components/CodeEditorCard'
 import CreateRoom from '../components/CreateRoom'
-import HideBin from '../components/HideBin'
 import HomePage from '../components/HomePage'
 import Login from '../components/Login'
 import Message from '../components/Message'
@@ -27,7 +26,6 @@ export {
   CodeEditor,
   CodeEditorCard,
   CreateRoom,
-  HideBin,
   HomePage,
   Login,
   Message,
