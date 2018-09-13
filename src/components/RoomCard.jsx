@@ -267,7 +267,7 @@ export class RoomCard extends Component {
 
             <Button
               variant="outlined"
-              color="secondary"
+              color="default"
               className={classes.button}
               onClick={this.leaveRoom}
             >
@@ -309,7 +309,7 @@ export class RoomCard extends Component {
                 />
               </DialogContent>
               <DialogActions>
-                <Button onClick={this.handleClose} color="secondary">
+                <Button onClick={this.handleClose} color="error">
                   <CancelIcon />
                 </Button>
                 <Button onClick={this.onSubmit} color="primary">
@@ -349,7 +349,7 @@ export class RoomCard extends Component {
                 />
               </DialogContent>
               <DialogActions>
-                <Button onClick={this.handleClose} color="secondary">
+                <Button onClick={this.handleClose} color="error">
                   <CancelIcon />
                 </Button>
                 <Button onClick={this.handleEdit} color="primary">

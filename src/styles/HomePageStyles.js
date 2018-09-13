@@ -2,7 +2,7 @@ const styles = () => ({
   infoCard: {
     margin: '8%',
     padding: '2%',
-    maxWidth: '380px',
+    maxWidth: '500px',
     position: 'absolute',
     zIndex: 1,
     backgroundColor: 'rgba(45, 45, 45, .8)',

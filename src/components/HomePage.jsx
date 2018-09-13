@@ -36,19 +36,28 @@ class HomePage extends Component {
         <div className="slidelist">
           <div className={classes.infoCard}>
             <p>
-              Let Knowledge Grow
+              Start collaborating with others to make your challenging work
+              sensical
               <br />
               <br />
-              <i>
-                Your classroom should be a reflection of your personal learning
-                style. So we made classrooms customizable.
-              </i>
+              Working alone for hours, switching between dozens of applications
+              can make your brain hurt and your work can begin to feel{' '}
+              <strong>nonsensical</strong>. My goal was to make that work feel
+              more <strong>sensical</strong>. Everything you need to work with
+              your team is all one place that just makes sense. Customize your
+              learning environment to your needs with our set of modular
+              classroom components.
               <br />
               <br />
-              Sign up now to get started using a sensical room.
+              Sign up now to get started using a learning platform that just
+              makes sense.
               <br />
             </p>
-            <Button onClick={this.signupPush} className={classes.button}>
+            <Button
+              onClick={this.signupPush}
+              className={classes.button}
+              id="flashy"
+            >
               Sign Up
             </Button>
           </div>
@@ -82,11 +91,11 @@ class HomePage extends Component {
             <p>
               My application was inspired by the changing educational landscape.
               As students, we oftentimes found ourselves wanting to study
-              together, but traffic, weather, and the L train get in the way of
-              meeting up. In these cases, we would have to use Skype to video
-              chat, repl.it to write out code and Google Docs to take notes.
-              These tools are great on their own but they become cumbersome when
-              used together.
+              together, but traffic, weather, and all sorts of obstacles can get
+              in the way of meeting up. In these cases, we would have to use
+              Skype to video chat, repl.it to write out code, Google Docs to
+              take notes, and Slack to chat. These tools are great on their own
+              but they become cumbersome when used together.
             </p>
             <p>
               This is why we created sensical. Sensical rooms provide students
@@ -100,7 +109,12 @@ class HomePage extends Component {
               <a href="https://github.com/lineville/sensical" alt="github">
                 GitHub
               </a>{' '}
-              or if you are interested in some of my other work and are looking
+              . This project is inspired by a previous project developed by me
+              and three other developers that can be found{' '}
+              <a href="https://github.com/Capstone1806/fig" alt="github">
+                here
+              </a>
+              . If you are interested in some of my other work and are looking
               to hire a fullstack or front end developer, checkout my website{' '}
               <a href="https://lineville.github.io" alt="github">
                 https://lineville.github.io

@@ -13,10 +13,10 @@ const styles = theme => ({
     width: 200
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing.unit * 0.5
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit * 0.5
   }
 })
 

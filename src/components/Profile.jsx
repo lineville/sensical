@@ -309,7 +309,7 @@ class Profile extends Component {
                 />
               </DialogContent>
               <DialogActions>
-                <Button onClick={this.handleClose} color="secondary">
+                <Button onClick={this.handleClose} color="error">
                   <CancelIcon />
                 </Button>
                 <Button onClick={this.updateProfile} color="primary">
