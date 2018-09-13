@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import db from '../firestore'
-import {RoomMembers, HideBin, Notification} from '../imports'
+import {RoomMembers, Notification} from '../imports'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import styles from '../styles/RoomStatusBarStyles'
@@ -279,7 +279,6 @@ class RoomStatusBar extends Component {
                 </DialogActions>
               </Dialog>
             </Typography>
-            <HideBin />
           </Toolbar>
         </AppBar>
         <Snackbar
