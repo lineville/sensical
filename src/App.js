@@ -24,10 +24,19 @@ const theme = createMuiTheme({
 
 class App extends Component {
   componentDidMount() {
-    const ele = document.getElementById('loader')
+    const ele = document.getElementById('ipl-progress-indicator')
     if (ele) {
-      ele.outerHTML = ''
+      // fade out
+      ele.classList.add('available')
+      setTimeout(() => {
+        // remove from DOM
+        ele.outerHTML = ''
+      }, 2000)
     }
+    // const ele = document.getElementById('loader')
+    // if (ele) {
+    //   ele.outerHTML = ''
+    // }
   }
   render() {
     return (
