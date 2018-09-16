@@ -27,7 +27,7 @@ export class Notepad extends Component {
     this.state = {
       text: ''
     }
-    this.handleChange = this.handleChange.bind(this)
+    // this.handleChange = this.handleChange.bind(this)
   }
 
   async componentDidMount() {
@@ -39,7 +39,7 @@ export class Notepad extends Component {
       })
   }
 
-  handleChange(event) {
+  handleChange = event => {
     this.setState(
       {
         text: event.target.value

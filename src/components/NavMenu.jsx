@@ -15,10 +15,10 @@ import {AccountCircle} from '@material-ui/icons/'
 import styles from '../styles/NavMenuStyles'
 
 class NavMenu extends Component {
-  constructor() {
-    super()
-    this.handleLogout = this.handleLogout.bind(this)
-  }
+  // constructor() {
+  //   super()
+  //   // this.handleLogout = this.handleLogout.bind(this)
+  // }
 
   handleLogout = async () => {
     try {

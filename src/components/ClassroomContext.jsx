@@ -44,7 +44,7 @@ class ClassroomContext extends Component {
       codeEditors: {},
       curZIndex: 1
     }
-    this.moveModule = this.moveModule.bind(this)
+    // this.moveModule = this.moveModule.bind(this)
   }
 
   componentDidMount() {
@@ -67,7 +67,7 @@ class ClassroomContext extends Component {
       })
   }
 
-  moveModule(mod, left, top, id) {
+  moveModule = (mod, left, top, id) => {
     if (mod.modName === 'codeEditor') {
       this.setState({curZIndex: this.state.curZIndex + 1})
       this.setState({

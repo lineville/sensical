@@ -35,8 +35,8 @@ class Classroom extends Component {
       popUpMessage: `You don't have access to this room`,
       allowedinRoom: false
     }
-    this.handleDrop = this.handleDrop.bind(this)
-    this.handleClose = this.handleClose.bind(this)
+    // this.handleDrop = this.handleDrop.bind(this)
+    // this.handleClose = this.handleClose.bind(this)
   }
 
   async componentDidMount() {

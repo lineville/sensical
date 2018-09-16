@@ -15,17 +15,17 @@ class Signup extends Component {
       email: '',
       password: ''
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSignup = this.handleSignup.bind(this)
+    // this.handleChange = this.handleChange.bind(this)
+    // this.handleSignup = this.handleSignup.bind(this)
   }
 
-  handleChange(event) {
+  handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
     })
   }
 
-  async handleSignup() {
+  handleSignup = async () => {
     try {
       const user = await firebase
         .auth()

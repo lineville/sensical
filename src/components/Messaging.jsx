@@ -40,8 +40,8 @@ export class Messaging extends Component {
       newMessage: '',
       user: {}
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    // this.handleChange = this.handleChange.bind(this)
+    // this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   async componentDidMount() {
@@ -67,13 +67,13 @@ export class Messaging extends Component {
     this.setState({user: user.data()})
   }
 
-  handleChange(event) {
+  handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
     })
   }
 
-  async handleSubmit(event) {
+  handleSubmit = async event => {
     event.preventDefault()
     if (this.state.newMessage.length) {
       await db

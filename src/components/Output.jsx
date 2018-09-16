@@ -17,7 +17,7 @@ class Output extends Component {
     this.state = {
       output: ''
     }
-    this.run = this.run.bind(this)
+    // this.run = this.run.bind(this)
   }
 
   componentDidMount() {
@@ -28,7 +28,7 @@ class Output extends Component {
     }
   }
 
-  run() {
+  run = () => {
     const {input} = this.props
     this.setState({output: ''})
 

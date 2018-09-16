@@ -15,7 +15,6 @@ class CodeEditor extends Component {
       user: {},
       canType: false
     }
-    this.onChange = this.onChange.bind(this)
   }
 
   async componentDidMount() {
@@ -53,7 +52,7 @@ class CodeEditor extends Component {
       })
   }
 
-  onChange(value) {
+  onChange = value => {
     this.setState({
       code: value
     })

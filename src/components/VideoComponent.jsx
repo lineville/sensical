@@ -18,14 +18,14 @@ export class VideoComponent extends Component {
       activeRoom: null, // Track the current active room
       otherpersoninRoom: false
     }
-    this.joinRoom = this.joinRoom.bind(this)
-    this.roomJoined = this.roomJoined.bind(this)
-    this.leaveRoom = this.leaveRoom.bind(this)
-    this.detachTracks = this.detachTracks.bind(this)
-    this.detachParticipantTracks = this.detachParticipantTracks.bind(this)
+    // this.joinRoom = this.joinRoom.bind(this)
+    // this.roomJoined = this.roomJoined.bind(this)
+    // this.leaveRoom = this.leaveRoom.bind(this)
+    // this.detachTracks = this.detachTracks.bind(this)
+    // this.detachParticipantTracks = this.detachParticipantTracks.bind(this)
   }
 
-  joinRoom() {
+  joinRoom = () => {
     if (!this.state.roomName.trim()) {
       this.setState({roomNameErr: true})
       return
@@ -48,19 +48,19 @@ export class VideoComponent extends Component {
     })
   }
 
-  attachTracks(tracks, container) {
+  attachTracks = (tracks, container) => {
     tracks.forEach(track => {
       container.appendChild(track.attach())
     })
   }
 
   // Attaches a track to a specified DOM container
-  attachParticipantTracks(participant, container) {
+  attachParticipantTracks = (participant, container) => {
     var tracks = Array.from(participant.tracks.values())
     this.attachTracks(tracks, container)
   }
 
-  detachTracks(tracks) {
+  detachTracks = tracks => {
     tracks.forEach(track => {
       track.detach().forEach(detachedElement => {
         detachedElement.remove()
@@ -68,12 +68,12 @@ export class VideoComponent extends Component {
     })
   }
 
-  detachParticipantTracks(participant) {
+  detachParticipantTracks = participant => {
     var tracks = Array.from(participant.tracks.values())
     this.detachTracks(tracks)
   }
 
-  roomJoined(room) {
+  roomJoined = room => {
     // Called when a participant joins a room
     this.setState({
       activeRoom: room,
@@ -146,7 +146,7 @@ export class VideoComponent extends Component {
     })
   }
 
-  leaveRoom() {
+  leaveRoom = () => {
     this.state.activeRoom.disconnect()
     const element = Document.getElementById('remote-media')
     element.remove()
