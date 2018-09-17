@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {TextField, FormControl, Button} from '@material-ui/core/'
 import MaterialUIForm from 'material-ui-form'
+import GoogleButton from 'react-google-button'
 import styles from '../styles/SignupStyles'
 
 class Signup extends Component {
@@ -168,13 +169,8 @@ class Signup extends Component {
         >
           Signup
         </Button>
-        <Button type="submit" id="google" onClick={this.googleSignup}>
-          <img
-            src="/btn_google_signin_light_pressed_web.png"
-            id="google"
-            alt="google"
-          />
-        </Button>
+        <p>or</p>
+        <GoogleButton onClick={this.googleSignup} />
       </MaterialUIForm>
     )
   }

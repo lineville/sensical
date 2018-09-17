@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import firebase from 'firebase'
+import GoogleButton from 'react-google-button'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {FormControl, Button, TextField, Snackbar} from '@material-ui/core'
@@ -145,13 +146,8 @@ class Login extends Component {
         >
           Login
         </Button>
-        <Button id="google" onClick={this.googleSignup}>
-          <img
-            src="/btn_google_signin_light_pressed_web.png"
-            id="google"
-            alt="google"
-          />
-        </Button>
+        <p>or</p>
+        <GoogleButton onClick={this.googleSignup} />
 
         <Snackbar
           anchorOrigin={{

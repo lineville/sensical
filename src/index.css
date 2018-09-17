@@ -140,15 +140,6 @@ ul {
   top: 0;
   left: 15px !important;
 }
-#google {
-  width: 150px !important ;
-  height: 37px !important;
-  transition: none !important;
-}
-#google:hover {
-  background-color: white !important;
-  transition: none;
-}
 
 #flashy {
   background: #fdc830; /* fallback for old browsers */
