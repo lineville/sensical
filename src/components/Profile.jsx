@@ -220,7 +220,7 @@ class Profile extends Component {
             <Button
               variant="fab"
               mini
-              color="primary"
+              color="secondary"
               className={classes.button}
               onClick={() => this.setState({editFormOpen: true})}
             >

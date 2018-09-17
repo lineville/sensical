@@ -1,6 +1,9 @@
 const styles = () => ({
   infoCard: {
-    margin: '8%',
+    marginTop: '5%',
+    marginBottom: '5%',
+    marginLeft: '10%',
+    marginRight: '5%',
     padding: '2%',
     maxWidth: '500px',
     position: 'absolute',

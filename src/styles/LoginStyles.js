@@ -4,7 +4,10 @@ const styles = theme => ({
     flexWrap: 'wrap',
     flexDirection: 'column',
     alignItems: 'center',
-    margin: '10%'
+    marginLeft: '5%',
+    marginRight: '5%',
+    marginTop: '10%',
+    marginBottom: '10%'
   },
   margin: {
     margin: theme.spacing.unit

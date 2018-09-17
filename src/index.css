@@ -3,7 +3,7 @@ body {
   padding: 0;
   /* background-image: linear-gradient(120deg, #011521 0%, #3a0d27 100%); */
   height: 100vh;
-  width: 130vw;
+  width: 100vw;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 200;
   background-color: 'rgba(171,197,170, 0.2)';
@@ -100,7 +100,7 @@ ul {
     #2980b9
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-  width: 100%;
+  width: 100vw;
   height: 100%;
   position: absolute;
   background-size: cover;
@@ -169,4 +169,8 @@ ul {
   height: 48;
   padding: '0 30px';
   box-shadow: '0 3px 5px 2px rgba(255, 105, 135, .3)';
+}
+
+#icon-attribution {
+  font-size: 12px;
 }
