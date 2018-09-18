@@ -38,8 +38,9 @@ class HomePage extends Component {
             <p>
               Start collaborating with others to make your challenging work
               sensical
-              <br />
-              <br />
+            </p>
+            {/* <br /> */}
+            <p>
               Working alone for hours, switching between dozens of applications
               can make your brain hurt and your work can begin to feel{' '}
               <strong>nonsensical</strong>. My goal was to make that work feel
@@ -47,12 +48,13 @@ class HomePage extends Component {
               your team is all one place that just makes sense. Customize your
               learning environment to your needs with our set of modular
               classroom components.
-              <br />
-              <br />
+            </p>
+            {/* <br /> */}
+            <p>
               Sign up now to get started using a learning platform that just
               makes sense.
-              <br />
             </p>
+            {/* <br /> */}
             <Button
               onClick={this.signupPush}
               className={classes.button}
@@ -119,7 +121,6 @@ class HomePage extends Component {
               <a href="https://lineville.github.io" alt="github">
                 https://lineville.github.io
               </a>
-              .
             </p>
             <div id="icon-attribution">
               Icons made by{' '}
