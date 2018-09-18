@@ -11,10 +11,6 @@ notifications:
 install:
   - npm ci # faster, goes only from package-lock
 
-before_deploy:
-  - rm -rf node_modules # omit from the tarball, since we skip cleanup
-  - npm install
-
 deploy:
   skip_cleanup: true # prevents travis from deleting the build
   provider: heroku
