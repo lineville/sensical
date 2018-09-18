@@ -89,7 +89,7 @@ class CodeEditor extends Component {
           readOnly={!this.state.canType}
           editorProps={{$blockScrolling: true}}
         />
-        <Output input={this.state.code} />
+        <Output input={this.state.code} language={this.props.settings.mode} />
       </div>
     )
   }
