@@ -1,11 +1,11 @@
-deploy:
-  provider: heroku
-  language: node_js
+language: node_js
   node_js:
     - node # uses most recent stable node version
   install:
     - npm ci # faster, goes only from package-lock
 
+deploy:
+  provider: heroku
   api_key:
     secure: lvsG18gvcklf4+6xOc608bc0bsj2RSyNbrE+aJFupVIbcGd9rPHFw6dwyfZyko0QaZJ71pMb01tgj+vreoIkqc1Tj8jqV9VmgbYPziq4+0D1IK1B4M5wmxTWLxkslLK6q6mlj1RgNELk4RJ+9XoyzUXMPeSZ2iDAVYnwSajn0Kj7pv8kTPLnXvbVaMbCkCWLgTH2oxcZEKb8CJ7MmEu1toYwcmb6G8TAUTzEgJID0vUwyWvG6DeCEYQyj0TIOsTcRw7Nm2WqJe2ObzZceDJ/VP3/dfmHc6FDB9+/FNAxXxohTFuGbJGcIpfza+BAQGe4rP6sEkwdbeNvjajyjPtjAn6/uFgEJwtu1ZuF/nH8IakVW7iHTCMscVLzQBP54fJijTKPI5fPsv+cODx/KxGtf+8QKcKZ2ufhRMRf9CBnPW36stu1KMEFbsok+fVCHpnCMu1Vezl3ZZpOQAbZE3YAM88uJ5/cIiZopX97d5CUghdwcwF3Q7tC14ZCcAmGDwmYCtO1r6gQaCdezz+4DuvwENVIJ2sF9XnSRzxSyQka/SYcckZMO0MkNc08/pqEp9+2iZdToOm2A733NrvO1Wep2TLrJxK2ZQBXQP3KDQxYdVUaHxFTInu0J89hixG11/1N72DbGXrdUYqFGZr5byZ/W+wuFF47M3vwemhgvA1XVxw=
   app: sensical
