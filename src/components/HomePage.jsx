@@ -39,7 +39,6 @@ class HomePage extends Component {
               Start collaborating with others to make your challenging work
               sensical
             </p>
-            {/* <br /> */}
             <p>
               Working alone for hours, switching between dozens of applications
               can make your brain hurt and your work can begin to feel{' '}
@@ -49,12 +48,10 @@ class HomePage extends Component {
               learning environment to your needs with our set of modular
               classroom components.
             </p>
-            {/* <br /> */}
             <p>
               Sign up now to get started using a learning platform that just
               makes sense.
             </p>
-            {/* <br /> */}
             <Button
               onClick={this.signupPush}
               className={classes.button}
@@ -67,27 +64,6 @@ class HomePage extends Component {
           <div className="slide open">
             <span className="image1" />
           </div>
-
-          <div className="bottomButton">
-            <ul>
-              <li className="circle">
-                <i className="fa fa-circle-o" />
-              </li>
-              <li className="circle">
-                <i className="fa fa-circle-o" />
-              </li>
-              <li className="circle">
-                <i className="fa fa-circle-o" />
-              </li>
-              <li className="circle">
-                <i className="fa fa-circle-o" />
-              </li>
-              <li className="circle select">
-                <i className="fa fa-circle-o" />
-              </li>
-            </ul>
-          </div>
-
           <div className={classes.info}>
             <h1>About Sensical</h1>
             <p>

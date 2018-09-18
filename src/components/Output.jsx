@@ -17,23 +17,11 @@ class Output extends Component {
     this.state = {
       output: ''
     }
-    // this.run = this.run.bind(this)
   }
 
-  componentDidMount() {
-    window.onerror = (message, source, lineno, colno, error) => {
-      this.setState({
-        output: message
-      })
-    }
-  }
-
-  run = () => {
-    const {input} = this.props
-    this.setState({output: ''})
-
+  executeJavaScript = code => {
     limitEval(
-      input,
+      code,
       (success, returnValue) => {
         try {
           if (success) {
@@ -59,7 +47,29 @@ class Output extends Component {
     )
   }
 
+  executePython = code => {
+    console.log('unable to do python yet')
+  }
+
+  run = () => {
+    const {input} = this.props
+    this.setState({output: ''})
+    // for JavaScript code
+    switch (this.props.language) {
+      case 'javascript':
+        this.executeJavaScript(input)
+        break
+      case 'python':
+        this.executePython(input)
+        break
+      default:
+        this.executeJavaScript(input)
+        break
+    }
+  }
+
   render() {
+    console.log(this.props.language)
     const {classes} = this.props
     return (
       <div className={classes.root}>

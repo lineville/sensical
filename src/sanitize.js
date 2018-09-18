@@ -1,4 +1,4 @@
-const hasBadToken = code => {
+export const hasBadTokens = code => {
   const illegalTokens = ['alert', 'eval', 'process', 'fs']
   let valid = true
   illegalTokens.forEach(token => {
@@ -8,7 +8,7 @@ const hasBadToken = code => {
 }
 
 function limitEval(code, fnOnStop, timeOut) {
-  if (hasBadToken(code)) {
+  if (hasBadTokens(code)) {
     return 'Sorry... you are not permitted to user eval, alert, process or fs.'
   }
   var id = Math.random() + 1,
