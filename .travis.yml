@@ -15,9 +15,6 @@ before_deploy:
   - rm -rf node_modules # omit from the tarball, since we skip cleanup
   - npm run build
 
-branches:
-  only: -master
-
 deploy:
   skip_cleanup: true # prevents travis from deleting the build
   provider: heroku
