@@ -1,6 +1,7 @@
 require('dotenv').config()
 // var path = require('path')
 var express = require('express')
+const compression = require('compression')
 // var webpack = require('webpack')
 var faker = require('faker')
 var AccessToken = require('twilio').jwt.AccessToken
@@ -12,6 +13,7 @@ if (process.env.NODE_ENV === 'DEV') {
 }
 
 var app = express()
+app.use(compression())
 
 app.use(function(req, res, next) {
   console.log('Request from: ', req.url)
