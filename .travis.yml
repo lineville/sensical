@@ -1,19 +1,17 @@
 language: node_js
 node_js:
-  - node # uses most recent stable node version
-
-dist: trusty # uses trusty environment
-sudo: false # when on trusty, uses Docker containers for speed
+  - node
+dist: trusty
+sudo: false
 notifications:
   email:
-    on_success: change # default: change (only when going from broken to fixed)
-    on_failure: always # default: always (which is annoying, as it should be)
+    on_success: change
+    on_failure: always
 install:
-  - npm ci # faster, goes only from package-lock
-
+  - npm ci
 deploy:
-  skip_cleanup: true # prevents travis from deleting the build
+  skip_cleanup: true
   provider: heroku
-  app: sensical # see README
+  app: sensical
   api_key:
-    secure: lvsG18gvcklf4+6xOc608bc0bsj2RSyNbrE+aJFupVIbcGd9rPHFw6dwyfZyko0QaZJ71pMb01tgj+vreoIkqc1Tj8jqV9VmgbYPziq4+0D1IK1B4M5wmxTWLxkslLK6q6mlj1RgNELk4RJ+9XoyzUXMPeSZ2iDAVYnwSajn0Kj7pv8kTPLnXvbVaMbCkCWLgTH2oxcZEKb8CJ7MmEu1toYwcmb6G8TAUTzEgJID0vUwyWvG6DeCEYQyj0TIOsTcRw7Nm2WqJe2ObzZceDJ/VP3/dfmHc6FDB9+/FNAxXxohTFuGbJGcIpfza+BAQGe4rP6sEkwdbeNvjajyjPtjAn6/uFgEJwtu1ZuF/nH8IakVW7iHTCMscVLzQBP54fJijTKPI5fPsv+cODx/KxGtf+8QKcKZ2ufhRMRf9CBnPW36stu1KMEFbsok+fVCHpnCMu1Vezl3ZZpOQAbZE3YAM88uJ5/cIiZopX97d5CUghdwcwF3Q7tC14ZCcAmGDwmYCtO1r6gQaCdezz+4DuvwENVIJ2sF9XnSRzxSyQka/SYcckZMO0MkNc08/pqEp9+2iZdToOm2A733NrvO1Wep2TLrJxK2ZQBXQP3KDQxYdVUaHxFTInu0J89hixG11/1N72DbGXrdUYqFGZr5byZ/W+wuFF47M3vwemhgvA1XVxw=
+    secure: 'e5oWSs1iIoxFANYHLdh8lAQKbre3EDyPpltR1xtQ+ipv50hQ7/y3KzSrOS6MBXmmTkXlWJeqTIaztdPM7bpVUEk0iiuDQLnUbrLUSHGbMXTN+4LSozBjRYf+jJ3R9QD7vn/l/hMZi6AweCPjpV23CdW9/yYFPdvgHQjy1dfYdtNAvXKnW9RnZrdtl9TEK9WKT/GbGErm+WgewxI/kNWQ871PrM8Vl0Gorbeik77rMoGWVtOYm7vxQnNqytpCrMKzHz95YMvHhuijt1sSPpVvDazHPj0JuFgHA3UnxCJg5/DtiiUOiEcihmCFO3zAg+yAX66DXU4fEecj+a3Ia4h+co22YIUqH9546mWluJox/mtO14DmD1dDOpAQFBUdUHE+h8AK/G+Ash701NqWLTuFCBE/0iIwcYWHXDTWi7uDlW5qz6XEvHELkxlqPNy0BvGDQOUE12TdX4P9fokMwCpmWSgdna+d0rb2gt0zv4QBMqR8f0kgZvTq9P5Fmp+gPG/3Q1zF0SZfMQKYnNKkF/6gl8wzZICS/DoMkVJigz4oxWFBNX7haGGMmw+pc56YZSlWs2bNc5kkNXpqAdexp1RAB7VWav3V2W3vHfelp86Bi7A3sHKNlrp6Ij0S9lk7uTKxJnScYKcLk3KFgXdkwhCvgJmO2fHpGtuXOsgZkYMyNPk='
