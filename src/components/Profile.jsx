@@ -108,8 +108,8 @@ class Profile extends Component {
   }
 
   changePassword = async () => {
-    var auth = firebase.auth()
-    var emailAddress = await auth.currentUser.email
+    let auth = firebase.auth()
+    let emailAddress = await auth.currentUser.email
     auth
       .sendPasswordResetEmail(emailAddress)
       .then(() => {

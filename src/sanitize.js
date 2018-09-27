@@ -11,7 +11,7 @@ function limitEval(code, fnOnStop, timeOut) {
   if (hasBadTokens(code)) {
     return 'Sorry... you are not permitted to user eval, alert, process or fs.'
   }
-  var id = Math.random() + 1,
+  let id = Math.random() + 1,
     blob = new Blob(
       [
         'onmessage=function(a){a=a.data;postMessage({i:a.i+1});postMessage({r:eval.call(this,a.c),i:a.i})};'

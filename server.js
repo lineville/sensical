@@ -1,18 +1,16 @@
 require('dotenv').config()
-// var path = require('path')
-var express = require('express')
+const express = require('express')
 const compression = require('compression')
-// var webpack = require('webpack')
-var faker = require('faker')
-var AccessToken = require('twilio').jwt.AccessToken
-var VideoGrant = AccessToken.VideoGrant
+const faker = require('faker')
+const AccessToken = require('twilio').jwt.AccessToken
+const VideoGrant = AccessToken.VideoGrant
 const path = require('path')
 
 if (process.env.NODE_ENV === 'DEV') {
   require('./secrets')
 }
 
-var app = express()
+const app = express()
 app.use(compression())
 
 app.use(function(req, res, next) {
@@ -24,11 +22,11 @@ app.use(express.static(path.join(__dirname, 'build')))
 
 // Endpoint to generate access token
 app.get('/token', function(request, response) {
-  var identity = faker.name.findName()
+  const identity = faker.name.findName()
 
   // Create an access token which we will sign and return to the client,
   // containing the grant we just created
-  var token = new AccessToken(
+  const token = new AccessToken(
     process.env.ACCOUNT_SID,
     process.env.API_KEY,
     process.env.API_SECRET
@@ -52,7 +50,7 @@ app.use('*', (req, res, next) => {
   res.sendFile(path.join(__dirname, 'build/index.html'))
 })
 
-var PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 4000
 app.listen(PORT, function() {
   console.log(`Express server listening on PORT ${PORT}`)
 })

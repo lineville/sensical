@@ -27,6 +27,7 @@
     "react-scripts": "1.1.4",
     "react-tap-event-plugin": "^3.0.2",
     "react-testing-library": "^5.0.0",
+    "transcrypt": "^3.6.82",
     "twilio": "^3.11.1",
     "twilio-video": "^1.7.0"
   },

@@ -56,7 +56,7 @@ export class VideoComponent extends Component {
 
   // Attaches a track to a specified DOM container
   attachParticipantTracks = (participant, container) => {
-    var tracks = Array.from(participant.tracks.values())
+    let tracks = Array.from(participant.tracks.values())
     this.attachTracks(tracks, container)
   }
 
@@ -69,7 +69,7 @@ export class VideoComponent extends Component {
   }
 
   detachParticipantTracks = participant => {
-    var tracks = Array.from(participant.tracks.values())
+    let tracks = Array.from(participant.tracks.values())
     this.detachTracks(tracks)
   }
 
@@ -82,7 +82,7 @@ export class VideoComponent extends Component {
     })
 
     // Attach LocalParticipant's Tracks, if not already attached.
-    var previewContainer = this.refs.localMedia
+    let previewContainer = this.refs.localMedia
     if (!previewContainer.querySelector('video')) {
       this.attachParticipantTracks(room.localParticipant, previewContainer)
       previewContainer.children[1].setAttribute('width', '100%')
@@ -90,7 +90,7 @@ export class VideoComponent extends Component {
 
     // Attach the Tracks of the Room's Participants.
     room.participants.forEach(participant => {
-      var previewContainer = this.refs.remoteMedia
+      let previewContainer = this.refs.remoteMedia
       this.attachParticipantTracks(participant, previewContainer)
     })
 
@@ -100,7 +100,7 @@ export class VideoComponent extends Component {
     // When a Participant adds a Track, attach it to the DOM.
     //'trackAdded'
     room.on('trackSubscribed', (track, participant) => {
-      var previewContainer = this.refs.remoteMedia
+      let previewContainer = this.refs.remoteMedia
       this.attachTracks([track], previewContainer)
       this.setState({otherpersoninRoom: true})
       if (previewContainer.children.length) {
