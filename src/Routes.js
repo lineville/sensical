@@ -7,6 +7,7 @@ import ClassroomContext from './components/ClassroomContext'
 import HomePage from './components/HomePage'
 import Signup from './components/Signup'
 import Login from './components/Login'
+import QuestionnaireStepper from './components/QuestionnaireStepper'
 import {withAuth} from 'fireview'
 
 const Routes = props => {
@@ -22,6 +23,11 @@ const Routes = props => {
         {isLoggedIn && (
           <Switch>
             <Route exact path="/profile" component={Profile} />
+            <Route
+              exact
+              path="/questionnaire"
+              component={QuestionnaireStepper}
+            />
             <Route exact path="/whiteboard" component={Canvas} />
             <Route
               path="/classroom/:classroomId"
