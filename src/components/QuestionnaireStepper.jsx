@@ -1,38 +1,88 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import Stepper from '@material-ui/core/Stepper'
-import Step from '@material-ui/core/Step'
-import StepLabel from '@material-ui/core/StepLabel'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
+import InterestSelector from './InterestSelector'
+import {
+  Stepper,
+  FormControlLabel,
+  Checkbox,
+  Step,
+  StepLabel,
+  Button,
+  Typography
+} from '@material-ui/core/'
 import styles from '../styles/QuestionnaireStepperStyles'
 
 function getSteps() {
   return ['Role', 'Interests', 'Skill Level']
 }
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return 'Are you a learner or a teacher?'
-    case 1:
-      return 'Which of the following subjects are you interested in?'
-    case 2:
-      return 'How much experience do you have in the subjects you are interested?'
-    default:
-      return 'Unknown step'
-  }
-}
-
 class QuestionnaireStepper extends Component {
-  state = {
-    activeStep: 0,
-    skipped: new Set()
+  constructor() {
+    super()
+    this.state = {
+      activeStep: 0,
+      skipped: new Set(),
+      isLearner: false,
+      isTeacher: false
+    }
   }
 
-  isStepOptional = step => {
-    return step === 1
+  handleChange = event => {
+    this.setState({[event.target.name]: event.target.checked})
+  }
+
+  getStepContent = step => {
+    switch (step) {
+      case 0:
+        return (
+          <div className="center">
+            <p>Are you a learner or a teacher?</p>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="isLearner"
+                  checked={this.state.isLearner}
+                  onChange={this.handleChange}
+                  value={this.state.isLearner}
+                  color="primary"
+                />
+              }
+              label="Learner"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="isTeacher"
+                  checked={this.state.isTeacher}
+                  onChange={this.handleChange}
+                  value={this.state.isTeacher}
+                  color="secondary"
+                />
+              }
+              label="Teacher"
+            />
+          </div>
+        )
+      case 1:
+        return (
+          <div className="center">
+            <p>Which of the following subjects are you interested in?</p>
+            <InterestSelector />
+          </div>
+        )
+      case 2:
+        return (
+          <div className="center">
+            <p>
+              How much experience do you have in the subjects you are
+              interested?
+            </p>
+          </div>
+        )
+      default:
+        return 'Unknown step'
+    }
   }
 
   handleNext = () => {
@@ -57,11 +107,6 @@ class QuestionnaireStepper extends Component {
 
   handleSkip = () => {
     const {activeStep} = this.state
-    if (!this.isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.")
-    }
 
     this.setState(state => {
       const skipped = new Set(state.skipped.values())
@@ -94,11 +139,7 @@ class QuestionnaireStepper extends Component {
           {steps.map((label, index) => {
             const props = {}
             const labelProps = {}
-            if (this.isStepOptional(index)) {
-              labelProps.optional = (
-                <Typography variant="caption">Optional</Typography>
-              )
-            }
+
             if (this.isStepSkipped(index)) {
               props.completed = false
             }
@@ -122,9 +163,9 @@ class QuestionnaireStepper extends Component {
           ) : (
             <div>
               <Typography className={classes.instructions}>
-                {getStepContent(activeStep)}
+                {this.getStepContent(activeStep)}
               </Typography>
-              <div>
+              <div className="center">
                 <Button
                   disabled={activeStep === 0}
                   onClick={this.handleBack}
@@ -132,16 +173,7 @@ class QuestionnaireStepper extends Component {
                 >
                   Back
                 </Button>
-                {this.isStepOptional(activeStep) && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleSkip}
-                    className={classes.button}
-                  >
-                    Skip
-                  </Button>
-                )}
+
                 <Button
                   variant="contained"
                   color="primary"

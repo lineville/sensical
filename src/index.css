@@ -116,6 +116,10 @@ ul {
   display: block;
 }
 
+.center {
+  text-align: center;
+}
+
 .bottomButton {
   position: absolute;
   width: 100%;
