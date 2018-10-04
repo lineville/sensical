@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import {Chip, Paper, TextField, MenuItem, Popper} from '@material-ui/core/'
+import {Chip, Paper, TextField, MenuItem} from '@material-ui/core/'
 import styles from '../styles/InterestSelector'
 import deburr from 'lodash/deburr'
 import Autosuggest from 'react-autosuggest'
