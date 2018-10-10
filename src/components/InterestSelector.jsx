@@ -118,7 +118,7 @@ class InterestSelector extends Component {
   handleSubmit = event => {
     event.preventDefault()
     if (suggestions.includes(this.state.single)) {
-      this.setState({... this.state.chipData.push(this.state.single)})
+      this.setState({...this.state.chipData.push(this.state.single)})
     } else {
       this.setState({
         snackBarOpen: true,
