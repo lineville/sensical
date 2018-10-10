@@ -1,21 +1,17 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import {Chip, Paper, TextField, MenuItem} from '@material-ui/core/'
+import {Chip, Paper, TextField, MenuItem, Snackbar} from '@material-ui/core/'
+import Notification from './Notification'
 import styles from '../styles/InterestSelector'
 import deburr from 'lodash/deburr'
 import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
 
-const suggestions = [
-  {label: 'React'},
-  {label: 'Angular'},
-  {label: 'Ember'},
-  {label: 'JavaScript'},
-  {label: 'CSS'},
-  {label: 'Python'}
-]
+const suggestions = ['JavaScript', 'Python', 'React', 'Angular', 'Haskell', 
+'Functional Programming', 'Object Oriented Programming', 'Java', 'Algorithms', 'Data Structures',
+'HTML', 'CSS', 'Go']
 
 function renderInputComponent(inputProps) {
   const {classes, inputRef = () => {}, ref, ...other} = inputProps
@@ -38,8 +34,8 @@ function renderInputComponent(inputProps) {
 }
 
 function renderSuggestion(suggestion, {query, isHighlighted}) {
-  const matches = match(suggestion.label, query)
-  const parts = parse(suggestion.label, matches)
+  const matches = match(suggestion, query)
+  const parts = parse(suggestion, matches)
 
   return (
     <MenuItem selected={isHighlighted} component="div">
@@ -60,28 +56,10 @@ function renderSuggestion(suggestion, {query, isHighlighted}) {
   )
 }
 
-function getSuggestions(value) {
-  const inputValue = deburr(value.trim()).toLowerCase()
-  const inputLength = inputValue.length
-  let count = 0
 
-  return inputLength === 0
-    ? []
-    : suggestions.filter(suggestion => {
-        const keep =
-          count < 5 &&
-          suggestion.label.slice(0, inputLength).toLowerCase() === inputValue
-
-        if (keep) {
-          count += 1
-        }
-
-        return keep
-      })
-}
 
 function getSuggestionValue(suggestion) {
-  return suggestion.label
+  return suggestion
 }
 
 class InterestSelector extends Component {
@@ -89,21 +67,39 @@ class InterestSelector extends Component {
     super()
 
     this.state = {
-      chipData: [
-        {key: 0, label: 'Angular'},
-        {key: 1, label: 'jQuery'},
-        {key: 2, label: 'Polymer'},
-        {key: 3, label: 'React'},
-        {key: 4, label: 'Vue.js'}
-      ],
+      chipData: [],
       single: '',
       popper: '',
-      suggestions: []
+      suggestions: [],
+      snackBarOpen: false,
+      snackBarVariant: '',
+      snackBarMessage: ''
     }
   }
+
+  getSuggestions = value => {
+    const inputValue = deburr(value.trim()).toLowerCase()
+    const inputLength = inputValue.length
+    let count = 0
+  
+    return inputLength === 0
+      ? []
+      : suggestions.filter(suggestion => {
+          const keep =
+            count < 5 &&
+            suggestion.slice(0, inputLength).toLowerCase() === inputValue
+  
+          if (keep) {
+            count += 1
+          }
+  
+          return keep
+        })
+  }
+
   handleSuggestionsFetchRequested = ({value}) => {
     this.setState({
-      suggestions: getSuggestions(value)
+      suggestions: this.getSuggestions(value)
     })
   }
 
@@ -117,6 +113,20 @@ class InterestSelector extends Component {
     this.setState({
       [name]: newValue
     })
+  }
+
+  handleSubmit = event => {
+    event.preventDefault()
+    if (suggestions.includes(this.state.single)) {
+      this.setState({... this.state.chipData.push(this.state.single)})
+    } else {
+      this.setState({
+        snackBarOpen: true,
+        snackBarVariant: 'warning',
+        snackBarMessage: 'Sorry, that is not one of the supported classroom subjects just yet... Try adding one of the built in subjects'
+      })
+    }
+
   }
 
   handleDelete = data => () => {
@@ -142,6 +152,7 @@ class InterestSelector extends Component {
 
     return (
       <div className={classes.root}>
+      <form onSubmit={this.handleSubmit}>
         <Autosuggest
           {...autosuggestProps}
           inputProps={{
@@ -162,20 +173,36 @@ class InterestSelector extends Component {
             </Paper>
           )}
         />
+        </form>
         <Paper className={classes.chipContainer}>
           {this.state.chipData.map(data => {
             let icon = null
             return (
               <Chip
-                key={data.key}
+                key={this.state.chipData.indexOf(data)}
                 icon={icon}
-                label={data.label}
+                label={data}
                 onDelete={this.handleDelete(data)}
                 className={classes.chip}
               />
             )
           })}
         </Paper>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          open={this.state.snackBarOpen}
+          autoHideDuration={4000}
+          onClose={this.handleClose}
+        >
+          <Notification
+            onClose={this.handleClose}
+            variant={this.state.snackBarVariant}
+            message={this.state.snackBarMessage}
+          />
+        </Snackbar>
       </div>
     )
   }
