@@ -10,6 +10,7 @@ import {
 import {ExpandMore as ExpandMoreIcon} from '@material-ui/icons/'
 import limitEval from '../sanitize'
 import styles from '../styles/OutputStyles'
+const pypyjs = require('pypyjs/lib/pypyjs.js')
 
 class Output extends Component {
   constructor(props) {
@@ -48,7 +49,11 @@ class Output extends Component {
   }
 
   executePython = code => {
-    console.log('unable to do python yet')
+    pypyjs.ready().then(function() {
+      const result = pypyjs.eval(code)
+      console.log(result)
+      // this callback is fired when the interpreter is ready for use.
+    })
   }
 
   run = () => {
@@ -69,7 +74,7 @@ class Output extends Component {
   }
 
   render() {
-    console.log(this.props.language)
+    console.log(pypyjs)
     const {classes} = this.props
     return (
       <div className={classes.root}>
