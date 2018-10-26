@@ -11,7 +11,7 @@
     "dotenv": "^5.0.0",
     "express": "^4.16.2",
     "faker": "^4.1.0",
-    "firebase": "^5.3.1",
+    "firebase": "^5.5.6",
     "fireview": "0.0.8",
     "jest-dom": "^1.12.0",
     "material-ui": "^0.20.0",
