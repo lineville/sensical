@@ -6,7 +6,6 @@ export const hasBadTokens = code => {
   })
   return !valid
 }
-// Testing out travis build
 
 function limitEval(code, fnOnStop, timeOut) {
   if (hasBadTokens(code)) {
