@@ -48,7 +48,7 @@ class Output extends Component {
   }
 
   executePython = code => {
-    console.log('unable to do python yet')
+    console.log('python exec called')
   }
 
   run = () => {
@@ -69,7 +69,6 @@ class Output extends Component {
   }
 
   render() {
-    console.log(this.props.language)
     const {classes} = this.props
     return (
       <div className={classes.root}>
