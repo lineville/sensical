@@ -4,14 +4,28 @@ import {withStyles} from '@material-ui/core/styles'
 import {Chip, Paper, TextField, MenuItem, Snackbar} from '@material-ui/core/'
 import Notification from './Notification'
 import styles from '../styles/InterestSelector'
+import firebase from 'firebase'
 import deburr from 'lodash/deburr'
+import db from '../firestore'
 import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
 
-const suggestions = ['JavaScript', 'Python', 'React', 'Angular', 'Haskell', 
-'Functional Programming', 'Object Oriented Programming', 'Java', 'Algorithms', 'Data Structures',
-'HTML', 'CSS', 'Go']
+const suggestions = [
+  'JavaScript',
+  'Python',
+  'React',
+  'Angular',
+  'Haskell',
+  'Functional Programming',
+  'Object Oriented Programming',
+  'Java',
+  'Algorithms',
+  'Data Structures',
+  'HTML',
+  'CSS',
+  'Go'
+]
 
 function renderInputComponent(inputProps) {
   const {classes, inputRef = () => {}, ref, ...other} = inputProps
@@ -56,8 +70,6 @@ function renderSuggestion(suggestion, {query, isHighlighted}) {
   )
 }
 
-
-
 function getSuggestionValue(suggestion) {
   return suggestion
 }
@@ -81,18 +93,18 @@ class InterestSelector extends Component {
     const inputValue = deburr(value.trim()).toLowerCase()
     const inputLength = inputValue.length
     let count = 0
-  
+
     return inputLength === 0
       ? []
       : suggestions.filter(suggestion => {
           const keep =
             count < 5 &&
             suggestion.slice(0, inputLength).toLowerCase() === inputValue
-  
+
           if (keep) {
             count += 1
           }
-  
+
           return keep
         })
   }
@@ -115,18 +127,48 @@ class InterestSelector extends Component {
     })
   }
 
-  handleSubmit = event => {
+  addInterestToUser = async subject => {
+    const currentUser = await firebase.auth().currentUser
+    const user = await db
+      .collection('users')
+      .doc(currentUser.uid)
+      .get()
+    const interestsArray = user.data().interests
+    await db
+      .collection('users')
+      .doc(currentUser.uid)
+      .update({
+        interests: interestsArray.concat(subject)
+      })
+  }
+
+  removeInterestFromUser = async subject => {
+    const currentUser = await firebase.auth().currentUser
+    const user = await db
+      .collection('users')
+      .doc(currentUser.uid)
+      .get()
+    await db
+      .collection('users')
+      .doc(currentUser.uid)
+      .update({
+        interests: firebase.firestore.FieldValue.arrayRemove(subject)
+      })
+  }
+
+  handleSubmit = async event => {
     event.preventDefault()
     if (suggestions.includes(this.state.single)) {
       this.setState({...this.state.chipData.push(this.state.single)})
+      await this.addInterestToUser(this.state.single)
     } else {
       this.setState({
         snackBarOpen: true,
         snackBarVariant: 'warning',
-        snackBarMessage: 'Sorry, that is not one of the supported classroom subjects just yet... Try adding one of the built in subjects'
+        snackBarMessage:
+          'Sorry, that is not one of the supported classroom subjects just yet... Try adding one of the built in subjects'
       })
     }
-
   }
 
   handleDelete = data => () => {
@@ -152,27 +194,28 @@ class InterestSelector extends Component {
 
     return (
       <div className={classes.root}>
-      <form onSubmit={this.handleSubmit}>
-        <Autosuggest
-          {...autosuggestProps}
-          inputProps={{
-            classes,
-            placeholder: 'Enter a subject you are interested in learning about',
-            value: this.state.single,
-            onChange: this.handleChange('single')
-          }}
-          theme={{
-            container: classes.container,
-            suggestionsContainerOpen: classes.suggestionsContainerOpen,
-            suggestionsList: classes.suggestionsList,
-            suggestion: classes.suggestion
-          }}
-          renderSuggestionsContainer={options => (
-            <Paper {...options.containerProps} square>
-              {options.children}
-            </Paper>
-          )}
-        />
+        <form onSubmit={this.handleSubmit}>
+          <Autosuggest
+            {...autosuggestProps}
+            inputProps={{
+              classes,
+              placeholder:
+                'Enter a subject you are interested in learning about',
+              value: this.state.single,
+              onChange: this.handleChange('single')
+            }}
+            theme={{
+              container: classes.container,
+              suggestionsContainerOpen: classes.suggestionsContainerOpen,
+              suggestionsList: classes.suggestionsList,
+              suggestion: classes.suggestion
+            }}
+            renderSuggestionsContainer={options => (
+              <Paper {...options.containerProps} square>
+                {options.children}
+              </Paper>
+            )}
+          />
         </form>
         <Paper className={classes.chipContainer}>
           {this.state.chipData.map(data => {

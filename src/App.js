@@ -33,10 +33,6 @@ class App extends Component {
         ele.outerHTML = ''
       }, 2000)
     }
-    // const ele = document.getElementById('loader')
-    // if (ele) {
-    //   ele.outerHTML = ''
-    // }
   }
   render() {
     return (
