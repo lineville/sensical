@@ -50,7 +50,15 @@ class HomePage extends Component {
             </p>
             <p>
               Sign up now to get started using a learning platform that just
-              makes sense.
+              makes sense. If you enjoy using Sensical please support it by
+              giving the repo a{' '}
+              <a
+                href="https://github.com/lineville/sensical"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                star!
+              </a>
             </p>
             <Button
               onClick={this.signupPush}
@@ -92,8 +100,8 @@ class HomePage extends Component {
               <a href="https://github.com/Capstone1806/fig" alt="github">
                 here
               </a>
-              . If you are interested in some of my other work and are looking
-              to hire a fullstack or front end developer, checkout my website{' '}
+              .If you are interested in some of my other work and are looking to
+              hire a fullstack or front end developer, checkout my website{' '}
               <a href="https://lineville.github.io" alt="github">
                 https://lineville.github.io
               </a>
