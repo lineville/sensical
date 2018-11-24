@@ -17,10 +17,9 @@ import {
   DialogContentText
 } from '@material-ui/core/'
 import {RemoveCircleOutline as DeleteIcon} from '@material-ui/icons/'
-import styles from '../styles/CanvasStyle'
+// import styles from '../styles/CanvasStyle'
 
-// testing some changes
-// things have been added
+// testing some changes in THIS way
 
 const canvasSource = {
   canDrag(props) {
