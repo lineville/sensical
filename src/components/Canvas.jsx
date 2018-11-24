@@ -5,9 +5,22 @@ import {HuePicker} from 'react-color'
 import {DragSource} from 'react-dnd'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import {Card, CardContent, Button, Typography, Dialog, DialogContent, DialogActions, DialogTitle, DialogContentText} from '@material-ui/core/'
+import {
+  Card,
+  CardContent,
+  Button,
+  Typography,
+  Dialog,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+  DialogContentText
+} from '@material-ui/core/'
 import {RemoveCircleOutline as DeleteIcon} from '@material-ui/icons/'
 import styles from '../styles/CanvasStyle'
+
+// testing some changes
+// things have been added
 
 const canvasSource = {
   canDrag(props) {
@@ -207,7 +220,12 @@ class Canvas extends Component {
     if (this.state.strokes) {
       if (this.state.strokes.length) {
         this.state.strokes.forEach(stroke => {
-          this.draw(stroke.start, stroke.end, stroke.strokeColor, stroke.strokeWidth)
+          this.draw(
+            stroke.start,
+            stroke.end,
+            stroke.strokeColor,
+            stroke.strokeWidth
+          )
         })
       } else if (!this.state.strokes.length) {
         const ctx = this.whiteboardCanvas.getContext('2d')
@@ -305,40 +323,49 @@ class Canvas extends Component {
         </Card>
 
         <Dialog
-              open={this.state.displaySettings}
-              onClose={this.handleClose}
-              aria-labelledby="form-dialog-title"
+          open={this.state.displaySettings}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Canvas Settings</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              {`Stroke Width: ${this.state.strokeWidth}`}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => {
+                this.setState({
+                  strokeWidth: this.state.strokeWidth + 1
+                })
+              }}
+              color="secondary"
             >
-              <DialogTitle id="form-dialog-title">Canvas Settings</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  {`Stroke Width: ${this.state.strokeWidth}`}
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => {
-                  this.setState({
-                    strokeWidth: this.state.strokeWidth + 1
-                  })
-                }} color="secondary">
-                  Stroke Width +
-                </Button>
-                <Button onClick={() => {
-                  this.setState({
-                    strokeWidth: this.state.strokeWidth - 1
-                  })
-                }} color="secondary">
-                  Stroke Width -
-                </Button>
-                <Button onClick={() => {
-                  this.setState({
-                    strokeWidth: 1
-                  })
-                }} color="secondary">
-                  Default
-                </Button>
-              </DialogActions>
-            </Dialog>
+              Stroke Width +
+            </Button>
+            <Button
+              onClick={() => {
+                this.setState({
+                  strokeWidth: this.state.strokeWidth - 1
+                })
+              }}
+              color="secondary"
+            >
+              Stroke Width -
+            </Button>
+            <Button
+              onClick={() => {
+                this.setState({
+                  strokeWidth: 1
+                })
+              }}
+              color="secondary"
+            >
+              Default
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     )
     if (this.state.overCanvas) {
