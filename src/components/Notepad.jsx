@@ -68,8 +68,8 @@ export class Notepad extends Component {
             resize: 'both',
             top: this.props.position.top,
             left: this.props.position.left,
-            width: '545px',
-            height: '200px',
+            width: 500,
+            height: 235,
             zIndex: this.props.position.zIndex
           }}
         >

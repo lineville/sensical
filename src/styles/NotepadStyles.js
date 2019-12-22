@@ -8,8 +8,9 @@ const styles = theme => ({
   },
   textArea: {
     width: '100%',
+    height: '175px',
     maxHeight: '500px',
-    height: '-webkit-fill-available',
+    // height: '-webkit-fill-available',
     border: '1px dotted'
   },
   title: {

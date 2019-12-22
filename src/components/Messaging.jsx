@@ -101,6 +101,8 @@ export class Messaging extends Component {
             opacity: isDragging ? 0.3 : 1,
             cursor: 'move',
             resize: 'both',
+            width: 300,
+            height: 635,
             top: this.props.position.top,
             left: this.props.position.left,
             zIndex: this.props.position.zIndex

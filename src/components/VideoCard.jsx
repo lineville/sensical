@@ -35,8 +35,8 @@ export class VideoCard extends Component {
             resize: 'both',
             top: this.props.position.top,
             left: this.props.position.left,
-            width: 545,
-            height: 200,
+            width: 500,
+            height: 390,
             zIndex: this.props.position.zIndex
           }}
         >

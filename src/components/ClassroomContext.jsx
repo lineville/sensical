@@ -37,10 +37,10 @@ class ClassroomContext extends Component {
   constructor() {
     super()
     this.state = {
-      video: {top: 85, left: 10, zIndex: 1},
-      messaging: {top: 85, left: 1125, zIndex: 1},
+      video: {top: 70, left: 570, zIndex: 1},
+      messaging: {top: 70, left: 1080, zIndex: 1},
       canvas: {top: 300, left: 570, zIndex: 1},
-      notepad: {top: 85, left: 570, zIndex: 1},
+      notepad: {top: 470, left: 570, zIndex: 1},
       codeEditors: {},
       curZIndex: 1
     }
@@ -56,7 +56,7 @@ class ClassroomContext extends Component {
         let codeEditors = {}
         room.data().codeEditorIds.forEach((id, idx) => {
           codeEditors[id] = {
-            top: 300,
+            top: 70,
             left: 900 * idx + 10,
             zIndex: this.state.curZIndex
           }

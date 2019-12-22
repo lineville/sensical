@@ -27,7 +27,7 @@ class Classroom extends Component {
       notepadId: '',
       chat: true,
       codeEditors: {},
-      canvas: true,
+      canvas: false,
       video: true,
       notepad: true,
       open: false,
@@ -144,7 +144,7 @@ class Classroom extends Component {
                   />
                 </Grid>
               ) : null}
-              <Grid item>
+              {/* <Grid item>
                 {this.state.canvas ? (
                   <Canvas
                     whiteboardId={this.state.whiteboardId}
@@ -153,7 +153,7 @@ class Classroom extends Component {
                     position={positions.canvas}
                   />
                 ) : null}
-              </Grid>
+              </Grid> */}
               <Grid item>
                 {this.state.notepad ? (
                   <Notepad
