@@ -19,27 +19,27 @@ import {
   FormControl,
   FormHelperText,
   Select,
-  Switch
+  Switch,
 } from '@material-ui/core/'
 import {
   Edit as EditIcon,
   Done as DoneIcon,
   Cancel as CancelIcon,
-  RemoveCircleOutline as DeleteIcon
+  RemoveCircleOutline as DeleteIcon,
 } from '@material-ui/icons/'
 import {Notification} from '../imports'
 
 const codeEditorSource = {
   beginDrag(props) {
     return {...props, modName: 'codeEditor'}
-  }
+  },
 }
 
 function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragPreview(),
-    isDragging: monitor.isDragging()
+    isDragging: monitor.isDragging(),
   }
 }
 
@@ -57,7 +57,7 @@ class CodeEditorCard extends Component {
       snackBarMessage: '',
       snackBarVariant: '',
       open: false,
-      username: ''
+      username: '',
     }
   }
 
@@ -66,26 +66,26 @@ class CodeEditorCard extends Component {
     db.collection('codeEditors')
       .doc(id)
       .get()
-      .then(editor => {
+      .then((editor) => {
         this.setState({
           mode: editor.data().settings.mode,
           theme: editor.data().settings.theme,
           fontSize: Number(editor.data().settings.fontSize),
           showGutter: editor.data().settings.showGutter,
           showLineNumbers: editor.data().settings.showLineNumbers,
-          tabSize: Number(editor.data().settings.tabSize)
+          tabSize: Number(editor.data().settings.tabSize),
         })
       })
     db.collection('codeEditors')
       .doc(id)
       .get()
-      .then(editor => {
+      .then((editor) => {
         db.collection('users')
           .doc(editor.data().userId)
           .get()
-          .then(user => {
+          .then((user) => {
             this.setState({
-              username: user.data().username
+              username: user.data().username,
             })
           })
       })
@@ -97,13 +97,13 @@ class CodeEditorCard extends Component {
     }
     this.setState({
       open: false,
-      settingsFormOpen: false
+      settingsFormOpen: false,
     })
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
 
@@ -118,29 +118,27 @@ class CodeEditorCard extends Component {
             fontSize: Number(this.state.fontSize),
             showGutter: this.state.showGutter,
             showLineNumbers: this.state.showLineNumbers,
-            tabSize: Number(this.state.tabSize)
-          }
+            tabSize: Number(this.state.tabSize),
+          },
         })
         .then(() => {
           this.setState({
             settingsFormOpen: false,
             snackBarMessage: 'Settings updated!',
-            snackBarVariant: 'success'
+            snackBarVariant: 'success',
           })
         })
         .then(() => {
           this.setState({
-            open: true
+            open: true,
           })
         })
     } catch (error) {
       this.setState({
         settingsFormOpen: false,
-        snackBarMessage: `Oops... unable to save settings. Error: ${
-          error.message
-        }`,
+        snackBarMessage: `Oops... unable to save settings. Error: ${error.message}`,
         snackBarVariant: 'error',
-        open: true
+        open: true,
       })
     }
   }
@@ -161,7 +159,7 @@ class CodeEditorCard extends Component {
             top: position.top,
             left: position.left,
             height: 635,
-            zIndex: this.props.position.zIndex
+            zIndex: this.props.position.zIndex,
           }}
         >
           <CardContent>
@@ -237,7 +235,7 @@ class CodeEditorCard extends Component {
                         input={<Input id="native-simple" />}
                       >
                         <option value="javascript">JavaScript</option>
-                        <option value="python">Python</option>
+                        {/* <option value="python">Python</option>
                         <option value="ruby">Ruby</option>
                         <option value="sql">SQL</option>
                         <option value="space">Space</option>
@@ -250,7 +248,7 @@ class CodeEditorCard extends Component {
                         <option value="golang">Go</option>
                         <option value="java">Java</option>
                         <option value="markdown">Markdown</option>
-                        <option value="php">PHP</option>
+                        <option value="php">PHP</option> */}
                       </Select>
                       <FormHelperText className={classes.label}>
                         Language
@@ -310,7 +308,7 @@ class CodeEditorCard extends Component {
                         checked={this.state.showLineNumbers}
                         onChange={() =>
                           this.setState({
-                            showLineNumbers: !this.state.showLineNumbers
+                            showLineNumbers: !this.state.showLineNumbers,
                           })
                         }
                         value={'' + this.state.showLineNumbers}
@@ -332,7 +330,7 @@ class CodeEditorCard extends Component {
               <Snackbar
                 anchorOrigin={{
                   vertical: 'bottom',
-                  horizontal: 'left'
+                  horizontal: 'left',
                 }}
                 open={this.state.open}
                 autoHideDuration={6000}
@@ -355,9 +353,11 @@ class CodeEditorCard extends Component {
 CodeEditorCard.propTypes = {
   classes: PropTypes.object.isRequired,
   connectDragSource: PropTypes.func.isRequired,
-  isDragging: PropTypes.bool.isRequired
+  isDragging: PropTypes.bool.isRequired,
 }
 
-export default DragSource('MODULE', codeEditorSource, collect)(
-  withStyles(styles)(CodeEditorCard)
-)
+export default DragSource(
+  'MODULE',
+  codeEditorSource,
+  collect
+)(withStyles(styles)(CodeEditorCard))

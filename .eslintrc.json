@@ -6,6 +6,9 @@
     "no-alert": 0,
     "react/no-string-refs": 0,
     "react/no-access-state-in-setstate": 0,
-    "react/no-unused-state": 0
+    "react/no-unused-state": 0,
+    "no-async-promise-executor": 0,
+    "no-misleading-character-class": 0,
+    "no-useless-catch": 0
   }
 }

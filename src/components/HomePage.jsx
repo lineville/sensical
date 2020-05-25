@@ -52,6 +52,7 @@ class HomePage extends Component {
               Sign up now to get started using a learning platform that just
               makes sense.
             </p>
+
             <Button
               onClick={this.signupPush}
               className={classes.button}
@@ -94,8 +95,8 @@ class HomePage extends Component {
               </a>
               . If you are interested in some of my other work and are looking
               to hire a fullstack or front end developer, checkout my website{' '}
-              <a href="https://lineville.github.io" alt="github">
-                https://lineville.github.io
+              <a href="https://lineville.github.io/portfolio" alt="github">
+                https://lineville.github.io/portfolio
               </a>
             </p>
             <div id="icon-attribution">

@@ -13,16 +13,13 @@ class CodeEditor extends Component {
       code: '',
       codeEditorId: '',
       user: {},
-      canType: false
+      canType: false,
     }
   }
 
   async componentDidMount() {
     const {codeEditorId} = this.props
-    const doc = await db
-      .collection('codeEditors')
-      .doc(codeEditorId)
-      .get()
+    const doc = await db.collection('codeEditors').doc(codeEditorId).get()
     const user = await db
       .collection('users')
       .doc(firebase.auth().currentUser.uid)
@@ -30,15 +27,15 @@ class CodeEditor extends Component {
     this.setState({
       codeEditorId: doc.id,
       code: doc.data().code,
-      user: user.data()
+      user: user.data(),
     })
     if (!this.canType()) {
       db.collection('codeEditors')
         .doc(codeEditorId)
-        .onSnapshot(code => {
+        .onSnapshot((code) => {
           this.setState({
             code: code.data().code,
-            canType: this.canType()
+            canType: this.canType(),
           })
         })
     }
@@ -47,20 +44,18 @@ class CodeEditor extends Component {
       .doc(codeEditorId)
       .onSnapshot(() => {
         this.setState({
-          canType: this.canType()
+          canType: this.canType(),
         })
       })
   }
 
-  onChange = value => {
+  onChange = (value) => {
     this.setState({
-      code: value
+      code: value,
     })
-    db.collection('codeEditors')
-      .doc(this.state.codeEditorId)
-      .update({
-        code: value
-      })
+    db.collection('codeEditors').doc(this.state.codeEditorId).update({
+      code: value,
+    })
   }
 
   canType = () => {
@@ -84,7 +79,7 @@ class CodeEditor extends Component {
           fontSize={this.props.settings.fontSize}
           setOptions={{
             showLineNumbers: this.props.settings.showLineNumbers,
-            tabSize: this.props.settings.tabSize
+            tabSize: this.props.settings.tabSize,
           }}
           readOnly={!this.state.canType}
           editorProps={{$blockScrolling: true}}

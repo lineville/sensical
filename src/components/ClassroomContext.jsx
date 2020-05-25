@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 
 import {DropTarget, DragDropContext} from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
+import {HTML5Backend} from 'react-dnd-html5-backend'
 import {Classroom} from '../imports'
 import db from '../firestore'
 
@@ -22,14 +22,14 @@ const classroomTarget = {
     const left = Math.round(item.position.left + XY.x)
     const top = Math.round(item.position.top + XY.y)
     component.moveModule(item, left, top, item.codeEditorId)
-  }
+  },
 }
 
 function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
-    item: monitor.getItem()
+    item: monitor.getItem(),
   }
 }
 
@@ -42,7 +42,7 @@ class ClassroomContext extends Component {
       canvas: {top: 300, left: 570, zIndex: 1},
       notepad: {top: 470, left: 570, zIndex: 1},
       codeEditors: {},
-      curZIndex: 1
+      curZIndex: 1,
     }
     // this.moveModule = this.moveModule.bind(this)
   }
@@ -52,17 +52,17 @@ class ClassroomContext extends Component {
     db.collection('rooms')
       .doc(roomId)
       .get()
-      .then(room => {
+      .then((room) => {
         let codeEditors = {}
         room.data().codeEditorIds.forEach((id, idx) => {
           codeEditors[id] = {
             top: 70,
             left: 900 * idx + 10,
-            zIndex: this.state.curZIndex
+            zIndex: this.state.curZIndex,
           }
         })
         this.setState({
-          codeEditors
+          codeEditors,
         })
       })
   }
@@ -76,9 +76,9 @@ class ClassroomContext extends Component {
           [id]: {
             top: top,
             left: left,
-            zIndex: this.state.curZIndex
-          }
-        }
+            zIndex: this.state.curZIndex,
+          },
+        },
       })
     } else {
       this.setState({curZIndex: this.state.curZIndex + 1})
@@ -86,8 +86,8 @@ class ClassroomContext extends Component {
         [mod.modName]: {
           top: top,
           left: left,
-          zIndex: this.state.curZIndex
-        }
+          zIndex: this.state.curZIndex,
+        },
       })
     }
   }

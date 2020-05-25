@@ -1,10 +1,10 @@
+/* eslint-disable no-duplicate-imports */
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
 import {
   Messaging,
   CodeEditorCard,
-  Canvas,
   VideoCard,
   Notepad,
   RoomStatusBar
@@ -33,7 +33,7 @@ class Classroom extends Component {
       open: false,
       popUpMessageType: 'warning',
       popUpMessage: `You don't have access to this room`,
-      allowedinRoom: false
+      allowedInRoom: false
     }
     // this.handleDrop = this.handleDrop.bind(this)
     // this.handleClose = this.handleClose.bind(this)
@@ -71,7 +71,7 @@ class Classroom extends Component {
 
     const userId = firebase.auth().currentUser.uid
     if (this.state.userIds.includes(userId)) {
-      this.setState({allowedinRoom: true})
+      this.setState({allowedInRoom: true})
     } else {
       this.setState({open: true})
     }
@@ -120,7 +120,7 @@ class Classroom extends Component {
 
   render() {
     const {classes, positions} = this.props
-    if (this.state.allowedinRoom && this.shouldRender()) {
+    if (this.state.allowedInRoom && this.shouldRender()) {
       return (
         <div className={classes.root}>
           <div className={classes.room}>
@@ -190,7 +190,7 @@ class Classroom extends Component {
         </div>
       )
     }
-    if (!this.state.allowedinRoom) {
+    if (!this.state.allowedInRoom) {
       return (
         <React.Fragment>
           <Snackbar
