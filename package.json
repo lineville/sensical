@@ -40,7 +40,7 @@
     "electron": "electron .",
     "server": "NODE_ENV='DEV' node server",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test --env=jsdom --passWithNoTests",
     "eject": "react-scripts eject",
     "postinstall": "react-scripts build",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
