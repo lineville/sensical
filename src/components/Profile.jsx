@@ -3,7 +3,8 @@ import db from '../firestore'
 import firebase from 'firebase'
 import classNames from 'classnames'
 import {withStyles} from '@material-ui/core'
-import {Notification, RoomContainer} from '../imports'
+import Notification from './Notification'
+import RoomContainer from './RoomContainer'
 import styles from '../styles/ProfileStyles'
 import {
   Avatar,
@@ -13,12 +14,12 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle
+  DialogTitle,
 } from '@material-ui/core/'
 import {
   Edit as EditIcon,
   Done as DoneIcon,
-  Cancel as CancelIcon
+  Cancel as CancelIcon,
 } from '@material-ui/icons/'
 
 class Profile extends Component {
@@ -34,7 +35,7 @@ class Profile extends Component {
       newEmail: '',
       newUserName: '',
       newImageURL: '',
-      newBackgroundURL: ''
+      newBackgroundURL: '',
     }
   }
 
@@ -43,7 +44,7 @@ class Profile extends Component {
     await db
       .collection('users')
       .doc(authorizedUser.uid)
-      .onSnapshot(doc => {
+      .onSnapshot((doc) => {
         this.setState({user: {...doc.data(), id: authorizedUser.uid}})
       })
   }
@@ -55,13 +56,13 @@ class Profile extends Component {
     this.setState({
       open: false,
       editFormOpen: false,
-      passwordFormOpen: false
+      passwordFormOpen: false,
     })
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
 
@@ -74,26 +75,24 @@ class Profile extends Component {
           this.setState({
             popUpMessage: 'Email successfully updated',
             popUpMessageType: 'success',
-            open: true
+            open: true,
           })
         })
         .then(() => {
-          db.collection('users')
-            .doc(user.uid)
-            .update({
-              email: user.email
-            })
+          db.collection('users').doc(user.uid).update({
+            email: user.email,
+          })
         })
         .then(() => {
           this.setState({
-            newEmail: ''
+            newEmail: '',
           })
         })
-        .catch(error => {
+        .catch((error) => {
           this.setState({
             popUpMessage: error.message,
             popUpMessageType: 'warning',
-            open: true
+            open: true,
           })
           console.log(error, this.state)
         })
@@ -116,16 +115,16 @@ class Profile extends Component {
         this.setState({
           popUpMessage: 'Check your email for password reset!',
           popUpMessageType: 'success',
-          open: true
+          open: true,
         })
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error)
         this.setState({
           popUpMessage:
             'Sorry about that, it seems there was an error trying to change your password.',
           popUpMessageType: 'error',
-          open: true
+          open: true,
         })
       })
   }
@@ -141,7 +140,7 @@ class Profile extends Component {
             popUpMessageType: 'success',
             popUpMessage: 'Username successfully changed',
             open: true,
-            newUserName: ''
+            newUserName: '',
           })
         })
     }
@@ -158,7 +157,7 @@ class Profile extends Component {
             popUpMessageType: 'success',
             popUpMessage: 'Profile image successfully changed',
             open: true,
-            newImageURL: ''
+            newImageURL: '',
           })
         })
     }
@@ -175,13 +174,13 @@ class Profile extends Component {
             popUpMessageType: 'success',
             popUpMessage: 'Background image successfully changed',
             open: true,
-            newBackgroundURL: ''
+            newBackgroundURL: '',
           })
         })
     }
   }
 
-  convertImage = str => {
+  convertImage = (str) => {
     if (str) {
       return str.includes('http') || str.includes('com') ? `url(${str})` : str
     } else {
@@ -195,7 +194,7 @@ class Profile extends Component {
       [classes.parallax]: true,
       [classes.filter]: filter,
       [classes.small]: small,
-      [className]: className !== undefined
+      [className]: className !== undefined,
     })
     return (
       <React.Fragment>
@@ -205,7 +204,7 @@ class Profile extends Component {
             ...style,
             backgroundImage: this.convertImage(
               this.state.user.backgroundImageURL
-            )
+            ),
           }}
         >
           <Avatar
@@ -239,7 +238,7 @@ class Profile extends Component {
             <Snackbar
               anchorOrigin={{
                 vertical: 'bottom',
-                horizontal: 'left'
+                horizontal: 'left',
               }}
               open={this.state.open}
               autoHideDuration={4000}

@@ -1,16 +1,12 @@
-/* eslint-disable no-duplicate-imports */
 import React, {Component} from 'react'
 import db from '../firestore'
 import firebase from 'firebase'
-import {
-  Messaging,
-  CodeEditorCard,
-  VideoCard,
-  Notepad,
-  RoomStatusBar
-} from '../imports'
-
-import {Notification} from '../imports'
+import Messaging from './Messaging'
+import CodeEditorCard from './CodeEditorCard'
+import Notepad from './Notepad'
+import VideoCard from './VideoCard'
+import RoomStatusBar from './RoomStatusBar'
+import Notification from './Notification'
 import {Snackbar} from '@material-ui/core/'
 import {withStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -33,7 +29,7 @@ class Classroom extends Component {
       open: false,
       popUpMessageType: 'warning',
       popUpMessage: `You don't have access to this room`,
-      allowedInRoom: false
+      allowedInRoom: false,
     }
     // this.handleDrop = this.handleDrop.bind(this)
     // this.handleClose = this.handleClose.bind(this)
@@ -45,7 +41,7 @@ class Classroom extends Component {
       .doc(this.props.classroom)
       .get()
     const codeEditors = {}
-    classroom.data().codeEditorIds.forEach(id => {
+    classroom.data().codeEditorIds.forEach((id) => {
       codeEditors[id] = true
     })
     this.setState({
@@ -54,18 +50,18 @@ class Classroom extends Component {
       whiteboardId: classroom.data().whiteboardId,
       codeEditors,
       chatsId: classroom.data().chatsId,
-      notepadId: classroom.data().notepadId
+      notepadId: classroom.data().notepadId,
     })
 
     db.collection('rooms')
       .doc(this.props.classroom)
-      .onSnapshot(snapshot => {
+      .onSnapshot((snapshot) => {
         let editors = {}
-        snapshot.data().codeEditorIds.forEach(id => {
+        snapshot.data().codeEditorIds.forEach((id) => {
           editors[id] = true
         })
         this.setState({
-          codeEditors: editors
+          codeEditors: editors,
         })
       })
 
@@ -80,7 +76,7 @@ class Classroom extends Component {
   handleDrop = (item, id) => {
     if (item === 'codeEditor') {
       this.setState({
-        codeEditors: {...this.state.codeEditors, [id]: false}
+        codeEditors: {...this.state.codeEditors, [id]: false},
       })
     } else {
       this.setState({[item]: false})
@@ -97,7 +93,7 @@ class Classroom extends Component {
 
   shouldRender = () => {
     const hasCodeEditorIds = true
-    Object.keys(this.state.codeEditors).forEach(editorId => {
+    Object.keys(this.state.codeEditors).forEach((editorId) => {
       return this.state.codeEditors[editorId]
     })
     return (
@@ -113,7 +109,7 @@ class Classroom extends Component {
       return
     }
     this.setState({
-      open: false
+      open: false,
     })
     this.props.history.push('/profile')
   }
@@ -166,8 +162,8 @@ class Classroom extends Component {
               </Grid>
               {Object.values(this.state.codeEditors).includes(true)
                 ? Object.keys(this.state.codeEditors)
-                    .filter(id => this.state.codeEditors[id])
-                    .map(id => {
+                    .filter((id) => this.state.codeEditors[id])
+                    .map((id) => {
                       return (
                         <CodeEditorCard
                           key={id}
@@ -196,7 +192,7 @@ class Classroom extends Component {
           <Snackbar
             anchorOrigin={{
               vertical: 'top',
-              horizontal: 'left'
+              horizontal: 'left',
             }}
             open={this.state.open}
             autoHideDuration={10000}

@@ -1,20 +1,20 @@
 import React, {Component} from 'react'
 import {withStyles} from '@material-ui/core/styles'
 import {Snackbar, Button} from '@material-ui/core/'
-import {Notification} from '../imports'
+import Notification from './Notification'
 import styles from '../styles/HomePageStyles'
 
 class HomePage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      popupOpen: false
+      popupOpen: false,
     }
   }
 
   componentDidMount() {
     this.setState({
-      popupOpen: this.props.popupOpen
+      popupOpen: this.props.popupOpen,
     })
   }
 
@@ -126,7 +126,7 @@ class HomePage extends Component {
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'left'
+            horizontal: 'left',
           }}
           open={this.state.popupOpen}
           autoHideDuration={6000}

@@ -27,7 +27,7 @@ import {
   Cancel as CancelIcon,
   RemoveCircleOutline as DeleteIcon,
 } from '@material-ui/icons/'
-import {Notification} from '../imports'
+import Notification from './Notification'
 
 const codeEditorSource = {
   beginDrag(props) {

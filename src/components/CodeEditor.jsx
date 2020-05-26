@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import AceEditor from 'react-ace'
 import firebase from 'firebase'
 import db from '../firestore'
-import {Output} from '../imports'
-import '../imports/aceModes'
-import '../imports/aceThemes'
+import Output from './Output'
+import 'brace/mode/javascript'
+import '../aceThemes.js'
 
 class CodeEditor extends Component {
   constructor(props) {

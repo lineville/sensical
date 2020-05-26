@@ -3,7 +3,7 @@ import db from '../firestore'
 import firebase from 'firebase'
 import {withRouter, Link} from 'react-router-dom'
 import {withStyles} from '@material-ui/core/styles'
-import {Notification} from '../imports'
+import Notification from './Notification'
 import styles from '../styles/RoomCardStyles'
 import {
   Card,
@@ -17,7 +17,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle
+  DialogTitle,
 } from '@material-ui/core/'
 import {
   Delete as DeleteIcon,
@@ -25,7 +25,7 @@ import {
   Cancel as CancelIcon,
   PersonAdd as PersonAddIcon,
   Edit as EditIcon,
-  School as SchoolIcon
+  School as SchoolIcon,
 } from '@material-ui/icons/'
 
 export class RoomCard extends Component {
@@ -41,7 +41,7 @@ export class RoomCard extends Component {
       snackBarVariant: '',
       snackBarMessage: '',
       newSubject: '',
-      newImageURL: ''
+      newImageURL: '',
     }
   }
 
@@ -49,7 +49,7 @@ export class RoomCard extends Component {
     db.collection('rooms')
       .doc(this.state.roomId)
       .get()
-      .then(room => this.setState({room: room.data()}))
+      .then((room) => this.setState({room: room.data()}))
   }
 
   joinRoom = () => {
@@ -67,18 +67,12 @@ export class RoomCard extends Component {
 
       const inviteeId = invitee.docs[0].id
 
-      const invitedUser = await db
-        .collection('users')
-        .doc(inviteeId)
-        .get()
+      const invitedUser = await db.collection('users').doc(inviteeId).get()
 
       let roomsArray = invitedUser.data().rooms
       let codeEditorsArray = invitedUser.data().codeEditorIds
 
-      const room = await db
-        .collection('rooms')
-        .doc(roomId)
-        .get()
+      const room = await db.collection('rooms').doc(roomId).get()
 
       let userIds = room.data().userIds
       if (!roomsArray.includes(roomId)) {
@@ -91,22 +85,22 @@ export class RoomCard extends Component {
             fontSize: 12,
             showGutter: true,
             showLineNumbers: true,
-            tabSize: 2
-          }
+            tabSize: 2,
+          },
         })
         await db
           .collection('users')
           .doc(inviteeId)
           .update({
             rooms: roomsArray.concat(roomId),
-            codeEditorIds: codeEditorsArray.concat(newCodeEditor.id)
+            codeEditorIds: codeEditorsArray.concat(newCodeEditor.id),
           })
         await db
           .collection('rooms')
           .doc(roomId)
           .update({
             userIds: userIds.concat(inviteeId),
-            codeEditorIds: room.data().codeEditorIds.concat(newCodeEditor.id)
+            codeEditorIds: room.data().codeEditorIds.concat(newCodeEditor.id),
           })
       }
 
@@ -115,7 +109,7 @@ export class RoomCard extends Component {
         snackBarVariant: 'success',
         snackBarMessage: 'Invite successfully sent!',
         open: true,
-        inviteFormOpen: false
+        inviteFormOpen: false,
       })
     } catch (error) {
       this.setState({
@@ -123,41 +117,35 @@ export class RoomCard extends Component {
         snackBarMessage:
           'Looks like there was a problem with the email you selected.',
         open: true,
-        inviteFormOpen: false
+        inviteFormOpen: false,
       })
     }
   }
 
   handleEdit = async () => {
     if (this.state.newSubject.length) {
-      await db
-        .collection('rooms')
-        .doc(this.state.roomId)
-        .update({
-          subject: this.state.newSubject
-        })
+      await db.collection('rooms').doc(this.state.roomId).update({
+        subject: this.state.newSubject,
+      })
       await this.setState({
         snackBarMessage: 'Subject changed successfully!',
-        room: {...this.state.room, subject: this.state.newSubject}
+        room: {...this.state.room, subject: this.state.newSubject},
       })
     }
     if (this.state.newImageURL.length) {
-      await db
-        .collection('rooms')
-        .doc(this.state.roomId)
-        .update({
-          imageURL: this.state.newImageURL
-        })
+      await db.collection('rooms').doc(this.state.roomId).update({
+        imageURL: this.state.newImageURL,
+      })
       await this.setState({
         snackBarMessage: 'Classroom image changed successfully!',
-        room: {...this.state.room, imageURL: this.state.newImageURL}
+        room: {...this.state.room, imageURL: this.state.newImageURL},
       })
     }
 
     await this.setState({
       open: true,
       snackBarVariant: 'success',
-      editFormOpen: false
+      editFormOpen: false,
     })
   }
 
@@ -169,20 +157,20 @@ export class RoomCard extends Component {
       open: false,
       inviteFormOpen: false,
       editFormOpen: false,
-      snackBarMessage: ''
+      snackBarMessage: '',
     })
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
 
   leaveRoom = async () => {
     try {
       const {user} = this.props
-      const codeEditorId = user.codeEditorIds.filter(id =>
+      const codeEditorId = user.codeEditorIds.filter((id) =>
         this.state.room.codeEditorIds.includes(id)
       )[0]
       //removes code editor from room
@@ -190,7 +178,7 @@ export class RoomCard extends Component {
       await this.setState({
         snackBarMessage: 'You have successfully left this room!',
         snackBarVariant: 'success',
-        open: true
+        open: true,
       })
       await db
         .collection('rooms')
@@ -199,21 +187,21 @@ export class RoomCard extends Component {
           codeEditorIds: firebase.firestore.FieldValue.arrayRemove(
             codeEditorId
           ),
-          userIds: firebase.firestore.FieldValue.arrayRemove(user.id)
+          userIds: firebase.firestore.FieldValue.arrayRemove(user.id),
         })
       await db
         .collection('users')
         .doc(user.id)
         .update({
           codeEditorId: '',
-          rooms: firebase.firestore.FieldValue.arrayRemove(this.state.roomId)
+          rooms: firebase.firestore.FieldValue.arrayRemove(this.state.roomId),
         })
     } catch (error) {
       this.setState({
         snackBarVariant: 'error',
         snackBarMessage:
           'Looks like there was an error while leaving the room.',
-        open: true
+        open: true,
       })
     }
   }
@@ -277,7 +265,7 @@ export class RoomCard extends Component {
             <Snackbar
               anchorOrigin={{
                 vertical: 'bottom',
-                horizontal: 'left'
+                horizontal: 'left',
               }}
               open={this.state.open}
               autoHideDuration={6000}

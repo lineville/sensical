@@ -4,7 +4,7 @@ import GoogleButton from 'react-google-button'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {FormControl, Button, TextField, Snackbar} from '@material-ui/core'
-import {Notification} from '../imports'
+import Notification from './Notification'
 import MaterialUIForm from 'material-ui-form'
 import styles from '../styles/LoginStyles'
 
@@ -16,13 +16,13 @@ class Login extends Component {
       password: '',
       snackBarOpen: false,
       snackBarVariant: '',
-      snackBarMessage: ''
+      snackBarMessage: '',
     }
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
 
@@ -41,15 +41,13 @@ class Login extends Component {
           snackBarOpen: true,
           snackBarVariant: 'error',
           snackBarMessage:
-            'Sorry that password is weak, try something a bit stronger.'
+            'Sorry that password is weak, try something a bit stronger.',
         })
       }
       this.setState({
         snackBarOpen: true,
         snackBarVariant: 'error',
-        snackBarMessage: `Sorry about that. It seems there was an error while logging in...Error: ${
-          error.message
-        }`
+        snackBarMessage: `Sorry about that. It seems there was an error while logging in...Error: ${error.message}`,
       })
     }
   }
@@ -68,7 +66,7 @@ class Login extends Component {
 
         this.props.history.push('/profile')
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle Errors here.
         // var errorCode = error.code
         // var errorMessage = error.message
@@ -81,7 +79,7 @@ class Login extends Component {
           snackBarVariant: 'error',
           snackBarMessage:
             'Sorry we received the following error attempting to log in through google:\n' +
-            error.message
+            error.message,
         })
         console.log(error.message)
         // ...
@@ -96,7 +94,7 @@ class Login extends Component {
       this.setState({
         snackBarOpen: true,
         snackBarVariant: 'error',
-        snackBarMessage: 'Sorry there was an error while logging out.'
+        snackBarMessage: 'Sorry there was an error while logging out.',
       })
       console.error(error)
     }
@@ -107,7 +105,7 @@ class Login extends Component {
       return
     }
     this.setState({
-      snackBarOpen: false
+      snackBarOpen: false,
     })
   }
 
@@ -152,7 +150,7 @@ class Login extends Component {
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'left'
+            horizontal: 'left',
           }}
           open={this.state.snackBarOpen}
           autoHideDuration={4000}
@@ -170,7 +168,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(Login)

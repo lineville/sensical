@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import db from '../firestore'
-import {RoomMembers, Notification} from '../imports'
+import Notification from './Notification'
+import RoomMembers from './RoomMembers'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import styles from '../styles/RoomStatusBarStyles'
@@ -18,13 +19,13 @@ import {
   TextField,
   DialogActions,
   DialogContent,
-  DialogTitle
+  DialogTitle,
 } from '@material-ui/core/'
 import {
   PersonAdd as PersonAddIcon,
   Done as DoneIcon,
   Cancel as CancelIcon,
-  AddCircleOutline as AddIcon
+  AddCircleOutline as AddIcon,
 } from '@material-ui/icons/'
 
 class RoomStatusBar extends Component {
@@ -38,7 +39,7 @@ class RoomStatusBar extends Component {
       open: false,
       snackBarVariant: '',
       snackBarMessage: '',
-      inviteEmail: ''
+      inviteEmail: '',
     }
   }
 
@@ -47,20 +48,20 @@ class RoomStatusBar extends Component {
       await db
         .collection('rooms')
         .doc(this.props.classState.roomId)
-        .onSnapshot(snapshot => {
+        .onSnapshot((snapshot) => {
           const subject = snapshot.data().subject
           const members = snapshot.data().userIds
           this.setState({
             currentRoom: subject,
-            roomMemberIds: members
+            roomMemberIds: members,
           })
         })
     }
   }
 
-  toggleDrawer = open => () => {
+  toggleDrawer = (open) => () => {
     this.setState({
-      drawerOpen: open
+      drawerOpen: open,
     })
   }
   handleClose = (event, reason) => {
@@ -69,13 +70,13 @@ class RoomStatusBar extends Component {
     }
     this.setState({
       open: false,
-      inviteFormOpen: false
+      inviteFormOpen: false,
     })
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
 
@@ -90,17 +91,11 @@ class RoomStatusBar extends Component {
 
       const inviteeId = invitee.docs[0].id
 
-      const invitedUser = await db
-        .collection('users')
-        .doc(inviteeId)
-        .get()
+      const invitedUser = await db.collection('users').doc(inviteeId).get()
 
       let roomsArray = invitedUser.data().rooms
 
-      const room = await db
-        .collection('rooms')
-        .doc(roomId)
-        .get()
+      const room = await db.collection('rooms').doc(roomId).get()
 
       let userIds = room.data().userIds
       if (!roomsArray.includes(roomId)) {
@@ -113,22 +108,22 @@ class RoomStatusBar extends Component {
             fontSize: 12,
             showGutter: true,
             showLineNumbers: true,
-            tabSize: 2
-          }
+            tabSize: 2,
+          },
         })
         await db
           .collection('users')
           .doc(inviteeId)
           .update({
             rooms: roomsArray.concat(roomId),
-            codeEditorId: newCodeEditorId.id
+            codeEditorId: newCodeEditorId.id,
           })
         await db
           .collection('rooms')
           .doc(roomId)
           .update({
             userIds: userIds.concat(inviteeId),
-            codeEditorIds: room.data().codeEditorIds.concat(newCodeEditorId.id)
+            codeEditorIds: room.data().codeEditorIds.concat(newCodeEditorId.id),
           })
       }
       this.setState({
@@ -136,7 +131,7 @@ class RoomStatusBar extends Component {
         snackBarVariant: 'success',
         snackBarMessage: 'Invite successfully sent!',
         open: true,
-        inviteFormOpen: false
+        inviteFormOpen: false,
       })
     } catch (error) {
       console.log('THERE WAS AN ERROR: ', error)
@@ -145,7 +140,7 @@ class RoomStatusBar extends Component {
         snackBarMessage:
           'Looks like there was a problem with the email you selected.',
         open: true,
-        inviteFormOpen: false
+        inviteFormOpen: false,
       })
     }
   }
@@ -162,8 +157,8 @@ class RoomStatusBar extends Component {
           ) : null}
           {Object.values(this.props.classState.codeEditors).includes(false)
             ? Object.keys(this.props.classState.codeEditors)
-                .filter(id => !this.props.classState.codeEditors[id])
-                .map(id => {
+                .filter((id) => !this.props.classState.codeEditors[id])
+                .map((id) => {
                   return (
                     <ListItem key={id} button>
                       <ListItemText
@@ -241,7 +236,7 @@ class RoomStatusBar extends Component {
               className={classes.text}
             >
               Room Members:
-              {this.state.roomMemberIds.map(memberId => {
+              {this.state.roomMemberIds.map((memberId) => {
                 return <RoomMembers id={memberId} key={memberId} />
               })}
               <Button
@@ -284,7 +279,7 @@ class RoomStatusBar extends Component {
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'left'
+            horizontal: 'left',
           }}
           open={this.state.open}
           autoHideDuration={6000}
@@ -302,7 +297,7 @@ class RoomStatusBar extends Component {
 }
 
 RoomStatusBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(RoomStatusBar)

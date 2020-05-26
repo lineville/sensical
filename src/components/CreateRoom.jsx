@@ -4,7 +4,7 @@ import firebase from 'firebase'
 import MaterialUIForm from 'material-ui-form'
 import AddIcon from '@material-ui/icons/Add'
 import {withStyles} from '@material-ui/core/styles'
-import {Notification} from '../imports'
+import Notification from './Notification'
 import {FormControl, Snackbar, TextField, Button} from '@material-ui/core/'
 import styles from '../styles/CreateRoomStyles'
 
@@ -15,13 +15,13 @@ export class CreateRoom extends Component {
       subject: '',
       snackBarOpen: false,
       snackBarVariant: '',
-      snackBarMessage: ''
+      snackBarMessage: '',
     }
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
 
@@ -48,8 +48,8 @@ export class CreateRoom extends Component {
           settingsFormOpen: false,
           snackBarMessage: '',
           snackBarVariant: '',
-          open: false
-        }
+          open: false,
+        },
       })
       const whiteboards = await db.collection('whiteboards').add({strokes: []})
       const chats = await db.collection('chats').add({})
@@ -62,13 +62,10 @@ export class CreateRoom extends Component {
         subject: this.state.subject,
         userIds: [currentUser.uid],
         imageURL:
-          'http://cdn.shopify.com/s/files/1/1091/8014/products/whiteyboard_chalkboard_grande.jpeg?v=1528698765'
+          'http://cdn.shopify.com/s/files/1/1091/8014/products/whiteyboard_chalkboard_grande.jpeg?v=1528698765',
       })
 
-      let user = await db
-        .collection('users')
-        .doc(currentUser.uid)
-        .get()
+      let user = await db.collection('users').doc(currentUser.uid).get()
       let roomsArray = user.data().rooms
       let codeEditors = user.data().codeEditorIds
       if (!roomsArray.includes(room.id)) {
@@ -77,23 +74,21 @@ export class CreateRoom extends Component {
           .doc(currentUser.uid)
           .update({
             rooms: roomsArray.concat(room.id),
-            codeEditorIds: codeEditors.concat(codeEditor.id)
+            codeEditorIds: codeEditors.concat(codeEditor.id),
           })
       }
       this.setState({
         subject: '',
         snackBarOpen: true,
         snackBarVariant: 'success',
-        snackBarMessage: 'New Classroom successfully created.'
+        snackBarMessage: 'New Classroom successfully created.',
       })
     } catch (error) {
       this.setState({
         subject: '',
         snackBarOpen: true,
         snackBarVariant: 'error',
-        snackBarMessage: `Hmmm, we could not create a new classroom. Sorry about that. Error: ${
-          error.message
-        }`
+        snackBarMessage: `Hmmm, we could not create a new classroom. Sorry about that. Error: ${error.message}`,
       })
     }
   }
@@ -129,7 +124,7 @@ export class CreateRoom extends Component {
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'left'
+            horizontal: 'left',
           }}
           open={this.state.snackBarOpen}
           autoHideDuration={2000}
