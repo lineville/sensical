@@ -1,5 +1,5 @@
 {
   "projects": {
-    "default": "project-sensical"
+    "sensical": "project-sensical"
   }
 }
