@@ -31,8 +31,6 @@ class Classroom extends Component {
       popUpMessage: `You don't have access to this room`,
       allowedInRoom: false,
     }
-    // this.handleDrop = this.handleDrop.bind(this)
-    // this.handleClose = this.handleClose.bind(this)
   }
 
   async componentDidMount() {
@@ -140,16 +138,6 @@ class Classroom extends Component {
                   />
                 </Grid>
               ) : null}
-              {/* <Grid item>
-                {this.state.canvas ? (
-                  <Canvas
-                    whiteboardId={this.state.whiteboardId}
-                    roomId={this.state.roomId}
-                    handleDrop={() => this.handleDrop('canvas')}
-                    position={positions.canvas}
-                  />
-                ) : null}
-              </Grid> */}
               <Grid item>
                 {this.state.notepad ? (
                   <Notepad

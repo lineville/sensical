@@ -10,13 +10,11 @@ export class Message extends Component {
       <div className={classes.bubble}>
         <Typography>
           <span className={classes.sender}>
-            {
-              <Avatar
-                alt={this.props.message.user.username}
-                src={this.props.message.user.profilePicURL}
-                className={classes.avatar}
-              />
-            }
+            <Avatar
+              alt={this.props.message.user.username}
+              src={this.props.message.user.profilePicURL}
+              className={classes.avatar}
+            />
           </span>
           <span className={classes.sender}>
             {this.props.message.user.username}

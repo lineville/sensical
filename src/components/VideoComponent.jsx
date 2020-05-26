@@ -16,7 +16,7 @@ export class VideoComponent extends Component {
       localMediaAvailable: false,
       hasJoinedRoom: false,
       activeRoom: null, // Track the current active room
-      otherpersoninRoom: false
+      otherpersoninRoom: false,
     }
     // this.joinRoom = this.joinRoom.bind(this)
     // this.roomJoined = this.roomJoined.bind(this)
@@ -31,7 +31,7 @@ export class VideoComponent extends Component {
       return
     }
     let connectOptions = {
-      name: this.state.roomName
+      name: this.state.roomName,
     }
 
     if (this.state.previewTracks) {
@@ -40,16 +40,16 @@ export class VideoComponent extends Component {
 
     // Join the Room with the token from the server and the
     // LocalParticipant's Tracks.
-    Video.connect(
-      this.state.token,
-      connectOptions
-    ).then(this.roomJoined, error => {
-      alert('Could not connect to Twilio: ' + error.message)
-    })
+    Video.connect(this.state.token, connectOptions).then(
+      this.roomJoined,
+      (error) => {
+        alert('Could not connect to Twilio: ' + error.message)
+      }
+    )
   }
 
   attachTracks = (tracks, container) => {
-    tracks.forEach(track => {
+    tracks.forEach((track) => {
       container.appendChild(track.attach())
     })
   }
@@ -60,25 +60,25 @@ export class VideoComponent extends Component {
     this.attachTracks(tracks, container)
   }
 
-  detachTracks = tracks => {
-    tracks.forEach(track => {
-      track.detach().forEach(detachedElement => {
+  detachTracks = (tracks) => {
+    tracks.forEach((track) => {
+      track.detach().forEach((detachedElement) => {
         detachedElement.remove()
       })
     })
   }
 
-  detachParticipantTracks = participant => {
+  detachParticipantTracks = (participant) => {
     var tracks = Array.from(participant.tracks.values())
     this.detachTracks(tracks)
   }
 
-  roomJoined = room => {
+  roomJoined = (room) => {
     // Called when a participant joins a room
     this.setState({
       activeRoom: room,
       localMediaAvailable: true,
-      hasJoinedRoom: true
+      hasJoinedRoom: true,
     })
 
     // Attach LocalParticipant's Tracks, if not already attached.
@@ -89,22 +89,22 @@ export class VideoComponent extends Component {
     }
 
     // Attach the Tracks of the Room's Participants.
-    room.participants.forEach(participant => {
-      var previewContainer = this.refs.remoteMedia
-      this.attachParticipantTracks(participant, previewContainer)
+    room.participants.forEach((participant) => {
+      let container = this.refs.remoteMedia
+      this.attachParticipantTracks(participant, container)
     })
 
     // When a Participant joins the Room, log the event.
-    room.on('participantConnected', participant => {})
+    room.on('participantConnected', () => {})
 
     // When a Participant adds a Track, attach it to the DOM.
     //'trackAdded'
-    room.on('trackSubscribed', (track, participant) => {
-      var previewContainer = this.refs.remoteMedia
-      this.attachTracks([track], previewContainer)
+    room.on('trackSubscribed', (track) => {
+      let container = this.refs.remoteMedia
+      this.attachTracks([track], container)
       this.setState({otherpersoninRoom: true})
       if (previewContainer.children.length) {
-        ;[...previewContainer.children].forEach(childNode =>
+        ;[...previewContainer.children].forEach((childNode) =>
           childNode.setAttribute('width', '100%')
         )
       }
@@ -112,13 +112,13 @@ export class VideoComponent extends Component {
 
     // When a Participant removes a Track, detach it from the DOM.
     //'trackRemoved'
-    room.on('trackRemoved', (track, participant) => {
+    room.on('trackRemoved', (track) => {
       this.detachTracks([track])
       this.setState({otherpersoninRoom: false})
     })
 
     // When a Participant leaves the Room, detach its Tracks.
-    room.on('participantDisconnected', participant => {
+    room.on('participantDisconnected', (participant) => {
       this.detachParticipantTracks(participant)
     })
 
@@ -126,12 +126,12 @@ export class VideoComponent extends Component {
     // of all Participants, including that of the LocalParticipant.
     room.on('disconnected', () => {
       if (this.state.previewTracks) {
-        this.state.previewTracks.forEach(track => {
+        this.state.previewTracks.forEach((track) => {
           track.stop()
         })
       }
       this.detachParticipantTracks(room.localParticipant)
-      room.participants.forEach(participant =>
+      room.participants.forEach((participant) =>
         this.detachParticipantTracks(participant)
       )
       this.setState({activeRoom: null})
@@ -140,7 +140,7 @@ export class VideoComponent extends Component {
   }
 
   componentDidMount() {
-    axios.get('/token').then(results => {
+    axios.get('/token').then((results) => {
       const {identity, token} = results.data
       this.setState({identity, token})
     })

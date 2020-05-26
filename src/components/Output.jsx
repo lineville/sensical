@@ -5,7 +5,7 @@ import {
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
-  Typography
+  Typography,
 } from '@material-ui/core/'
 import {ExpandMore as ExpandMoreIcon} from '@material-ui/icons/'
 import limitEval from '../sanitize'
@@ -15,31 +15,31 @@ class Output extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      output: ''
+      output: '',
     }
   }
 
-  executeJavaScript = code => {
+  executeJavaScript = (code) => {
     limitEval(
       code,
       (success, returnValue) => {
         try {
           if (success) {
             this.setState({
-              output: returnValue
+              output: returnValue,
             })
           } else if (!returnValue) {
             this.setState({
-              output: 'Process took too long. Is there an infinite loop?'
+              output: 'Process took too long. Is there an infinite loop?',
             })
           } else {
             this.setState({
-              output: returnValue
+              output: returnValue,
             })
           }
         } catch (error) {
           this.setState({
-            output: error.message
+            output: error.message,
           })
         }
       },
@@ -47,7 +47,7 @@ class Output extends Component {
     )
   }
 
-  executePython = code => {
+  executePython = () => {
     console.log('python exec called')
   }
 
@@ -90,7 +90,7 @@ class Output extends Component {
 }
 
 Output.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(Output)
