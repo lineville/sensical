@@ -8,11 +8,11 @@
 
 - ReactJS
 - Google Firestore
-- Node Express
+- Node, Express
 - React DnD
 - Material UI
 
-## Install
+## Run and Develop Locally
 
 ```bash
 git clone https://github.com/lineville/sensical
@@ -21,12 +21,6 @@ npm install
 npm run start
 ```
 
-## Creator
+# Credit
 
-- [Liam Neville](https://github.com/lineville)
-
-## Previous Contributors to original project [fig](https://github.com/Capstone1806/fig)
-
-- [Jessica Hsu](https://github.com/hsujessica)
-- [Zach Margolies](https://github.com/zacharymargolies)
-- [Synuhe Uribe](https://github.com/synuhe)
+This project is a fork of this [https://github.com/Capstone1806/fig/](project) which I created along with a team of three other developers during my time at FullStack Academy. It has since grown substantially over the years, more contributors would be awesome!
