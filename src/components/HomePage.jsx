@@ -94,8 +94,8 @@ class HomePage extends Component {
               </a>
               . If you are interested in some of my other work and are looking
               to hire a fullstack or front end developer, checkout my website{' '}
-              <a href="https://lineville.github.io/portfolio" alt="github">
-                https://lineville.github.io/portfolio
+              <a href="https://portfolio-6eyf.onrender.com/" alt="github">
+                https://portfolio-6eyf.onrender.com/
               </a>
             </p>
             <div id="icon-attribution">
