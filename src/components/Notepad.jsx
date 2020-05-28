@@ -10,14 +10,14 @@ import styles from '../styles/NotepadStyles'
 const notepadSource = {
   beginDrag(props) {
     return {...props, modName: 'notepad'}
-  }
+  },
 }
 
 function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragPreview(),
-    isDragging: monitor.isDragging()
+    isDragging: monitor.isDragging(),
   }
 }
 
@@ -25,7 +25,7 @@ export class Notepad extends Component {
   constructor() {
     super()
     this.state = {
-      text: ''
+      text: '',
     }
     // this.handleChange = this.handleChange.bind(this)
   }
@@ -34,22 +34,22 @@ export class Notepad extends Component {
     await db
       .collection('notepads')
       .doc(this.props.notepadId)
-      .onSnapshot(text => {
+      .onSnapshot((text) => {
         this.setState({text: text.data().text})
       })
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState(
       {
-        text: event.target.value
+        text: event.target.value,
       },
       async () => {
         await db
           .collection('notepads')
           .doc(this.props.notepadId)
           .set({text: this.state.text})
-          .catch(error => {
+          .catch((error) => {
             console.error('Error writing document', error)
           })
       }
@@ -70,7 +70,7 @@ export class Notepad extends Component {
             left: this.props.position.left,
             width: 500,
             height: 235,
-            zIndex: this.props.position.zIndex
+            zIndex: this.props.position.zIndex,
           }}
         >
           <CardContent>
@@ -97,9 +97,11 @@ export class Notepad extends Component {
 Notepad.propTypes = {
   classes: PropTypes.object.isRequired,
   connectDragSource: PropTypes.func.isRequired,
-  isDragging: PropTypes.bool.isRequired
+  isDragging: PropTypes.bool.isRequired,
 }
 
-export default DragSource('MODULE', notepadSource, collect)(
-  withStyles(styles)(Notepad)
-)
+export default DragSource(
+  'MODULE',
+  notepadSource,
+  collect
+)(withStyles(styles)(Notepad))

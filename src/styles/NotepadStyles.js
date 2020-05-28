@@ -12,6 +12,8 @@ const styles = (theme) => ({
     maxHeight: '500px',
     // height: '-webkit-fill-available',
     border: '1px dotted',
+    backgroundColor: theme.palette.type === 'dark' ? '#272822' : '#ffffff',
+    color: theme.palette.type === 'dark' ? '#ffffff' : '#000000',
   },
   title: {
     display: 'flex',
