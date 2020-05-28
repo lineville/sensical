@@ -12,7 +12,7 @@ import {
   Button,
   IconButton,
 } from '@material-ui/core/'
-import {AccountCircle, Brightness4, Brightness7} from '@material-ui/icons/'
+import {Home, Brightness4, Brightness7} from '@material-ui/icons/'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import styles from '../styles/NavMenuStyles'
 
@@ -82,7 +82,7 @@ class NavMenu extends Component {
                   color="inherit"
                   onClick={this.profilePush}
                 >
-                  <AccountCircle />
+                  <Home />
                 </IconButton>
               </div>
             ) : (
