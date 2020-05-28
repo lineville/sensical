@@ -9,6 +9,7 @@ import styles from '../styles/ProfileStyles'
 import {
   Avatar,
   Button,
+  Fab,
   Snackbar,
   TextField,
   Dialog,
@@ -216,15 +217,11 @@ class Profile extends Component {
             <p>Welcome {this.state.user.username}!</p>
             <p>Email: {this.state.user.email}</p>
 
-            <Button
-              variant="fab"
-              mini
-              color="secondary"
-              className={classes.button}
-              onClick={() => this.setState({editFormOpen: true})}
-            >
-              <EditIcon />
-            </Button>
+            <div onClick={() => this.setState({editFormOpen: true})}>
+              <Fab color="secondary" size="small" className={classes.button}>
+                <EditIcon />
+              </Fab>
+            </div>
             <p>
               <Button
                 variant="contained"

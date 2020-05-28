@@ -7,19 +7,16 @@ import {withStyles} from '@material-ui/core/styles'
 import {
   AppBar,
   Toolbar,
+  Tooltip,
   Typography,
   Button,
-  IconButton
+  IconButton,
 } from '@material-ui/core/'
-import {AccountCircle} from '@material-ui/icons/'
+import {AccountCircle, Brightness4, Brightness7} from '@material-ui/icons/'
+import GitHubIcon from '@material-ui/icons/GitHub'
 import styles from '../styles/NavMenuStyles'
 
 class NavMenu extends Component {
-  // constructor() {
-  //   super()
-  //   // this.handleLogout = this.handleLogout.bind(this)
-  // }
-
   handleLogout = async () => {
     try {
       await firebase.auth().signOut()
@@ -46,32 +43,46 @@ class NavMenu extends Component {
   }
 
   render() {
-    const {classes} = this.props
+    const {classes, toggleDarkMode, isDarkMode} = this.props
     return (
       <div className={classes.root}>
         <AppBar className={classes.height}>
           <Toolbar>
             <Button color="inherit" onClick={this.homePush}>
               <Typography
-                variant="title"
+                variant="button"
                 color="inherit"
                 className={classes.logo}
               >
                 sensical
               </Typography>
             </Button>
-            <Typography
-              variant="title"
+            <Button
               color="inherit"
-              className={classes.flex}
-            />
+              href="https://github.com/lineville/sensical"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Typography
+                variant="button"
+                color="inherit"
+                className={classes.logo}
+              >
+                <GitHubIcon />
+              </Typography>
+            </Button>
+            <Typography color="inherit" className={classes.flex} />
             {this.props._user ? (
               <div>
                 <Button color="inherit" onClick={this.handleLogout}>
                   Logout
                 </Button>
-                <IconButton className={classes.menuButton} color="inherit">
-                  <AccountCircle onClick={this.profilePush} />
+                <IconButton
+                  className={classes.menuButton}
+                  color="inherit"
+                  onClick={this.profilePush}
+                >
+                  <AccountCircle />
                 </IconButton>
               </div>
             ) : (
@@ -84,6 +95,15 @@ class NavMenu extends Component {
                 </Button>
               </div>
             )}
+            <Tooltip title={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}>
+              <IconButton
+                className={classes.menuButton}
+                color="inherit"
+                onClick={toggleDarkMode}
+              >
+                {isDarkMode ? <Brightness7 /> : <Brightness4 />}
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
       </div>
@@ -92,7 +112,7 @@ class NavMenu extends Component {
 }
 
 NavMenu.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(withRouter(withAuth(NavMenu)))

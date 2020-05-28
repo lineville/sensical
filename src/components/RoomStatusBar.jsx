@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React, {Component} from 'react'
 import db from '../firestore'
 import Notification from './Notification'
@@ -200,15 +201,7 @@ class RoomStatusBar extends Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar className={classes.content}>
-            {/* <Button
-              variant="fab"
-              color="default"
-              onClick={this.toggleDrawer(true)}
-              aria-label="Add"
-              className={classes.button}
-            > */}
             <AddIcon onClick={this.toggleDrawer(true)} />
-            {/* </Button> */}
             <Drawer
               open={this.state.drawerOpen}
               onClose={this.toggleDrawer(false)}
@@ -223,7 +216,7 @@ class RoomStatusBar extends Component {
               </div>
             </Drawer>
             <Typography
-              variant="title"
+              variant="caption"
               color="inherit"
               className={classes.text}
             >
@@ -231,7 +224,7 @@ class RoomStatusBar extends Component {
               {this.state.currentRoom}
             </Typography>
             <Typography
-              variant="title"
+              variant="caption"
               color="inherit"
               className={classes.text}
             >

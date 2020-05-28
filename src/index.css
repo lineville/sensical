@@ -43,6 +43,10 @@ canvas {
   transform: translate(0, 0);
 }
 
+.bottom-notification {
+  margin-bottom: 30px;
+}
+
 h4 {
   margin: 15px 15px;
 }
@@ -114,6 +118,10 @@ ul {
 }
 .open {
   display: block;
+}
+
+.addButton {
+  margin-top: 15px !important;
 }
 
 .bottomButton {

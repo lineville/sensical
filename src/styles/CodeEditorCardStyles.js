@@ -1,28 +1,28 @@
-const styles = theme => ({
+const styles = (theme) => ({
   card: {
     minWidth: 275,
-    position: 'absolute'
+    position: 'absolute',
   },
   label: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1),
     // marginLeft: '300px'
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1),
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing(1),
   },
   iconSmall: {
-    fontSize: 15
+    fontSize: 15,
   },
   title: {
     display: 'flex',
-    justifyContent: 'space-between'
-  }
+    justifyContent: 'space-between',
+  },
 })
 
 export default styles

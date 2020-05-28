@@ -11,6 +11,7 @@ import {
   CardContent,
   CardMedia,
   Button,
+  Fab,
   Typography,
   Snackbar,
   TextField,
@@ -219,17 +220,13 @@ export class RoomCard extends Component {
             />
           </Link>
           <CardContent>
-            <Typography gutterBottom variant="headline" component="h2">
+            <Typography gutterBottom variant="h5" component="h2">
               {this.state.room.subject}
-              <Button
-                variant="fab"
-                mini
-                color="secondary"
-                className={classes.button}
-                onClick={() => this.setState({editFormOpen: true})}
-              >
-                <EditIcon />
-              </Button>
+              <div onClick={() => this.setState({editFormOpen: true})}>
+                <Fab color="secondary" size="small" className={classes.button}>
+                  <EditIcon />
+                </Fab>
+              </div>
             </Typography>
             <Typography component="p">Practice your coding here.</Typography>
           </CardContent>
@@ -245,22 +242,38 @@ export class RoomCard extends Component {
             </Button>
             <Button
               variant="outlined"
-              color="default"
               className={classes.button}
               onClick={() => this.setState({inviteFormOpen: true})}
+              style={{
+                borderColor: 'green',
+                color: 'green',
+              }}
             >
               Invite
-              <PersonAddIcon className={classes.rightIcon} />
+              <PersonAddIcon
+                className={classes.rightIcon}
+                style={{
+                  color: 'green',
+                }}
+              />
             </Button>
 
             <Button
               variant="outlined"
-              color="default"
               className={classes.button}
               onClick={this.leaveRoom}
+              style={{
+                color: 'red',
+                borderColor: 'red',
+              }}
             >
               Leave
-              <DeleteIcon className={classes.rightIcon} />
+              <DeleteIcon
+                className={classes.rightIcon}
+                style={{
+                  color: 'red',
+                }}
+              />
             </Button>
             <Snackbar
               anchorOrigin={{

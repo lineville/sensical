@@ -1,26 +1,26 @@
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     paddingBottom: '350px',
-    backgroundColor: 'rgba(171,197,170, 0.2)'
+    backgroundColor: 'rgba(171,197,170, 0.2)',
   },
   room: {
     flexGrow: 1,
-    height: '100vh'
+    height: '100vh',
   },
   paper: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(1) * 2,
     textAlign: 'center',
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
   },
   card: {
-    minWidth: 275
+    minWidth: 275,
   },
   pos: {
-    marginBottom: 12
-  }
+    marginBottom: 12,
+  },
 })
 
 export default styles

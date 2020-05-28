@@ -3,9 +3,10 @@ import db from '../firestore'
 import firebase from 'firebase'
 import MaterialUIForm from 'material-ui-form'
 import AddIcon from '@material-ui/icons/Add'
+import Fab from '@material-ui/core/Fab'
 import {withStyles} from '@material-ui/core/styles'
 import Notification from './Notification'
-import {FormControl, Snackbar, TextField, Button} from '@material-ui/core/'
+import {FormControl, Snackbar, TextField} from '@material-ui/core/'
 import styles from '../styles/CreateRoomStyles'
 
 export class CreateRoom extends Component {
@@ -110,16 +111,16 @@ export class CreateRoom extends Component {
               onChange={this.handleChange}
             />
           </FormControl>
-
-          <Button
-            variant="fab"
-            color="secondary"
-            aria-label="Add"
-            className={classes.button}
-            onClick={this.createRoom}
-          >
-            <AddIcon />
-          </Button>
+          <div onClick={this.createRoom}>
+            <Fab
+              color="primary"
+              aria-label="add"
+              className="addButton"
+              size="medium"
+            >
+              <AddIcon />
+            </Fab>
+          </div>
         </MaterialUIForm>
         <Snackbar
           anchorOrigin={{

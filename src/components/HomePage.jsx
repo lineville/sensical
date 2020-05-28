@@ -35,23 +35,22 @@ class HomePage extends Component {
       <div style={{marginTop: '50px'}}>
         <div className="slidelist">
           <div className={classes.infoCard}>
+            <h2>Sensical</h2>
+            <h3>Code, Learn and Chat all in one place.</h3>
             <p>
-              Start collaborating with others to make your challenging work
-              sensical
+              Coding involves using a lot of tools all at once. Switching
+              between dozens of programs can be overwhelming especially when
+              trying to collaborate with others. No installing software, no
+              commands to run, just jump into a coding room solo or invite
+              others, and you have a fully functional development setup to
+              execute code while you video chat, or message friends. Using
+              Sensical, you can setup a classroom where you and a friend (or
+              more) can code side by side, talk about what you're coding using
+              the video chat, take notes that all get saved to that room. All
+              the components in the classroom are modular, drag and droppable,
+              so that you only need to see the things you really care about.
             </p>
-            <p>
-              Working alone for hours, switching between dozens of applications
-              can make your brain hurt and your work can begin to feel{' '}
-              <strong>nonsensical</strong>. My goal was to make that work feel
-              more <strong>sensical</strong>. Everything you need to work with
-              your team is all one place that just makes sense. Customize your
-              learning environment to your needs with our set of modular
-              classroom components.
-            </p>
-            <p>
-              Sign up now to get started using a learning platform that just
-              makes sense.
-            </p>
+            <p>Sign up now to start hacking away no installations at all!</p>
 
             <Button
               onClick={this.signupPush}

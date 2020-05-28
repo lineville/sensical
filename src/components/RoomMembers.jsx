@@ -9,16 +9,13 @@ class RoomMembers extends Component {
   constructor() {
     super()
     this.state = {
-      username: ''
+      username: '',
     }
   }
 
   async componentDidMount() {
     if (this.props.id) {
-      const user = await db
-        .collection('users')
-        .doc(this.props.id)
-        .get()
+      const user = await db.collection('users').doc(this.props.id).get()
       const username = user.data().username
       this.setState({username})
     }
@@ -28,7 +25,7 @@ class RoomMembers extends Component {
     const {classes} = this.props
     return (
       <div className={classes.root}>
-        <Typography variant="title" color="inherit" className={classes.text}>
+        <Typography variant="h3" color="inherit" className={classes.text}>
           {this.state.username}
         </Typography>
       </div>
@@ -37,7 +34,7 @@ class RoomMembers extends Component {
 }
 
 RoomMembers.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(RoomMembers)

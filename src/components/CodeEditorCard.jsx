@@ -48,7 +48,7 @@ class CodeEditorCard extends Component {
     super()
     this.state = {
       mode: 'javascript',
-      theme: 'monokai',
+      theme: 'chrome',
       fontSize: 12,
       showGutter: true,
       showLineNumbers: true,
@@ -335,6 +335,7 @@ class CodeEditorCard extends Component {
                 open={this.state.open}
                 autoHideDuration={6000}
                 onClose={this.handleClose}
+                className="bottom-notification"
               >
                 <Notification
                   onClose={this.handleClose}

@@ -14,15 +14,15 @@ class Signup extends Component {
     this.state = {
       username: '',
       email: '',
-      password: ''
+      password: '',
     }
     // this.handleChange = this.handleChange.bind(this)
     // this.handleSignup = this.handleSignup.bind(this)
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
 
@@ -39,19 +39,16 @@ class Signup extends Component {
               this.state.password
             )
         )
-      await db
-        .collection('users')
-        .doc(user.user.uid)
-        .set({
-          email: this.state.email,
-          username: this.state.username,
-          rooms: [],
-          codeEditorIds: [],
-          profilePicURL:
-            'https://upload.wikimedia.org/wikipedia/commons/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg',
-          backgroundImageURL:
-            'linear-gradient( 109.6deg,  rgba(70,249,253,1) 21.3%, rgba(247,10,255,1) 77.3% )'
-        })
+      await db.collection('users').doc(user.user.uid).set({
+        email: this.state.email,
+        username: this.state.username,
+        rooms: [],
+        codeEditorIds: [],
+        profilePicURL:
+          'https://upload.wikimedia.org/wikipedia/commons/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg',
+        backgroundImageURL:
+          'linear-gradient(225deg, #FF3CAC 0%, #784BA0 39%, #2B86C5 100%)',
+      })
       //user authenticated id stored at user.uid
       this.props.history.push('/profile')
     } catch (error) {
@@ -60,7 +57,7 @@ class Signup extends Component {
         this.setState({
           snackBarOpen: true,
           snackBarVariant: 'warning',
-          snackBarMessage: 'password was too weak'
+          snackBarMessage: 'password was too weak',
         })
       }
       console.error(error)
@@ -81,7 +78,7 @@ class Signup extends Component {
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then(result => {
+      .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         // var token = result.credential.accessToken
         // The signed-in user info.
@@ -97,13 +94,13 @@ class Signup extends Component {
               user.photoURL ||
               'https://upload.wikimedia.org/wikipedia/commons/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg',
             backgroundImageURL:
-              'linear-gradient( 109.6deg,  rgba(70,249,253,1) 21.3%, rgba(247,10,255,1) 77.3% )'
+              'linear-gradient(225deg, #FF3CAC 0%, #784BA0 39%, #2B86C5 100%)',
           })
           .then(() => {
             this.props.history.push('/profile')
           })
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle Errors here.
         // var errorCode = error.code
         // var errorMessage = error.message
@@ -116,7 +113,7 @@ class Signup extends Component {
           snackBarVariant: 'error',
           snackBarMessage:
             'Sorry we received the following error attempting to sign up through google:\n' +
-            error.message
+            error.message,
         })
         console.log(error.message)
         // ...
@@ -176,7 +173,7 @@ class Signup extends Component {
   }
 }
 Signup.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(Signup)
