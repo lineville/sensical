@@ -158,7 +158,7 @@ class CodeEditorCard extends Component {
             resize: 'both',
             top: position.top,
             left: position.left,
-            height: 635,
+            height: 700,
             zIndex: this.props.position.zIndex,
           }}
         >
